@@ -59,9 +59,11 @@ app.use(function (req, res, next) {
 
 // mainRoute is declared to point to routes/main.js
 const mainRoute = require('./routes/main');
+const forumRoute = require('./routes/forum');
 
 // Any URL with the pattern ‘/*’ is directed to routes/main.js
 app.use('/', mainRoute);
+app.use('/forum', forumRoute);
 
 /*
 * Creates a port for express server since we don't want our app to clash with well known
