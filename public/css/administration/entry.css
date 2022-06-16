@@ -1,0 +1,255 @@
+/* Signup entry card On-Off */
+#signup-entry-1 {
+    /*display: none !important;*/
+}
+
+#signup-entry-2 {
+    /*display: none !important;*/
+}
+
+#signup-entry-3 {
+    /*display: none !important;*/
+    text-align: center;
+}
+
+.entry-container .entry-card .step {
+    display: none
+}
+
+.entry-container .entry-card .step.active {
+    display: block
+}
+
+
+
+/* Signup entry card specific */
+#signup-entry-1 {
+    width: 100%;
+}
+
+#signup-entry-2 .img-box {
+    max-width: 33%;
+}
+
+#signup-entry-2 .entry-form .input-row-1,
+#account-entry .entry-form .input-row-1 {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 1.1rem;
+}
+
+#signup-entry-2 .entry-form .input-row-3,
+#account-entry .entry-form .input-row-3 {
+    display: grid;
+    grid-template-columns: 3fr 1fr 4fr;
+    gap: 1.1rem;
+}
+
+#signup-entry-3 h1 {
+    font-size: 2.2rem;
+    letter-spacing: normal;
+}
+
+#signup-entry-3 img {
+    max-width: 30%;
+    margin: auto;
+}
+
+/* General Entry CSS */
+.entry-container {
+    height: calc(100vh - 64px);
+    /*outline: 1px solid black;*/
+}
+
+.entry-card {
+    background-color: white;
+    box-shadow: 0px 0px 10px rgb(0 0 0 / 20%);
+    border-radius: 20px;
+    height: 485px;
+    width: 900px;
+    padding: 1.5rem 1rem;
+}
+
+.entry-card .entry-box {
+    height: 100%;
+    max-width: 100%;
+    margin-right: 2.5rem;
+    /*outline: 1px solid black;*/
+}
+
+.entry-card .text,
+.account-card .entry-form .text {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.entry-card .entry-sub-header {
+    font-size: 1.1rem;
+}
+
+.entry-card .entry-header {
+    font-weight: 600;
+    font-size: 1.6rem;
+    letter-spacing: -1px;
+}
+
+.entry-card #logo {
+    font-family: night-trippers;
+    color: #00B300;
+    font-size: 150%;
+    letter-spacing: normal;
+}
+
+.entry-form .input-field-icon {
+    /*outline: 1px solid black;*/
+    position: relative;
+}
+
+.entry-form .input-field input:focus,
+.entry-form .input-field-icon input:focus,
+.entry-form .input-field select:focus {
+    outline: 1.8px solid #101010;
+}
+
+/*#login-entry .entry-form .input-field,
+#signup-entry-1 .entry-form .input-field {
+    grid-template-columns: 8% 92%;
+}*/
+
+.entry-form .input-field-icon i {
+    line-height: 40px;
+    color: #acacac;
+    position: absolute;
+    left: 0.87rem;
+}
+
+.entry-form .input-field input,
+.entry-form .input-field select {
+    width: 100%;
+    height: 40px;
+    padding: 0 0.4rem;
+    border: none;
+    outline: 1.5px solid #707070;
+    border-radius: 10px; /*maybe 7*/
+    font-size: 0.9rem;
+}
+
+.entry-form .input-field select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: white url(../../img/administration/down_arrow.svg) 98.2% center no-repeat;
+}
+
+.entry-form .input-field-icon input {
+    width: 100%;
+    height: 40px;
+    padding: 0 1rem 0 2.6rem;
+    border: none;
+    outline: 1.5px solid #707070;
+    border-radius: 10px;
+    font-size: 0.9rem;
+}
+
+.entry-form .input-field .select,
+ ::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+}
+
+.entry-form .input-field .date {
+    cursor: text;
+}
+
+.entry-form .input-field input::placeholder,
+.entry-form .input-field-icon input::placeholder {
+    color: #aaa;
+}
+
+/*input:-webkit-autofill {
+  font-family: Montserrat;
+  -webkit-box-shadow: 0 0 0 50px white inset;
+}*/
+
+.entry-card .sub {
+    font-size: 0.8rem;
+}
+
+.entry-form .input-field input.is-invalid,
+.entry-form .input-field-icon input.is-invalid {
+    outline: 1.5px solid #df4759;
+    background: url(../../img/administration/invalid.svg) 98.2% center no-repeat;
+}
+
+.entry-form .input-field input.is-invalid:focus,
+.entry-form .input-field-icon input.is-invalid:focus {
+    outline: 1.8px solid #cc0000;
+    background: url(../../img/administration/invalid.svg) 98.2% center no-repeat;
+}D0342C
+
+.entry-form .input-field input.readonly:hover {
+    cursor: not-allowed;
+}
+
+.button-action {
+    width: 28px;
+    height: 28px;
+    line-height: 17px;
+    border-radius: .3rem;
+    background-color: white;
+}
+
+.button-action.accept {
+    background-color: #05A20E;
+}
+
+.button-action.accept:hover {
+    background-color: #04820B;
+}
+
+.button-action.reject {
+    background-color: #DC3545;
+}
+
+.button-action.reject:hover {
+    background-color: #A62A23;
+}
+
+.dataTables_filter, .dataTables_paginate {
+    float: right;
+}
+
+/* Responsive */
+@media (max-width: 2560px) {
+    .entry-card .img-box {
+        max-width: 48%;
+    }
+}
+
+@media (max-width: 1440px) {
+
+
+    .entry-card .entry-header {
+        /*font-size: 2em;*/
+    }
+
+    .entry-card #logo {
+        font-size: 130%;
+    }
+}
+
+@media (max-width: 1024px) {
+    .entry-card .img-box {
+        display: none !important;
+    }
+
+    .entry-card .entry-box{
+        max-width: 100% !important;
+    }
+
+    .entry-card .entry-header {
+        /*font-size: 2.6em;*/
+    }
+
+    .entry-card #logo {
+        font-size: 140%;
+    }
+}

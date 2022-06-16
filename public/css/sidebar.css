@@ -1,0 +1,79 @@
+.chipdrive-sidebar {
+	position: fixed;
+	left: 0;
+	width: 250px;
+	height: 100%;
+	z-index: 502;
+	background: white;
+	transition: left 0.3s ease;
+}
+
+.chipdrive-sidebar .sidebar-close {
+	align-items: center;
+	justify-content: flex-end;
+	height: 36px;
+}
+
+.chipdrive-sidebar .sidebar-close .cross {
+	font-size: 25px;
+	color: #4d4d4d;
+}
+
+.chipdrive-sidebar a {
+	text-decoration: none;
+}
+
+.chipdrive-sidebar .sidebar-item {
+	display: flex;
+	align-items: center;
+	font-weight: 600;
+	color: #4d4d4d;
+	background: white;
+	width: 100%;
+	height: 50px;
+	margin: 10px 0;
+	font-size: 16px;
+	border: none;
+	padding: 0 15px;
+}
+
+.chipdrive-sidebar .sidebar-item:hover {
+	background: #acacac;
+}
+
+.chipdrive-sidebar .sidebar-item-active {
+	background: #acacac;
+}
+
+.chipdrive-sidebar .sidebar-seperator {
+	border-bottom: 1px solid #ccc;
+	margin: 5px 0;
+}
+
+.chipdrive-sidebar-hidden {
+
+}
+
+.chipdrive-sidebar-backdrop {
+	display: none;
+	position: fixed;
+	z-index: 501;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.6);
+	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
+}
+
+.dropend .dropdown-menu {
+    width: 250px;
+    box-shadow: 0px 3px 10px rgb(0 0 0 / 10%);
+    border:  1.5px solid #b6b6b6;
+    z-index: 1022;
+ }
+
+ .chipdrive-sidebar .sidebar-item:focus {
+	background: #acacac;
+ }
