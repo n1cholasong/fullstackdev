@@ -1,0 +1,24 @@
+.learn {
+
+}
+
+.learn .quiz-container {
+	display: flex;
+	align-items: center;
+    justify-content: center;
+}
+
+.learn .quiz-container .quiz {
+	width: 800px;
+	box-shadow: 0 2px 29px 0 rgb(0 0 0 / 20%);
+	border-radius: 15px;
+}
+
+.learn .quiz-container .quiz .title {
+	font-size: 25px;
+	color: #313131;
+}
+
+.learn .quiz-container .quiz .submit {
+
+}

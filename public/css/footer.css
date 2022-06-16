@@ -1,0 +1,19 @@
+.footer {
+	height: 40px;
+	color: white;
+	font-weight: 500;
+	background-color: #181A18;
+	z-index: 503;
+}
+
+.footer .text {
+    font-size: .8rem;
+}
+
+.footer #logo {
+    font-family: night-trippers;
+    color: #00B300;
+    font-size: 2rem;
+    line-height: 40px;
+    height: 100%;
+}

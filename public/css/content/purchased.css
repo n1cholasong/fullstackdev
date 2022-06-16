@@ -1,0 +1,101 @@
+.purchased .packages .packages-empty {
+
+}
+
+.purchased .packages .packages-empty .empty-img {
+	width: 300px;
+	border-radius: 15px;
+}
+
+.purchased .packages .packages-empty .empty-text {
+	font-size: 22px;
+	color: #4d4d4d;
+	font-weight: 600;
+}
+
+.purchased .packages .packages-grid {
+	grid-gap: 16px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px,max-content));
+    justify-content: space-around;
+    padding: initial;
+    width: 100%;
+}
+
+.purchased .packages .packages-grid .package {
+    background: none;
+    border-radius: 6px;
+    flex-direction: column;
+    position: relative;
+    width: 250px;
+    height: 380px;
+    border-radius: 5px;
+}
+
+.purchased .packages .packages-grid .package .package-carousel-inner {
+	width: 100%;
+	height: 250px;
+	border-radius: 15px;
+	display: block;
+	box-shadow: 0 2px 29px 0 rgb(0 0 0 / 20%);
+}
+
+.purchased .packages .packages-grid .package .package-title {
+	color: #060606;
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.purchased .packages .packages-grid .package .package-lang {
+	color: #4D4D4D;
+	font-weight: 500;
+	font-size: 14px;
+	margin: 0;
+}
+
+.purchased .packages .packages-grid .package .lang-flag {
+	width: 20px;
+}
+
+.purchased .packages .packages-grid .package .package-rate {
+	font-size: 12px;
+	font-weight: 500;
+	color: #4D4D4D;
+	margin: 0;
+}
+
+.purchased .packages .packages-grid .package .package-price {
+	font-size: 14px;
+	font-weight: 500;
+	color: #4D4D4D;
+	margin: 0;
+}
+
+.purchased .packages .packages-grid .package .package-refund {
+	font-size: 14px;
+	font-weight: 500;
+	color: #4D4D4D;
+	margin: 0;
+	text-decoration: underline;
+}
+
+@media (min-width: 0px) and (max-width: 767px) {
+	.purchased .packages .packages-grid {
+		grid-template-columns: repeat(auto-fit, minmax(180px,max-content)) !important;
+	}
+
+	.purchased .packages .packages-grid .package {
+		width: 180px !important;
+	}
+}
+
+@media (min-width: 768px) {
+	.purchased .packages .packages-grid {
+		grid-template-columns: repeat(auto-fit, minmax(250px,max-content)) !important;
+	}
+
+	.purchased .packages .packages-grid .package {
+		width: 250px !important;
+	}
+}

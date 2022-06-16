@@ -1,0 +1,12 @@
+.paymeant {
+  width: 365px;
+}
+
+.cardNo {
+  width: 65px;
+  float: left;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  }
