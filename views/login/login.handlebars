@@ -1,0 +1,50 @@
+<link rel="stylesheet" type="text/css" href="/css/administration/entry.css">
+<div class="entry-container d-flex align-items-center justify-content-center">
+    <form method="POST" action="">
+        <div id="login-entry" class="entry-card row d-flex align-items-center">
+            <div class="img-box col d-flex align-items-center justify-content-center">
+                <img src="/img/administration/learning_languages_rafiki.svg" alt="">
+            </div>
+            <div class="entry-box col d-flex flex-column justify-content-center">
+                <h2 class="entry-header text mb-3">
+                    Welcome to
+                    <span id="logo">
+                        <span style="color: #02733E">o</span>lingo
+                    </span>
+                </h2>
+                <div id="loginAlert" class="alert-danger" role="alert">
+                    
+                </div>
+                <div class="entry-form">
+                   
+                    <div class="input-field-icon mb-3">
+                        <i class="fas fa-envelope"></i>
+                       <input type="text">
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        
+                        <a href="/forgot" class="sub text me-2">Forgot Password</a>
+                    </div>
+                    <div class="input-field-icon mb-3">
+                        <i class="fas fa-lock"></i>
+                       <input type="text">
+                    </div>
+                    <!--                    <div class="checkbox sub text d-flex align-items-center mb-3 ">-->
+                    <!--                        <input type="checkbox" id="remember" value="true" class="me-1">-->
+                    <!--                        <label for="remember">Remember me</label>-->
+                    <!--                    </div>-->
+                    <input type="submit" id="loginBtn" class="button" value="LOG IN">
+                    <p class="sub text mt-3 mb-0">Not a member yet? <a href="/signup">Sign Up</a></p>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+$(document).ready(() => {
+    $(document).click(() => {
+        $("#loginAlert").fadeOut("fast");
+    });
+});
+</script>

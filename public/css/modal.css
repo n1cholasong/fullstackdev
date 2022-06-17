@@ -1,0 +1,72 @@
+.modal-body {
+	padding: 10px 1rem 10px 1rem;
+}
+
+.cd-modal {
+	width: 100%;
+}
+
+.cd-modal .cd-modal-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 5px 0 15px 0;
+	width: 100%;
+}
+
+.cd-modal .cd-modal-header .cd-modal-title {
+	font-size: 19px;
+	font-weight: 600;
+	color: #4d4d4d;
+	margin: 0;
+}
+
+.cd-modal .cd-modal-header .cd-modal-x {
+	font-size: 22px;
+	color: #4d4d4d;
+}
+
+.cd-modal .cd-modal-body .cd-modal-text {
+	font-size: 17px;
+	font-weight: 600;
+	color: #4d4d4d;
+	margin: 0;
+}
+
+.cd-modal .cd-modal-body .cd-modal-form {
+	width: 100%;
+}
+
+.cd-modal .cd-modal-body .cd-modal-form .cd-modal-input {
+	width: 100%;
+	height: 38px;
+	border-radius: 0;
+	border: 0;
+	border-bottom: 2px solid #797979;
+	font-weight: 500;
+	color: #4d4d4d;
+	outline: 0;
+	padding-left: 0px;
+}
+
+.cd-modal .cd-modal-footer {
+	display: flex;
+	justify-content: flex-end;
+	margin: 10px 0 0 0;
+	width: 100%;
+}
+
+.cd-modal .cd-modal-footer .cd-modal-button {
+	border: none;
+	background: none;
+	font-weight: 500;
+	color: #2d3db1;
+	padding: 10px;
+	outline: 0;
+	border-radius: 2px;
+	font-size: 15px;
+}
+
+.cd-modal .cd-modal-footer .cd-modal-button:hover {
+	background-color: rgba(158, 158, 158, 0.2);
+}
