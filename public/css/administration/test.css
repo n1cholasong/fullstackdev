@@ -1,0 +1,11 @@
+.c1 .nav {
+    outline: 1px solid black;
+    background: #fff22f;
+    border-radius: 0.3rem;
+    width: 150px;
+}
+
+.c1 .nav .nav-link {
+    text-align: left;
+    /*font-weight: 500;*/
+}
