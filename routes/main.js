@@ -7,4 +7,9 @@ router.get('/', (req, res) => {
 	res.render('index', { title: title })
 });
 
+router.get('/about', (req, res) => {
+	const author = 'Your Name';
+	res.render('about', { author });
+});
+
 module.exports = router;

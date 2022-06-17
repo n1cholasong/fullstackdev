@@ -1,4 +1,14 @@
-.logo{
-  width:130px;
-  margin:auto;
+body {
+  margin: 0;
 }
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+nav {
+  /* height: ; */
+}
+
