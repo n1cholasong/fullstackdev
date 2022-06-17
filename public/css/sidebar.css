@@ -1,129 +1,156 @@
+:root {
+  --header-height: 56px;
+  --animation-duration: 200ms;
+  --animation-timing-curve: ease-in-out;
+}
+
 .menu-icon {
-    font-size: 25px;
-    /* color: black; */
-  }
-  
-  .menu-icon:hover {
-    color: darkgray;
-    cursor: pointer;
-  }
-  
-  .menu-icon-btn {
-    background-color: transparent;
-    border: none;
-    padding: 0;
-  }
-  
-  .sidebar {
-    width: 75px;
-    border: 1px solid black;
-    margin-top: -1rem !important;
-    height: calc(100vh - 56px);
-    overflow: hidden;
-    flex-shrink: 0;
-    justify-content: stretch;
-  }
-  
-  .sidebar .sidebar-text {
-    display: none;
-  }
-  
-  .sidebar.open .sidebar-text {
-    display: block;
-  }
-  
-  .sidebar .profile-pic {
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-  }
-  
-  .sidebar.open .profile-pic {
-    width: 90px;
-    height: 90px;
-  }
-  
-  .sidebar .profile-pic>img {
-    width: 100%;
-    height: 100%;
-  }
-  
-  .sidebar-main {
-    flex-grow: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-  
-  .sidebar-main,
-  .sidebar-foot {
-    width: 100%;
-  }
-  
-  .nav-icon {
-    font-size: 30px;
-  }
-  
-  .sidebar.open .nav-icon {
-    margin-right: 1.5rem;
-  }
-  
-  .sidebar .nav-link {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    padding: 1rem 0;
-    align-items: center;
-  }
-  
-  .sidebar.open .nav-link {
-    justify-content: flex-start;
-    padding-left: 1rem;
-  }
-  
-  .sidebar .nav-item {
-    position: relative;
-    width: 100%;
-  }
-  
-  .sidebar .nav-item.active>.nav-link {
-    color: black;
-  }
-  
-  .sidebar .nav-item.active {
-    background-color: grey;
-  }
-  
-  .sidebar .nav-item:hover {
-    background-color: grey;
-  }
-  
-  .sidebar .nav-item.active::before {
-    content: "";
-    background-color: red;
-    height: 100%;
-    left: 0;
-    width: 5px;
-    position: absolute;
-  }
-  
-  
-  .sidebar .fullname {
-    font-size: .75rem;
-    font-weight: bold;
-    margin-bottom: .15rem;
-    margin-top: .5rem;
-  }
-  
-  .sidebar .username {
-    font-size: .75rem;
-  }
-  
-  .logo {
-    width: 130px;
-    margin: auto;
-  }
-  
-  .sidebar.open {
-    width: 200px;
-  
-  }
+  font-size: 25px;
+  /* color: black; */
+}
+
+.menu-icon:hover {
+  color: darkgray;
+  cursor: pointer;
+}
+
+.menu-icon-btn {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
+
+.sidebar {
+  width: 75px;
+  border-right: 1px solid black;
+  margin-top: -1rem !important;
+  height: calc(100vh - var(--header-height));
+  overflow: hidden;
+  flex-shrink: 0;
+  justify-content: stretch;
+  transition: width var(--animation-duration) var(--animation-timing-curve);
+  position: sticky;
+  left: 0;
+  top: var(--header-height)
+}
+
+.sidebar.open {
+  width: 200px;
+}
+
+.sidebar .sidebar-text {
+  opacity: 0;
+  width: 0;
+  transition: opacity var(--animation-duration) var(--animation-timing-curve);
+}
+
+.sidebar.open .sidebar-text {
+  opacity: 1;
+  width: 100%;
+  height: auto;
+}
+
+.sidebar .profile-pic {
+  display: block;
+  width: 30px;
+  height: 30px;
+  transition: var(--animation-duration) var(--animation-timing-curve);
+}
+
+.sidebar.open .profile-pic {
+  width: 90px;
+  height: 90px;
+}
+
+.sidebar .profile-pic>img {
+  width: 100%;
+  height: 100%;
+}
+
+.sidebar-main {
+  flex-grow: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.sidebar-main,
+.sidebar-foot {
+  width: 100%;
+}
+
+.nav-icon {
+  flex-shrink: 0;
+  font-size: 30px;
+}
+
+.navbar-nav .sidebar-text {
+  margin-left: 1.5rem;
+  white-space: nowrap;
+}
+
+.sidebar .nav-link {
+  display: flex;
+  width: 100%;
+  padding: .75rem 0;
+  align-items: center;
+  padding-left: 22.5px;
+}
+
+.sidebar.open .nav-link {
+  justify-content: flex-start;
+}
+
+.sidebar .nav-item {
+  position: relative;
+  width: 100%;
+}
+
+.sidebar .nav-item.active>.nav-link {
+  color: black;
+}
+
+.sidebar .nav-item.active {
+  background-color: grey;
+}
+
+.sidebar .nav-item:hover {
+  background-color: grey;
+}
+
+.sidebar .nav-item.active::before {
+  content: "";
+  background-color: red;
+  height: 100%;
+  left: 0;
+  width: 5px;
+  position: absolute;
+}
+
+.sidebar .fullname {
+  font-size: .75rem;
+  font-weight: bold;
+  margin-bottom: .15rem;
+  margin-top: .5rem;
+}
+
+.sidebar .username {
+  font-size: .75rem;
+}
+
+.sidebar-head {
+  height: 30px;
+  transition: height var(--animation-duration) var(--animation-timing-curve);
+}
+
+.sidebar.open .sidebar-head {
+  height: 125px;
+}
+
+.sidebar-head .sidebar-text {
+  text-align: center;
+  width: 100%;
+}
+
+.menu-icon-btn {
+  margin-left: 25px;
+}
