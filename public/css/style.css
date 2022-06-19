@@ -27,13 +27,27 @@ body {
   flex-grow: 1;
 }
 
-.carousel-inner {
-  height: 400px;
-  border-radius: 10px;
+.carousel-indicators button {
+  border-radius: 100%;
+  width: 5px !important;
+  height: 5px !important;
 }
 
 .header {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 1.75rem;
   padding-bottom: 1rem;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+}
+
+.home {
+  font-family: 'Poppins', sans-serif;
+}
+

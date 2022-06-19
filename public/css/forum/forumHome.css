@@ -31,21 +31,21 @@
 
 /* scrollbar edit */
 /* width */
-::-webkit-scrollbar {
+.forum ::-webkit-scrollbar {
     width: 10px;
 }
 
 /* Track */
-::-webkit-scrollbar-track {
+.forum ::-webkit-scrollbar-track {
     background: #f1f1f1;
 }
 
 /* Handle */
-::-webkit-scrollbar-thumb {
+.forum ::-webkit-scrollbar-thumb {
     background: #888;
 }
 
 /* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
+.forum ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
