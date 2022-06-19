@@ -6,7 +6,7 @@ menuIconButton.addEventListener("click", () => {
 })
 
 
-$(".sidebar .nav-item").on("click", function () {
-   $(".sidebar .nav-item").find(".active").removeClass("active");
-   $(this).addClass("active");
-});
+// $(".sidebar .nav-item").on("click", function () {
+//    $(".sidebar .nav-item").find(".active").removeClass("active");
+//    $(this).addClass("active");
+// });
