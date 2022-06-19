@@ -1,32 +1,94 @@
 .forum .threads-overflow {
     overflow-y: scroll;
     overflow-x: hidden;
-    max-height: 480px;
+    max-height: 450px;
+}
+
+.forum .forum-main {
+    max-height: 450px;
+    padding-bottom: 10px;
+}
+
+.forum .forum-create {
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .forum .threads {
     padding-bottom: 15px;
+    border-radius: 20px;
+    border: solid;
+    border-color: black;
+    border-width: 1px;
 }
 
-.forum .delete-btn{ 
+.forum .thread-wrapper {
+    padding-bottom: 15px;
+}
+
+.forum .delete-btn {
     display: flex;
     justify-content: flex-end;
 }
 
-.forum .favourites-container{
+.forum .favourites-container {
     flex-direction: column;
+    box-shadow: 0px 0px 10px rgb(0 0 0 / 20%);
+    border-radius: 20px;
+    justify-content: flex-start;
+    max-height: 600px;
 }
 
-.forum .favourites{
+/* .forum .favourites {
     border: solid;
     border-color: #555;
     border-width: 2px;
     justify-content: flex-start;
-}
+    max-height: 600px;
+} */
 
-.forum .create-Thread{
+.forum .create-Thread {
     min-height: 200px;
     min-width: 400px;
+}
+
+.forum .entry-card {
+    background-color: white;
+    box-shadow: 0px 0px 10px rgb(0 0 0 / 20%);
+    border-radius: 20px;
+    height: 600px;
+    width: 100%;
+    padding: 1.5rem 1rem;
+}
+
+.forum .forum-nav {
+    background-color: white;
+    border-radius: 20px;
+    border-width: 3px;
+    border: solid;
+    border-color: black;
+}
+
+.forum .favourites-heading{
+    padding-bottom: 10px;
+}
+
+.forum .favourites-overflow{
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.forum .favourites-wrapper{
+    border: solid;
+    border-radius: 20px;
+    padding: 10px;
+    border-width: 1px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.forum .favourites-link{
+    color: black;
 }
 
 /* scrollbar edit */
@@ -38,11 +100,13 @@
 /* Track */
 .forum ::-webkit-scrollbar-track {
     background: #f1f1f1;
+    border-radius: 20px;
 }
 
 /* Handle */
 .forum ::-webkit-scrollbar-thumb {
     background: #888;
+    border-radius: 20px;
 }
 
 /* Handle on hover */
