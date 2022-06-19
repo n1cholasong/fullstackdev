@@ -13,6 +13,22 @@
     justify-content: flex-end;
 }
 
+.forum .favourites-container{
+    flex-direction: column;
+}
+
+.forum .favourites{
+    border: solid;
+    border-color: #555;
+    border-width: 2px;
+    justify-content: flex-start;
+}
+
+.forum .create-Thread{
+    min-height: 200px;
+    min-width: 400px;
+}
+
 /* scrollbar edit */
 /* width */
 ::-webkit-scrollbar {
