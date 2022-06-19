@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;800&display=swap');
 
 body {
   margin: 0;
@@ -16,7 +16,7 @@ body {
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
   font-size: 2rem;
-  margin-left: 1rem;
+  /* margin-left: 1rem; */
   background: #8E2DE2;
   background: linear-gradient(-45deg, #8E2DE2 0%, #4A00E0 100%);
   -webkit-background-clip: text;
@@ -33,7 +33,7 @@ body {
   height: 5px !important;
 }
 
-.header {
+.heading {
   font-size: 1.75rem;
   padding-bottom: 1rem;
 }
@@ -47,7 +47,22 @@ h6 {
   font-weight: 600;
 }
 
-.home {
+.header,
+.home,
+.course {
   font-family: 'Poppins', sans-serif;
 }
 
+.btn {
+  background: linear-gradient(-45deg, #8E2DE2 0%, #4A00E0 100%);
+  border: none !important;
+  border-radius: 5px;
+  color: white;
+  font-size: .9rem;
+  font-weight: 500;
+  padding: .5rem 1rem;
+}
+
+.btn:hover {
+  border: none !important;
+}
