@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-	const title = 'Curosa';
+router.get('/', (req, res,) => {
 	// renders views/index.handlebars, passing title as an object
-	res.render('index', { title: title })
+	res.render('index')
 });
 
 router.get('/mycourse', (req, res) => {
