@@ -1,0 +1,22 @@
+#featuredCourses .carousel-inner {
+    height: 400px;
+    border-radius: 10px;
+  }
+
+.categories button {
+    background-color: greenyellow;
+    border-radius: 5px;
+    width: 200px;
+    height: 40px;
+    margin: .5rem;
+    text-align: center;
+    line-height: 40px;
+  }
+
+  .card .star {
+    color: #FDCC0D;
+  }
+
+  .card-body {
+    height: 120px;
+  }

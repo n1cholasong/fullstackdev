@@ -27,11 +27,6 @@ body {
   flex-grow: 1;
 }
 
-#featuredCourses .carousel-inner {
-  height: 400px;
-  border-radius: 10px;
-}
-
 .carousel-indicators button {
   border-radius: 100%;
   width: 5px !important;
@@ -56,12 +51,3 @@ h6 {
   font-family: 'Poppins', sans-serif;
 }
 
-.categories button {
-  background-color: greenyellow;
-  border-radius: 5px;
-  width: 200px;
-  height: 40px;
-  margin: .5rem;
-  text-align: center;
-  line-height: 40px;
-}
