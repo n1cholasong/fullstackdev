@@ -1,106 +1,162 @@
 <div class="forum">
-    <div class="entry-container d-flex align-items-center justify-content-center flex-wrap border">
-        <div class="container">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col">
-                        <p>HOT</p>
+    <div class="entry-container d-flex align-items-center justify-content-center flex-wrap">
+        <div class="row border">
+            <div class="col">
+                <div class="container border">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <p>HOT</p>
+                            </div>
+                            <div class="col">
+                                <p>Recent</p>
+                            </div>
+                            <div class="col">
+                                <p>Top</p>
+                            </div>
+                            <div class="col">
+                                <p>My Threads</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col">
-                        <p>Recent</p>
+                </div>
+
+                <div class="container d-flex justify-content-center buttons-c-f">
+                    <div class="button-wrapper">
+                        <button type="button" class="btn btn-primary create-button" data-toggle="modal"
+                            data-target="#createThread">
+                            Create New Thread
+                        </button>
                     </div>
-                    <div class="col">
-                        <p>Top</p>
+                </div>
+
+                <!-- The Modal -->
+                <div class="modal" id="createThread">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <i class="fas fa-comments"></i>
+                                <h4 class="modal-title">Create new thread</h4>
+                                <button type="button" class="close" data-dismiss="modal"><span
+                                        aria-hidden="true">&times;</span></button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="topic">Topic</label>
+                                    <input class="form-control" id="topic" name="topic">
+                                </div>
+
+                                <div class="form-group mb-4">
+                                    <label for="thread-description">Description</label>
+                                    <textarea class="form-control" id="thread-description" name="thread-description"
+                                        rows="4" maxlength="1000"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <form action="/forum/createThread" method="post">
+                                    <button type="submit" value="Create" class="btn btn-primary">Create</button>
+                                </form>
+                            </div>
+
+                        </div>
                     </div>
-                    <div class="col">
-                        <p>My Threads</p>
+                </div>
+
+                <div class="container threads-overflow">
+                    <div class="threads">
+                        <div class="container border threads">
+                            <div class="row">
+                                <div class="col-4 text-break">
+                                    <p>Heading00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                                    </p>
+                                </div>
+                                <div class="col">
+                                    <p>Picture</p>
+                                </div>
+                            </div>
+                            <div class="delete-btn">
+                                <p>Delete</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="threads">
+                        <div class="container border threads">
+                            <div class="row">
+                                <div class="col-4 text-break">
+                                    <p>Heading00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                                    </p>
+                                </div>
+                                <div class="col">
+                                    <p>Picture</p>
+                                </div>
+                            </div>
+                            <div class="delete-btn">
+                                <p>Delete</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="threads">
+                        <div class="container border threads">
+                            <div class="row">
+                                <div class="col-4 text-break">
+                                    <p>Heading00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                                    </p>
+                                </div>
+                                <div class="col">
+                                    <p>Picture</p>
+                                </div>
+                            </div>
+                            <div class="delete-btn">
+                                <p>Delete</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="threads">
+                        <div class="container border threads">
+                            <div class="row">
+                                <div class="col-4 text-break">
+                                    <p>Heading00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                                    </p>
+                                </div>
+                                <div class="col">
+                                    <p>Picture</p>
+                                </div>
+                            </div>
+                            <div class="delete-btn">
+                                <p>Delete</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="threads">
+                        <div class="container border threads">
+                            <div class="row">
+                                <div class="col-4 text-break">
+                                    <p>Heading00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+                                    </p>
+                                </div>
+                                <div class="col">
+                                    <p>Picture</p>
+                                </div>
+                            </div>
+                            <div class="delete-btn">
+                                <p>Delete</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="container d-flex justify-content-center">
-            <div class="#">
-                <p>Create New Threads</p>
-            </div>
-        </div>
-        <div class="container threads-overflow">
-            <div class="threads">
-                <div class="container border threads">
-                    <div class="row">
-                        <div class="col-4 text-break">
-                            <p>Heading00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-                            </p>
-                        </div>
-                        <div class="col">
-                            <p>Picture</p>
-                        </div>
-                    </div>
-                    <div class="delete-btn">
-                        <p>Delete</p>
-                    </div>
-                </div>
-            </div>
-            <div class="threads">
-                <div class="container border threads">
-                    <div class="row">
-                        <div class="col-4 text-break">
-                            <p>Heading00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-                            </p>
-                        </div>
-                        <div class="col">
-                            <p>Picture</p>
-                        </div>
-                    </div>
-                    <div class="delete-btn">
-                        <p>Delete</p>
-                    </div>
-                </div>
-            </div>
-            <div class="threads">
-                <div class="container border threads">
-                    <div class="row">
-                        <div class="col-4 text-break">
-                            <p>Heading00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-                            </p>
-                        </div>
-                        <div class="col">
-                            <p>Picture</p>
-                        </div>
-                    </div>
-                    <div class="delete-btn">
-                        <p>Delete</p>
-                    </div>
-                </div>
-            </div>
-            <div class="threads">
-                <div class="container border threads">
-                    <div class="row">
-                        <div class="col-4 text-break">
-                            <p>Heading00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-                            </p>
-                        </div>
-                        <div class="col">
-                            <p>Picture</p>
-                        </div>
-                    </div>
-                    <div class="delete-btn">
-                        <p>Delete</p>
-                    </div>
-                </div>
-            </div>
-            <div class="threads">
-                <div class="container border threads">
-                    <div class="row">
-                        <div class="col-4 text-break">
-                            <p>Heading00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-                            </p>
-                        </div>
-                        <div class="col">
-                            <p>Picture</p>
-                        </div>
-                    </div>
-                    <div class="delete-btn">
-                        <p>Delete</p>
+            <div class="col-2 favourites">
+                <div class="container d-flex flex-wrap favourites-container">
+                    <div class="favourites">
+                        <p>
+                            Favorites
+                        </p>
                     </div>
                 </div>
             </div>
