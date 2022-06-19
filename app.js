@@ -82,11 +82,13 @@ app.use(function (req, res, next) {
 const mainRoute = require('./routes/main');
 const forumRoute = require('./routes/forum');
 const loginRoute = require('./routes/login');
+const paymentRoute = require('./routes/payment');
 
 // Any URL with the pattern ‘/*’ is directed to routes/main.js
 app.use('/', mainRoute);
 app.use('/forum', forumRoute);
 app.use('/login', loginRoute );
+app.use('/payment', paymentRoute);
 
 
 /*
