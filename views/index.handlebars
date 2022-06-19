@@ -1,185 +1,39 @@
-	<!-- for home.html -->
-	<link rel="stylesheet" type="text/css" href="/css/content/index.css">
-	<script src="/static/js/content/home.js"></script>
-
-	<div class="home">
-		<nav class="navbar navbar-main navbar-expand-lg navbar-light sticky-top category-nav">
-			<div class="container-fluid">
-				<button class="button navbar-button navbar-toggler text p-2" type="button" data-bs-toggle="collapse" data-bs-target="#category-nav" aria-controls="category-nav" aria-expanded="false" aria-label="Toggle navigation">
-					<div class="d-flex align-items-center justify-content-center">
-						<i class="fas fa-sort-amount-up me-2"></i>
-						Sort Packages
-					</div>
-				</button>
-
-				<div class="navbar-collapse collapse" id="category-nav" style="">
-					<ul class="navbar-nav">
-						<li class="nav-item dropdown">
-							<a href="#" class="nav-link pl-0 dropdown-toggle text" id="category-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-								<strong>
-									<i class="fa fa-bars"></i>
-									&nbsp;  All category
-								</strong>
-							</a>
-							<div class="dropdown-menu" aria-labelledby="category-dropdown">
-								<a class="dropdown-item text" href="#">
-									<i class="fab fa-apple me-2"></i>
-									Foods and Drink
-								</a>
-								<a class="dropdown-item text" href="#">
-									<i class="fab fa-apple me-2"></i>
-									Home interior
-								</a>
-								<div class="dropdown-divider">
-									
-								</div>
-								<a class="dropdown-item text" href="#">
-									<i class="fab fa-apple me-2"></i>
-									Category 1
-								</a>
-							</div>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text d-flex align-items-center" href="#" id="cat_english">
-								<img src="/img/flags/en.png" style="width: 20px" class="me-1">
-								English
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text d-flex align-items-center" href="#" id="cat_chinese">
-								<img src="/img/flags/cn.png" style="width: 20px" class="me-1">
-								Chinese
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text d-flex align-items-center" href="#" id="cat_malay">
-								<img src="/img/flags/my.png" style="width: 20px" class="me-1">
-								Malay
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text d-flex align-items-center" href="#" id="cat_spanish">
-								<img src="/img/flags/es.png" style="width: 20px" class="me-1">
-								Spanish
-							</a>
-						</li>
-					</ul>
-				</div>
-				<button class="button-red navbar-button text p-2" id="clear_filter">
-					<i class="fas fa-times-circle me-2"></i>
-					Clear Filters
-				</button>
+<div class="container home">
+	<h1 class="header">Featured Courses</h1>
+	<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+		<div class="carousel-indicators">
+			<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+				aria-current="true" aria-label="Slide 1"></button>
+			<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+				aria-label="Slide 2"></button>
+			<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+				aria-label="Slide 3"></button>
+		</div>
+		<div class="carousel-inner mb-5">
+			<div class="carousel-item active">
+				<img src="/img/carousel/grassland.jpg" class="d-block w-100" alt="...">
 			</div>
-		</nav>
-		<div id="top">
-			<h1 class="legend text mt-5">
-				<i class="fas fa-fire"></i>
-				Hot Deals
-			</h1>
-			<div id="featured" class="featured mt-4">
-				
-				<div class="featured-item ms-3 me-3">
-					<img class="d-block w-100" src="https://marketplace.canva.com/EAEwnsCWoFg/1/0/1600w/canva-brown-and-black-mariana-napolitani-linkedln-banner-Db2UJBlgFoY.jpg" alt="Third slide">
-				</div>
-				<div class="featured-item ms-3 me-3">
-					<img class="d-block w-100" src="https://marketplace.canva.com/EAEvi9SEYFc/2/0/1600w/canva-purple-futuristic-cyber-monday-sale-promo-web-banner-qRZ2030AVEc.jpg" alt="Second slide">
-				</div>
-				<div class="featured-item ms-3 me-3">
-					<img class="d-block w-100" src="https://marketplace.canva.com/EAExSFKg46I/1/0/1600w/canva-pink-and-brown-hannah-morales-linkedln-banner-4sTUZxcGuCk.jpg" alt="First slide">
-				</div>
-				
+			<div class="carousel-item active">
+				<img src="/img/carousel/grassland2.png" class="d-block w-100" alt="...">
 			</div>
-
-			<h1 class="legend text mt-5">
-				<i class="fas fa-comment"></i>
-				Latest Reviews
-			</h1>
-
-			<div class="bitesizes mt-4 mb-5">
-				<div>
-					<div class="bitesize d-flex justify-content-start align-items-center ms-2 me-2">
-						<div class="bitesize-thumbnail">
-							<img src="/img/large-box-image-1.png">
-							<span class="bitesize-title text">❝oLingo Changed me❞</span>
-							<span class="bitesize-desc text">
-								After 2 years on this platform, I had learnt tons! Lots of resources! I would definitely recommend oLingo to my friends and family! 
-								<br><br>
-								- Sally
-							</span>
-						</div>
-					</div>
-				</div>
-				<div>
-					<div class="bitesize d-flex justify-content-start align-items-center ms-2 me-2">
-						<div class="bitesize-thumbnail">
-							<img src="/img/large-box-image-2.png">
-							<span class="bitesize-title text">❝The Must Surreal Experience❞</span>
-							<span class="bitesize-desc text">
-								After 2 years on this platform, I had learnt tons! Lots of resources! I would definitely recommend oLingo to my friends and family! 
-								<br><br>
-								- Sally
-							</span>
-						</div>
-					</div>
-				</div>
-				<div>
-					<div class="bitesize d-flex justify-content-start align-items-center ms-2 me-2">
-						<div class="bitesize-thumbnail">
-							<img src="/img/large-box-image-2.png">
-							<span class="bitesize-title text">❝Bargain for Value❞</span>
-							<span class="bitesize-desc text">
-								After 2 years on this platform, I had learnt tons! Lots of resources! I would definitely recommend oLingo to my friends and family! 
-								<br><br>
-								- Sally
-							</span>
-						</div>
-					</div>
-				</div>
-				
+			<div class="carousel-item active">
+				<img src="/img/carousel/retrocity.gif" class="d-block w-100" alt="...">
 			</div>
 		</div>
-		<h1 class="legend text mt-5" id="learning_packages">
-			<i class="fas fa-archive"></i>
-			Learning Packages
-		</h1>
-
-		<div class="packages mt-4 mb-5">
-			<div class="packages-grid">
-				
-			</div>
-		</div>
-
-		<h1 class="legend text mt-5" id="learning_packages">
-			<i class="fas fa-tag"></i>
-			Coupons
-		</h1>
-
-		<div class="coupons mt-4 mb-5">
-			<div class="coupons-grid">
-				
-			</div>
-		</div>
-
-		<div class="chatbot-dialog chatbot-dialog-hidden">
-			<div class="d-flex chatbot-header align-items-center">
-				<h1 class="chatbot-title text ms-3">Chat with Olingo Bot</h1>
-				<div class="flex-fill"></div>
-				<i class="fas fa-times chatbot-quit me-3"></i>
-			</div>
-			<div class="d-flex chatbot-content flex-column">
-				<p class="text">This is the beginning of the chat</p>
-			</div>
-			<div class="d-flex chatbot-actions">
-				<textarea placeholder="Your message" class="chatbot-input text"></textarea>
-				<button class="chatbot-send">
-					<i class="fas fa-paper-plane"></i>
-				</button>
-			</div>
-		</div>
-
-		<button class="button chatbot-button p-0">
-			<i class="fas fa-comment"></i>
+		<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+			data-bs-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="visually-hidden">Previous</span>
+		</button>
+		<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+			data-bs-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="visually-hidden">Next</span>
 		</button>
 	</div>
 
+	<h1 class="header">Trending</h1>
+	<h1 class="header">Categories</h1>
+	<h1 class="header">Recomended for you</h1>
 
+</div>
