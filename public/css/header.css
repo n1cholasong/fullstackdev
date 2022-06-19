@@ -1,185 +1,72 @@
 .header {
-	height: 64px;
-	box-shadow: 0 5px 12px 0 rgb(0 0 0 / 5%);
-}
-
-.header .hamburger {
-	font-size: 20px;
-}
-
-.header .logo {
-	display: block;
+    height: 64px;
 }
 
 .header .search-container {
-	background: #F6F7F7; /*F8F9FA*/
-    height: 38px;
-    width: 45%;
+    background: #F6F7F7;
+    /*F8F9FA*/
     border: 1.5px solid #b6b6b6;
-	border-radius: 22px;
-	position: relative;
+    border-radius: 20px;
+    width: 55%;
+    height: 38px;
 }
 
-.header .search-container .fa-search {
-	font-size: 22px;
-	color: #1d1d1d;
-	position: absolute;
-    right: 16px;
-    cursor: pointer;
-}
-
-.header .search-container .search-input {
-	width: calc(100% - 45px);
-	border: none;
-	background: none;
-	padding-left: 16px;
-	outline: 0;
-	color: #4d4d4d;
-	font-weight: 500;
-	font-size: 17px;
-}
-
-.header .search-container .search-btn {
-	height: 50px;
-	width: 100px;
-}
-
-.header .dropdown {
-    position: relative;
-    line-height: 29.33px;
-    /*outline: 1px solid black;*/
-}
-
-.header .dropdown .icon .fas {
-    font-size: 1.6rem;
-	color: #232b2b;
-	position: relative;
-	cursor: pointer;
-	/*outline: 1px solid black;*/
-}
-
-/*.header .count-badge:after {
-	content: attr(data-count);
-	position: relative;
-	background: #ff6600;
-	height: 1rem;
-	width: 1rem;
-	right: 0.8rem;
-	text-align: center;
-	line-height: 2rem;
-	font-size: 0.9rem;
-	border-radius: 50%;
-	color: white;
-	border: 1px solid #ff6600;
-	font-family: sans-serif;
-	font-weight: bold;
-}*/
-
-.header .dropdown .icon .count-badge {
-    position: absolute;
-    background: #F84F31;
-    border-radius: 100%;
-    border: 1px solid #F8F9FA; /*#FF2C74*/
-    width: 1rem;
-    height: 1rem;
-    top: -8px;
-    right: -8px;
-    display: grid;
-    place-items: center;
-    font-family: sans-serif;
-    font-weight: normal;
-    color: white;
-    font-size: 0.65rem;
-    line-height: 0.9rem;
-}
-
-.header .profile,
-.header .profile-pic,
-.header .temp-profile-pic {
-	width: 50px;
-	height: 50px;
-	border-radius: 100%;
-	object-fit: cover;
-	/*border: 1.5px solid black;*/
-}
-
-.header .profile .temp-profile-pic {
-    background: black;
-    color: white;
-    text-align: center;
-    line-height: 50px;
-    font-size: 1.2rem;
-    font-weight: 600;
-}
-
-.header .dropdown-menu {
-    background-color: #F6F7F7; /*FCFCFF*/
-    box-shadow: 0px 3px 10px rgb(0 0 0 / 10%);
-    border-radius: 0.4rem;
-    border:  1.5px solid #b6b6b6;
-    /*top: calc(100% + .2rem);*/
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
-}
-
-.header .dropdown-icon .dropdown-menu {
-    width: 240px;
-    height: 280px;
-    /*pointer-events: none;*/
-}
-
-.header .dropdown .btn:focus {
-    box-shadow: none;
-}
-
-.header .dropdown > .btn:focus + .dropdown-menu {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.header .dropdown-icon .dropdown-menu .dropdown-content {
-    height: 64%;
-    overflow-y: auto;
-    /*outline: 1px solid black;*/
-}
-
-.header .dropdown-icon .dropdown-menu .dropdown-footer {
-    position: absolute;
+.header input {
+    border: none;
+    background: none;
     width: 100%;
-    bottom: 0.5rem;
+    height: 100%;
+    font-size: 1rem;
 }
 
-.dropdown-menu .dropdown-header {
-    color: #424342;
+.header input:focus {
+    outline: none;
 }
 
-/* add a .header to the front of the selector if your are affected */
-.dropdown-menu .dropdown-item,
-.dropdown-menu .dropdown-item-text {
-    font-size: 0.85rem;
+.header .search-btn {
+    background: none;
+    border: none;
+    /* border-radius: 0 20px 20px 0; */
+    padding: 7px .75rem 7px 0;
+    width: fit-content;
+    height: fit-content;
 }
 
-.user-management .dropdown-menu {
-    box-shadow: 0px 2px 10px rgb(0 0 0 / 5%);
+.header .search-btn:hover {
+    color: #8E2DE2;
 }
 
-.user-management .dropdown-menu .dropdown-item {
-    font-weight: 500;
+.header .login-btn {
+    background: none;
+    border: 1.5px solid #4A00E0 !important;
+    color: #4A00E0;
+    width: 90px;
 }
 
-.dropdown-item.active, .dropdown-item:active {
-    background: #038933;
+.header .login-btn:hover {
+    background: #310094;
+    border: 1.5px solid #310094 !important;
+    color: white;
 }
 
-/* Login/SignUp Buttons ----- original dimensions 36px x 105px */
-.header .login-button {
-    font-size: 18px;
-    width: 105px;
+.header .signup-btn {
+    border: 1.5px solid #4A00E0 !important;
+    background: #4A00E0;
+    width: 90px;
+    float: right;
 }
 
-.header .signup-button {
-    font-size: 18px;
-    width: 105px;
-	padding: 0;
+.header .signup-btn:hover {
+    border: 1.5px solid #310094 !important;
+    background: #310094;
+    color: white;
+}
+
+.header .button-group,
+.header .logo {
+    width: 190px;
+}
+
+.header .logo {
+    float: left;
 }
