@@ -1,0 +1,40 @@
+<link rel="stylesheet" type="text/css" href="./css/payment/payment.css">
+<h1 class="legend text mt-5">Credit Card Details</h1>
+
+<form class="" method="post">
+<label for="Name">Name on card</label> <br>
+<input name="name" id="name" type="text" class="form-control">
+
+<br><br>
+<label for="card1">Card Details</label><br>
+
+<!--<input type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" minlength="4" maxlength="4" name="card1" value="" class="form-control cardNo" required>-->
+<!--<input type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" minlength="4" maxlength="4" name="card2" value="" class="form-control cardNo" required>-->
+<!--<input type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" minlength="4" maxlength="4" name="card3" value="" class="form-control cardNo" required>-->
+<!--<input type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" minlength="4" maxlength="4" name="card4" value="" class="form-control cardNo" required>-->
+
+  <input name="cardDetails1" id="cardDetails1" type="text" class="form-control cardNo" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" minlength="4"  maxlength="4">
+  <input name="cardDetails2" id="cardDetails2" type="text" class="form-control cardNo"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" minlength="4"  maxlength="4">
+  <input name="cardDetails3" id="cardDetails3" type="text" class="form-control cardNo"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" minlength="4"  maxlength="4">
+  <input name="cardDetails4" id="cardDetails4" type="text" class="form-control cardNo"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" minlength="4"  maxlength="4">
+  <br>
+<br><br>
+<label for="cardExpiry">Card Expiry Date</label> <br>
+<input name="cardExp" id="cardExp" type="number" class="form-control">
+
+<br><br>
+<label for="cv2">CV2</label><br>
+<input name="CVC" id="CVC" type="number" class="form-control" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" minlength="3" maxlength="3">
+
+<br><br>
+<input type="checkbox" name="TermsandCondtion" value="" required>
+<label for="TermsandCondtion">By checking this box, you agree to our Terms and that you have read our Data Use Policy</label>
+
+<br><br>
+<div class="col-12 d-flex align-items-center justify-content-center">
+  <button type="submit" class="button paymeant search-btn text mx-auto" name="button">Confirm</button>
+</div>
+
+
+</form>
+
