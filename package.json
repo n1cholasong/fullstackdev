@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@handlebars/allow-prototype-access": "^1.0.5",
+    "@paypal/paypal-js": "^5.0.6",
     "cookie-parser": "^1.4.4",
     "dotenv": "^16.0.1",
     "express": "^4.16.4",
@@ -16,6 +17,7 @@
     "express-session": "^1.15.6",
     "handlebars": "^4.7.7",
     "mysql2": "^2.3.3",
+    "paypal": "^1.0.1",
     "sequelize": "^6.21.0"
   }
 }
