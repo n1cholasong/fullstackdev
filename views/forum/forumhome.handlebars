@@ -46,48 +46,52 @@
 
                 <!-- The Modal -->
                 <div class="modal" id="createThread">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
+                    <form action="/forum/createThread" method="post" id="createforum">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
 
-                            <!-- Modal Header -->
-                            <div class="modal-header">
-                                <i class="fas fa-comments"></i>
-                                <h4 class="modal-title">Create new thread</h4>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-
-                            <!-- Modal body -->
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="topic">Topic</label>
-                                    <input class="form-control" id="topic" name="topic">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <i class="fas fa-comments"></i>
+                                    <h4 class="modal-title">Create new thread</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
 
-                                <div class="form-group mb-4">
-                                    <label for="thread-description">Description</label>
-                                    <textarea class="form-control" id="thread-description" name="thread-description"
-                                        rows="4" maxlength="1000"></textarea>
-                                </div>
-                            </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="topic">Topic</label>
+                                        <input class="form-control" id="topic" name="topic">
+                                    </div>
 
-                            <!-- Modal footer -->
-                            <div class="modal-footer">
-                                <form action="/forum/createThread" method="post">
+                                    <div class="form-group mb-4">
+                                        <label for="thread-description">Description</label>
+                                        <textarea class="form-control" id="thread_description" name="thread_description"
+                                            rows="4" maxlength="1000"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
                                     <button type="submit" value="Create" class="btn btn-primary">Create</button>
-                                </form>
-                            </div>
+                                </div>
 
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
 
                 <div class="container threads-overflow">
+                    {{#if thread}}
+                    {{#each thread}}
                     <div class="thread-wrapper">
                         <div class="container threads">
                             <div class="row">
                                 <div class="col-4 text-break">
-                                    <p>Heading00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-                                    </p>
+                                    <p>{{topic}}</p>
+                                    <div class="row">
+                                        <p>{{Description}}</p>
+                                    </div>
                                 </div>
                                 <div class="col">
                                     <p>Picture</p>
@@ -98,38 +102,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="thread-wrapper">
-                        <div class="container threads">
-                            <div class="row">
-                                <div class="col-4 text-break">
-                                    <p>Heading00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-                                    </p>
-                                </div>
-                                <div class="col">
-                                    <p>Picture</p>
-                                </div>
-                            </div>
-                            <div class="delete-btn">
-                                <p>Delete</p>
-                            </div>
-                        </div>
+                    {{/each}}
+                    {{else}}
+                    <div class="d-flex justify-content-center">
+                        <p>No Threads Found</p>
                     </div>
-                    <div class="thread-wrapper">
-                        <div class="container threads">
-                            <div class="row">
-                                <div class="col-4 text-break">
-                                    <p>Heading00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-                                    </p>
-                                </div>
-                                <div class="col">
-                                    <p>Picture</p>
-                                </div>
-                            </div>
-                            <div class="delete-btn">
-                                <p>Delete</p>
-                            </div>
-                        </div>
-                    </div>
+                    {{/if}}
                 </div>
             </div>
             <div class="col-2 favourites container d-flex flex-wrap favourites-container">
