@@ -1,0 +1,33 @@
+<script src="./js/payment/retriveCoupon.js"></script>
+
+
+<h1 class="display-4">Edit voucher</h1>
+
+
+<form method="POST" action="">
+  <div class="form-group">
+    <label for="name">Name</label>
+      <input type="text" name="name" id="name" class="form-control" value="{{voucher.voucherName}}">
+  </div>
+    <div class="form-group">
+        <label for="desc">Description</label>
+        <input type="text" name="desc" id="desc" class="form-control" value="{{voucher.description}}">
+    </div>
+    <div class="form-group">
+        <label for="perc">Percentage</label>
+        <input type="number" name="perc" id="perc" class="form-control" value="{{voucher.percentage}}">
+    </div>
+    <div class="form-group">
+        <label for="expiryDate">Expiry Date</label>
+        <input type="date" name="expiryDate" id="expiryDate" class="form-control" value="{{voucher.expiryDate}}">
+    </div>
+    <div class="form-group">
+        <label for="quantity">Quantity</label>
+        <input type="number" name="quantity" id="quantity" class="form-control" value="{{voucher.quantity}}">
+    </div>
+    <input type="submit" value="Submit" class="btn btn-primary mt-3"/>
+</form>
+
+
+
+

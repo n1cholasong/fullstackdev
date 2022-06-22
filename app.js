@@ -58,7 +58,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 const DBConnection = require('./config/DBConnection');
-DBConnection.setUpDB(true) // To set up database with new tables
+DBConnection.setUpDB(false) // To set up database with new tables
 
 
 // Enables session to be stored using browser's Cookie ID
@@ -84,11 +84,13 @@ const forumRoute = require('./routes/forum');
 const loginRoute = require('./routes/login');
 const paymentRoute = require('./routes/payment');
 
+
 // Any URL with the pattern ‘/*’ is directed to routes/main.js
 app.use('/', mainRoute);
 app.use('/forum', forumRoute);
 app.use('/login', loginRoute );
 app.use('/payment', paymentRoute);
+
 
 
 /*
