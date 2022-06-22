@@ -6,6 +6,9 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+	<!-- JQuery -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
 	{{!-- Boxicons --}}
 	<link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
 
@@ -54,6 +57,7 @@
 	<link rel="stylesheet" href="/css/sidebar.css">
 	<link rel="stylesheet" href="/css/style.css">
 	<link rel="stylesheet" href="/css/home.css">
+	<link rel="stylesheet" href="/css/course.css">
 	<link rel="stylesheet" href="/css/forum/forumHome.css">
 	{{!--
 	<link rel="stylesheet" type="text/css" href="/css/header.css">
@@ -69,8 +73,8 @@
 <body>
 	{{> _header }}
 	<div class="main-container d-flex">
-		{{> _sidebar}}
-		<main class="content m-3">
+		{{> _sidebar }}
+		<main class="content">
 			{{{body}}}
 		</main>
 	</div>
