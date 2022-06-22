@@ -57,8 +57,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // };
 
 
-// const DBConnection = require('./config/DBConnection');
-// DBConnection.setUpDB(true) // To set up database with new tables
+const DBConnection = require('./config/DBConnection');
+DBConnection.setUpDB(true) // To set up database with new tables
 
 
 // Enables session to be stored using browser's Cookie ID
