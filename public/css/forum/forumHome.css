@@ -5,7 +5,13 @@
 }
 
 .forum .forum-main {
-    max-height: 450px;
+    min-height: 550px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+
+.forum .thread-container{
+    max-height: 600px;
     padding-bottom: 10px;
 }
 
@@ -26,9 +32,25 @@
     padding-bottom: 15px;
 }
 
-.forum .delete-btn {
+.forum .thread-change {
     display: flex;
     justify-content: flex-end;
+}
+
+.forum .delete-btn-wrapper {
+    padding-left: 5px;
+}
+
+.forum .delete-btn {
+    padding-left: 5px;
+}
+
+.forum .edit-btn-wrapper {
+    padding-right: 5px;
+}
+
+.forum .edit-btn {
+    padding-right: 5px;
 }
 
 .forum .favourites-container {

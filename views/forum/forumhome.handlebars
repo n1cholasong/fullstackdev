@@ -1,155 +1,181 @@
-<div class="forum">
+<div class="forum container">
     <div class="entry-container d-flex align-items-center justify-content-center flex-wrap">
-        <div class="row entry-card">
-            <div class="col forum-main">
-                <div class="container forum-nav">
-                    <ul class="navbar-nav d-flex flex-row align-items-center justify-content-evenly">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <button type="button" class="btn btn-primary">
-                                    HOT
-                                </button>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <button type="button" class="btn btn-primary">
-                                    Recent
-                                </button>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <button type="button" class="btn btn-primary">
-                                    Top
-                                </button>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <button type="button" class="btn btn-primary">
-                                    My Threads
-                                </button>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="container d-flex justify-content-center buttons-c-f forum-create">
-                    <div class="button-wrapper">
-                        <button type="button" class="btn btn-primary create-button" data-bs-toggle="modal"
-                            data-bs-target="#createThread">
-                            Create New Thread
-                        </button>
+        <div class="entry-card">
+            <div class="row forum-main">
+                <div class="col-10 thread-container">
+                    <div class="container forum-nav">
+                        <ul class="navbar-nav d-flex flex-row align-items-center justify-content-evenly">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <button type="button" class="btn btn-primary">
+                                        HOT
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <button type="button" class="btn btn-primary">
+                                        Recent
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <button type="button" class="btn btn-primary">
+                                        Top
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <button type="button" class="btn btn-primary">
+                                        My Threads
+                                    </button>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                </div>
 
-                <!-- The Modal -->
-                <div class="modal" id="createThread">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-
-                            <!-- Modal Header -->
-                            <div class="modal-header">
-                                <i class="fas fa-comments"></i>
-                                <h4 class="modal-title">Create new thread</h4>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-
-                            <!-- Modal body -->
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="topic">Topic</label>
-                                    <input class="form-control" id="topic" name="topic">
-                                </div>
-
-                                <div class="form-group mb-4">
-                                    <label for="thread-description">Description</label>
-                                    <textarea class="form-control" id="thread-description" name="thread-description"
-                                        rows="4" maxlength="1000"></textarea>
-                                </div>
-                            </div>
-
-                            <!-- Modal footer -->
-                            <div class="modal-footer">
-                                <form action="/forum/createThread" method="post">
-                                    <button type="submit" value="Create" class="btn btn-primary">Create</button>
-                                </form>
-                            </div>
-
+                    <div class="container d-flex justify-content-center buttons-c-f forum-create">
+                        <div class="button-wrapper">
+                            <button type="button" class="btn btn-primary create-button" data-bs-toggle="modal"
+                                data-bs-target="#createThread">
+                                Create New Thread
+                            </button>
                         </div>
                     </div>
-                </div>
 
-                <div class="container threads-overflow">
-                    <div class="thread-wrapper">
-                        <div class="container threads">
-                            <div class="row">
-                                <div class="col-4 text-break">
-                                    <p>Heading00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-                                    </p>
-                                </div>
-                                <div class="col">
-                                    <p>Picture</p>
+                    <!-- The Modal -->
+                    <div class="modal" id="createThread">
+                        <form action="/forum/createThread" method="post" id="createforum">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <i class="fas fa-comments"></i>
+                                        <h4 class="modal-title">Create new thread</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="topic">Topic</label>
+                                            <input class="form-control" id="topic" name="topic">
+                                        </div>
+
+                                        <div class="form-group mb-4">
+                                            <label for="thread-description">Description</label>
+                                            <textarea class="form-control" id="thread_description"
+                                                name="thread_description" rows="4" maxlength="1000"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="submit" value="Create" class="btn btn-primary">Create</button>
+                                    </div>
+
                                 </div>
                             </div>
-                            <div class="delete-btn">
-                                <p>Delete</p>
-                            </div>
-                        </div>
+                        </form>
                     </div>
-                    <div class="thread-wrapper">
-                        <div class="container threads">
-                            <div class="row">
-                                <div class="col-4 text-break">
-                                    <p>Heading00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-                                    </p>
+
+                    <div class="container threads-overflow">
+                        {{#if thread}}
+                        {{#each thread}}
+                        <div class="thread-wrapper">
+                            <div class="container threads">
+                                <div class="row">
+                                    <div class="col-4 text-break">
+                                        <p>{{topic}}</p>
+                                        <div class="row">
+                                            <p>{{description}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <p>Picture</p>
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <p>Picture</p>
+                                <div class="thread-change">
+                                    <div class="edit-btn">
+                                        <div class="button-wrapper">
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#editThread">
+                                                Edit
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="delete-btn">
+                                        <form method="post" action="/forum/deleteThread/{{id}}">
+                                            <input type="submit" value="Delete" class="btn">
+                                        </form>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="delete-btn">
-                                <p>Delete</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="thread-wrapper">
-                        <div class="container threads">
-                            <div class="row">
-                                <div class="col-4 text-break">
-                                    <p>Heading00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-                                    </p>
+
+                        <!-- The Modal -->
+                        <div class="modal" id="editThread">
+                            <form action="/forum/editThread/{{id}}" method="post" id="editforum">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                            <i class="fas fa-comments"></i>
+                                            <h4 class="modal-title">Edit current thread</h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+
+                                        <!-- Modal body -->
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="topic">Topic</label>
+                                                <input class="form-control" id="topic" name="topic" value="{{topic}}">
+                                            </div>
+
+                                            <div class="form-group mb-4">
+                                                <label for="thread-description">Description</label>
+                                                <textarea class="form-control" id="thread_description"
+                                                    name="thread_description" rows="4"
+                                                    maxlength="1000">{{description}}</textarea>
+                                            </div>
+                                        </div>
+
+                                        <!-- Modal footer -->
+                                        <div class="modal-footer">
+                                            <button type="submit" value="Create" class="btn btn-primary">Edit</button>
+                                        </div>
+
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <p>Picture</p>
-                                </div>
-                            </div>
-                            <div class="delete-btn">
-                                <p>Delete</p>
-                            </div>
+                            </form>
                         </div>
+                        {{/each}}
+                        {{/if}}
                     </div>
                 </div>
-            </div>
-            <div class="col-2 favourites container d-flex flex-wrap favourites-container">
-                <div class="favourites-heading">
-                    <h2>Favourites</h2>
-                </div>
-                <div class="favourites-overflow">
-                    <div class="favourites-wrapper">
-                        <a class="text-decoration-none favourites-link" href="#">
-                            <div class="favourites">
-                                Thread 1
-                            </div>
-                        </a>
+                <div class="col-2 favourites container flex-wrap favourites-container">
+                    <div class="favourites-heading">
+                        <h2>Favourites</h2>
                     </div>
-                    <div class="favourites-wrapper">
-                        <a class="text-decoration-none favourites-link" href="#">
-                            <div class="favourites">
-                                Thread 1
-                            </div>
-                        </a>
+                    <div class="favourites-overflow">
+                        <div class="favourites-wrapper">
+                            <a class="text-decoration-none favourites-link" href="#">
+                                <div class="favourites">
+                                    Thread 1
+                                </div>
+                            </a>
+                        </div>
+                        <div class="favourites-wrapper">
+                            <a class="text-decoration-none favourites-link" href="#">
+                                <div class="favourites">
+                                    Thread 1
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
