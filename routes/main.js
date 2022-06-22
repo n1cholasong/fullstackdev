@@ -7,7 +7,7 @@ router.get('/', (req, res,) => {
 });
 
 router.get('/mycourse', (req, res) => {
-	res.render('mycourse');
+	res.render('course');
 });
 
 module.exports = router;
