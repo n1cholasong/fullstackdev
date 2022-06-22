@@ -1,5 +1,6 @@
 const mySQLDB = require('./DBConfig');
-const User = require('../models/User')
+const User = require('../models/User');
+const Voucher = require('../models/Voucher');
 
 
 // If drop is true, all existing tables are dropped and recreated 

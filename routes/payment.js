@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 var paypal = require('paypal-rest-sdk');
+const Voucher = require('../models/Voucher')
 const clientId = "AfJDDolo98rPYD9uMtSOurkdgDEJc5w1StGG4Jl93u2NIbjPOpT1hKWlgmPyIyppDcxZgpeNNMXqMD-e";
 const secret = "EGCtIt8hg_gwS3YXKUP77wcZB1Fj7EmBv4ifuPGHeQSFwFZ8zk870-mHiCO77c-xz2Q_UaIiYNuTcml7";
 
@@ -11,6 +12,76 @@ router.get('/', (req, res) => {
 	// renders views/index.handlebars, passing title as an object
 	res.render('./payment/payment' )
 });
+
+router.get('/createVoucher', (req, res) => {
+	// renders views/index.handlebars, passing title as an object
+	res.render('./payment/createVoucher' )
+});
+
+router.get('/Vouchers', (req, res) => {
+	// renders views/index.handlebars, passing title as an object
+    Voucher.findAll({
+        raw: true
+    }).then((voucher)=>{
+        res.render('./payment/viewVoucher',{voucher} )
+    })
+	.catch(err => console.log(err));
+});
+
+router.post('/createVoucher', (req, res) => {
+	// renders views/index.handlebars, passing title as an object
+	let name = req.body.name
+    let desc = req.body.desc
+    let perc = req.body.perc
+    let expiryDate = req.body.expiryDate.toString()
+    let quantity = req.body.quantity
+
+    Voucher.create({
+        voucherName:name,description:desc,percentage:perc,expiryDate:expiryDate,quantity:quantity
+    })
+
+    res.redirect('/payment/Vouchers')
+});
+
+
+router.get('/updateVoucher/:id', (req, res) => {
+	// renders views/index.handlebars, passing title as an object
+	
+
+    Voucher.findByPk(req.params.id).then((voucher) =>{
+        res.render('./payment/editVoucher',{voucher})
+    })
+
+});
+
+router.post('/updateVoucher/:id', (req, res) => {
+    let name = req.body.name
+    let desc = req.body.desc
+    let perc = req.body.perc
+    let expiryDate = req.body.expiryDate.toString
+    let quantity = req.body.quantity
+
+    Voucher.update(
+        {
+            voucherName:name,description:desc,percentage:perc,expiryDate:expiryDate,quantity:quantity
+        },
+        {where: {id: req.params.id}}
+    )
+        .then((result) => {
+            console.log(result[0] + ' thread updated');
+            res.redirect('/payment/Vouchers');
+        })
+        .catch(err => console.log(err));
+});
+
+
+router.post('/deleteVoucher/:id', (req, res) => {
+    Voucher.destroy({where : {id: req.params.id} })
+    res.redirect('/payment/Vouchers')
+});
+
+
+
 
 router.post('/',(req,res)=>{
 let name = req.body.name;
