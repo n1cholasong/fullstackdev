@@ -35,6 +35,49 @@
         </div>
         <div class="card course-review">
             <b class="ps-3 pt-1">Review</b>
+            <div class="container">
+                {{#if reviews}}
+                <div class="card card-body">
+                    <h3 class="text-primary">Review</h3>
+                    {{#each reviews}}
+                    <div class="card border-primary mb-2 w-100 mx-auto">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-10">
+                                    <p class="text-info">{{userName}}</p>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-10">
+                                    <p class="font-italic">rating</p>
+                                    <p class="text-info">{{rating}}</p>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-10">
+                                    <p class="font-italic">Review</p>
+                                    <p class="text-info">{{review}}</p>
+                                </div>
+                                <div class="col-lg-2">
+                                    <p>
+                                        <a href="/video/editVideo/{{id}}" class="card-link mb-2">
+                                            <i class="fas fa-pencil-alt"></i>
+                                            Edit
+                                        </a>
+                                    </p>
+                                    <p>
+                                        <a href="/video/deleteVideo/{{id}}" class="card-link" data-toggle="confirmation"
+                                            data-title="Confirm delete?">
+                                            <i class="far fa-trash-alt"></i>
+                                            Delete
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+                {{else}}
+                <h3>No videos jotted</h3>
+                {{/if}}
+            </div>
         </div>
     </div>
 </div>
