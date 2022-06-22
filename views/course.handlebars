@@ -34,48 +34,112 @@
             <b class="ps-3 pt-1">Description</b>
         </div>
         <div class="card course-review">
-            <b class="ps-3 pt-1">Review</b>
+            <b class="ps-3 pt-1">Rating and Review</b>
             <div class="container">
-                {{#if reviews}}
-                <div class="card card-body">
-                    <h3 class="text-primary">Review</h3>
-                    {{#each reviews}}
-                    <div class="card border-primary mb-2 w-100 mx-auto">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-12 col-md-12 col-lg-10">
-                                    <p class="text-info">{{userName}}</p>
+                <div class="container d-flex justify-content-center buttons-c-f forum-create">
+                    <div class="button-wrapper">
+                        <button type="button" class="btn btn-primary create-button" data-bs-toggle="modal"
+                            data-bs-target="#createThread">
+                            Create A Review
+                        </button>
+                    </div>
+                </div>
+
+                <!-- The Modal -->
+                <div class="modal" id="createThread">
+                    <form action="/createReview" method="post">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <i class="fas fa-comments"></i>
+                                    <h4 class="modal-title">Write A Review</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
-                                <div class="col-sm-12 col-md-12 col-lg-10">
-                                    <p class="font-italic">rating</p>
-                                    <p class="text-info">{{rating}}</p>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="topic">Rating</label>
+                                        <br>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="5" value="5" name="rating"
+                                                checked>
+                                            <label class="form-check-label" for="5">5*</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="4" value="4" name="rating">
+                                            <label class="form-check-label" for="4">4*</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="3" value="3" name="rating">
+                                            <label class="form-check-label" for="3">3*</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="2" value="2" name="rating">
+                                            <label class="form-check-label" for="2">2*</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="1" value="1" name="rating">
+                                            <label class="form-check-label" for="1">1*</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <div class="form-group">
+                                            <label class="font-italic" for="review">Review</label>
+                                            <textarea class="form-control" id="review" name="review" rows="7"
+                                                maxlength="2000"></textarea>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-12 col-md-12 col-lg-10">
-                                    <p class="font-italic">Review</p>
-                                    <p class="text-info">{{review}}</p>
-                                </div>
-                                <div class="col-lg-2">
-                                    <p>
-                                        <a href="/video/editVideo/{{id}}" class="card-link mb-2">
-                                            <i class="fas fa-pencil-alt"></i>
-                                            Edit
-                                        </a>
-                                    </p>
-                                    <p>
-                                        <a href="/video/deleteVideo/{{id}}" class="card-link" data-toggle="confirmation"
-                                            data-title="Confirm delete?">
-                                            <i class="far fa-trash-alt"></i>
-                                            Delete
-                                        </a>
-                                    </p>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="submit" value="Create" class="btn btn-primary">Create</button>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    {{/each}}
+                    </form>
                 </div>
+                {{#if reviews}}
+                {{#each reviews}}
+                <div class="card border-primary mb-2 w-100 mx-auto">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-10">
+                                <p class="text-info">{{userName}}</p>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-10">
+                                <p class="font-italic">rating</p>
+                                <p class="text-info">{{rating}}</p>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-10">
+                                <p class="font-italic">Review</p>
+                                <p class="text-info">{{review}}</p>
+                            </div>
+                            <div class="col-lg-2">
+                                <p>
+                                    <a href="/video/editVideo/{{id}}" class="card-link mb-2">
+                                        <i class="fas fa-pencil-alt"></i>
+                                        Edit
+                                    </a>
+                                </p>
+                                <p>
+                                    <a href="/video/deleteVideo/{{id}}" class="card-link" data-toggle="confirmation"
+                                        data-title="Confirm delete?">
+                                        <i class="far fa-trash-alt"></i>
+                                        Delete
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
                 {{else}}
-                <h3>No videos jotted</h3>
+                <p>No Reviews</p>
                 {{/if}}
             </div>
         </div>
