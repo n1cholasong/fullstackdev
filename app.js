@@ -99,5 +99,5 @@ const port = 5000;
 
 // Starts the server and listen to port
 app.listen(port, () => {
-	console.log(`Server started on port ${port}`);
+	console.log(`Server started on http://localhost:5000`);
 });
