@@ -1,4 +1,5 @@
 const express = require('express');
+const { ServerResponse } = require('http');
 const router = express.Router();
 var paypal = require('paypal-rest-sdk');
 const Voucher = require('../models/Voucher')
@@ -68,16 +69,28 @@ router.post('/updateVoucher/:id', (req, res) => {
         {where: {id: req.params.id}}
     )
         .then((result) => {
-            console.log(result[0] + ' thread updated');
+            console.log(result[0] + ' voucher updated');
             res.redirect('/payment/Vouchers');
         })
         .catch(err => console.log(err));
 });
 
 
-router.post('/deleteVoucher/:id', (req, res) => {
+router.post('/deleteVoucher/:id',async function (req, res)  {
+    try{
+    let voucher = await Voucher.findByPk(req.params.id)
+    if (!voucher){
+        res.redirect('/payment/Vouchers')
+        return "Hahaha didn't work";
+    }
+
+
     Voucher.destroy({where : {id: req.params.id} })
     res.redirect('/payment/Vouchers')
+    }
+    catch(err){
+
+    }
 });
 
 

@@ -16,6 +16,7 @@
     "express-mysql-session": "^2.1.8",
     "express-session": "^1.15.6",
     "handlebars": "^4.7.7",
+    "moment": "^2.29.3",
     "mysql2": "^2.3.3",
     "paypal": "^1.0.1",
     "paypal-rest-sdk": "^1.8.1",
