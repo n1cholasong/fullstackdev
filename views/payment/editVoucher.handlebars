@@ -19,7 +19,7 @@
     </div>
     <div class="form-group">
         <label for="expiryDate">Expiry Date</label>
-        <input type="date" name="expiryDate" id="expiryDate" class="form-control" value="{{voucher.expiryDate}}">
+        <input type="date" name="expiryDate" id="expiryDate" class="form-control" value="{{formatDate voucher.expiryDate 'YYYY-MM-DD'}}">
     </div>
     <div class="form-group">
         <label for="quantity">Quantity</label>

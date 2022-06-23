@@ -14,3 +14,4 @@ const radioCheck = function (value, radioValue) {
     return (value == radioValue) ? 'checked' : '';
 };
 module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck }
+
