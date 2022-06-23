@@ -121,22 +121,23 @@
                             </div>
                             <div class="col-lg-2">
                                 <p>
-                                    {{!-- <!-- edit modal -->
+                                    <!-- edit modal -->
                                     <a href="#" class="card-link mb-2" type="button" data-bs-toggle="modal"
                                         data-bs-target="#editThread">
                                         <i class="fas fa-pencil-alt"></i>
                                         Edit
                                     </a>
-                                    <!-- The Modal -->
+                                </p>
+                                <!-- The Modal -->
                                 <div class="modal" id="editThread">
-                                    <form action="/createReview" method="post">
+                                    <form action="/editReview/{{id}}" method="post">
                                         <div class="modal-dialog modal-dialog-centered">
                                             <div class="modal-content">
 
                                                 <!-- Modal Header -->
                                                 <div class="modal-header">
                                                     <i class="fas fa-comments"></i>
-                                                    <h4 class="modal-title">Write A Review</h4>
+                                                    <h4 class="modal-title">Edit Review</h4>
                                                     <button type="button" class="btn-close"
                                                         data-bs-dismiss="modal"></button>
                                                 </div>
@@ -144,36 +145,31 @@
                                                 <!-- Modal body -->
                                                 <div class="modal-body">
                                                     <div class="form-group">
-                                                        <label for="topic">Rating</label>
+                                                        <label class="font-italic">Rating</label>
                                                         <br>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio" id="5"
-                                                                value="5" name="rating" {{radioCheck video.rating "5"
-                                                                }}>
+                                                                value="5" name="rating" {{radioCheck rating "5" }}>
                                                             <label class="form-check-label" for="5">5*</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio" id="4"
-                                                                value="4" name="rating" {{radioCheck video.rating "4"
-                                                                }}>
+                                                                value="4" name="rating" {{radioCheck rating "4" }}>
                                                             <label class="form-check-label" for="4">4*</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio" id="3"
-                                                                value="3" name="rating" {{radioCheck video.rating "3"
-                                                                }}>
+                                                                value="3" name="rating" {{radioCheck rating "3" }}>
                                                             <label class="form-check-label" for="3">3*</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio" id="2"
-                                                                value="2" name="rating" {{radioCheck video.rating "2"
-                                                                }}>
+                                                                value="2" name="rating" {{radioCheck rating "2" }}>
                                                             <label class="form-check-label" for="2">2*</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio" id="1"
-                                                                value="1" name="rating" {{radioCheck
-                                                                video.classification "1" }}>
+                                                                value="1" name="rating" {{radioCheck review "1" }}>
                                                             <label class="form-check-label" for="1">1*</label>
                                                         </div>
                                                     </div>
@@ -182,24 +178,22 @@
                                                         <div class="form-group">
                                                             <label class="font-italic" for="review">Review</label>
                                                             <textarea class="form-control" id="review" name="review"
-                                                                rows="7" maxlength="2000">{{video.review}}</textarea>
+                                                                rows="7" maxlength="2000">{{review}}</textarea>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <!-- Modal footer -->
                                                 <div class="modal-footer">
-                                                    <button type="submit" value="Create"
-                                                        class="btn btn-primary">Create</button>
+                                                    <button type="submit" value="Update"
+                                                        class="btn btn-primary">Update</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </form>
-                                </div> --}}
-                                </p>
-
+                                </div>
                                 <p>
-                                    <a href="/main/deleteReview/{{id}}" class="card-link" data-toggle="confirmation"
+                                    <a href="/deleteReview/{{id}}" class="card-link" data-toggle="confirmation"
                                         data-title="Confirm delete?">
                                         <i class="far fa-trash-alt"></i>
                                         Delete
@@ -217,3 +211,10 @@
         </div>
     </div>
 </div>
+
+
+<script>
+	$('[data-toggle=confirmation]').confirmation({
+		rootSelector: '[data-toggle=confirmation]',
+	});
+</script>
