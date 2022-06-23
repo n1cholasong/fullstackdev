@@ -38,7 +38,7 @@ router.post("/createReview", (req, res) => {
 		})
 });
 
-router.get('/deleteReview', async function (req, res) {
+router.get('/deleteReview/:id', async function (req, res) {
     try {
         let review = await Review.findByPk(req.params.id);
         if (!review) {
