@@ -127,7 +127,8 @@
                                         <i class="fas fa-pencil-alt"></i>
                                         Edit
                                     </a>
-                                    <!-- The Modal -->
+                                </p>
+                                <!-- The Modal -->
                                 <div class="modal" id="editThread">
                                     <form action="/editReview/{{id}}" method="post">
                                         <div class="modal-dialog modal-dialog-centered">
@@ -136,7 +137,7 @@
                                                 <!-- Modal Header -->
                                                 <div class="modal-header">
                                                     <i class="fas fa-comments"></i>
-                                                    <h4 class="modal-title">Write A Review</h4>
+                                                    <h4 class="modal-title">Edit Review</h4>
                                                     <button type="button" class="btn-close"
                                                         data-bs-dismiss="modal"></button>
                                                 </div>
@@ -144,36 +145,36 @@
                                                 <!-- Modal body -->
                                                 <div class="modal-body">
                                                     <div class="form-group">
-                                                        <label for="topic">Rating</label>
+                                                        <label class="font-italic">Rating</label>
                                                         <br>
-                                                        <image.pngdiv class="form-check form-check-inline">
+                                                        <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio" id="5"
-                                                                value="5" name="rating" {{radioCheck review.rating "5"
+                                                                value="5" name="rating" {{radioCheck video.rating "5"
                                                                 }}>
                                                             <label class="form-check-label" for="5">5*</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio" id="4"
-                                                                value="4" name="rating" {{radioCheck review.rating "4"
+                                                                value="4" name="rating" {{radioCheck video.rating "4"
                                                                 }}>
                                                             <label class="form-check-label" for="4">4*</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio" id="3"
-                                                                value="3" name="rating" {{radioCheck review.rating "3"
+                                                                value="3" name="rating" {{radioCheck video.rating "3"
                                                                 }}>
                                                             <label class="form-check-label" for="3">3*</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio" id="2"
-                                                                value="2" name="rating" {{radioCheck review.rating "2"
+                                                                value="2" name="rating" {{radioCheck video.rating "2"
                                                                 }}>
                                                             <label class="form-check-label" for="2">2*</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio" id="1"
                                                                 value="1" name="rating" {{radioCheck
-                                                                review.classification "1" }}>
+                                                                video.classification "G" }}>
                                                             <label class="form-check-label" for="1">1*</label>
                                                         </div>
                                                     </div>
@@ -182,22 +183,20 @@
                                                         <div class="form-group">
                                                             <label class="font-italic" for="review">Review</label>
                                                             <textarea class="form-control" id="review" name="review"
-                                                                rows="7" maxlength="2000">{{Review.review}}</textarea>
+                                                                rows="7" maxlength="2000"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <!-- Modal footer -->
                                                 <div class="modal-footer">
-                                                    <button type="submit" value="Create"
+                                                    <button type="submit" value="Update"
                                                         class="btn btn-primary">Update</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
-                                </p>
-
                                 <p>
                                     <a href="/deleteReview/{{id}}" class="card-link" data-toggle="confirmation"
                                         data-title="Confirm delete?">
