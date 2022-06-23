@@ -46,6 +46,7 @@
     border: 1.5px solid #4A00E0 !important;
     color: #4A00E0;
     width: 90px;
+    padding: .5rem 1rem;
 }
 
 .header .login-btn:hover {
@@ -59,6 +60,7 @@
     background: #4A00E0;
     width: 90px;
     float: right;
+    padding: .5rem 1rem;
 }
 
 .header .signup-btn:hover {
