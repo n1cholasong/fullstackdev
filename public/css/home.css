@@ -13,10 +13,10 @@
     line-height: 40px;
   }
 
-  .card .star {
+ .card .star {
     color: #FDCC0D;
   }
 
-  .card-body {
+  .home .card-body {
     height: 120px;
   }

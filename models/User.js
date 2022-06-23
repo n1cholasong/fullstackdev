@@ -1,8 +1,9 @@
 const Seqelize = require('sequelize');
 const db = require('../config/DBConfig')
 
-const User = db.define('user',{
-    name:{type:Seqelize.STRING}
+const User = db.define('user', {
+    email: { type: Seqelize.STRING },
+    password: { type: Seqelize.STRING }
 });
 
 module.exports = User

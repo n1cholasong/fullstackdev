@@ -39,27 +39,26 @@ router.post("/createReview", (req, res) => {
 });
 
 router.get('/deleteReview/:id', async function (req, res) {
-    try {
-        let review = await Review.findByPk(req.params.id);
-        if (!review) {
-            flashMessage(res, 'error', 'Review not found');
-            res.redirect('/course');
-            return;
-        }
-        // if (req.user.id != review.userId) {
-        //     flashMessage(res, 'error', 'Unauthorised access');
-        //     res.redirect('/video/listVideos');
-        //     return;
-        // }
+	try {
+		let review = await Review.findByPk(req.params.id);
+		if (!review) {
+			flashMessage(res, 'error', 'Review not found');
+			res.redirect('/course');
+			return;
+		}
+		// if (req.user.id != review.userId) {
+		//     flashMessage(res, 'error', 'Unauthorised access');
+		//     res.redirect('/video/listVideos');
+		//     return;
+		// }
 
-        let result = await Review.destroy({ where: { id: review.id } });
-        console.log(result + ' video deleted');
-        res.redirect('/course');
-    }
-    catch (err) {
-        console.log(err);
-    }
+		let result = await Review.destroy({ where: { id: review.id } });
+		console.log(result + ' video deleted');
+		res.redirect('/course');
+	}
+	catch (err) {
+		console.log(err);
+	}
 });
-
 
 module.exports = router;

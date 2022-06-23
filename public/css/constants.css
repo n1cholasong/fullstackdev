@@ -1,0 +1,6 @@
+:root {
+    --header-height: 64px;
+    --icon-size: 25px;
+    --animation-duration: 200ms;
+    --animation-timing-curve: ease-in-out;
+}

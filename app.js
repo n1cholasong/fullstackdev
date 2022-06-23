@@ -9,8 +9,8 @@ const Handlebars = require('handlebars');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const path = require('path');
-const helpers = require('./helpers/handlebars')
 // require('dotenv').config();
+const helpers = require('./helpers/handlebars')
 
 /*
 * Creates an Express server - Express is a web application framework for creating web applications
@@ -29,7 +29,7 @@ const app = express();
 *
 * */
 app.engine('handlebars', engine({
-	helpers : helpers,
+	helpers: helpers,
 	handlebars: allowInsecurePrototypeAccess(Handlebars),
 	defaultLayout: 'main' // Specify default template views/layout/main.handlebar 
 }));
@@ -44,6 +44,7 @@ app.use(express.json());
 // Creates static folder for publicly accessible HTML, CSS and Javascript files
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Library to use MySQL to store session objects
 // const MySQLStore = require('express-mysql-session');
 // var options = { 
 // 	host: process.env.DB_HOST, 
@@ -58,42 +59,44 @@ app.use(express.static(path.join(__dirname, 'public')));
 // 	checkExpirationInterval: 1800000 // 30 min 
 // };
 
-
 const DBConnection = require('./config/DBConnection');
 DBConnection.setUpDB(false) // To set up database with new tables
-
 
 // Enables session to be stored using browser's Cookie ID
 app.use(cookieParser());
 
 // To store session information. By default it is stored as a cookie on browser
 app.use(session({
-	key: 'vidjot_session',
-	secret: 'tojdiv',
+	key: 'curodemy_session',
+	secret: 'ymedoruc',
 	//store: new MySQLStore(options),
 	resave: false,
 	saveUninitialized: false,
 }));
 
+// Messaging libraries
+const flash = require('connect-flash');
+app.use(flash());
+
 // Place to define global variables
 app.use(function (req, res, next) {
+	res.locals.messages = req.flash('message');
+	res.locals.errors = req.flash('error');
 	next();
 });
 
 // mainRoute is declared to point to routes/main.js
 const mainRoute = require('./routes/main');
 const forumRoute = require('./routes/forum');
-const loginRoute = require('./routes/login');
+const userRoute = require('./routes/user');
 const paymentRoute = require('./routes/payment');
 
 
 // Any URL with the pattern ‘/*’ is directed to routes/main.js
 app.use('/', mainRoute);
 app.use('/forum', forumRoute);
-app.use('/login', loginRoute );
+app.use('/user', userRoute);
 app.use('/payment', paymentRoute);
-
-
 
 /*
 * Creates a port for express server since we don't want our app to clash with well known
@@ -103,5 +106,5 @@ const port = 5000;
 
 // Starts the server and listen to port
 app.listen(port, () => {
-	console.log(`Server started on http://localhost:5000`);
+	console.log(`Server started on http://localhost:${port}`);
 });
