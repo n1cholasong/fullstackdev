@@ -4,6 +4,7 @@ const Review = require('../models/Review')
 const Forum = require('../models/Forum')
 
 
+
 // If drop is true, all existing tables are dropped and recreated 
 const setUpDB = (drop) => { 
     mySQLDB.authenticate() 

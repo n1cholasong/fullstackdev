@@ -21,7 +21,7 @@
 .banner .container,
 .course.container,
 .banner {
-    outline: 1px solid;
+    /* outline: 1px solid; */
 }
 
 .course-info {
