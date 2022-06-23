@@ -8,6 +8,10 @@ router.get('/', (req, res,) => {
 	res.render('index');
 });
 
+router.get('/mycourse', (req, res,) => {
+	res.render('mycourse');
+});
+
 router.get('/course', (req, res) => {
 	Review.findAll({
 		raw: true
