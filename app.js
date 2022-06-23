@@ -9,6 +9,7 @@ const Handlebars = require('handlebars');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const path = require('path');
+const helpers = require('./helpers/handlebars')
 // require('dotenv').config();
 
 /*
@@ -28,6 +29,7 @@ const app = express();
 *
 * */
 app.engine('handlebars', engine({
+	helpers : helpers,
 	handlebars: allowInsecurePrototypeAccess(Handlebars),
 	defaultLayout: 'main' // Specify default template views/layout/main.handlebar 
 }));
