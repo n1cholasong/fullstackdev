@@ -52,13 +52,33 @@ router.get('/deleteReview/:id', async function (req, res) {
 		//     return;
 		// }
 
-		let result = await Review.destroy({ where: { id: review.id } });
-		console.log(result + ' video deleted');
-		res.redirect('/course');
-	}
-	catch (err) {
-		console.log(err);
-	}
+        let result = await Review.destroy({ where: { id: review.id } });
+        console.log(result + ' Review deleted');
+        res.redirect('/course');
+    }
+    catch (err) {
+        console.log(err);
+    }
 });
+
+
+router.post('/editReview/:id', (req, res) => {
+    let review = req.body.review.slice(0, 1999);
+    let rating = req.body.rating;
+    // let userId = req.user.id;
+    // let userName = req.user.name;
+
+
+    Review.update(
+        { review, rating,},
+        { where: { id: req.params.id } }
+    )
+        .then((result) => {
+            console.log(result[0] + 'Review updated');
+            res.redirect('/course');
+        })
+        .catch(err => console.log(err));
+});
+
 
 module.exports = router;
