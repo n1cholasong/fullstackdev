@@ -4,7 +4,7 @@
   "description": "Curo Academy",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "start http://localhost:5000 & node app.js"
   },
   "dependencies": {
     "@handlebars/allow-prototype-access": "^1.0.5",
