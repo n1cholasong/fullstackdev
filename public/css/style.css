@@ -1,8 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 body {
   margin: 0;
   background-color: #F0F0F0;
+  
 }
 
 *,
@@ -69,10 +70,17 @@ h6 {
 }
 
 .btn {
-  background: linear-gradient(-45deg, #8E2DE2 0%, #4A00E0 100%);
   border: none !important;
-  border-radius: 5px;
+}
+
+.btn:disabled {
+  border: 0.1px solid !important;
+}
+
+.btn-main {
+  background: linear-gradient(-45deg, #8E2DE2 0%, #4A00E0 100%);
   color: white;
+  border-radius: 5px;
   font-size: .9rem;
   font-weight: 500;
   padding: .5rem 1.5rem;
@@ -80,6 +88,19 @@ h6 {
 
 .btn:hover {
   border: none !important;
+}
+
+.btn-outline {
+  background: transparent;
+  color: #4A00E0;
+  border: 0.1px solid #4A00E0 !important;
+
+}
+
+.btn-outline:hover {
+  background: #310094;
+  border: 0.1px solid #310094 !important;
+  color: white;
 }
 
 .btn:focus,

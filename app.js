@@ -101,6 +101,7 @@ app.use(function (req, res, next) {
 const mainRoute = require('./routes/main');
 const forumRoute = require('./routes/forum');
 const userRoute = require('./routes/user');
+const adminRoute = require('./routes/admin');
 const paymentRoute = require('./routes/payment');
 
 
@@ -108,7 +109,10 @@ const paymentRoute = require('./routes/payment');
 app.use('/', mainRoute);
 app.use('/forum', forumRoute);
 app.use('/user', userRoute);
+app.use('/admin', adminRoute);
 app.use('/payment', paymentRoute);
+
+
 
 /*
 * Creates a port for express server since we don't want our app to clash with well known

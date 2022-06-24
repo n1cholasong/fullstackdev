@@ -4,6 +4,7 @@ const flashMessage = require('../helpers/messenger');
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
+const ensureAuthenticated = require("../helpers/auth");
 
 router.get('/login', (req, res) => {
     res.render('./user/login');
@@ -29,7 +30,7 @@ router.get('/signup', (req, res) => {
 router.post('/signup', async function (req, res) {
     let { email, username, password, password2 } = req.body;
     let isValid = true;
-    
+
     if (password.length < 6) {
         flashMessage(res, 'error', 'Password must be at least 6 characters');
         isValid = false;
@@ -63,7 +64,7 @@ router.post('/signup', async function (req, res) {
             var hash = bcrypt.hashSync(password, salt);
             var role = "test_role"
             // Use hashed password
-            let user = await User.create({ email, username, password: hash, role});
+            let user = await User.create({ email, username, password: hash, role });
             flashMessage(res, 'success', email + ' registered successfully');
             res.redirect('/user/login');
         }
@@ -74,8 +75,8 @@ router.post('/signup', async function (req, res) {
 });
 
 router.get('/logout', (req, res, next) => {
-    req.logout(function (err){
-        if (err){return next(err);}
+    req.logout(function (err) {
+        if (err) { return next(err); }
         res.redirect('/');
     });
 })
@@ -84,8 +85,20 @@ router.get('/profile/:id', (req, res) => {
     res.render('./user/profile');
 });
 
-router.post('/profile', (req, res) => {
-    res.render('./user/profile');
+router.post('/updateAccount/:id', (req, res) => {
+    let email = req.body.email;
+    let username = req.body.username;
+    User.update(
+        {
+            email, username
+        },
+        { where: { id: req.params.id } }
+    )
+        .then((result) => {
+            console.log(result[0] + ' user updated');
+            res.redirect('/user/profile/:id');
+        })
+        .catch(err => console.log(err));
 });
 
 module.exports = router;
