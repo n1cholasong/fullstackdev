@@ -1,6 +1,7 @@
 const express = require('express');
 const Review = require("../models/Review");
 const router = express.Router();
+const flashMessage = require('../helpers/messenger');
 
 
 router.get('/', (req, res,) => {
@@ -52,33 +53,43 @@ router.get('/deleteReview/:id', async function (req, res) {
 		//     return;
 		// }
 
-        let result = await Review.destroy({ where: { id: review.id } });
-        console.log(result + ' Review deleted');
-        res.redirect('/course');
-    }
-    catch (err) {
-        console.log(err);
-    }
+		let result = await Review.destroy({ where: { id: review.id } });
+		console.log(result + ' Review deleted');
+		res.redirect('/course');
+	}
+	catch (err) {
+		console.log(err);
+	}
 });
 
 
 router.post('/editReview/:id', (req, res) => {
-    let review = req.body.review.slice(0, 1999);
-    let rating = req.body.rating;
-    // let userId = req.user.id;
-    // let userName = req.user.name;
+	let review = req.body.review.slice(0, 1999);
+	let rating = req.body.rating;
+	// let userId = req.user.id;
+	// let userName = req.user.name;
 
 
-    Review.update(
-        { review, rating,},
-        { where: { id: req.params.id } }
-    )
-        .then((result) => {
-            console.log(result[0] + 'Review updated');
-            res.redirect('/course');
-        })
-        .catch(err => console.log(err));
+	Review.update(
+		{ review, rating, },
+		{ where: { id: req.params.id } }
+	)
+		.then((result) => {
+			console.log(result[0] + 'Review updated');
+			res.redirect('/course');
+		})
+		.catch(err => console.log(err));
 });
 
+router.post('/flash', (req, res) => {
+	const message = 'This is an important message';
+	const error = 'This is an error message';
+	const error2 = 'This is the second error message';
+
+	flashMessage(res, 'success', message);
+	flashMessage(res, 'info', message);
+	flashMessage(res, 'error', error);
+	flashMessage(res, 'error', error2, 'fas fa-sign-in-alt', true);
+});
 
 module.exports = router;

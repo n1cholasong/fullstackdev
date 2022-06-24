@@ -13,8 +13,10 @@
 			</form>
 		</div>
 		<div class="button-group">
+			{{#unless user}}
 			<a href="/user/login" class="btn login-btn" role="button">Log in</a>
 			<a href="/user/signup" class="btn signup-btn" role="button">Sign up</a>
+			{{/unless}}
 		</div>
 	</div>
 </nav>
