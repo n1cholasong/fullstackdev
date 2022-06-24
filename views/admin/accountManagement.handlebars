@@ -29,6 +29,8 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end text">
                                 <li><a class="dropdown-item" href="/user/profile/{{id}}">View Profile</a></li>
+                                <li><a class="dropdown-item text-danger" data-bs-toggle="modal"
+                                        data-bs-target="#staticBackdrop_{{id}}" role="button">Delete Account</a></li>
                                 {{!-- {% if user.get_user_role_str() == 'STUDENT' %}
                                 <li><a class="dropdown-item" href="/makeAdmin/{{user.id}}">Promote to Admin</a></li>
                                 {% else %}
@@ -36,15 +38,14 @@
                                 {% endif %}
                                 <li><a class="dropdown-item" href="/resetWarning/{{user.id}}">Reset Warnings</a></li>
                                 {% if session.id != user.id %}
-                                <li><a class="dropdown-item text-danger" data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdrop_{{user.id}}" role="button">Delete User</a></li>
+                                
                                 {% endif %} --}}
                             </ul>
                         </div>
                     </td>
                     <td>
                         <!-- Delete Modal -->
-                        <form action="/user/deleteUser/{{id}}" method="POST">
+                        <form action="/admin/deleteAccount/{{id}}" method="POST">
                             <div class="modal fade" id="staticBackdrop_{{id}}" data-bs-backdrop="static"
                                 data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
                                 aria-hidden="true">
@@ -52,7 +53,7 @@
                                     <div class="modal-content">
                                         <!-- Modal Header -->
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="staticBackdropLabel">Delete User</h5>
+                                            <h5 class="modal-title" id="staticBackdropLabel">Delete Account</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
