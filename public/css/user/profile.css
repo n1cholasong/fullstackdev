@@ -1,7 +1,104 @@
+@import './constants.css';
+
 .profile * {
-    background: rgb(0 100 0/0.1);
+    /* background: rgb(0 100 0/0.1); */
+}
+
+.profile .entry-card-body {
+    padding: 2rem 5rem;
+}
+
+.profile .col {
+    /* outline: 1px solid; */
+    margin-left: 1rem;
 }
 
 .profile .row {
     margin-bottom: 1.5rem;
+}
+
+.profile #cancel {
+    display: none;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #ced4da;
+}
+
+.profile .profile-pic {
+    width: 12rem;
+    height: 12rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile .default-profile-pic {
+    width: 100%;
+    height: 100%;
+    color: white;
+    background: black;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 12rem;
+    font-size: 5rem;
+    font-weight: 600;
+}
+
+.profile .profile-info .user-role {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--granitegray);
+}
+
+.profile .profile-info .username {
+    font-weight: 500;
+    color: var(--cobaltblue);
+}
+
+.profile .section-title {
+    /* font-size: 1.2rem; */
+    border-bottom: 1.5px solid var(--granitegray);
+}
+
+.profile .user-info {
+    color: var(--granitegray);
+    font-weight: 500;
+    font-size: .9rem;
+    
+}
+
+.profile .user-info .info-icon {
+    margin-top: .2rem;
+    display: grid;
+    grid-template-columns: 1fr 10fr;
+}
+
+.profile .user-info .info-icon .fa-solid {
+    font-size: 1rem;
+    margin-right: .75rem;
+}
+
+.profile .setting-tab {
+    background-color: #F6F7F7;
+    border-radius: 0.3rem;
+    box-shadow: 0 0 5px rgb(0 0 0 /10%) inset;
+}
+
+.profile .setting-tab .nav-link{
+    text-align: left;
+    font-weight: 500;
+}
+
+.profile .setting-tab .nav-link.active {
+    background-color: var(--ultramarine);
+    box-shadow: 0 0 5px rgb(0 0 0 /20%);
+}
+
+.profile .setting-tab .nav-link:not(.active) {
+    color: black;
+}
+
+.profile .setting-tab .nav-link:hover:not(.active) {
+    background-color: #DBDCDD;
 }

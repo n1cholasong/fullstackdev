@@ -13,10 +13,20 @@
 			</form>
 		</div>
 		<div class="button-group">
-			{{#unless user}}
+			{{#if user}}
+			<div class="profile-menu">
+				<div>Hi, {{user.username}}!  
+					<span>
+						<a href="/user/profile/{{user.id}}" class="profile-pic d-inline-block">
+							<img src="/img/user.svg" alt="logo">
+						</a>
+					</span>
+				</div>
+			</div>
+			{{else}}
 			<a href="/user/login" class="btn login-btn" role="button">Log in</a>
 			<a href="/user/signup" class="btn signup-btn" role="button">Sign up</a>
-			{{/unless}}
+			{{/if}}
 		</div>
 	</div>
 </nav>

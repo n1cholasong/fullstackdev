@@ -10,7 +10,7 @@ router.get('/', (req, res,) => {
 });
 
 router.get('/mycourse', (req, res,) => {
-	res.render('mycourse');
+	res.render('myCourse');
 });
 
 router.get('/course', (req, res) => {
