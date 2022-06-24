@@ -1,0 +1,7 @@
+.profile * {
+    background: rgb(0 100 0/0.1);
+}
+
+.profile .row {
+    margin-bottom: 1.5rem;
+}

@@ -1,0 +1,24 @@
+{{#each messages}}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <i class="fas fa-check-circle"></i> {{this}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{{/each}}
+{{#each errors}}
+<div class="alert alert-danger fade show" role="alert">
+    <i class="fas fa-exclamation-circle"></i> {{this}}
+</div>
+{{/each}}
+{{#if flashMessenger }}
+{{#each flashMessenger.alertsBeforeFlush}}
+<div class="alert alert-{{this.type}} {{#if this.canBeDismissed}}alert-dismissible{{/if}} fade show" role="alert">
+    {{#if this.titleIcon}}
+    <i class="{{this.titleIcon}}"></i>
+    {{/if}}
+    {{this.title}}
+    {{#if this.canBeDismissed}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    {{/if}}
+</div>
+{{/each}}
+{{/if}}

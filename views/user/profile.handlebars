@@ -1,0 +1,131 @@
+<div class="container profile admin">
+    <div class="entry-card">
+        <div class="entry-card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="profile-pic">
+                        <div class="default-profile-pic">JS</div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="user-profile">
+                        <span class="user-role">{{user.role}}</span>
+                        <h2 class="fullname">John Smith</h2>
+                        <h4 class="username">@{{user.username}}</h4>
+                    </div>
+                    <div class="edit-profile">
+                        <a href="#" class="btn" role="button">Edit Profile</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mt-4">
+                    <div class="user-info">
+                        <div class="info-icon">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span>Singapore</span>
+                        </div>
+                        <div class="info-icon">
+                            <i class="fa-solid fa-cake-candles"></i>
+                            <span>20 July</span>
+                        </div>
+                        <div class="info-icon">
+                            <i class="fa-solid fa-calendar-days"></i>
+                            <span>July 2020</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="about-me">
+                        <h5>About Me</h5>
+                        <div class="bio">
+                            AHHHHHHHHHHHHHHHHHH
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mt-4">
+                    <div class="setting-tab">
+                        <!--Settings Tab-->
+                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
+                            aria-orientation="vertical">
+                            <button class="nav-link active me-0" id="update-account-tab" data-bs-toggle="pill"
+                                data-bs-target="#update-account" type="button" role="tab" aria-controls="update-account"
+                                aria-selected="true">Update Account
+                            </button>
+                            <button class="nav-link" id="edit-profile-pic-tab" data-bs-toggle="pill"
+                                data-bs-target="#edit-profile-pic" type="button" role="tab"
+                                aria-controls="edit-profile-pic" aria-selected="false">Edit Profile
+                                Picture
+                            </button>
+                            <button class="nav-link" id="change-password-tab" data-bs-toggle="pill"
+                                data-bs-target="#change-password" type="button" role="tab"
+                                aria-controls="change-password" aria-selected="false">Change Password
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="setting-body">
+                        <h5>Account Management</h5>
+                        <div>
+                            <div id="account-entry" class="section-content mb-5">
+                                <!--Settings Content-->
+                                <div class="tab-content px-1" id="v-pills-tabContent">
+                                    
+                                    <!--Update Account-->
+                                    <div class="tab-pane fade show active" id="update-account" role="tabpanel"
+                                        aria-labelledby="update-account-tab">
+                                        <form method="post" action="">
+                                            <div class="form-group">
+                                                <label for="email">Email</label>
+                                                <input type="email" name="email" class="form-control" value="{{user.email}}"
+                                                    required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="username">Username</label>
+                                                <input type="text" name="username" class="form-control"
+                                                    value="{{user.username}}" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary mt-2">Save Changes</button>
+                                        </form>
+
+                                        <!--Edit Profile Picture-->
+                                        <div class="tab-pane fade" id="edit-profile-pic" role="tabpanel"
+                                            aria-labelledby="edit-profile-pic-tab">
+                                            <div class="image-preview d-flex align-items-center justify-content-center py-2 mb-2"
+                                                id="">
+                                                <img id="imagePreview" src="/img/user.svg/{{!user.profile_pic}}"
+                                                    alt="Image Preview"
+                                                    class="profile-pic-preview rounded-circle d-none">
+                                                <span id="imagePreviewText" class="default-text text">Image
+                                                    Preview</span>
+                                            </div>
+                                            <input type="file" id="inputImage" name="image_file" accept="image/*"
+                                                class="file text mb-4">
+                                            <br>
+                                            <input type="submit" class="button me-2" value="Save Changes">
+                                            <a href="/resetProfilePic/{{!user.id}}">
+                                                <input type="button" class="button button-outline"
+                                                    value="Reset Profile Pic">
+                                            </a>
+                                        </div>
+                                        <!--Change Password-->
+                                        <div class="tab-pane fade" id="change-password" role="tabpanel"
+                                            aria-labelledby="change-password-tab">
+                                            <div class="entry-form">
+                                                <a href="/passwordUpdate/{{!user.id}}">
+                                                    <input type="button" class="button" value="Change Password">
+                                                </a>
+                                                <div class="text mt-3">Password was last updated on {{user.updatedAt}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

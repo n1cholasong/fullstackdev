@@ -4,4 +4,5 @@ const ensureAuthenticated = (req, res, next) => {
     }
     res.redirect('/user/login');
 };
+
 module.exports = ensureAuthenticated;

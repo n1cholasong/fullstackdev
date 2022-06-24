@@ -1,10 +1,12 @@
 <aside class="sidebar poppins open" data-sidebar>
     <div class="sidebar-head">
-        <a href="#" class="profile-pic">
+        {{#if user}}
+        <a href="/user/profile/{{user.id}}" class="profile-pic">
             <img src="/img/user.svg" alt="logo">
         </a>
-        <div class=" sidebar-hidden fullname">John Smith</div>
-        <div class=" sidebar-hidden username">@johnsmith12</div>
+        <div class=" sidebar-hidden fullname">{{user.email}}</div>
+        <div class=" sidebar-hidden username">{{user.username}}</div>
+        {{/if}}
     </div>
     <div class="sidebar-main">
         <ul class="nav-list">
@@ -15,18 +17,21 @@
                     <div class="sidebar-hidden">Home</div>
                 </a>
             </li>
+            {{#if user}}
             <li class="nav-item">
                 <a class="nav-link" href="/mycourse">
                     <span class="nav-icon material-symbols-rounded">library_books</span>
                     <div class="sidebar-hidden">My Courses</div>
                 </a>
             </li>
+            {{/if}}
             <li class="nav-item">
                 <a class="nav-link" href="/forum">
                     <span class="nav-icon material-symbols-rounded">forum</span>
                     <div class="sidebar-hidden">Forum</div>
                 </a>
             </li>
+    
             {{!-- Instructor Page --}}
             <div class="sidebar-hidden sidebar-subtext">Instructor</div>
             <li class="nav-item">
@@ -35,6 +40,7 @@
                     <div class="sidebar-hidden">Manage Courses</div>
                 </a>
             </li>
+
             {{!-- Admin Page --}}
             <div class="sidebar-hidden sidebar-subtext">Admin</div>
             <li class="nav-item">
@@ -65,6 +71,14 @@
                     <div class="sidebar-hidden">FAQ</div>
                 </a>
             </li>
+            {{#if user}}
+            <li class="nav-item">
+                <a class="nav-link" href="/user/logout">
+                    <span class="nav-icon material-symbols-rounded">logout</span>
+                    <div class="sidebar-hidden">Logout</div>
+                </a>
+            </li>
+            {{/if}}
         </ul>
     </div>
 </aside>
