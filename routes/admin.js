@@ -7,23 +7,23 @@ router.get('/manageAccounts', (req, res) => {
     User.findAll({
         raw: true
     })
-        .then((users) => {
-            res.render('./admin/accountManagement', { users });
+        .then((account) => {
+            res.render('./admin/accountManagement', { account });
         })
         .catch((err) => console.log(err));
 });
 
-router.post('/deleteAccount/:id', ensureAuthenticated, async function (req, res) {
+router.post('/deleteAccount/:id', ensureAuthenticated,  async function (req, res) {
     try {
         let user = await User.findByPk(req.params.id);
         if (!user) {
-            res.redirect('../../user/manageAccounts/');
+            res.redirect('../../admin/manageAccounts/');
             return;
         }
 
         let result = await User.destroy({ where: { id: user.id } });
         console.log(result + ' account deleted');
-        res.redirect('../../user/manageAccounts/');
+        res.redirect('../../admin/manageAccounts/');
     }
     catch (err) {
         console.log(err);

@@ -1,13 +1,13 @@
-<aside class="sidebar poppins open" data-sidebar>
+<aside class="sidebar poppins" data-sidebar>
+    {{#if user}}
     <div class="sidebar-head">
-        {{#if user}}
         <a href="/user/profile/{{user.id}}" class="profile-pic">
             <img src="/img/user.svg" alt="logo">
         </a>
         <div class=" sidebar-hidden fullname">{{user.email}}</div>
         <div class=" sidebar-hidden username">{{user.username}}</div>
-        {{/if}}
     </div>
+    {{/if}}
     <div class="sidebar-main">
         <ul class="nav-list">
             {{!-- General Page --}}
@@ -31,7 +31,8 @@
                     <div class="sidebar-hidden">Forum</div>
                 </a>
             </li>
-    
+
+            {{#if user}}
             {{!-- Instructor Page --}}
             <div class="sidebar-hidden sidebar-subtext">Instructor</div>
             <li class="nav-item">
@@ -61,6 +62,7 @@
                     <div class="sidebar-hidden">Manage Services</div>
                 </a>
             </li>
+            {{/if}}
         </ul>
     </div>
     <div class="sidebar-foot">

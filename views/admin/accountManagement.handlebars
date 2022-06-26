@@ -15,7 +15,8 @@
                 </tr>
             </thead>
             <tbody>
-                {{#each user}}
+                {{#if user}}
+                {{#each account}}
                 <tr>
                     {{!-- <td class="ps-3">{{user.get_fullname()}}</td> --}}
                     <td>{{email}}</td>
@@ -59,7 +60,7 @@
                                         </div>
                                         <!-- Modal body -->
                                         <div class="modal-body">
-                                            <p>Are you sure you want to permanently delete <strong>@{{username}}'s
+                                            <p>Are you sure you want to <strong>permanently delete @{{username}}'s
                                                     account</strong>. You cannot undo this action.</p>
                                         </div>
                                         <!-- Modal footer -->
@@ -75,6 +76,7 @@
                     </td>
                 </tr>
                 {{/each}}
+                {{/if}}
             </tbody>
         </table>
     </div>

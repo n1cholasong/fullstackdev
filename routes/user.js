@@ -81,7 +81,10 @@ router.get('/logout', (req, res, next) => {
     });
 })
 
-router.get('/profile/:id', (req, res) => {
+router.get('/profile/:id', async (req, res) => {
+    // future updgrades
+    // let user = await User.findByPk(req.params.id);
+    // console.log("Test: " + user.username);
     res.render('./user/profile');
 });
 

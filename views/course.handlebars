@@ -36,52 +36,108 @@
         <div class="card course-review">
             <b class="ps-3 pt-1">Rating and Review</b>
             <div class="container">
-                <div class="container d-flex justify-content-center buttons-c-f forum-create">
-                    <div class="button-wrapper">
-                        <button type="button" class="btn btn-primary create-button" data-bs-toggle="modal"
-                            data-bs-target="#createThread">
-                            Create A Review
-                        </button>
+                <div class="button-wrapper float-end pb-3">
+                    <button class="btn btn-main create-button" data-bs-toggle="modal" data-bs-target="#createThread">
+                        Create A Review
+                    </button>
+                </div>
+                {{#if reviews}}
+                {{#each reviews}}
+                <div class="card mx-auto">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex mb-3">
+                                <div class="d-flex align-items-center pe-3">
+                                    <a href="/user/profile/{{user.id}}" class="profile-pic">
+                                        <img src="/img/user.svg" alt="logo">
+                                    </a>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0">John Smith</h5>
+                                    <a href="/user/profile/{{user.id}}" class="d-inline-block">
+                                        @johnsmith123
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="dropdown user-management">
+                                <button class="btn icon" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end text">
+                                    <li>
+                                        <a class="dropdown-item" data-bs-toggle="modal"
+                                            data-bs-target="#editReview_{{id}}">
+                                            Edit Review
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/deleteReview/{{id}}" class="dropdown-item text-danger"
+                                            data-toggle="confirmation" data-title="Confirm delete?">
+                                            Delete Review
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="rating d-flex">
+                            <h3 class="pe-1">{{rating}}.0</h3>
+                            {{log rating}}
+                            <div id="star">
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                        {{#if review.length}}
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-10">
+                                {{!-- <b>Review</b> --}}
+                                <p>{{review}}</p>
+                            </div>
+                        </div>
+                        {{/if}}
                     </div>
                 </div>
 
-                <!-- The Modal -->
-                <div class="modal" id="createThread">
-                    <form action="/createReview" method="post">
+                <!-- Edit Review Modal -->
+                <div class="modal" id="editReview_{{id}}">
+                    <form action="/editReview/{{id}}" method="post">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
 
                                 <!-- Modal Header -->
                                 <div class="modal-header">
                                     <i class="fas fa-comments"></i>
-                                    <h4 class="modal-title">Write A Review</h4>
+                                    <h4 class="modal-title">Edit Review</h4>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
 
                                 <!-- Modal body -->
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label for="topic">Rating</label>
+                                        <label class="font-italic">Rating</label>
                                         <br>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" id="5" value="5" name="rating"
-                                                checked>
+                                                {{radioCheck rating "5" }}>
                                             <label class="form-check-label" for="5">5*</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" id="4" value="4" name="rating">
+                                            <input class="form-check-input" type="radio" id="4" value="4" name="rating"
+                                                {{radioCheck rating "4" }}>
                                             <label class="form-check-label" for="4">4*</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" id="3" value="3" name="rating">
+                                            <input class="form-check-input" type="radio" id="3" value="3" name="rating"
+                                                {{radioCheck rating "3" }}>
                                             <label class="form-check-label" for="3">3*</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" id="2" value="2" name="rating">
+                                            <input class="form-check-input" type="radio" id="2" value="2" name="rating"
+                                                {{radioCheck rating "2" }}>
                                             <label class="form-check-label" for="2">2*</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" id="1" value="1" name="rating">
+                                            <input class="form-check-input" type="radio" id="1" value="1" name="rating"
+                                                {{radioCheck review "1" }}>
                                             <label class="form-check-label" for="1">1*</label>
                                         </div>
                                     </div>
@@ -90,118 +146,18 @@
                                         <div class="form-group">
                                             <label class="font-italic" for="review">Review</label>
                                             <textarea class="form-control" id="review" name="review" rows="7"
-                                                maxlength="2000"></textarea>
+                                                maxlength="2000">{{review}}</textarea>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Modal footer -->
                                 <div class="modal-footer">
-                                    <button type="submit" value="Create" class="btn btn-primary">Create</button>
+                                    <button type="submit" value="Update" class="btn btn-primary">Update</button>
                                 </div>
                             </div>
                         </div>
                     </form>
-                </div>
-                {{#if reviews}}
-                {{#each reviews}}
-                <div class="card border-primary mb-2 w-100 mx-auto">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-12 col-lg-10">
-                                <p class="text-info">{{userName}}</p>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-10">
-                                <p class="font-italic">rating</p>
-                                <p class="text-info">{{rating}}</p>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-10">
-                                <p class="font-italic">Review</p>
-                                <p class="text-info">{{review}}</p>
-                            </div>
-                            <div class="col-lg-2">
-                                <p>
-                                    <!-- edit modal -->
-                                    <a href="#" class="card-link mb-2" type="button" data-bs-toggle="modal"
-                                        data-bs-target="#editThread">
-                                        <i class="fas fa-pencil-alt"></i>
-                                        Edit
-                                    </a>
-                                </p>
-                                <!-- The Modal -->
-                                <div class="modal" id="editThread">
-                                    <form action="/editReview/{{id}}" method="post">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-
-                                                <!-- Modal Header -->
-                                                <div class="modal-header">
-                                                    <i class="fas fa-comments"></i>
-                                                    <h4 class="modal-title">Edit Review</h4>
-                                                    <button type="button" class="btn-close"
-                                                        data-bs-dismiss="modal"></button>
-                                                </div>
-
-                                                <!-- Modal body -->
-                                                <div class="modal-body">
-                                                    <div class="form-group">
-                                                        <label class="font-italic">Rating</label>
-                                                        <br>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" id="5"
-                                                                value="5" name="rating" {{radioCheck rating "5" }}>
-                                                            <label class="form-check-label" for="5">5*</label>
-                                                        </div>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" id="4"
-                                                                value="4" name="rating" {{radioCheck rating "4" }}>
-                                                            <label class="form-check-label" for="4">4*</label>
-                                                        </div>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" id="3"
-                                                                value="3" name="rating" {{radioCheck rating "3" }}>
-                                                            <label class="form-check-label" for="3">3*</label>
-                                                        </div>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" id="2"
-                                                                value="2" name="rating" {{radioCheck rating "2" }}>
-                                                            <label class="form-check-label" for="2">2*</label>
-                                                        </div>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" id="1"
-                                                                value="1" name="rating" {{radioCheck review "1" }}>
-                                                            <label class="form-check-label" for="1">1*</label>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group mb-4">
-                                                        <div class="form-group">
-                                                            <label class="font-italic" for="review">Review</label>
-                                                            <textarea class="form-control" id="review" name="review"
-                                                                rows="7" maxlength="2000">{{review}}</textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Modal footer -->
-                                                <div class="modal-footer">
-                                                    <button type="submit" value="Update"
-                                                        class="btn btn-primary">Update</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <p>
-                                    <a href="/deleteReview/{{id}}" class="card-link" data-toggle="confirmation"
-                                        data-title="Confirm delete?">
-                                        <i class="far fa-trash-alt"></i>
-                                        Delete
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 {{/each}}
                 {{else}}
@@ -212,9 +168,66 @@
     </div>
 </div>
 
+<!-- Create Review Modal -->
+<div class="modal" id="createThread">
+    <form action="/createReview" method="post">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <i class="fas fa-comments"></i>
+                    <h4 class="modal-title">Write A Review</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="topic">Rating</label>
+                        <br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="5" value="5" name="rating" checked>
+                            <label class="form-check-label" for="5">5*</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="4" value="4" name="rating">
+                            <label class="form-check-label" for="4">4*</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="3" value="3" name="rating">
+                            <label class="form-check-label" for="3">3*</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="2" value="2" name="rating">
+                            <label class="form-check-label" for="2">2*</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="1" value="1" name="rating">
+                            <label class="form-check-label" for="1">1*</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <div class="form-group">
+                            <label class="font-italic" for="review">Review</label>
+                            <textarea class="form-control" id="review" name="review" rows="7"
+                                maxlength="2000"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" value="Create" class="btn btn-primary">Create</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 
 <script>
-	$('[data-toggle=confirmation]').confirmation({
-		rootSelector: '[data-toggle=confirmation]',
-	});
+    $('[data-toggle=confirmation]').confirmation({
+        rootSelector: '[data-toggle=confirmation]',
+    });
 </script>
