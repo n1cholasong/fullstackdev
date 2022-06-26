@@ -14,7 +14,7 @@
                         <h4 class="username">@{{user.username}}</h4>
                     </div>
                     <div class="edit-profile">
-                        <a href="#" id="edit" class="btn" role="button" onclick="editProfile()">Edit Profile</a>
+                        <a href="#" id="edit" class="btn btn-main" role="button" onclick="editProfile()">Edit Profile</a>
                     </div>
                 </div>
             </div>
@@ -89,7 +89,7 @@
                                                     value="{{user.username}}" required readonly>
                                             </div>
                                             <div id="cancel" class="button-group">
-                                                <button type="submit" class="btn btn-outline mt-2">Save
+                                                <button type="submit" id="saveChanges" class="btn btn-main mt-2">Save
                                                     Changes</button>
                                                 <button type="reset" class="btn btn-outline mt-2"
                                                     onclick="cancelProfile()">Cancel</button>
