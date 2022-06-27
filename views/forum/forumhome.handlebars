@@ -102,22 +102,21 @@
                                     <div class="edit-btn">
                                         <div class="button-wrapper">
                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#editThread">
+                                                data-bs-target="#editThread_{{id}}">
                                                 Edit
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="delete-btn">
-                                        <form method="post" action="/forum/deleteThread/{{id}}">
-                                            <input type="submit" value="Delete" class="btn">
-                                        </form>
+                                    <div class="btn">
+                                        <a class="dropdown-item text-danger" data-bs-toggle="modal"
+                                            data-bs-target="#deleteThread_{{id}}" role="button" class="delete-btn">Delete</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- The Modal -->
-                        <div class="modal" id="editThread">
+                        <div class="modal" id="editThread_{{id}}">
                             <form action="/forum/editThread/{{id}}" method="post" id="editforum">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
@@ -153,6 +152,34 @@
                                 </div>
                             </form>
                         </div>
+
+                        <!-- Delete Modal -->
+                        <form action="/forum/deleteThread/{{id}}" method="POST">
+                            <div class="modal fade" id="deleteThread_{{id}}" data-bs-backdrop="static"
+                                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="staticBackdropLabel">Delete Thread</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <!-- Modal body -->
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to <strong>permanently delete this thread</strong>. You cannot undo this action.</p>
+                                        </div>
+                                        <!-- Modal footer -->
+                                        <div class="modal-footer">
+                                            <input type="submit" value="Delete" class="btn btn-danger">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                         {{/each}}
                         {{/if}}
                     </div>

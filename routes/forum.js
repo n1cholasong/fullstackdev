@@ -29,7 +29,7 @@ router.post("/createThread", (req, res) => {
 
 router.post('/editThread/:id', (req, res) => {
     let topic = req.body.topic;
-    let description = req.body.description;
+    let description = req.body.thread_description;
 
     Forum.update(
         {
