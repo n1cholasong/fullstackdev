@@ -42,6 +42,7 @@
                         Create A Review
                     </button>
                 </div>
+
                 {{/if}}
                 {{#if reviews}}
                 {{#each reviews}}
@@ -55,9 +56,9 @@
                                     </a>
                                 </div>
                                 <div>
-                                    <h5 class="mb-0">John Smith</h5>
+                                    <h5 class="mb-0">{{userName}}</h5>
                                     <a href="/user/profile/{{user.id}}" class="d-inline-block">
-                                        @johnsmith123
+                                        @{{userName}}
                                     </a>
                                 </div>
                             </div>

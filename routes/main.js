@@ -28,11 +28,11 @@ router.get('/course', (req, res) => {
 router.post("/createReview", ensureAuthenticated, (req, res) => {
 	let review = req.body.review.slice(0, 1999);
 	let rating = req.body.rating;
-	// let userId = req.user.id;
-	// let userName = req.user.name;
+	let userId = req.user.id;
+	let userName = req.user.username;
 
 	Review.create(
-		{ review, rating }
+		{ review, rating, userId, userName }
 	)
 		.then((review) => {
 			console.log(review.toJSON());
