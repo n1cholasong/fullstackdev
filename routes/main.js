@@ -48,11 +48,11 @@ router.get('/deleteReview/:id', ensureAuthenticated, async function (req, res) {
 			res.redirect('/course');
 			return;
 		}
-		// if (req.user.id != review.userId) {
-		//     flashMessage(res, 'error', 'Unauthorised access');
-		//     res.redirect('/video/listVideos');
-		//     return;
-		// }
+		if (req.user.id != review.userId) {
+		    flashMessage(res, 'error', 'Unauthorised access');
+		    res.redirect('/course');
+		    return;
+		}
 
 		let result = await Review.destroy({ where: { id: review.id } });
 		console.log(result + ' Review deleted');
