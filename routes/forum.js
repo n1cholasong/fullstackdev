@@ -17,10 +17,11 @@ router.get("/", (req, res) => {
 router.post("/createThread", (req, res) => {
     let topic = req.body.topic;
     let description = req.body.thread_description;
+    let userId = req.user.id;
 
     Forum.create(
         {
-            topic, description
+            topic, description, userId
         }
     )
 
@@ -30,10 +31,11 @@ router.post("/createThread", (req, res) => {
 router.post('/editThread/:id', (req, res) => {
     let topic = req.body.topic;
     let description = req.body.thread_description;
+    let userId = req.user.id;
 
     Forum.update(
         {
-            topic, description
+            topic, description, userId
         },
         {where: {id: req.params.id}}
     )
