@@ -45,13 +45,12 @@ router.get('/deleteReview/:id', ensureAuthenticated, async function (req, res) {
 		let review = await Review.findByPk(req.params.id);
 		if (!review) {
 			flashMessage(res, 'error', 'Review not found');
-			res.redirect('/course');
-			return;
+			return res.redirect('/course');
+
 		}
 		if (req.user.id != review.userId) {
 		    flashMessage(res, 'error', 'Unauthorised access');
-		    res.redirect('/course');
-		    return;
+		    return res.redirect('/course');
 		}
 
 		let result = await Review.destroy({ where: { id: review.id } });
@@ -67,12 +66,10 @@ router.get('/deleteReview/:id', ensureAuthenticated, async function (req, res) {
 router.post('/editReview/:id', ensureAuthenticated,  (req, res) => {
 	let review = req.body.review.slice(0, 1999);
 	let rating = req.body.rating;
-	// let userId = req.user.id;
-	// let userName = req.user.name;
 
 
 	Review.update(
-		{ review, rating, },
+		{ review, rating},
 		{ where: { id: req.params.id } }
 	)
 		.then((result) => {

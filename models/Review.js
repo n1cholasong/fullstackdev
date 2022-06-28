@@ -3,7 +3,7 @@ const db = require('../config/DBConfig')
 
 const Review = db.define('review', {
     review: { type: Seqelize.STRING(2000) },
-    rating: { type: Seqelize.STRING },
+    rating: { type: Seqelize.INTEGER },
     userName: { type: Seqelize.STRING }
 });
 
