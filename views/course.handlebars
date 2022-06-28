@@ -62,9 +62,9 @@
                                     </a>
                                 </div>
                             </div>
-                        
+
                             <div class="dropdown user-management">
-                                
+
                                 <button class="btn icon" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fa-solid fa-ellipsis"></i>
                                 </button>
@@ -76,13 +76,14 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/deleteReview/{{id}}" class="dropdown-item text-danger"
-                                            data-toggle="confirmation" data-title="Confirm delete?">
+                                        <a class="dropdown-item text-danger card-link" data-bs-toggle="modal"
+                                            data-bs-target="#deleteReview_{{id}}">
                                             Delete Review
                                         </a>
                                     </li>
                                 </ul>
                             </div>
+
                         </div>
                         <div class="rating d-flex">
                             <h3 class="pe-1">{{rating}}.0</h3>
@@ -162,6 +163,26 @@
                             </div>
                         </div>
                     </form>
+                </div>
+                <!-- Edit Delete Modal -->
+                <div class="modal" id="deleteReview_{{id}}">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <i class="fas fa-comments"></i>
+                                <h4 class="modal-title">Delete Review</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">Are you sure you want to delete the review?</div>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <a href="/deleteReview/{{id}}" class="btn btn-primary">Delete</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 {{/each}}
                 {{else}}
