@@ -36,11 +36,13 @@
         <div class="card course-review">
             <b class="ps-3 pt-1">Rating and Review</b>
             <div class="container">
+                {{#if user}}
                 <div class="button-wrapper float-end pb-3">
                     <button class="btn btn-main create-button" data-bs-toggle="modal" data-bs-target="#createThread">
                         Create A Review
                     </button>
                 </div>
+                {{/if}}
                 {{#if reviews}}
                 {{#each reviews}}
                 <div class="card mx-auto">

@@ -60,7 +60,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // };
 
 const DBConnection = require('./config/DBConnection');
-DBConnection.setUpDB(false) // To set up database with new tables
+DBConnection.setUpDB(true) // To set up database with new tables
 
 // Enables session to be stored using browser's Cookie ID
 app.use(cookieParser());
