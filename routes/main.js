@@ -1,6 +1,7 @@
 const express = require('express');
 const Review = require("../models/Review");
 const router = express.Router();
+const ensureAuthenticated = require('../helpers/auth');
 const flashMessage = require('../helpers/messenger');
 
 
@@ -24,7 +25,7 @@ router.get('/course', (req, res) => {
 		.catch(err => console.log(err));
 });
 
-router.post("/createReview", (req, res) => {
+router.post("/createReview", ensureAuthenticated, (req, res) => {
 	let review = req.body.review.slice(0, 1999);
 	let rating = req.body.rating;
 	// let userId = req.user.id;
@@ -39,7 +40,7 @@ router.post("/createReview", (req, res) => {
 		})
 });
 
-router.get('/deleteReview/:id', async function (req, res) {
+router.get('/deleteReview/:id', ensureAuthenticated, async function (req, res) {
 	try {
 		let review = await Review.findByPk(req.params.id);
 		if (!review) {
@@ -63,7 +64,7 @@ router.get('/deleteReview/:id', async function (req, res) {
 });
 
 
-router.post('/editReview/:id', (req, res) => {
+router.post('/editReview/:id', ensureAuthenticated,  (req, res) => {
 	let review = req.body.review.slice(0, 1999);
 	let rating = req.body.rating;
 	// let userId = req.user.id;
