@@ -90,4 +90,23 @@ router.post('/flash', (req, res) => {
 	flashMessage(res, 'error', error2, 'fas fa-sign-in-alt', true);
 });
 
+router.get('/editReview/:id', ensureAuthenticated, (req, res) => {
+    Review.findByPk(req.params.id)
+        .then((review) => {
+            if (!review) {
+                flashMessage(res, 'error', 'Review not found');
+                res.redirect('/course');
+                return;
+            }
+            if (req.user.id != Review.userId) {
+                flashMessage(res, 'error', 'Unauthorised access');
+                res.redirect('/course');
+                return;
+            }
+
+            res.render('/editReview', { review });
+        })
+        .catch(err => console.log(err));
+});
+
 module.exports = router;
