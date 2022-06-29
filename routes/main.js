@@ -49,8 +49,8 @@ router.get('/deleteReview/:id', ensureAuthenticated, async function (req, res) {
 
 		}
 		if (req.user.id != review.userId) {
-		    flashMessage(res, 'error', 'Unauthorised access');
-		    return res.redirect('/course');
+			flashMessage(res, 'error', 'Unauthorised access');
+			return res.redirect('/course');
 		}
 
 		let result = await Review.destroy({ where: { id: review.id } });
@@ -63,16 +63,21 @@ router.get('/deleteReview/:id', ensureAuthenticated, async function (req, res) {
 });
 
 
-router.post('/editReview/:id', ensureAuthenticated,  (req, res) => {
+router.post('/editReview/:id', ensureAuthenticated, async (req, res) => {
 	let review = req.body.review.slice(0, 1999);
 	let rating = req.body.rating;
 
-
-	Review.update(
-		{ review, rating},
-		{ where: { id: req.params.id } }
-	)
+	await Review.findByPk(req.params.id)
 		.then((result) => {
+			if (req.user.id != result.userId) {
+				flashMessage(res, 'error', 'Unauthorised access');
+				res.redirect('/course');
+				return;
+			}
+			Review.update(
+				{ review, rating },
+				{ where: { id: req.params.id } }
+			)
 			console.log(result[0] + 'Review updated');
 			res.redirect('/course');
 		})
@@ -91,22 +96,22 @@ router.post('/flash', (req, res) => {
 });
 
 router.get('/editReview/:id', ensureAuthenticated, (req, res) => {
-    Review.findByPk(req.params.id)
-        .then((review) => {
-            if (!review) {
-                flashMessage(res, 'error', 'Review not found');
-                res.redirect('/course');
-                return;
-            }
-            if (req.user.id != Review.userId) {
-                flashMessage(res, 'error', 'Unauthorised access');
-                res.redirect('/course');
-                return;
-            }
+	Review.findByPk(req.params.id)
+		.then((review) => {
+			if (!review) {
+				flashMessage(res, 'error', 'Review not found');
+				res.redirect('/course');
+				return;
+			}
+			if (req.user.id != review.userId) {
+				flashMessage(res, 'error', 'Unauthorised access');
+				res.redirect('/course');
+				return;
+			}
 
-            res.render('/editReview', { review });
-        })
-        .catch(err => console.log(err));
+			res.render('/editReview', { review });
+		})
+		.catch(err => console.log(err));
 });
 
 module.exports = router;
