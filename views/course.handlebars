@@ -57,12 +57,12 @@
                                 </div>
                                 <div>
                                     <h5 class="mb-0">{{userName}}</h5>
-                                    <a href="/user/profile/{{user.id}}" class="d-inline-block">
+                                    <a href="/user/profile/{{../user.id}}" class="d-inline-block">
                                         @{{userName}}
                                     </a>
                                 </div>
                             </div>
-
+                            {{#if (equalsTo userId ../user.id)}}
                             <div class="dropdown user-management">
 
                                 <button class="btn icon" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -83,7 +83,22 @@
                                     </li>
                                 </ul>
                             </div>
+                            {{else}}
+                            <div class="dropdown user-management">
 
+                                <button class="btn icon" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end text">
+                                    <li>
+                                        <a class="dropdown-item" data-bs-toggle="modal"
+                                            data-bs-target="#editReview_{{id}}">
+                                            Report
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            {{/if}}
                         </div>
                         <div class="rating d-flex">
                             <h3 class="pe-1">{{rating}}.0</h3>
