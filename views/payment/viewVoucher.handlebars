@@ -27,18 +27,18 @@
             <td>{{quantity}}</td>
             <td><a href="/payment/updateVoucher/{{id}}" class="btn btn-warning">Update</a></td>
             <td>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+                <button type="button" class="btn btn-primary" data-bs-target="#exampleModalCenter{{id}}" data-bs-toggle="modal" >
                   Delete
                 </button>
             </td>
         </tr>
 
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="exampleModalCenter{{id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="exampleModalLongTitle">Delete?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -46,7 +46,7 @@
                 Confirm delete?
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                   <form method="POST" action="/payment/deleteVoucher/{{id}}">
                     <button type="submit" class="btn btn-primary">Yes</button>
                   </form>

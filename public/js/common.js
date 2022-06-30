@@ -22,6 +22,17 @@ function cancelProfile() {
    }
 }
 
+function checkRange() {
+   let perc = parseInt($('#perc').val());
+   let titleArr = [];
+   var initPerc = 0;
+   initPerc = perc >= 100 || perc < 0 ? perc >= 100? 100:0 : perc
+
+   $('#perc').val(initPerc);
+   }
+   
+
+
 // function saveChanges() {
 //    $("#saveChanges").prop('disabled', false);
 //    $("#saveChanges").removeClass('btn-outline');
