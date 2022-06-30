@@ -59,7 +59,7 @@ router.post('/updateVoucher/:id', (req, res) => {
     let name = req.body.name
     let desc = req.body.desc
     let perc = req.body.perc
-    let expiryDate = req.body.expiryDate.toString
+    let expiryDate = req.body.expiryDate.toString()
     let quantity = req.body.quantity
 
     Voucher.update(
