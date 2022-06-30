@@ -60,7 +60,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // };
 
 const DBConnection = require('./config/DBConnection');
-DBConnection.setUpDB(true) // To set up database with new tables
+DBConnection.setUpDB(false) // To set up database with new tables
 
 // Enables session to be stored using browser's Cookie ID
 app.use(cookieParser());
@@ -111,8 +111,6 @@ app.use('/forum', forumRoute);
 app.use('/user', userRoute);
 app.use('/admin', adminRoute);
 app.use('/payment', paymentRoute);
-
-
 
 /*
 * Creates a port for express server since we don't want our app to clash with well known

@@ -1,6 +1,7 @@
 const express = require('express');
 const Review = require("../models/Review");
 const router = express.Router();
+const ensureAuthenticated = require('../helpers/auth');
 const flashMessage = require('../helpers/messenger');
 
 
@@ -24,14 +25,14 @@ router.get('/course', (req, res) => {
 		.catch(err => console.log(err));
 });
 
-router.post("/createReview", (req, res) => {
+router.post("/createReview", ensureAuthenticated, (req, res) => {
 	let review = req.body.review.slice(0, 1999);
 	let rating = req.body.rating;
-	// let userId = req.user.id;
-	// let userName = req.user.name;
+	let userId = req.user.id;
+	let userName = req.user.username;
 
 	Review.create(
-		{ review, rating }
+		{ review, rating, userId, userName }
 	)
 		.then((review) => {
 			console.log(review.toJSON());
@@ -39,19 +40,18 @@ router.post("/createReview", (req, res) => {
 		})
 });
 
-router.get('/deleteReview/:id', async function (req, res) {
+router.get('/deleteReview/:id', ensureAuthenticated, async function (req, res) {
 	try {
 		let review = await Review.findByPk(req.params.id);
 		if (!review) {
 			flashMessage(res, 'error', 'Review not found');
-			res.redirect('/course');
-			return;
+			return res.redirect('/course');
+
 		}
-		// if (req.user.id != review.userId) {
-		//     flashMessage(res, 'error', 'Unauthorised access');
-		//     res.redirect('/video/listVideos');
-		//     return;
-		// }
+		if (req.user.id != review.userId) {
+			flashMessage(res, 'error', 'Unauthorised access');
+			return res.redirect('/course');
+		}
 
 		let result = await Review.destroy({ where: { id: review.id } });
 		console.log(result + ' Review deleted');
@@ -63,18 +63,21 @@ router.get('/deleteReview/:id', async function (req, res) {
 });
 
 
-router.post('/editReview/:id', (req, res) => {
+router.post('/editReview/:id', ensureAuthenticated, async (req, res) => {
 	let review = req.body.review.slice(0, 1999);
 	let rating = req.body.rating;
-	// let userId = req.user.id;
-	// let userName = req.user.name;
 
-
-	Review.update(
-		{ review, rating, },
-		{ where: { id: req.params.id } }
-	)
+	await Review.findByPk(req.params.id)
 		.then((result) => {
+			if (req.user.id != result.userId) {
+				flashMessage(res, 'error', 'Unauthorised access');
+				res.redirect('/course');
+				return;
+			}
+			Review.update(
+				{ review, rating },
+				{ where: { id: req.params.id } }
+			)
 			console.log(result[0] + 'Review updated');
 			res.redirect('/course');
 		})
@@ -90,6 +93,25 @@ router.post('/flash', (req, res) => {
 	flashMessage(res, 'info', message);
 	flashMessage(res, 'error', error);
 	flashMessage(res, 'error', error2, 'fas fa-sign-in-alt', true);
+});
+
+router.get('/editReview/:id', ensureAuthenticated, (req, res) => {
+	Review.findByPk(req.params.id)
+		.then((review) => {
+			if (!review) {
+				flashMessage(res, 'error', 'Review not found');
+				res.redirect('/course');
+				return;
+			}
+			if (req.user.id != review.userId) {
+				flashMessage(res, 'error', 'Unauthorised access');
+				res.redirect('/course');
+				return;
+			}
+
+			res.render('/editReview', { review });
+		})
+		.catch(err => console.log(err));
 });
 
 module.exports = router;
