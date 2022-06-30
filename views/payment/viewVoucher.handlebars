@@ -1,11 +1,8 @@
-<h1 class="display-4">Retrieve Coupon</h1>
+<div class="container">
+<h2>Retrieve Coupon</h1>
 
 <div>
-    <p>There are {{ count }} coupons</p>
-</div>
-
-<div>
-    <a href="/payment/createVoucher"><input type="button" value="Create new coupon"></a>
+    <a href="/payment/createVoucher"><button  class="btn btn-main" >Create new coupon</button></a>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -23,10 +20,10 @@
         <tbody>
         {{#each voucher}}
         <tr>
+            <td>{{id}}</td>
             <td>{{voucherName}}</td>
             <td>{{description}}</td>
-            <td>{{percentage}}</td>
-            <td>{{expiryDate}}</td>
+            <td>{{formatDate expiryDate 'YYYY-MM-DD'}}</td>
             <td>{{quantity}}</td>
             <td><a href="/payment/updateVoucher/{{id}}" class="btn btn-warning">Update</a></td>
             <td>
@@ -60,7 +57,7 @@
         {{/each}}
         </tbody>
     </table>
-    <div>
+    {{!-- <div>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -108,4 +105,5 @@
         {{/each}}
         </tbody>
     </table>
+</div> --}}
 </div>
