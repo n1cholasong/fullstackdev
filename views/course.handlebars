@@ -36,11 +36,14 @@
         <div class="card course-review">
             <b class="ps-3 pt-1">Rating and Review</b>
             <div class="container">
+                {{#if user}}
                 <div class="button-wrapper float-end pb-3">
                     <button class="btn btn-main create-button" data-bs-toggle="modal" data-bs-target="#createThread">
                         Create A Review
                     </button>
                 </div>
+
+                {{/if}}
                 {{#if reviews}}
                 {{#each reviews}}
                 <div class="card mx-auto">
@@ -53,13 +56,16 @@
                                     </a>
                                 </div>
                                 <div>
-                                    <h5 class="mb-0">John Smith</h5>
-                                    <a href="/user/profile/{{user.id}}" class="d-inline-block">
-                                        @johnsmith123
+                                    <h5 class="mb-0">{{userName}}</h5>
+                                    <a href="/user/profile/{{../user.id}}" class="d-inline-block">
+                                        @{{userName}}
                                     </a>
                                 </div>
                             </div>
+                            {{#if ../user}}
+                            {{#if (equalsTo userId ../user.id)}}
                             <div class="dropdown user-management">
+
                                 <button class="btn icon" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fa-solid fa-ellipsis"></i>
                                 </button>
@@ -71,20 +77,43 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/deleteReview/{{id}}" class="dropdown-item text-danger"
-                                            data-toggle="confirmation" data-title="Confirm delete?">
+                                        <a class="dropdown-item text-danger card-link" data-bs-toggle="modal"
+                                            data-bs-target="#deleteReview_{{id}}">
                                             Delete Review
                                         </a>
                                     </li>
                                 </ul>
                             </div>
+                            {{else}}
+                            <div class="dropdown user-management">
+
+                                <button class="btn icon" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end text">
+                                    <li>
+                                        <a class="dropdown-item" data-bs-toggle="modal"
+                                            data-bs-target="#editReview_{{id}}">
+                                            Report
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            {{/if}}
+                            {{/if}}
                         </div>
                         <div class="rating d-flex">
                             <h3 class="pe-1">{{rating}}.0</h3>
                             {{log rating}}
-                            <div id="star">
-                                <i class="fa-solid fa-star"></i>
+
+                            <div id="star">*
+                                {{star rating}}
+                                {{#each rating}}
+                                <i class="fa-solid fa-star">
+                                    
+                                {{/each}}
                             </div>
+
                         </div>
                         {{#if review.length}}
                         <div class="row">
@@ -96,7 +125,6 @@
                         {{/if}}
                     </div>
                 </div>
-
                 <!-- Edit Review Modal -->
                 <div class="modal" id="editReview_{{id}}">
                     <form action="/editReview/{{id}}" method="post">
@@ -153,11 +181,32 @@
 
                                 <!-- Modal footer -->
                                 <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                     <button type="submit" value="Update" class="btn btn-primary">Update</button>
                                 </div>
                             </div>
                         </div>
                     </form>
+                </div>
+                <!-- Edit Delete Modal -->
+                <div class="modal" id="deleteReview_{{id}}">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <i class="fas fa-comments"></i>
+                                <h4 class="modal-title">Delete Review</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">Are you sure you want to delete the review?</div>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <a href="/deleteReview/{{id}}" class="btn btn-primary">Delete</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 {{/each}}
                 {{else}}

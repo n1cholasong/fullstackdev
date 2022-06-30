@@ -62,7 +62,7 @@ router.post('/signup', async function (req, res) {
             // Create new user record
             var salt = bcrypt.genSaltSync(10);
             var hash = bcrypt.hashSync(password, salt);
-            var role = "test_role"
+            var role = "STUDENT"
             // Use hashed password
             let user = await User.create({ email, username, password: hash, role });
             flashMessage(res, 'success', email + ' registered successfully');

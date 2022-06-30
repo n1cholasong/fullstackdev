@@ -16,5 +16,17 @@ const radioCheck = function (value, radioValue) {
     return (value == radioValue) ? 'checked' : '';
 };
 
-module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck }
+const star = function (value) {
+    var result = ""
+    for (var i = 0; i < value; i++) {
+        result += '⭐'
+    };
+    return result;
+};
+
+const equalsTo = function (v1, v2) {
+    return (v1 == v2) ? true : false
+};
+
+module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck, star, equalsTo }
 
