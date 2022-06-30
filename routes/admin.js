@@ -14,7 +14,18 @@ router.get('/manageAccounts', (req, res) => {
 });
 
 router.get('/viewAccount/:id', async (req, res) => {
-    res.render('./admin/viewAccount');
+    User.findByPk(req.params.id)
+        .then((account) => {
+            if (!account) {
+                flashMessage(res, 'error', 'User not found');
+                res.redirect('./admin/viewAccount');
+                return;
+            }
+
+            res.render('./admin/viewAccount', { account });
+        })
+        .catch(err => console.log(err));
+
 });
 
 router.post('/deleteAccount/:id', ensureAuthenticated, async function (req, res) {

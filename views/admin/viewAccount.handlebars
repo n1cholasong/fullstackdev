@@ -9,9 +9,9 @@
                 </div>
                 <div class="col-9 d-flex flex-column justify-content-between">
                     <div class="profile-info">
-                        <span class="user-role">{{user.role}}</span>
+                        <span class="user-role">{{account.role}}</span>
                         <h1 class="fullname mb-0">John Smith</h1>
-                        <h4 class="username">@{{user.username}}</h4>
+                        <h4 class="username">@{{account.username}}</h4>
                     </div>
                 </div>
             </div>
@@ -43,7 +43,7 @@
             </div>
             <div class="row">
                 <div class="col me-5 mt-4">
-                    <div class="setting-tab py-4">
+                    {{!-- <div class="setting-tab py-4">
                         <!--Settings Tab-->
                         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
                             aria-orientation="vertical">
@@ -61,7 +61,7 @@
                                 aria-controls="change-password" aria-selected="false">Change Password
                             </button>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="col-9">
                     <div class="setting-body">
@@ -74,16 +74,16 @@
                                     <!--Update Account-->
                                     <div class="tab-pane fade show active" id="update-account" role="tabpanel"
                                         aria-labelledby="update-account-tab">
-                                        <form method="post" action="/user/updateAccount/{{user.id}}">
+                                        <form method="post" action="/user/updateAccount/{{account.id}}">
                                             <div class="form-group">
                                                 <label for="email">Email</label>
                                                 <input type="email" name="email" class="form-control"
-                                                    value="{{user.email}}" required readonly>
+                                                    value="{{account.email}}" required readonly>
                                             </div>
                                             <div class="form-group">
                                                 <label for="username">Username</label>
                                                 <input type="text" name="username" class="form-control"
-                                                    value="{{user.username}}" required readonly>
+                                                    value="{{account.username}}" required readonly>
                                             </div>
                                         </form>
                                     </div>
@@ -113,7 +113,7 @@
                                             <a href="/passwordUpdate/{{!user.id}}">
                                                 <input type="button" class="button" value="Change Password">
                                             </a>
-                                            <div class="text mt-3">Password was last updated on {{user.updatedAt}}
+                                            <div class="text mt-3">Password was last updated on {{account.updatedAt}}
                                             </div>
                                         </div>
                                     </div>
