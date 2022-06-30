@@ -13,7 +13,11 @@ router.get('/manageAccounts', (req, res) => {
         .catch((err) => console.log(err));
 });
 
-router.post('/deleteAccount/:id', ensureAuthenticated,  async function (req, res) {
+router.get('/viewAccount/:id', async (req, res) => {
+    res.render('./admin/viewAccount');
+});
+
+router.post('/deleteAccount/:id', ensureAuthenticated, async function (req, res) {
     try {
         let user = await User.findByPk(req.params.id);
         if (!user) {

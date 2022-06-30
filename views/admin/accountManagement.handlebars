@@ -29,7 +29,7 @@
                                 <i class="fas fa-ellipsis-v"></i>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end text">
-                                <li><a class="dropdown-item" href="/user/profile/{{id}}">View Profile</a></li>
+                                <li><a class="dropdown-item" href="/admin/viewAccount/{{id}}">View Profile</a></li>
                                 <li><a class="dropdown-item text-danger" data-bs-toggle="modal"
                                         data-bs-target="#staticBackdrop_{{id}}" role="button">Delete Account</a></li>
                                 {{!-- {% if user.get_user_role_str() == 'STUDENT' %}
@@ -39,7 +39,7 @@
                                 {% endif %}
                                 <li><a class="dropdown-item" href="/resetWarning/{{user.id}}">Reset Warnings</a></li>
                                 {% if session.id != user.id %}
-                                
+
                                 {% endif %} --}}
                             </ul>
                         </div>
