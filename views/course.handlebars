@@ -82,9 +82,15 @@
                         <div class="rating d-flex">
                             <h3 class="pe-1">{{rating}}.0</h3>
                             {{log rating}}
-                            <div id="star">
-                                <i class="fa-solid fa-star"></i>
+
+                            <div id="star">*
+                                {{star rating}}
+                                {{#each rating}}
+                                <i class="fa-solid fa-star">
+                                    
+                                {{/each}}
                             </div>
+
                         </div>
                         {{#if review.length}}
                         <div class="row">
