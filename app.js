@@ -112,8 +112,6 @@ app.use('/user', userRoute);
 app.use('/admin', adminRoute);
 app.use('/payment', paymentRoute);
 
-
-
 /*
 * Creates a port for express server since we don't want our app to clash with well known
 * ports such as 80 or 8080.
