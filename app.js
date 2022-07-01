@@ -103,6 +103,7 @@ const forumRoute = require('./routes/forum');
 const userRoute = require('./routes/user');
 const adminRoute = require('./routes/admin');
 const paymentRoute = require('./routes/payment');
+const courseRoute = require('./routes/courses');
 
 
 // Any URL with the pattern ‘/*’ is directed to routes/main.js
@@ -111,6 +112,7 @@ app.use('/forum', forumRoute);
 app.use('/user', userRoute);
 app.use('/admin', adminRoute);
 app.use('/payment', paymentRoute);
+app.use('/course',courseRoute);
 
 /*
 * Creates a port for express server since we don't want our app to clash with well known
