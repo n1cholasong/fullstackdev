@@ -3,11 +3,19 @@ const Review = require("../models/Review");
 const router = express.Router();
 const ensureAuthenticated = require('../helpers/auth');
 const flashMessage = require('../helpers/messenger');
+const Course = require('../models/Courses');
 
 
 router.get('/', (req, res,) => {
 	// renders views/index.handlebars, passing title as an object
-	res.render('index');
+	Course.findAll({
+        raw:true
+    }).then((Courses) => { 
+		console.log(Courses)
+		res.render('index',{Courses});
+    })
+    .catch(err => console.log(err));
+	
 });
 
 router.get('/mycourse', (req, res,) => {
