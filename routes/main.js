@@ -11,7 +11,6 @@ router.get('/', (req, res,) => {
 	Course.findAll({
         raw:true
     }).then((Courses) => { 
-		console.log(Courses)
 		res.render('index',{Courses});
     })
     .catch(err => console.log(err));
