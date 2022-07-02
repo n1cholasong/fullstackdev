@@ -32,6 +32,21 @@ router.get('/course', (req, res) => {
 		.catch(err => console.log(err));
 });
 
+router.get('/course/detail/:id', (req, res) => {
+	let course = Course.findByPk(req.params.id).then((course) => {
+		Review.findAll({
+			raw: true
+		})
+			.then((reviews) => {
+				// pass object to listVideos.handlebar
+				res.render('viewcourse', { reviews,course });
+			})
+			.catch(err => console.log(err));
+		}
+	);
+	
+});
+
 router.post("/createReview", ensureAuthenticated, (req, res) => {
 	let review = req.body.review.slice(0, 1999);
 	let rating = req.body.rating;
