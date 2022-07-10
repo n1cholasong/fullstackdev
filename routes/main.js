@@ -7,11 +7,12 @@ const Course = require('../models/Courses');
 
 
 router.get('/', (req, res,) => {
+	title = "Home";
 	// renders views/index.handlebars, passing title as an object
 	Course.findAll({
         raw:true
     }).then((Courses) => { 
-		res.render('index',{Courses});
+		res.render('index',{Courses, title});
     })
     .catch(err => console.log(err));
 	

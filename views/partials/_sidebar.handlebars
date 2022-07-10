@@ -92,6 +92,13 @@
                     <div class="sidebar-hidden">Logout</div>
                 </a>
             </li>
+            {{else}}
+            <li class="nav-item">
+                <a class="nav-link" href="/user/login">
+                    <span class="nav-icon material-symbols-rounded">login</span>
+                    <div class="sidebar-hidden">Login</div>
+                </a>
+            </li>
             {{/if}}
         </ul>
     </div>

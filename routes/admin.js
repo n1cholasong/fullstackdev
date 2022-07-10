@@ -4,11 +4,12 @@ const User = require('../models/User');
 const ensureAuthenticated = require("../helpers/auth");
 
 router.get('/manageAccounts', (req, res) => {
+    title = "Manage Account";
     User.findAll({
         raw: true
     })
         .then((account) => {
-            res.render('./admin/accountManagement', { account });
+            res.render('./admin/accountManagement', { account, title });
         })
         .catch((err) => console.log(err));
 });
@@ -21,8 +22,9 @@ router.get('/viewAccount/:id', async (req, res) => {
                 res.redirect('./admin/viewAccount');
                 return;
             }
+            title = `${account.username}'s Profile`;
 
-            res.render('./admin/viewAccount', { account });
+            res.render('./admin/viewAccount', { account, title });
         })
         .catch(err => console.log(err));
 

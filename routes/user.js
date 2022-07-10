@@ -7,7 +7,8 @@ const passport = require('passport');
 const ensureAuthenticated = require("../helpers/auth");
 
 router.get('/login', (req, res) => {
-    res.render('./user/login');
+    title = "Log in";
+    res.render('./user/login', { title });
 })
 
 router.post('/login', (req, res, next) => {
@@ -24,7 +25,8 @@ router.post('/login', (req, res, next) => {
 });
 
 router.get('/signup', (req, res) => {
-    res.render('./user/signup');
+    title = "Sign Up";
+    res.render('./user/signup', { title });
 })
 
 router.post('/signup', async function (req, res) {
@@ -85,7 +87,8 @@ router.get('/profile/:id', async (req, res) => {
     // future updgrades
     // let user = await User.findByPk(req.params.id);
     // console.log("Test: " + user.username);
-    res.render('./user/profile');
+    title = "My Profile";
+    res.render('./user/profile', { title });
 });
 
 router.post('/updateAccount/:id', (req, res) => {

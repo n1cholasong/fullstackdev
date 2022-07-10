@@ -5,7 +5,9 @@
 		</div>
 	</button>
 	<div class="container">
-		<a class="logo" href="/">Curodemy</a>
+		<a class="logo" href="/">
+			<span>Curodemy</span>
+		</a>
 		<div class="search-container">
 			<form action="" onsubmit="return false" class="d-flex flex-row align-items-center" role="search">
 				<input class="px-3" type="search" placeholder="Search" aria-label="Search">
@@ -15,7 +17,7 @@
 		<div class="button-group">
 			{{#if user}}
 			<div class="profile-menu">
-				<div>Hi, {{user.username}}!  
+				<div>Hi, {{user.username}}!
 					<span>
 						<a href="/user/profile/{{user.id}}" class="profile-pic d-inline-block">
 							<img src="/img/user.svg" alt="logo">

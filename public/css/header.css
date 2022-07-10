@@ -1,5 +1,6 @@
 .header {
     height: 64px;
+    flex-wrap: nowrap;
 }
 
 .header .search-container {
@@ -70,7 +71,7 @@
 }
 
 .header .button-group,
-.header .logo {
+.header .logo span{
     width: 190px;
 }
 
