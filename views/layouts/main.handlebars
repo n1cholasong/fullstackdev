@@ -56,6 +56,7 @@
 	{{!-- <link rel="stylesheet" href="/css/test.css"> --}}
 
 	{{!-- Site CSS--}}
+	<link rel="stylesheet" href="/css/responsive.css">
 	<link rel="stylesheet" href="/css/header.css">
 	<link rel="stylesheet" href="/css/sidebar.css">
 	<link rel="stylesheet" href="/css/style.css">
@@ -71,8 +72,11 @@
 	{{!-- Forum CSS --}}
 	<link rel="stylesheet" href="/css/forum/forumHome.css">
 
-
-	<title>Curodemy | {{title}}</title>
+	{{#if title}}
+	<title>{{title}} | Curodemy</title>
+	{{else}}
+	<title>Curodemy</title>
+	{{/if}}
 </head>
 
 <body>
