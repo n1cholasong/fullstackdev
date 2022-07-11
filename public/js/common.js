@@ -8,13 +8,13 @@ menuIconButton.addEventListener("click", () => {
 function editProfile() {
    $("#edit").hide();
    $("#cancel").show();
-   $(':input').prop('readonly', false);
+   $(':input').prop('disabled', false);
 }
 
 function cancelProfile() {
    $("#edit").show();
    $("#cancel").hide();
-   $(':input').prop('readonly', true);
+   $(':input').prop('disabled', true);
 
    var value = $(".form-control").innerHTML;
    if (value) {
