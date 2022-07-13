@@ -4,7 +4,7 @@ const Review = require('../models/Review')
 const Forum = require('../models/Forum');
 const Course = require('../models/Courses')
 const Voucher = require('../models/Voucher')
-
+const Quiz = require('../models/Quizes')
 
 // If drop is true, all existing tables are dropped and recreated 
 const setUpDB = (drop) => { 
@@ -17,7 +17,9 @@ const setUpDB = (drop) => {
         Forum.belongsTo(User);
         User.hasMany(Course);
         User.hasMany(Voucher);
-        Voucher.belongsToMany(User,{through: 'UserVouchers'})
+        Course.hasMany(Quiz);
+        Quiz.belongsTo(Course)
+        Voucher.belongsToMany(User,{through: 'UserVouchers'});
         Course.belongsToMany(User,{through: 'UserCourses'});
        // Course.belongsTo(User)
         mySQLDB.sync({ 

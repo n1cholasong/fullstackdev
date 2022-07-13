@@ -12,9 +12,10 @@ router.post('/create',(req,res)=>{
     let description = req.body.desc
     let content = req.body.content
     let price = req.body.Price
+    let uid = req.body.uid
 
     Course.create({
-        courseName:Coursename,description:description,content:content,price:price
+        courseName:Coursename,description:description,content:content,price:price,userId:uid
     })
     res.redirect('/course/view')
 })
@@ -39,9 +40,10 @@ router.post('/update/:id',(req,res) =>{
     let description = req.body.desc
     let content = req.body.content
     let price = req.body.Price
+    let uid = req.body.uid
 
     Course.update({
-        courseName:Coursename,description:description,content:content,price:price
+        courseName:Coursename,description:description,content:content,price:price,userId:uid
     },
     {where:{id:req.params.id}}
     ).then((result)=>{
