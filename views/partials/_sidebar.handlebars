@@ -11,21 +11,21 @@
     <div class="sidebar-main">
         <ul class="nav-list">
             {{!-- General Page --}}
-            <li class="nav-item active">
+            <li id="" class="nav-item">
                 <a class="nav-link" href="/">
                     <span class="nav-icon material-symbols-rounded">home</span>
                     <div class="sidebar-hidden">Home</div>
                 </a>
             </li>
             {{#if user}}
-            <li class="nav-item">
+            <li id="mycourse" class="nav-item">
                 <a class="nav-link" href="/mycourse">
                     <span class="nav-icon material-symbols-rounded">library_books</span>
                     <div class="sidebar-hidden">My Courses</div>
                 </a>
             </li>
             {{/if}}
-            <li class="nav-item">
+            <li id="forum" class="nav-item">
                 <a class="nav-link" href="/forum">
                     <span class="nav-icon material-symbols-rounded">forum</span>
                     <div class="sidebar-hidden">Forum</div>
@@ -50,19 +50,19 @@
                     <div class="sidebar-hidden">Dashboard</div>
                 </a>
             </li>
-            <li class="nav-item">
+            <li id="admin/manageAccounts" class="nav-item">
                 <a class="nav-link" href="/admin/manageAccounts">
                     <span class="nav-icon material-symbols-rounded">manage_accounts</span>
                     <div class="sidebar-hidden">Manage Users</div>
                 </a>
             </li>
-            <li class="nav-item">
+            <li id="payment/Vouchers" class="nav-item">
                 <a class="nav-link" href="/payment/Vouchers">
                     <span class="nav-icon material-symbols-rounded">local_offer</span>
                     <div class="sidebar-hidden">My Coupons</div>
                 </a>
             </li>
-            <li class="nav-item">
+            <li id="course/view" class="nav-item">
                 <a class="nav-link" href="/course/view">
                     <span class="nav-icon material-symbols-rounded">library_add</span>
                     <div class="sidebar-hidden">Manage Courses</div>
