@@ -69,3 +69,32 @@ function checkRange() {
 //    $(".sidebar .nav-item").find(".active").removeClass("active");
 //    $(this).addClass("active");
 // });
+
+// Display selected file name
+$(".custom-file-input").on("change", function () {
+   var fileName = $(this).val().split("\\").pop();
+   $(this).siblings(".custom-file-label").addClass("se-lected").html(fileName);
+});
+
+// Use fetch to call post route /video/upload
+$('#pictureUpload').on('change', function () {
+   let formdata = new FormData();
+   let image = $("#pictureUpload")[0].files[0];
+   formdata.append('pictureUpload', image);
+   fetch('/forum/upload', {
+      method: 'POST',
+      body: formdata
+   })
+      .then(res => res.json())
+      .then((data) => {
+         $('#picture').attr('src', data.file);
+         $('#pictureURL').attr('value', data.file); // sets posterURL hidden field
+         if (data.err) {
+            $('#pictureErr').show();
+            $('#pictureErr').text(data.err.message);
+         }
+         else {
+            $('#pictureErr').hide();
+         }
+      })
+});
