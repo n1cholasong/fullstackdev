@@ -19,7 +19,9 @@ const setUpDB = (drop) => {
         User.hasMany(Course);
         User.hasMany(Voucher);
         Course.hasMany(Quiz);
+        Course.hasMany(Review);
         //Decalring the child realtionship
+        Review.belongsTo(Course);
         Quiz.belongsTo(Course)
         Voucher.belongsToMany(User,{through: 'UserVouchers'});
         Course.belongsToMany(User,{through: 'UserCourses'});
