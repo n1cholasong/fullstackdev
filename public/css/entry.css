@@ -4,7 +4,8 @@
     /* display: flex; */
 }
 
-.admin .entry-card {
+.admin .entry-card,
+.forum .entry-card {
     /* height: calc(100vh - var(--header-height) - 2rem); */
     /*outline: 1px solid black;*/
     height: calc(100% - 1rem);
