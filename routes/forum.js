@@ -88,8 +88,7 @@ router.post('/upload', (req, res) => {
         }
         else {
             res.json({
-                file: `/uploads/${req.user.id}/${req.file.file -
-                    name}`
+                file: `/uploads/${req.user.id}/${req.file.filename}`
             });
         }
     });

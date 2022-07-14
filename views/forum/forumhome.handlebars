@@ -7,28 +7,28 @@
                         <ul class="navbar-nav d-flex flex-row align-items-center justify-content-evenly">
                             <li class="nav-item">
                                 <a class="nav-link" href="#">
-                                    <button type="button" class="btn btn-primary">
+                                    <button type="button" class="btn btn-main">
                                         HOT
                                     </button>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">
-                                    <button type="button" class="btn btn-primary">
+                                    <button type="button" class="btn btn-main">
                                         Recent
                                     </button>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">
-                                    <button type="button" class="btn btn-primary">
+                                    <button type="button" class="btn btn-main">
                                         Top
                                     </button>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">
-                                    <button type="button" class="btn btn-primary">
+                                    <button type="button" class="btn btn-main">
                                         My Threads
                                     </button>
                                 </a>
@@ -40,7 +40,7 @@
                     <div class="container d-flex justify-content-center buttons-c-f forum-create">
                         {{#if user }}
                         <div class="button-wrapper">
-                            <button type="button" class="btn btn-primary create-button" data-bs-toggle="modal"
+                            <button type="button" class="btn btn-main create-button" data-bs-toggle="modal"
                                 data-bs-target="#createThread">
                                 Create New Thread
                             </button>
@@ -116,7 +116,7 @@
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <p>Picture</p>
+                                        <img src="{{pictureURL}}" alt="Picture" class="img-thumbnail img-fluid mb-2" onerror="this.src='/img/no-image.jpg'" style="max-height:160px">
                                     </div>
                                 </div>
                                 <div class="thread-change">
