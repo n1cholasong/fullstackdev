@@ -13,7 +13,7 @@ const setUpDB = (drop) => {
         console.log('Database connected'); 
         /* Defines the relationship where a user has many videos. The primary key from user will be a foreign key in video. */ 
         User.hasMany(Forum);
-        User.hasMany(Review)
+        User.hasMany(Review);
         Forum.belongsTo(User);
         User.hasMany(Course);
         User.hasMany(Voucher);
