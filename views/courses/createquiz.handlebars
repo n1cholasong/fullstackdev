@@ -1,0 +1,50 @@
+<script src="/js/Quiz.js"></script>
+<div class="container">
+    <form method="POST">
+            <input type="hidden" name="cans" id="cans" value="">
+            <div class="form-group mt-2 mb-4">
+                <label for="question">Quiz Question: </label>
+                <input type="text" class="form-control" name="question" id="question" placeholder="Quiz Title">
+            </div>
+            <div class="form-group mt-2 mb-4">
+                <label for="description">Quiz Description: </label>
+                <input type="text" class="form-control" name="description" id="description" placeholder="Quiz Description">
+            </div>
+            <div class="option p-3" style="border: 2px solid #bcbcbc; border-radius: 5px;">
+                <div class="input-group mb-3">
+                    <div class="input-group-text">
+                        <input class="form-check-input mt-0" type="radio" value="" aria-label="Radio button for following text input" disabled>
+                    </div>
+                    <input type="text" id="popt1" placeholder="Option 1" name="ans1"  class="form-control" aria-label="Text input with radio button">
+                    <input type="button" onclick="checkans(1)"  value="Set Answer">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-text">
+                        <input class="form-check-input mt-0" type="radio" value="" aria-label="Radio button for following text input" disabled>
+                    </div>
+                    <input type="text" id="popt2" placeholder="Option 2" name="ans2"  class="form-control" aria-label="Text input with radio button">
+                    <input type="button" onclick="checkans(2)"  value="Set Answer">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-text">
+                        <input class="form-check-input mt-0" type="radio" value="" aria-label="Radio button for following text input" disabled>
+                    </div>
+                    <input type="text" id="popt3" placeholder="Option 3" name="ans3"  class="form-control" aria-label="Text input with radio button">
+                    <input type="button" onclick="checkans(3)"  value="Set Answer">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-text">
+                        <input class="form-check-input mt-0" type="radio" value="" aria-label="Radio button for following text input" disabled>
+                    </div>
+                    <input type="text" id="popt4"  placeholder="Option 4" name="ans4" class="form-control" aria-label="Text input with radio button">
+                    <input type="button" onclick="checkans(3)"  value="Set Answer">
+                </div>
+            </div>
+
+
+         
+            <div class="d-flex justify-content-between mt-2">
+                <button type="sumbit" class="btn btn-main" value="Save">Save</button>
+            </div>
+    </form>
+</div>
