@@ -1,20 +1,20 @@
 <div class="container login admin">
 	<div class="entry-card">
-		<div class="entry-card-body row">
+		<div class="row">
 			<div class="img-box col">
 				<img src="/img/administration/studying_rafiki.svg" alt="">
 			</div>
 			<div class="entry-box col">
 				<h2 class="mb-5">Welcome to <span class="logo">Curodemy</span></h2>
 				{{> _flashmsg }}
-				<form method="post" action="">
+				<form method="post" action="" class="entry-form">
 					<div class="form-group">
 						<label for="email">Email</label>
-						<input type="email" name="email" class="form-control" required>
+						<input type="email" name="email" id="email" class="form-control" required>
 					</div>
 					<div class="form-group">
 						<label for="password">Password</label>
-						<input type="password" name="password" class="form-control" required>
+						<input type="password" name="password" id="password" class="form-control" required>
 					</div>
 					<button type="submit" class="btn btn-main mt-2">Log in</button>
 					<p class="subtext mt-3">Not a member yet? <a href="/user/signup">Sign Up</a></p>

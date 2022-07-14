@@ -2,9 +2,9 @@
     <div class="banner text d-flex align-items-center mt-3">
         <div class="container d-flex justify-content-between">
             <div class="course-info">
-                <h1>Python 101</h1>
+                <h1>{{course.courseName}}</h1>
                 <a href="#">
-                    <p>@Username</p>
+                    <p>@{{lookup userdict course.userId}}</p>
                 </a>
                 <p class="ratings">
                     5.0
@@ -29,9 +29,11 @@
     <div class="container d-flex flex-column align-items-center">
         <div class="card course-content">
             <b class="ps-3 pt-1">Course Content</b>
+            <p class="ps-3 pt-1">{{course.content}}</p>
         </div>
         <div class="card course-description">
             <b class="ps-3 pt-1">Description</b>
+            <p class="ps-3 pt-1">{{course.description}}</p>
         </div>
         <div class="card course-review">
             <b class="ps-3 pt-1">Rating and Review</b>

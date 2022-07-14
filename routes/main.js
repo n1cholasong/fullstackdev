@@ -4,15 +4,27 @@ const router = express.Router();
 const ensureAuthenticated = require('../helpers/auth');
 const flashMessage = require('../helpers/messenger');
 const Course = require('../models/Courses');
+const User = require('../models/User')
+userdict = {}
 
-
-router.get('/', (req, res,) => {
+router.get('/', async function(req, res,)  {
 	title = "Home";
 	// renders views/index.handlebars, passing title as an object
+	//find all users and put them into a dict
+	await User.findAll({
+		raw:true
+	}).then((users) =>{
+		users.forEach(u => {
+			userdict[u.id] = u.username
+		});
+	})
+
+
 	Course.findAll({
         raw:true
-    }).then((Courses) => { 
-		res.render('index',{Courses, title});
+    }).then((Courses) => {
+		res.render('index',{Courses, title,userdict});
+		
     })
     .catch(err => console.log(err));
 	
@@ -22,13 +34,23 @@ router.get('/mycourse', (req, res,) => {
 	res.render('myCourse');
 });
 
-router.get('/course', (req, res) => {
+router.get('/course/details/:id', async function (req, res) {
+	let course = await Course.findByPk(req.params.id);
+	//find all users and put them into a dict
+	await User.findAll({
+		raw:true
+	}).then((users) =>{
+		users.forEach(u => {
+			userdict[u.id] = u.username
+		});
+	})
+
 	Review.findAll({
 		raw: true
 	})
 		.then((reviews) => {
 			// pass object to listVideos.handlebar
-			res.render('course', { reviews });
+			res.render('course', { reviews,course ,userdict});
 		})
 		.catch(err => console.log(err));
 });
