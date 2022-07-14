@@ -73,7 +73,7 @@ function checkRange() {
 // Display selected file name
 $(".custom-file-input").on("change", function () {
    var fileName = $(this).val().split("\\").pop();
-   $(this).siblings(".custom-file-label").addClass("se-lected").html(fileName);
+   $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 });
 
 // Use fetch to call post route /video/upload
