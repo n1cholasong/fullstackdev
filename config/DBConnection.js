@@ -14,12 +14,14 @@ const setUpDB = (drop) => {
         /* Defines the relationship where a user has many videos. The primary key from user will be a foreign key in video. */ 
        //Declaring the parent realtionship
         User.hasMany(Forum);
-        User.hasMany(Review)
+        User.hasMany(Review);
         Forum.belongsTo(User);
         User.hasMany(Course);
         User.hasMany(Voucher);
         Course.hasMany(Quiz);
+        Course.hasMany(Review);
         //Decalring the child realtionship
+        Review.belongsTo(Course);
         Quiz.belongsTo(Course)
         Voucher.belongsToMany(User,{through: 'UserVouchers'});
         Course.belongsToMany(User,{through: 'UserCourses'});

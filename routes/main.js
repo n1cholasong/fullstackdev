@@ -58,11 +58,12 @@ router.get('/course/details/:id', async function (req, res) {
 router.post("/createReview", ensureAuthenticated, (req, res) => {
 	let review = req.body.review.slice(0, 1999);
 	let rating = req.body.rating;
+	let CourseId = req.body.courseId;
 	let userId = req.user.id;
 	let userName = req.user.username;
 
 	Review.create(
-		{ review, rating, userId, userName }
+		{ review, rating, userId, userName, CourseId }
 	)
 		.then((review) => {
 			console.log(review.toJSON());
