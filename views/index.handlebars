@@ -1,8 +1,3 @@
-<script>
-	 Handlebars.registerHelper('userDict', function(block) {
-    return userdict; //just return global variable value
-  });
-</script>
 <div class="container home">
 	<div class="featured-courses">
 		<h1 class="heading">Featured Courses</h1>
@@ -41,7 +36,7 @@
 	<div class="trending d-flex flex-row mb-5">
 		
 		{{#each Courses}}
-		<a class="card-link me-4" href="/course">
+		<a class="card-link me-4" href="/course/details/{{id}}">
 			<div class="card" style="width: 18rem;">
 				<img src="/img/carousel/grassland.jpg" class="card-img-top" alt="...">
 				<div class="card-body">
