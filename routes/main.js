@@ -4,15 +4,27 @@ const router = express.Router();
 const ensureAuthenticated = require('../helpers/auth');
 const flashMessage = require('../helpers/messenger');
 const Course = require('../models/Courses');
+const User = require('../models/User')
 
 
-router.get('/', (req, res,) => {
+router.get('/', async function(req, res,)  {
 	title = "Home";
+	userdict = {}
 	// renders views/index.handlebars, passing title as an object
+	await User.findAll({
+		raw:true
+	}).then((users) =>{
+		users.forEach(u => {
+			userdict[u.id] = u.username
+		});
+	})
+
+
 	Course.findAll({
         raw:true
-    }).then((Courses) => { 
-		res.render('index',{Courses, title});
+    }).then((Courses) => {
+		res.render('index',{Courses, title,userdict});
+		
     })
     .catch(err => console.log(err));
 	
