@@ -31,7 +31,7 @@ router.get('/signup', (req, res) => {
 
 router.post('/signup', async function (req, res) {
     let { email, username, password, password2, fname, lname, gender, birthday, country, } = req.body;
-    let interest = req.body.interest.toString();
+    // let interest = req.body.interest.toString();
     let isValid = true;
 
     if (password.length < 6) {
@@ -46,7 +46,7 @@ router.post('/signup', async function (req, res) {
 
     if (!isValid) {
         res.render('user/signup', {
-            email, username, fname, lname, gender, birthday, country, interest
+            email, username, fname, lname, gender, birthday, country
         });
         return;
     }
@@ -58,7 +58,7 @@ router.post('/signup', async function (req, res) {
             // If user is found, that means email has already been registered
             flashMessage(res, 'error', email + ' alreay registered');
             res.render('user/signup', {
-                email, username, fname, lname, gender, birthday, country, interest
+                email, username, fname, lname, gender, birthday, country
             });
         }
         else {
@@ -66,7 +66,7 @@ router.post('/signup', async function (req, res) {
             var salt = bcrypt.genSaltSync(10);
             var hash = bcrypt.hashSync(password, salt);
             var role = "STUDENT";
-            var status = null;
+            var status = undefined;
             // Use hashed password
             let user = await User.create({
                 email,
@@ -75,9 +75,7 @@ router.post('/signup', async function (req, res) {
                 fname,
                 lname,
                 gender,
-                birthday,
                 country,
-                interest,
                 status,
                 role
             });
