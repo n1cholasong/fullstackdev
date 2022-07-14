@@ -48,6 +48,7 @@
                 {{/if}}
                 {{#if reviews}}
                 {{#each reviews}}
+                {{#if (equalsTo CourseId ../course.id)}}
                 <div class="card mx-auto">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
@@ -112,7 +113,6 @@
                                 {{star rating}}
                                 {{#each rating}}
                                 <i class="fa-solid fa-star">
-
                                     {{/each}}
                             </div>
 
@@ -127,6 +127,7 @@
                         {{/if}}
                     </div>
                 </div>
+                {{/if}}
                 <!-- Edit Review Modal -->
                 <div class="modal" id="editReview_{{id}}">
                     <form action="/editReview/{{id}}" method="post">
@@ -179,7 +180,6 @@
                                                 maxlength="2000">{{review}}</textarea>
                                         </div>
                                     </div>
-
 
                                 </div>
 
