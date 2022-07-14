@@ -6,7 +6,11 @@ const formatDate = function (date, targetFormat) {
 
 const replaceCommas = function (value) {
     return value ? value.replace(/,/g, ' | ') : 'None';
-}
+};
+
+const selectOption = function(value, selectValue) {
+    return (value == selectValue) ? 'selected' : '';
+};
 
 const checkboxCheck = function (value, checkboxValue) {
     return (value.search(checkboxValue) >= 0) ? 'checked' : '';
@@ -28,5 +32,9 @@ const equalsTo = function (v1, v2) {
     return (v1 == v2) ? true : false
 };
 
-module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck, star, equalsTo }
+const firstChar = function (str) {
+    return str[0];
+};
+
+module.exports = { formatDate, replaceCommas, selectOption, checkboxCheck, radioCheck, star, equalsTo, firstChar }
 

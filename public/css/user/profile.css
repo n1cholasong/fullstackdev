@@ -77,6 +77,8 @@
 .profile .user-info .info-icon .fa-solid {
     font-size: 1rem;
     margin-right: .75rem;
+    text-align: center;
+    width: 18px;
 }
 
 .profile .setting-tab {

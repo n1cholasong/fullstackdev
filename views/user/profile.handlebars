@@ -3,13 +3,13 @@
         <div class="row">
             <div class="col">
                 <div class="profile-pic">
-                    <div class="default-profile-pic">JS</div>
+                    <div class="default-profile-pic">{{firstChar user.fname}}{{firstChar user.lname}}</div>
                 </div>
             </div>
             <div class="col-9 d-flex flex-column justify-content-between">
                 <div class="profile-info">
                     <span class="user-role">{{user.role}}</span>
-                    <h1 class="fullname mb-0">John Smith</h1>
+                    <h1 class="fullname mb-0">{{user.fname}} {{user.lname}}</h1>
                     <h4 class="username">@{{user.username}}</h4>
                 </div>
                 <div class="edit-profile">
@@ -23,24 +23,22 @@
                 <div class="user-info">
                     <div class="info-icon">
                         <i class="fa-solid fa-location-dot"></i>
-                        <span>Singapore</span>
+                        <span>{{user.country}}</span>
                     </div>
                     <div class="info-icon">
                         <i class="fa-solid fa-cake-candles"></i>
-                        <span>20 July</span>
+                        <span>{{formatDate user.birthday 'D MMMM'}}</span>
                     </div>
                     <div class="info-icon">
                         <i class="fa-solid fa-calendar-days"></i>
-                        <span>Joined July 2020</span>
+                        <span>Joined {{formatDate user.createdAt 'MMMM YYYY'}}</span>
                     </div>
                 </div>
             </div>
             <div class="col-9">
                 <div class="about-me">
                     <h5 class="section-title">About Me</h5>
-                    <div class="bio">
-                        AHHHHHHHHHHHHHHHHHH
-                    </div>
+                    <div class="bio">{{user.status}}</div>
                 </div>
             </div>
         </div>
@@ -78,7 +76,7 @@
                                     aria-labelledby="update-account-tab">
                                     <form method="post" action="/user/updateAccount/{{user.id}}" class="entry-form">
                                         <div class="form-group">
-                                            <label for="email">Email</label>
+                                            <label for="email">Email<span class="text-danger">*</span></label>
                                             <input type="email" name="email" class="form-control" value="{{user.email}}"
                                                 required disabled>
                                         </div>
@@ -86,36 +84,37 @@
                                             <div class="form-group">
                                                 <label for="fname">First Name<span class="text-danger">*</span></label>
                                                 <input type="text" name="fname" id="fname" class="form-control"
-                                                    required disabled>
+                                                    value="{{user.fname}}" required disabled>
                                             </div>
                                             <div class="form-group">
                                                 <label for="lname">Last Name<span class="text-danger">*</span></label>
                                                 <input type="text" name="lname" id="lname" class="form-control"
-                                                    required disabled>
+                                                    value="{{user.lname}}" required disabled>
                                             </div>
                                         </div>
                                         <div id="input-row-2" class="form-group">
                                             <label for="username">Username<span class="text-danger">*</span></label>
                                             <input type="text" name="username" id="username" class="form-control"
-                                                value="{{username}}" required disabled>
+                                                value="{{user.username}}" required disabled>
                                         </div>
                                         <div id="input-row-3">
                                             <div class="form-group">
                                                 <label for="gender">Gender</label>
                                                 <select name="gender" id="gender" class="form-select" disabled>
                                                     <option value="null"></option>
-                                                    <option value="M">Male</option>
-                                                    <option value="F">Female</option>
+                                                    <option value="M" {{selectOption user.gender "M"}}>Male</option>
+                                                    <option value="F" {{selectOption user.gender "F"}}>Female</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="birthday">Birthday</label>
-                                                <input type="date" name="birthday" id="birthday" class="form-control" disabled>
+                                                <input type="date" name="birthday" id="birthday" class="form-control" value="{{user.birthday}}"
+                                                    disabled>
                                             </div>
                                         </div>
                                         <div id="input-row-4" class="form-group">
-                                            <label for="nationality">Nationality</label>
-                                            <select id="nationality" name="nationality" class="form-select" disabled>
+                                            <label for="country">Country</label>
+                                            <select id="country" name="country" class="form-select" disabled>
                                                 <option value="null"></option>
                                                 <option value="AF">Afghanistan</option>
                                                 <option value="AX">Aland Islands</option>
