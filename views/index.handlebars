@@ -34,13 +34,16 @@
 	
 	<h1 class="heading">Trending</h1>
 	<div class="trending d-flex flex-row mb-5">
+		
 		{{#each Courses}}
-		<a class="card-link me-4" href="/course">
+		<a class="card-link me-4" href="/course/details/{{id}}">
 			<div class="card" style="width: 18rem;">
 				<img src="/img/carousel/grassland.jpg" class="card-img-top" alt="...">
 				<div class="card-body">
 					<h5 class="card-title m-0">{{courseName}}</h5>
-					<p class="username">@Username</p>
+					<p class="username">
+						@{{lookup ../userdict userId}}
+					</p>
 					<p class="ratings">
 						5.0
 						<span class="star">

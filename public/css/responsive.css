@@ -4,6 +4,14 @@
     .header .button-group {
         display: none;
     }
+
+    .admin .entry-card {
+        flex-direction: column;
+    }
+
+    .admin .entry-card .img-box {
+        display: none;
+    }
 }
 
 
