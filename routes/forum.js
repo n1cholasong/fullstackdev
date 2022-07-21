@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const flashMessage = require('../helpers/messenger');
 const Forum = require('../models/Forum');
 const User = require('../models/User');
 require('dotenv').config;
@@ -27,16 +28,37 @@ router.get("/", (req, res) => {
 
 });
 
+router.get("/mythreads", (req, res) => {
+    Forum.findAll({
+        include: User,
+        raw: true,
+        where: { status: 1, userId : req.user.id } 
+    })
+        .then((thread) => {
+            // if (thread.userId == User.id) {
+            //     editable = true
+            // }
+            // else{
+            //     editable = false
+            // }
+
+            res.render('forum/forumhome', { thread });
+        })
+        .catch(err => console.log(err));
+
+});
+
 router.post("/createThread", (req, res) => {
     let topic = req.body.topic;
     let description = req.body.thread_description;
     let userId = req.user.id;
     let pictureURL = req.body.pictureURL;
     let status = 1;
+    let likes = 0;
 
     Forum.create(
         {
-            topic, description, pictureURL, status, userId
+            topic, description, pictureURL, status, likes, userId
         }
     )
 
@@ -51,10 +73,12 @@ router.post('/editThread/:id', async function (req, res) {
     let userId = req.user.id;
     let pictureURL = req.body.pictureURL;
     if (!forum) {
+        flashMessage(res, 'error', 'This is not a forum.');
         res.redirect('/forum/');
         return;
     }
     if (req.user.id != forum.userId) {
+        flashMessage(res, 'error', 'This is not your forum.');
         res.redirect('/forum/');
         return;
     }
@@ -66,6 +90,7 @@ router.post('/editThread/:id', async function (req, res) {
     )
         .then((result) => {
             console.log(result[0] + ' thread updated');
+            flashMessage(res, 'success', 'Forum' + forum.topic + 'updated');
             res.redirect('/forum/');
         })
         .catch(err => console.log(err));
@@ -76,10 +101,12 @@ router.post('/deleteThread/:id', async function (req, res) {
         let forum = await Forum.findByPk(req.params.id);
         let status = 0;
         if (!forum) {
+            flashMessage(res, 'error', 'This is not a forum.');
             res.redirect('/forum/');
             return;
         }
         if (req.user.id != forum.userId) {
+            flashMessage(res, 'error', 'This is not your forum.');
             res.redirect('/forum/');
             return;
         }
