@@ -13,7 +13,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="/forum/">
                                     <button type="button" class="btn btn-main">
                                         Recent
                                     </button>
@@ -27,7 +27,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="/forum/mythreads">
                                     <button type="button" class="btn btn-main">
                                         My Threads
                                     </button>
@@ -36,7 +36,7 @@
                         </ul>
                     </div>
 
-
+                    {{> _flashmsg }}
                     <div class="container d-flex justify-content-center buttons-c-f forum-create">
                         {{#if user }}
                         <div class="button-wrapper">
@@ -123,7 +123,6 @@
                                 </div>
                                 
                                 <div class="thread-change">
-                                    {{#if user}}
                                     <div class="edit-btn">
                                         <div class="button-wrapper">
                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -137,7 +136,6 @@
                                             data-bs-target="#deleteThread_{{id}}" role="button"
                                             class="delete-btn">Delete</a>
                                     </div>
-                                    {{/if}}
                                 </div>
                                 
                             </div>
