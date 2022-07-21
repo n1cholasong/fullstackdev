@@ -10,9 +10,17 @@ const upload = require('../helpers/imageUpload');
 router.get("/", (req, res) => {
     Forum.findAll({
         include: User,
-        raw: true
+        raw: true,
+        where: { status: 1 } 
     })
         .then((thread) => {
+            // if (thread.userId == User.id) {
+            //     editable = true
+            // }
+            // else{
+            //     editable = false
+            // }
+
             res.render('forum/forumhome', { thread });
         })
         .catch(err => console.log(err));
@@ -24,22 +32,32 @@ router.post("/createThread", (req, res) => {
     let description = req.body.thread_description;
     let userId = req.user.id;
     let pictureURL = req.body.pictureURL;
+    let status = 1;
 
     Forum.create(
         {
-            topic, description, pictureURL, userId
+            topic, description, pictureURL, status, userId
         }
     )
 
     res.redirect('/forum/')
 });
 
-router.post('/editThread/:id', (req, res) => {
+router.post('/editThread/:id', async function (req, res) {
+    let forum = await Forum.findByPk(req.params.id);
+
     let topic = req.body.topic;
     let description = req.body.thread_description;
     let userId = req.user.id;
     let pictureURL = req.body.pictureURL;
-
+    if (!forum) {
+        res.redirect('/forum/');
+        return;
+    }
+    if (req.user.id != forum.userId) {
+        res.redirect('/forum/');
+        return;
+    }
     Forum.update(
         {
             topic, description, pictureURL, userId
@@ -56,15 +74,19 @@ router.post('/editThread/:id', (req, res) => {
 router.post('/deleteThread/:id', async function (req, res) {
     try {
         let forum = await Forum.findByPk(req.params.id);
+        let status = 0;
         if (!forum) {
             res.redirect('/forum/');
             return;
         }
-        // if (req.user.id != forum.userId) {
-        //     res.redirect('/forum/');
-        //     return;
-        // }
-        let result = await Forum.destroy({ where: { id: forum.id } });
+        if (req.user.id != forum.userId) {
+            res.redirect('/forum/');
+            return;
+        }
+        let result = await Forum.update({
+            status
+        },
+        ({ where: { id: forum.id } }));
         console.log(result + ' thread deleted');
         res.redirect('/forum/');
     }

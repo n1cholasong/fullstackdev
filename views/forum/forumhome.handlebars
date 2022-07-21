@@ -115,11 +115,15 @@
                                             <p>{{description}}</p>
                                         </div>
                                     </div>
+                                    {{#if pictureURL}}
                                     <div class="col">
                                         <img src="{{pictureURL}}" alt="Picture" class="img-thumbnail img-fluid mb-2" onerror="this.src='/img/no-image.jpg'" style="max-height:160px">
                                     </div>
+                                    {{/if}}
                                 </div>
+                                
                                 <div class="thread-change">
+                                    {{#if user}}
                                     <div class="edit-btn">
                                         <div class="button-wrapper">
                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -133,7 +137,9 @@
                                             data-bs-target="#deleteThread_{{id}}" role="button"
                                             class="delete-btn">Delete</a>
                                     </div>
+                                    {{/if}}
                                 </div>
+                                
                             </div>
                         </div>
 
