@@ -13,6 +13,18 @@ router.get('/quiz/create/:cid',(req,res)=>{
 })
 
 
+router.get('/quiz/view/:cid',(req,res)=>{
+    const cid = req.params.cid;
+    Quiz.findAll({
+        where: {
+            CourseId: cid
+          }
+    }).then((Quizes) => {
+        console.log(Quizes[0])
+        res.render('./courses/viewQuiz',{Quizes})
+    })
+})
+
 router.post('/quiz/create/:cid',(req,res)=>{
     let cid = req.params.cid;
     let question =  req.body.question;
