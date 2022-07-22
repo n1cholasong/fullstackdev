@@ -1,1 +1,3 @@
-# fullstackdev
+# Project: Curodemy
+
+# Dependencies 
