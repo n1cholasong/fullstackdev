@@ -13,6 +13,17 @@ router.get('/quiz/create/:cid',(req,res)=>{
 })
 
 
+router.get('/quiz/view/:cid',(req,res)=>{
+    const cid = req.params.cid;
+    Quiz.findAll({
+        where: {
+            CourseId: cid
+          }
+    }).then((Quizes) => {
+        res.render('./courses/viewQuiz',{Quizes})
+    })
+})
+
 router.post('/quiz/create/:cid',(req,res)=>{
     let cid = req.params.cid;
     let question =  req.body.question;
@@ -36,11 +47,10 @@ router.post('/create',(req,res)=>{
     let Coursename = req.body.Coursename;
     let description = req.body.desc
     let content = req.body.content
-    let price = req.body.Price
     let uid = req.body.uid
 
     Course.create({
-        courseName:Coursename,description:description,content:content,price:price,userId:uid
+        courseName:Coursename,description:description,content:content,userId:uid
     })
     res.redirect('/course/view')
 })

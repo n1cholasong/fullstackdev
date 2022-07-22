@@ -13,7 +13,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="/forum/">
                                     <button type="button" class="btn btn-main">
                                         Recent
                                     </button>
@@ -27,7 +27,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="/forum/mythreads">
                                     <button type="button" class="btn btn-main">
                                         My Threads
                                     </button>
@@ -36,7 +36,7 @@
                         </ul>
                     </div>
 
-
+                    {{> _flashmsg }}
                     <div class="container d-flex justify-content-center buttons-c-f forum-create">
                         {{#if user }}
                         <div class="button-wrapper">
@@ -115,10 +115,13 @@
                                             <p>{{description}}</p>
                                         </div>
                                     </div>
+                                    {{#if pictureURL}}
                                     <div class="col">
                                         <img src="{{pictureURL}}" alt="Picture" class="img-thumbnail img-fluid mb-2" onerror="this.src='/img/no-image.jpg'" style="max-height:160px">
                                     </div>
+                                    {{/if}}
                                 </div>
+                                
                                 <div class="thread-change">
                                     <div class="edit-btn">
                                         <div class="button-wrapper">
@@ -134,6 +137,7 @@
                                             class="delete-btn">Delete</a>
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
 

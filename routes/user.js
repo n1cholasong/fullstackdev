@@ -128,7 +128,7 @@ router.post('/updateAccount/:id', (req, res) => {
     console.log(birthday)
     User.update(
         {
-            email, fname, lname, username, gender, birthday
+            email, fname, lname, username, gender, country  
         },
         { where: { id: req.params.id } }
     )

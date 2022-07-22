@@ -1,6 +1,11 @@
 const moment = require('moment');
 const countryList = require('country-list');
 
+function setVariable(varName, varValue, options){
+    options.data.root[varName] = varValue;
+  };
+
+
 const formatDate = function (date, targetFormat) {
     return moment(date).format(targetFormat);
 };
@@ -37,14 +42,5 @@ const firstChar = function (str) {
     return str[0];
 };
 
-// const countrySelect = function(){
-//     const countryNameList = countryList.getNames();
-//     const countryCodeList = countryList.getCodes();
-
-//     for (const name in countryCodeList) {
-//         return `<option value="countryList.getCodes(name)">name</option>`;
-    
-// }
-
-module.exports = { formatDate, replaceCommas, selectOption, checkboxCheck, radioCheck, star, equalsTo, firstChar}
+module.exports = { formatDate, replaceCommas, selectOption, checkboxCheck, radioCheck, star, equalsTo, firstChar, setVariable }
 
