@@ -48,6 +48,7 @@
                 {{/if}}
                 {{#if reviews}}
                 {{#each reviews}}
+                {{!-- to make sure that only pull the current course review --}}
                 {{#if (equalsTo CourseId ../course.id)}}
                 <div class="card mx-auto">
                     <div class="card-body">
@@ -59,9 +60,9 @@
                                     </a>
                                 </div>
                                 <div>
-                                    <h5 class="mb-0">{{userName}}</h5>
+                                    <h5 class="mb-0">{{lookup ../fullname userId}}</h5>
                                     <a href="/user/profile/{{../user.id}}" class="d-inline-block">
-                                        @{{userName}}
+                                        @{{lookup ../userdict userId}}
                                     </a>
                                 </div>
                             </div>
@@ -269,6 +270,7 @@
                                 maxlength="2000"></textarea>
                         </div>
                     </div>
+                    <!-- To allow courseid to be stored insdie the body-->
                     <input id="courseId" name="courseId" type="hidden" value="{{course.id}}"></input>
                 </div>
 
