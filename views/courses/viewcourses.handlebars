@@ -10,7 +10,6 @@
             <th>Courses Name</th>
             <th>Description</th>
             <th>Content</th>
-            <th>Price</th>
 
 
             <th></th>
@@ -24,9 +23,9 @@
             <td>{{courseName}}</td>
             <td>{{description}}</td>
             <td>{{content}}</td>
-            <td>${{price}}</td>
             <td><a href="/course/update/{{id}}" class="btn btn-warning">Update</a></td>
             <td><a href="/course/quiz/create/{{id}}" class="btn btn-warning">Add Quiz</a></td>
+            <td><a href="/course/quiz/view/{{id}}" class="btn btn-warning">View Quiz</a></td>
             <td>
                 <button type="button" class="btn btn-primary" data-bs-target="#exampleModalCenter{{id}}" data-bs-toggle="modal" >
                   Delete

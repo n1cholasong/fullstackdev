@@ -49,7 +49,13 @@ router.post('/signup', async function (req, res) {
 
     if (!isValid) {
         res.render('user/signup', {
-            email, username, fname, lname, gender, birthday, country
+            email,
+            username,
+            fname,
+            lname,
+            gender,
+            birthday,
+            country
         });
         return;
     }
@@ -61,15 +67,17 @@ router.post('/signup', async function (req, res) {
             // If user is found, that means email has already been registered
             flashMessage(res, 'error', email + ' alreay registered');
             res.render('user/signup', {
-                email, username, fname, lname, gender, birthday, country
+                email, username, fname, lname, gender, birthday, country,
             });
         }
         else {
             // Create new user record
             var salt = bcrypt.genSaltSync(10);
             var hash = bcrypt.hashSync(password, salt);
-            var role = "STUDENT";
-            var status = undefined;
+
+            let interest = req.body.interest === undefined ? "" : req.body.interest.toString();
+            let role = "STUDENT";
+            let status = undefined;
             // Use hashed password
             let user = await User.create({
                 email,
@@ -78,7 +86,9 @@ router.post('/signup', async function (req, res) {
                 fname,
                 lname,
                 gender,
+                birthday,
                 country,
+                interest,
                 status,
                 role
             });
@@ -112,6 +122,8 @@ router.post('/updateAccount/:id', (req, res) => {
     let gender = req.body.gender;
     let birthday = moment(req.body.birthday).isValid() ? req.body.birthday : null;
     let country = req.body.country;
+
+    console.log(birthday)
     User.update(
         {
             email, fname, lname, username, gender, birthday, country
@@ -122,7 +134,9 @@ router.post('/updateAccount/:id', (req, res) => {
             console.log(result[0] + ' user updated');
             res.redirect('/user/profile/' + req.params.id);
         })
-        .catch(err => console.log(err));
+        .catch(err =>
+            console.log(err)
+        );
 });
 
 module.exports = router;

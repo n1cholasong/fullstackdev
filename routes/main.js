@@ -6,6 +6,7 @@ const flashMessage = require('../helpers/messenger');
 const Course = require('../models/Courses');
 const User = require('../models/User')
 userdict = {}
+fullname = {}
 
 router.get('/', async function(req, res,)  {
 	title = "Home";
@@ -42,15 +43,17 @@ router.get('/course/details/:id', async function (req, res) {
 	}).then((users) =>{
 		users.forEach(u => {
 			userdict[u.id] = u.username
+			fullname[u.id] = u.fname + ' ' + u.lname
 		});
 	})
 
 	Review.findAll({
+		where : {courseId : course.id},
 		raw: true
 	})
 		.then((reviews) => {
 			// pass object to listVideos.handlebar
-			res.render('course', { reviews,course ,userdict});
+			res.render('course', { reviews,course ,userdict, fullname});
 		})
 		.catch(err => console.log(err));
 });
@@ -60,10 +63,19 @@ router.post("/createReview", ensureAuthenticated, (req, res) => {
 	let rating = req.body.rating;
 	let CourseId = req.body.courseId;
 	let userId = req.user.id;
-	let userName = req.user.username;
+	// let userName = req.user.username;
+	// Review.findAll({
+	// 	include : User,
+	// 	where : {userId : userId},
+	// 	raw: true
+	// })
+	// .then((result) => {
+	// 	console.log(result);
+		
+	// })
 
 	Review.create(
-		{ review, rating, userId, userName, CourseId }
+		{ review, rating, userId, CourseId }
 	)
 		.then((review) => {
 			console.log(review.toJSON());

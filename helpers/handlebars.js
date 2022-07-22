@@ -1,6 +1,7 @@
 const moment = require('moment');
 const countryList = require('country-list');
 
+
 const formatDate = function (date, targetFormat) {
     return moment(date).format(targetFormat);
 };
@@ -9,7 +10,7 @@ const replaceCommas = function (value) {
     return value ? value.replace(/,/g, ' | ') : 'None';
 };
 
-const isSelected = function(value, selectValue) {
+const isSelected = function (value, selectValue) {
     return (value == selectValue) ? 'selected' : '';
 };
 
@@ -41,5 +42,9 @@ const getCountry = function (code) {
     return countryList.getName(code);
 };
 
-module.exports = { formatDate, replaceCommas, isSelected, checkboxCheck, radioCheck, star, equalsTo, firstChar, getCountry }
+function setVariable(varName, varValue, options) {
+    options.data.root[varName] = varValue;
+};
+
+module.exports = { formatDate, replaceCommas, isSelected, checkboxCheck, radioCheck, star, equalsTo, firstChar, getCountry, setVariable }
 
