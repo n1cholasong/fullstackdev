@@ -5,6 +5,8 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const ensureAuthenticated = require("../helpers/auth");
+const moment = require('moment');
+const countryList = require('country-list');
 
 router.get('/login', (req, res) => {
     title = "Log in";
@@ -26,7 +28,8 @@ router.post('/login', (req, res, next) => {
 
 router.get('/signup', (req, res) => {
     title = "Sign Up";
-    res.render('./user/signup', { title });
+    country = countryList.getData();
+    res.render('./user/signup', { title, country });
 })
 
 router.post('/signup', async function (req, res) {
@@ -96,11 +99,9 @@ router.get('/logout', (req, res, next) => {
 })
 
 router.get('/profile/:id', async (req, res) => {
-    // future updgrades
-    // let user = await User.findByPk(req.params.id);
-    // console.log("Test: " + user.username);
     title = "My Profile";
-    res.render('./user/profile', { title });
+    country = countryList.getData()
+    res.render('./user/profile', { title, country });
 });
 
 router.post('/updateAccount/:id', (req, res) => {
@@ -109,17 +110,17 @@ router.post('/updateAccount/:id', (req, res) => {
     let lname = req.body.lname;
     let username = req.body.username;
     let gender = req.body.gender;
-    let birthday = req.body.birthday;
+    let birthday = moment(req.body.birthday).isValid() ? req.body.birthday : null;
     let country = req.body.country;
     User.update(
         {
-            email, fname, lname, username, gender, country  
+            email, fname, lname, username, gender, birthday, country
         },
         { where: { id: req.params.id } }
     )
         .then((result) => {
             console.log(result[0] + ' user updated');
-            res.redirect('/user/profile/:id');
+            res.redirect('/user/profile/' + req.params.id);
         })
         .catch(err => console.log(err));
 });
