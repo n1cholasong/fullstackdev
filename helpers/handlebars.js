@@ -1,5 +1,10 @@
 const moment = require('moment');
 
+function setVariable(varName, varValue, options){
+    options.data.root[varName] = varValue;
+  };
+
+
 const formatDate = function (date, targetFormat) {
     return moment(date).format(targetFormat);
 };
@@ -36,5 +41,5 @@ const firstChar = function (str) {
     return str[0];
 };
 
-module.exports = { formatDate, replaceCommas, selectOption, checkboxCheck, radioCheck, star, equalsTo, firstChar }
+module.exports = { formatDate, replaceCommas, selectOption, checkboxCheck, radioCheck, star, equalsTo, firstChar, setVariable }
 

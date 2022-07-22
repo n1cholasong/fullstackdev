@@ -20,7 +20,6 @@ router.get('/quiz/view/:cid',(req,res)=>{
             CourseId: cid
           }
     }).then((Quizes) => {
-        console.log(Quizes[0])
         res.render('./courses/viewQuiz',{Quizes})
     })
 })
