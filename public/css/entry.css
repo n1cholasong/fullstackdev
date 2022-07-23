@@ -38,8 +38,13 @@
     align-items: center;
 }
 
+.entry-form textarea {
+    /* outline: 1px solid black; */
+}
+
 .entry-form input:focus,
-.entry-form select:focus {
+.entry-form select:focus,
+.entry-form textarea:focus {
     border: 0.1px solid #101010;
     box-shadow: none;
     border-color: unset;

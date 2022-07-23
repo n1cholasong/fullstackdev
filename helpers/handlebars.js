@@ -46,5 +46,16 @@ function setVariable(varName, varValue, options) {
     options.data.root[varName] = varValue;
 };
 
-module.exports = { formatDate, replaceCommas, isSelected, checkboxCheck, radioCheck, star, equalsTo, firstChar, getCountry, setVariable }
+module.exports = {
+    formatDate,
+    replaceCommas,
+    isSelected,
+    checkboxCheck,
+    radioCheck,
+    star,
+    equalsTo,
+    firstChar,
+    getCountry,
+    setVariable
+}
 

@@ -5,7 +5,7 @@
         <table id="userAccounts" class="table table-striped">
             <thead>
                 <tr>
-                    {{!-- <th class="ps-3">Name</th> --}}
+                    <th>Name</th>
                     <th>Email</th>
                     <th>Username</th>
                     <th>Role</th>
@@ -18,11 +18,11 @@
                 {{#if user}}
                 {{#each account}}
                 <tr>
-                    {{!-- <td class="ps-3">{{user.get_fullname()}}</td> --}}
+                    <td>{{fname}} {{lname}}</td>
                     <td>{{email}}</td>
                     <td>{{username}}</td>
                     <td>{{role}}</td>
-                    <td>{{updatedAt}}</td>
+                    <td>{{formatDate updatedAt 'LLL'}}</td>
                     <td>
                         <div class="dropdown user-management">
                             <button class="btn icon p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">

@@ -4,19 +4,26 @@
     /* background: rgb(0 100 0/0.1); */
 }
 
-.profile .entry-card-body {
+/* .profile .entry-card-body {
     padding: 2rem 5rem;
-}
+} */
 
 .profile .col {
-    /* outline: 1px solid; */
+    margin-top: 1rem;
     margin-left: 1rem;
+
+}
+
+.profile .col-9 {
+    margin-top: 1rem;
+    /* width: 100%; */
 }
 
 .profile .row {
     margin-bottom: 1.5rem;
 }
 
+.profile #cancelStatus,
 .profile #cancelProfile {
     display: none;
 }
@@ -65,7 +72,7 @@
     color: var(--granitegray);
     font-weight: 500;
     font-size: .9rem;
-    
+
 }
 
 .profile .user-info .info-icon {
@@ -88,7 +95,7 @@
     box-shadow: 0 0 5px rgb(0 0 0 /10%) inset;
 }
 
-.profile .setting-tab .nav-link{
+.profile .setting-tab .nav-link {
     text-align: left;
     font-weight: 500;
 }
@@ -104,4 +111,17 @@
 
 .profile .setting-tab .nav-link:hover:not(.active) {
     background-color: #DBDCDD;
+}
+
+.profile #status {
+    height: 120px;
+    resize: none;
+    /* outline: 1px solid; */
+}
+
+.profile #counter {
+    float: right;
+    padding: 0.1rem 0 0 0;
+    font-size: 0.875rem;
+    display: none;
 }
