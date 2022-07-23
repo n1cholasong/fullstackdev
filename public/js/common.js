@@ -25,20 +25,34 @@ menuIconButton.addEventListener("click", () => {
 })
 
 function editProfile() {
-   $("#edit").hide();
-   $("#cancel").show();
+   $("#editProfile").hide();
+   $("#cancelProfile").show();
    $(':input').prop('disabled', false);
 }
 
 function cancelProfile() {
-   $("#edit").show();
-   $("#cancel").hide();
+   $("#editProfile").show();
+   $("#cancelProfile").hide();
    $(':input').prop('disabled', true);
+   location.reload();
 
+   //Idk what is this ?? 
    var value = $(".form-control").innerHTML;
    if (value) {
 
    }
+}
+
+function editStatus() {
+   $("#editStatus").hide();
+   $("#cancelStatus").show();
+   $(':input').prop('disabled', false);
+}
+
+function cancelStatus() {
+   $("#editStatus").show();
+   $("#cancelStatus").hide();
+   $(':input').prop('disabled', true);
 }
 
 function checkRange() {

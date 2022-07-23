@@ -62,12 +62,12 @@
 				<div id="input-row-4" class="form-group">
 					<label for="country">Country</label>
 					<select id="country" name="country" class="form-select">
-						{{#select country}}
-							<option value=""></option>
-							{{#each country}}
-							<option value="{{this.code}}">{{this.name}}</option>
-							{{/each}}
-						{{/select}}
+
+						<option value=""></option>
+						{{#each country}}
+						<option value="{{this.code}}">{{this.name}}</option>
+						{{/each}}
+
 					</select>
 					<div>{{countrySelect}}</div>
 				</div>

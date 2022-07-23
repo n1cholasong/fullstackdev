@@ -12,9 +12,10 @@
                     <h1 class="fullname mb-0">{{user.fname}} {{user.lname}}</h1>
                     <h4 class="username">@{{user.username}}</h4>
                 </div>
-                <div class="edit-profile">
-                    <a href="#" id="edit" class="btn btn-main" role="button" onclick="editProfile()">Edit
-                        Profile</a>
+                <div class="edit-status">
+                    <button type="button" id="editStatus" class="btn btn-main" onclick="editStatus()">
+                        Edit Status
+                    </button>
                 </div>
             </div>
         </div>
@@ -129,10 +130,14 @@
                                                 {{/each}}
                                             </select>
                                         </div>
-                                        <div id="cancel" class="button-group">
-                                            <button type="submit" id="saveChanges" class="btn btn-main mt-2">Save
+                                        <div id="editProfile">
+                                            <button type="button" class="btn btn-main" onclick="editProfile()">Edit
+                                                Profile</button>
+                                        </div>
+                                        <div id="cancelProfile">
+                                            <button type="submit" id="saveChanges" class="btn btn-main">Save
                                                 Changes</button>
-                                            <button type="reset" class="btn btn-outline mt-2"
+                                            <button type="reset" class="btn btn-outline"
                                                 onclick="cancelProfile()">Cancel</button>
                                         </div>
                                     </form>
