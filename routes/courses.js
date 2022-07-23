@@ -24,6 +24,31 @@ router.get('/quiz/view/:cid',(req,res)=>{
     })
 })
 
+router.post('/quiz/view/:cid',(req,res)=>{
+    const cid = req.params.cid;
+    const form = req.body;
+    var points = 0
+    Quiz.findAll({
+        where: {
+            CourseId: cid
+          },raw: true
+    }).then((Quizes) => {
+
+        for(var i = 0;i < Quizes.length;i++)
+        {
+            // console.log(Quizes[i].correctans == form["anwser"+i])
+            if(Quizes[i].correctans == form["anwser"+i])
+            {
+                points += 1
+                console.log(points)
+            }
+        }
+
+        res.render('./courses/result',{points:points,maxpoint:Quizes.length})
+    })
+})
+
+
 router.post('/quiz/create/:cid',(req,res)=>{
     let cid = req.params.cid;
     let question =  req.body.question;
@@ -32,9 +57,24 @@ router.post('/quiz/create/:cid',(req,res)=>{
     let ans2 = req.body.ans2;
     let ans3 = req.body.ans3;
     let ans4 = req.body.ans4;
-    let correctans = req.body.cans
+    let correctans = req.body.cans;
 
-
+    if (correctans == "1")
+    {
+        correctans = ans1
+    }
+    else if(correctans == "2")
+    {
+        correctans = ans2
+    }
+    else if(correctans == "3")
+    {
+        correctans = ans3
+    }
+    else
+    {
+        correctans = ans4
+    }
 
     Quiz.create({
         question:question,description:description,a1:ans1,a2:ans2,a3:ans3,a4:ans4,correctans:correctans,CourseId:cid
