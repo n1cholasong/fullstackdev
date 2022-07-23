@@ -12,10 +12,8 @@
                     <h1 class="fullname mb-0">{{user.fname}} {{user.lname}}</h1>
                     <h4 class="username">@{{user.username}}</h4>
                 </div>
-                <div class="edit-status">
-                    <button type="button" id="editStatus" class="btn btn-main" onclick="editStatus()">
-                        Edit Status
-                    </button>
+                <div id="editStatus">
+                    <button type="button" class="btn btn-main" onclick="editStatus()">Edit Status</button>
                 </div>
             </div>
         </div>
@@ -43,7 +41,20 @@
             <div class="col-9">
                 <div class="about-me">
                     <h5 class="section-title">About Me</h5>
-                    <div class="bio">{{user.status}}</div>
+                    <form method="post" action="/user/updateStatus/{{user.id}}" id="updateStatus" class="entry-form">
+                        <div class="form-group">
+                            <textarea name="status" id="status" class="form-control" maxlength="300"
+                                placeholder="Write something about yourself..." disabled>{{user.status}}</textarea>
+                        </div>
+                        <div id="counter">
+                            <span id="current">0</span>
+                            <span id="maxLength">/ 300</span>
+                        </div>
+                        <div id="cancelStatus">
+                            <button type="submit" class="btn btn-main">Save Changes</button>
+                            <button type="reset" class="btn btn-outline" onclick="cancelStatus()">Cancel</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -79,7 +90,8 @@
                                 <!--Update Account-->
                                 <div class="tab-pane fade show active" id="update-account" role="tabpanel"
                                     aria-labelledby="update-account-tab">
-                                    <form method="post" action="/user/updateAccount/{{user.id}}" class="entry-form">
+                                    <form method="post" action="/user/updateAccount/{{user.id}}" id="updateProfile"
+                                        class="entry-form">
                                         <div class="form-group">
                                             <label for="email">Email<span class="text-danger">*</span></label>
                                             <input type="email" name="email" class="form-control" value="{{user.email}}"
@@ -130,17 +142,17 @@
                                                 {{/each}}
                                             </select>
                                         </div>
-                                        <div id="editProfile">
-                                            <button type="button" class="btn btn-main" onclick="editProfile()">Edit
-                                                Profile</button>
-                                        </div>
-                                        <div id="cancelProfile">
-                                            <button type="submit" id="saveChanges" class="btn btn-main">Save
-                                                Changes</button>
-                                            <button type="reset" class="btn btn-outline"
-                                                onclick="cancelProfile()">Cancel</button>
-                                        </div>
                                     </form>
+                                    <div id="editProfile">
+                                        <button type="button" class="btn btn-main" onclick="editProfile()">Edit
+                                            Profile</button>
+                                    </div>
+                                    <div id="cancelProfile">
+                                        <button type="submit" form="updateProfile" class="btn btn-main">Save
+                                            Changes</button>
+                                        <button type="button" class="btn btn-outline"
+                                            onclick="cancelProfile()">Cancel</button>
+                                    </div>
                                 </div>
                                 <!--Edit Profile Picture-->
                                 <div class="tab-pane fade" id="edit-profile-pic" role="tabpanel"
@@ -179,3 +191,13 @@
         </div>
     </div>
 </div>
+<script>
+    $('textarea').keyup(function () {
+        var characterCount = $(this).val().length,
+            current = $('#current'),
+            maxLength = $('#maxLength'),
+            counter = $('#counter');
+
+        current.text(characterCount);
+    });
+</script>
