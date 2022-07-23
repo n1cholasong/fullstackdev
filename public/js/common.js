@@ -2,20 +2,21 @@ const menuIconButton = document.querySelector("[data-menu-icon-btn]")
 const sidebar = document.querySelector("[data-sidebar]")
 
 //Active link checking
-$(function(){
+$(function () {
    var current = location.pathname;
    //console.log( $('.nav-item') )
    // var nav = $('#nav li ')
    // for (i=0;i<=nav.length;i++){
    //    console.log(nav[i].attr('href') )
    // }
-   $('.nav-item').each(function(){
-       var $this = $(this);
-       console.log($this.attr('id'))
-       // if the current path is like this link, make it active
-       if("/"+$this.attr('id') == current){
-           $this.addClass('active');
-       }
+   $('.nav-item').each(function () {
+      var $this = $(this);
+      // console.log($this.attr('id'));
+
+      // if the current path is like this link, make it active
+      if ("/" + $this.attr('id') == current) {
+         $this.addClass('active');
+      }
    })
 })
 
@@ -27,14 +28,18 @@ menuIconButton.addEventListener("click", () => {
 function editProfile() {
    $("#editProfile").hide();
    $("#cancelProfile").show();
-   $(':input').prop('disabled', false);
+   $("#updateProfile").each(function () {
+      $(this).find(':input').prop('disabled', false);
+   });
 }
 
 function cancelProfile() {
    $("#editProfile").show();
    $("#cancelProfile").hide();
-   $(':input').prop('disabled', true);
-   location.reload();
+   $("#updateProfile").each(function () {
+      $(this).find(':input').prop('disabled', true);
+   });
+   // location.reload();
 
    //Idk what is this ?? 
    var value = $(".form-control").innerHTML;
@@ -46,13 +51,18 @@ function cancelProfile() {
 function editStatus() {
    $("#editStatus").hide();
    $("#cancelStatus").show();
-   $(':input').prop('disabled', false);
+   $("#counter").show();
+   $('#status').prop('disabled', false);
+   // var current = $('#status').val().length
+   // return current 
 }
 
 function cancelStatus() {
    $("#editStatus").show();
    $("#cancelStatus").hide();
-   $(':input').prop('disabled', true);
+   $("#counter").hide();
+   $('#status').prop('disabled', true);
+   // location.reload();
 }
 
 function checkRange() {

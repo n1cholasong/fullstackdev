@@ -1,4 +1,3 @@
-const { Sequelize } = require('sequelize');
 const Seqelize = require('sequelize');
 const db = require('../config/DBConfig')
 
@@ -12,7 +11,7 @@ const User = db.define('user', {
     birthday: {type: Seqelize.DATEONLY},
     country: { type: Seqelize.STRING },
     interest: { type: Seqelize.STRING },
-    status: {type: Sequelize.STRING(300)},
+    status: {type: Seqelize.STRING(300)},
     role: { type: Seqelize.STRING }
 });
 

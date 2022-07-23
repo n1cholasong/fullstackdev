@@ -139,4 +139,19 @@ router.post('/updateAccount/:id', (req, res) => {
         );
 });
 
+router.post('/updateStatus/:id', (req, res) => {
+    let status = req.body.status;
+
+    User.update(
+        { status }, { where: { id: req.params.id } }
+    )
+        .then((result) => {
+            console.log(result[0] + ' status updated');
+            res.redirect('/user/profile/' + req.params.id);
+        })
+        .catch(err =>
+            console.log(err)
+        );
+});
+
 module.exports = router;
