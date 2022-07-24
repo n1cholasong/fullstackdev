@@ -1,10 +1,63 @@
 const express = require('express');
 const router = express.Router();
-const Course = require('../models/Courses')
-const Quiz = require('../models/Quizes')
+const Course = require('../models/Courses');
+const Quiz = require('../models/Quizes');
+const Chapter = require('../models/chapter');
+const fs = require('fs');
+const upload = require('../helpers/imageUpload');
 
 router.get('/create',(req,res)=>{
     res.render('./courses/createcourses')
+})
+
+router.get('/Chapter/view/:cid',(req,res)=>{
+    const cid = req.params.cid;
+    Chapter.findAll({
+        where: {
+            CourseId: cid
+        },
+        raw:true
+    }).then((chapters)=>
+    {
+        console.log(chapters)
+        res.render('./courses/viewchapter',{chapters,cid:cid})
+    })
+
+
+})
+
+router.post('/Chapter/view/:cid',(req,res)=>{
+    const cid = req.body.cid;
+    var chapterNum = req.body.chapterNum ;
+    console.log(cid)
+    if(chapterNum == "None")
+    {
+        Chapter.create({
+            ChapterNum:1,
+            CourseId:cid 
+        })
+    }
+    else
+    {
+        chapterNum = parseInt(chapterNum)
+        chapterNum += 1
+
+        Chapter.create({
+            ChapterNum:chapterNum,
+            CourseId:cid 
+        })
+    }
+
+    Chapter.findAll({
+        where: {
+            CourseId: cid
+        },
+        raw:true
+    }).then((chapters)=>
+    {
+        res.redirect('/Course/Chapter/view/'+cid)
+    })
+
 })
 
 router.get('/quiz/create/:cid',(req,res)=>{
@@ -13,11 +66,32 @@ router.get('/quiz/create/:cid',(req,res)=>{
 })
 
 
+router.post('/upload', (req, res) => {
+    // Creates user id directory for upload if not exist
+    if (!fs.existsSync('./public/uploads/' + 'temp' )) {
+        fs.mkdirSync('./public/uploads/' + 'temp' , {
+            recursive:
+                true
+        });
+    }
+    upload(req, res, (err) => {
+        if (err) {
+            // e.g. File too large
+            res.json({ file: '/img/no-image.jpg', err: err });
+        }
+        else {
+            res.json({
+                file: `/uploads/temp/${req.file.filename}`
+            });
+        }
+    });
+});
+
 router.get('/quiz/view/:cid',(req,res)=>{
     const cid = req.params.cid;
     Quiz.findAll({
         where: {
-            CourseId: cid
+            ChapterId: cid
           }
     }).then((Quizes) => {
         res.render('./courses/viewQuiz',{Quizes})
@@ -30,7 +104,7 @@ router.post('/quiz/view/:cid',(req,res)=>{
     var points = 0
     Quiz.findAll({
         where: {
-            CourseId: cid
+            ChapterId: cid
           },raw: true
     }).then((Quizes) => {
 
@@ -40,7 +114,7 @@ router.post('/quiz/view/:cid',(req,res)=>{
             if(Quizes[i].correctans == form["anwser"+i])
             {
                 points += 1
-                console.log(points)
+                //console.log(points)
             }
         }
 
@@ -77,7 +151,7 @@ router.post('/quiz/create/:cid',(req,res)=>{
     }
 
     Quiz.create({
-        question:question,description:description,a1:ans1,a2:ans2,a3:ans3,a4:ans4,correctans:correctans,CourseId:cid
+        question:question,description:description,a1:ans1,a2:ans2,a3:ans3,a4:ans4,correctans:correctans,ChapterId:cid
     })
 
     res.redirect('/course/view')

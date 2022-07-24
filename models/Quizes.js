@@ -1,8 +1,7 @@
 const Seqelize = require('sequelize');
-const db = require('../config/DBConfig')
+const db = require('../config/DBConfig');
 
 const Quizes = db.define('Quizes', {
-    chapter:{ type: Seqelize.INTEGER },
     question: { type: Seqelize.STRING },
     description: { type: Seqelize.STRING },
     a1: { type: Seqelize.STRING},

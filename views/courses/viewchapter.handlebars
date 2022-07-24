@@ -1,8 +1,29 @@
-<div class="entry-card row" data-step="1">
-			<div class="img-box col">
-				<img src="/img/administration/learning_rafiki.svg" alt="">
+<div class="container">
+	<div class="entry-card row" data-step="1">
+				<div class="entry-box col">
+					<h1>Plan your content</h1>
+				</div>
+				{{#if chapters}}
+				{{#each chapters}}
+					<h2>Chapter {{ChapterNum}}</h2>
+					<input name="videoUpload{{id}}" type="file" class="custom-file-input" id="videoUpload"
+								accept="video/mp4,video/x-m4v,video/*">
+					<td><a href="/course/quiz/create/{{id}}" class="btn btn-warning">Testing Add Quiz</a></td>
+					<td><a href="/course/quiz/view/{{id}}" class="btn btn-warning">Tesitng View Quiz</a></td>
+				{{/each}}
+				<form method="post">
+					<input type="hidden" name="cid" value="{{cid}}">
+					<input type="hidden" name="chapterNum" value="{{chapters.length}}">
+					<input type="submit" class="btn btn-warning" value="Create Chapters">
+				</form>
+				{{else}}
+				<h2>No Chapter created!!!</h2>
+				<form method="post">
+					<input type="hidden" name="cid" value="{{cid}}">
+					<input type="hidden" name="chapterNum" value="None">
+					<input type="submit" class="btn btn-warning" value="Create Chapters">
+				</form>
+
+				{{/if}}
 			</div>
-			<div class="entry-box col">
-				<h1>Plan your content</h1>
-			</div>
-		</div>
+</div>
