@@ -87,3 +87,12 @@
     display: block;
     padding: 7px 28px;
 }
+
+
+.signup .entry-card {
+    display: none;
+}
+
+.signup .entry-card.active {
+    display: flex;
+}

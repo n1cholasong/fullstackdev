@@ -33,7 +33,8 @@ router.get('/signup', (req, res) => {
 })
 
 router.post('/signup', async function (req, res) {
-    let { email, username, password, password2, fname, lname, gender, birthday, country, } = req.body;
+    let { email, username, password, password2, fname, lname, gender, birthday, country } = req.body;
+    
     // let interest = req.body.interest.toString();
     let isValid = true;
 
@@ -75,6 +76,7 @@ router.post('/signup', async function (req, res) {
             var salt = bcrypt.genSaltSync(10);
             var hash = bcrypt.hashSync(password, salt);
 
+            let birthday = moment(req.body.birthday).isValid() ? req.body.birthday : null;
             let interest = req.body.interest === undefined ? "" : req.body.interest.toString();
             let role = "STUDENT";
             let status = undefined;
@@ -122,8 +124,6 @@ router.post('/updateAccount/:id', (req, res) => {
     let gender = req.body.gender;
     let birthday = moment(req.body.birthday).isValid() ? req.body.birthday : null;
     let country = req.body.country;
-
-    console.log(birthday)
     User.update(
         {
             email, fname, lname, username, gender, birthday, country
