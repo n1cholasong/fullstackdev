@@ -3,8 +3,9 @@ const router = express.Router();
 const Course = require('../models/Courses');
 const Quiz = require('../models/Quizes');
 const Chapter = require('../models/chapter');
+const Video = require('../models/video');
 const fs = require('fs');
-const upload = require('../helpers/imageUpload');
+const upload = require('../helpers/videoUpload');
 
 router.get('/create',(req,res)=>{
     res.render('./courses/createcourses')
@@ -66,10 +67,38 @@ router.get('/quiz/create/:cid',(req,res)=>{
 })
 
 
+router.get('/video/upload/:cid', (req, res) => {
+    // Creates user id directory for upload if not exist
+    const cid = req.params.cid;
+
+    res.render('./courses/uploadvideo')
+});
+
+router.post('/video/upload/:cid', (req, res) => {
+    // Creates user id directory for upload if not exist
+    const cid = req.params.cid;
+    const filename = req.body.VideoUpload;
+    const fileUrl = req.body.videoURL;
+    Video.create({
+        videoname:filename,
+        videofile:fileUrl,
+        ChapterId:cid
+    })
+
+    Chapter.findByPk(cid).then((chpater) => 
+    {
+        res.redirect('/Course/Chapter/view/' + chpater.CourseId);
+    })
+
+    
+});
+
+
 router.post('/upload', (req, res) => {
     // Creates user id directory for upload if not exist
-    if (!fs.existsSync('./public/uploads/' + 'temp' )) {
-        fs.mkdirSync('./public/uploads/' + 'temp' , {
+    console.log(req.user.id)
+    if (!fs.existsSync('./public/uploads/Video' + req.user.id )) {
+        fs.mkdirSync('./public/uploads/' + req.user.id , {
             recursive:
                 true
         });
