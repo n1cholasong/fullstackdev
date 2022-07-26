@@ -53,7 +53,7 @@ router.get('/course/details/:id', async function (req, res) {
 	})
 		.then((reviews) => {
 			// pass object to listVideos.handlebar
-			res.render('course', { reviews,course ,userdict, fullname});
+			res.render('course', { reviews, course ,userdict, fullname});
 		})
 		.catch(err => console.log(err));
 });
