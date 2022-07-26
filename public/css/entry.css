@@ -91,8 +91,16 @@
 
 .signup .entry-card {
     display: none;
+    overflow: hidden;
 }
 
 .signup .entry-card.active {
     display: flex;
+    /* transform: translateX(0); */
+}
+
+.signup .entry-card {
+    /* transform: translateX(200%); */
+    /* opacity: 0; */
+    /* transition: 200ms ease-in-out; */
 }
