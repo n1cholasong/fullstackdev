@@ -1,30 +1,30 @@
 <script src="./js/payment/retriveCoupon.js"></script>
 
+<div class="container">
+  <h1 class="display-4">Create Courses</h1>
 
-<h1 class="display-4">Create Courses</h1>
 
-
-<form method="POST" action="">
-  <div class="form-group">
-    <label for="name">Course Name</label>
-      <input type="text" name="Coursename" id="Coursename" class="form-control" value="{{course.courseName}}">
-  </div>
+  <form method="POST" action="">
     <div class="form-group">
-        <label for="desc">Description</label>
-        <input type="text" name="desc" id="desc" class="form-control" value="{{course.description}}">
+      <label for="name">Course Name</label>
+        <input type="text" name="Coursename" id="Coursename" class="form-control" value="{{course.courseName}}">
     </div>
-    <div class="form-group">
-        <label for="expiryDate">content</label>
-        <input type="text" name="content" id="content" class="form-control" value="{{course.content}}">
-    </div>
-    <div class="form-group">
-        <label for="quantity">Price</label>
-        <input type="number" name="Price" id="Price" class="form-control" value="{{course.price}}">
-    </div>
-    <input name="uid" type="hidden" value="{{course.userId}}">
-    <input type="submit" value="Submit" class="btn btn-primary mt-3"/>
-</form>
-
+      <div class="form-group">
+          <label for="desc">Description</label>
+          <input type="text" name="desc" id="desc" class="form-control" value="{{course.description}}">
+      </div>
+      <div class="form-group">
+          <label for="expiryDate">content</label>
+          <input type="text" name="content" id="content" class="form-control" value="{{course.content}}">
+      </div>
+      <div class="form-group">
+          <label for="quantity">Price</label>
+          <input type="number" name="Price" id="Price" class="form-control" value="{{course.price}}">
+      </div>
+      <input name="uid" type="hidden" value="{{course.userId}}">
+      <input type="submit" value="Submit" class="btn btn-primary mt-3"/>
+  </form>
+</div>
 
 
 
