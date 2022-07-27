@@ -7,16 +7,15 @@
                     <p>@{{lookup userdict course.userId}}</p>
                 </a>
                 <p class="ratings">
-                    5.0
+                    {{avg}}
                     <span class="star">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
+                       
+                        {{#each print_star}}
+                            <i class="fa-solid fa-star"></i>    
+                        {{/each}}
                     </span>
                     <span class="user-count">
-                        (100)
+                        ({{count}})
                     </span>
                 </p>
                 <a href="#" class="btn flex-grow-0" role="button">Enroll Now</a>
@@ -84,6 +83,12 @@
                                         <a class="dropdown-item text-danger card-link" data-bs-toggle="modal"
                                             data-bs-target="#deleteReview_{{id}}">
                                             Delete Review
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item card-link" data-bs-toggle="modal"
+                                            data-bs-target="#report_{{id}}">
+                                            Report
                                         </a>
                                     </li>
                                     {{#if reply}}
@@ -320,6 +325,27 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                 <a href="/deleteReply/{{id}}" class="btn btn-primary">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Report Modal -->
+                <div class="modal" id="report_{{id}}">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <i class="fas fa-comments"></i>
+                                <h4 class="modal-title">Report</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">Are you sure you want to report this review?</div>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <a href="/report/{{id}}" class="btn btn-primary">Report</a>
                             </div>
                         </div>
                     </div>

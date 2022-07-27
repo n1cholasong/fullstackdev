@@ -1,0 +1,41 @@
+<div class="forum container">
+    <div class="entry-container d-flex align-items-center justify-content-center flex-wrap">
+        <div class="entry-card">
+            <div class="container">
+                <div class="row">
+                    <div class="topic-wrapper">
+                        {{forum.topic}}
+                    </div>
+                    <div class="picture-wrapper">
+                        <img src="{{forum.pictureURL}}" alt="Picture" class="img-thumbnail img-fluid mb-2"
+                            onerror="this.src='/img/no-image.jpg'" style="max-height:160px">
+                    </div>
+                    <form action="/forum/comment" method="post">
+                        <div class="input-wrapper row align-items-center">
+                            <div class="comments-input col">
+                                <div class="form-group">
+                                    <input class="form-control" id="comment" name="comment"
+                                        placeholder="Enter Comments Here">
+                                </div>
+                                <input id="forum_id" type="hidden" name="forum_id" value="{{forum.id}}">
+                            </div>
+                            <div class="enter-btn-wrapper col">
+                                <button type="submit" value="Create" class="btn btn-main"><i
+                                        class="fa-solid fa-arrow-right-to-bracket"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="comments-show-wrapper comments-overflow">
+                        {{#each forum.dataValues.comments}}
+                        <div class="indv-comment">
+                            <div class="comment-text">
+                                {{this.comment}}
+                            </div>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
