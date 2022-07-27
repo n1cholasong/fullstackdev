@@ -6,6 +6,7 @@ const Chapter = require('../models/chapter');
 const Video = require('../models/video');
 const fs = require('fs');
 const upload = require('../helpers/videoUpload');
+const { Console } = require('console');
 
 async function videoSearch(cid){
 
@@ -103,6 +104,13 @@ router.get('/quiz/create/:cid',(req,res)=>{
     res.render('./courses/createquiz',{cid})
 })
 
+
+router.post('/Chapter/delete/:cid',(req,res)=>{
+    const chpaterId = req.params.cid;
+    console.log(chpaterId)
+    Chapter.destroy( {where:{id:chpaterId}})
+    res.redirect('back')
+})
 
 router.get('/user/video/view/:vid',async function(req,res){
     const vid = req.params.vid;
