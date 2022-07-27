@@ -86,12 +86,27 @@
                                             Delete Review
                                         </a>
                                     </li>
+                                    {{#if reply}}
+                                    <li>
+                                        <a class="dropdown-item card-link" data-bs-toggle="modal"
+                                            data-bs-target="#editReply_{{id}}">
+                                            Edit Reply
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item card-link" data-bs-toggle="modal"
+                                            data-bs-target="#deleteReply_{{id}}">
+                                            Delete Reply
+                                        </a>
+                                    </li>
+                                    {{else}}
                                     <li>
                                         <a class="dropdown-item card-link" data-bs-toggle="modal"
                                             data-bs-target="#createReply_{{id}}">
                                             Reply
                                         </a>
                                     </li>
+                                    {{/if}}
                                 </ul>
                             </div>
                             {{else}}
@@ -127,7 +142,6 @@
                         {{#if review.length}}
                         <div class="row">
                             <div class="col-sm-12 col-md-12 col-lg-10">
-                                {{!-- <b>Review</b> --}}
                                 <p>{{review}}</p>
                             </div>
                         </div>
@@ -156,27 +170,27 @@
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" id="5" value="5" name="rating"
                                                 {{radioCheck rating "5" }}>
-                                            <label class="form-check-label" for="5">5*</label>
+                                            <label class="form-check-label" for="5">5⭐</label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" id="4" value="4" name="rating"
                                                 {{radioCheck rating "4" }}>
-                                            <label class="form-check-label" for="4">4*</label>
+                                            <label class="form-check-label" for="4">4⭐</label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" id="3" value="3" name="rating"
                                                 {{radioCheck rating "3" }}>
-                                            <label class="form-check-label" for="3">3*</label>
+                                            <label class="form-check-label" for="3">3⭐</label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" id="2" value="2" name="rating"
                                                 {{radioCheck rating "2" }}>
-                                            <label class="form-check-label" for="2">2*</label>
+                                            <label class="form-check-label" for="2">2⭐</label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" id="1" value="1" name="rating"
                                                 {{radioCheck review "1" }}>
-                                            <label class="form-check-label" for="1">1*</label>
+                                            <label class="form-check-label" for="1">1⭐</label>
                                         </div>
                                     </div>
                                     <div class="form-group mb-4">
@@ -198,6 +212,7 @@
                         </div>
                     </form>
                 </div>
+
                 <!-- Edit Delete Modal -->
                 <div class="modal" id="deleteReview_{{id}}">
                     <div class="modal-dialog modal-dialog-centered">
@@ -218,7 +233,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- Edit Review Modal -->
+
+                <!-- Create Reply Modal -->
                 <div class="modal" id="createReply_{{id}}">
                     <form action="/createReply/{{id}}" method="post">
                         <div class="modal-dialog modal-dialog-centered">
@@ -253,6 +269,79 @@
                     </form>
                 </div>
 
+                <!-- Create Reply Modal -->
+                <div class="modal" id="editReply_{{id}}">
+                    <form action="/editReply/{{id}}" method="post">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <i class="fas fa-comments"></i>
+                                    <h4 class="modal-title">Reply</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <div class="form-group mb-4">
+                                        <div class="form-group">
+                                            <label class="font-italic" for="review">Reply</label>
+                                            <textarea class="form-control" id="review" name="review" rows="7"
+                                                maxlength="2000">{{reply}}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" value="Update" class="btn btn-primary">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Delete Reply Modal -->
+                <div class="modal" id="deleteReply_{{id}}">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <i class="fas fa-comments"></i>
+                                <h4 class="modal-title">Delete Reply</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">Are you sure you want to delete the reply?</div>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <a href="/deleteReply/{{id}}" class="btn btn-primary">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{#if reply}}
+                <div class="accordion" id="storyAccordion">
+                    <div class="card-header" id="headingOne">
+                        <button class="btn btn-link" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne{{id}}" aria-expanded="false" aria-controls="collapseOne{{id}}"
+                            style="text-decoration: none;">
+                            Reply <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div id="collapseOne{{id}}" class="collapse" aria-labelledby="headingOne"
+                        data-bs-parent="#storyAccordion">
+                        <div class="card-body">
+                            {{reply}}
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
                 {{/each}}
                 {{else}}
                 <p>No Reviews</p>
@@ -282,23 +371,24 @@
                         <br>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" id="5" value="5" name="rating" checked>
-                            <label class="form-check-label" for="5">5*</label>
+
+                            <label class="form-check-label" for="5">5⭐</label>
                         </div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" id="4" value="4" name="rating">
-                            <label class="form-check-label" for="4">4*</label>
+                            <label class="form-check-label" for="4">4⭐</label>
                         </div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" id="3" value="3" name="rating">
-                            <label class="form-check-label" for="3">3*</label>
+                            <label class="form-check-label" for="3">3⭐</label>
                         </div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" id="2" value="2" name="rating">
-                            <label class="form-check-label" for="2">2*</label>
+                            <label class="form-check-label" for="2">2⭐</label>
                         </div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" id="1" value="1" name="rating">
-                            <label class="form-check-label" for="1">1*</label>
+                            <label class="form-check-label" for="1">1⭐</label>
                         </div>
                     </div>
 
