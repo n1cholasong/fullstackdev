@@ -60,9 +60,8 @@
     display: block;
     width: 30px;
     height: 30px;
-    /* TODO: Remove blue border */
-    border: 1px solid; 
     border-radius: 50%;
+    text-decoration: none;
     transition: var(--animation-duration) var(--animation-timing-curve);
 }
 
@@ -71,16 +70,29 @@
     height: 90px;
 }
 
-.sidebar .profile-pic>img {
+.sidebar .default-profile-pic {
     width: 100%;
     height: 100%;
+    color: white;
+    background: black;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: grid;
+    place-items: center;
+    transition: font-size var(--animation-duration) var(--animation-timing-curve);
+}
+
+.sidebar.open .default-profile-pic {
+    font-size: 2.34rem;
+   
 }
 
 .sidebar .sidebar-head .sidebar-hidden {
     text-align: center;
     width: 100%;
 }
-
 
 .sidebar .fullname {
     font-size: .75rem;

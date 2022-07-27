@@ -34,7 +34,7 @@ const star = function (value) {
 };
 
 const equalsTo = function (v1, v2) {
-    return (v1 == v2) ? true : false
+    return (v1 == v2) ? true : false;
 };
 
 const firstChar = function (str) {
@@ -45,9 +45,24 @@ const getCountry = function (code) {
     return countryList.getName(code);
 };
 
-function setVariable(varName, varValue, options) {
+const setVariable = function (varName, varValue, options) {
     options.data.root[varName] = varValue;
 };
+
+const authStud = function (role) {
+    return (role == 'STUDENT') ? true : false;
+}
+
+const authAdmin = function (role) {
+    return (role == 'ADMIN') ? true : false;
+}
+
+const ifCond = function(params1, params2, options) {
+    if (params1 == params2) {
+        return options.fn(this);
+    }
+    return options.inverse(this);
+}
 
 module.exports = {
     formatDate,
@@ -60,6 +75,9 @@ module.exports = {
     firstChar,
     getCountry,
     setVariable,
+    authStud,
+    authAdmin,
+    ifCond,
     inc
 }
 

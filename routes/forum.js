@@ -3,6 +3,7 @@ const router = express.Router();
 const flashMessage = require('../helpers/messenger');
 const Forum = require('../models/Forum');
 const User = require('../models/User');
+const Comment = require('../models/Comments');
 require('dotenv').config;
 // Required for file upload
 const fs = require('fs');
@@ -12,7 +13,7 @@ router.get("/", (req, res) => {
     Forum.findAll({
         include: User,
         raw: true,
-        where: { status: 1 } 
+        where: { status: 1 }
     })
         .then((thread) => {
             // if (thread.userId == User.id) {
@@ -32,7 +33,7 @@ router.get("/mythreads", (req, res) => {
     Forum.findAll({
         include: User,
         raw: true,
-        where: { status: 1, userId : req.user.id } 
+        where: { status: 1, userId: req.user.id }
     })
         .then((thread) => {
             // if (thread.userId == User.id) {
@@ -113,13 +114,39 @@ router.post('/deleteThread/:id', async function (req, res) {
         let result = await Forum.update({
             status
         },
-        ({ where: { id: forum.id } }));
+            ({ where: { id: forum.id } }));
         console.log(result + ' thread deleted');
         res.redirect('/forum/');
     }
     catch (err) {
         console.log(err);
     }
+});
+
+//Comments bullshit
+router.get('/:id', (req, res) => {
+    Forum.findOne({
+        where: { id: req.params.id },
+        include: Comment
+    })
+        .then((forum) => {
+            res.render('forum/comments', { forum });
+        })
+        .catch(err => console.log(err));
+});
+
+router.post("/comment", (req, res) => {
+    let comment = req.body.comment;
+    let forumId = req.body.forum_id;
+    let userId = req.user.id;
+
+    Comment.create(
+        {
+            comment, forumId, userId
+        }
+    )
+    
+    res.redirect(`/forum/${forumId}`);
 });
 
 router.post('/upload', (req, res) => {
