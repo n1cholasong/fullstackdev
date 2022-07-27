@@ -82,6 +82,8 @@
             <div class="col-9">
                 <div class="setting-body">
                     <h5 class="section-title">Account Management</h5>
+
+                    {{>_flashmsg}}
                     <div>
                         <div id="account-entry" class="section-content mb-5">
                             <!--Settings Content-->
@@ -175,7 +177,8 @@
                                 <!--Change Password-->
                                 <div class="tab-pane fade" id="change-password" role="tabpanel"
                                     aria-labelledby="change-password-tab">
-                                    <a href="../updatePassword/{{user.id}}" class="btn btn-main login-btn" role="button">
+                                    <a href="../updatePassword/{{user.id}}" class="btn btn-main login-btn"
+                                        role="button">
                                         Update Password
                                     </a>
                                     <div class="text mt-3">

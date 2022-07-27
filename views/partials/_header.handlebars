@@ -20,7 +20,9 @@
 				<div>Hi, {{user.fname}}!
 					<span>
 						<a href="/user/profile/{{user.id}}" class="profile-pic d-inline-block">
-							<img src="/img/user.svg" alt="logo">
+							<div class="profile-pic">
+								<div class="default-profile-pic">{{firstChar user.fname}}{{firstChar user.lname}}</div>
+							</div>
 						</a>
 					</span>
 				</div>
