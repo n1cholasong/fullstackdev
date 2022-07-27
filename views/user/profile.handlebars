@@ -103,12 +103,12 @@
                                             <div class="form-group">
                                                 <label for="fname">First Name<span class="text-danger">*</span></label>
                                                 <input type="text" name="fname" id="fname" class="form-control"
-                                                    value="{{user.fname}}" required disabled>
+                                                    maxlength="50" value="{{user.fname}}" required disabled>
                                             </div>
                                             <div class="form-group">
                                                 <label for="lname">Last Name<span class="text-danger">*</span></label>
                                                 <input type="text" name="lname" id="lname" class="form-control"
-                                                    value="{{user.lname}}" required disabled>
+                                                    maxlength="50" value="{{user.lname}}" required disabled>
                                             </div>
                                         </div>
                                         <div id="input-row-2" class="form-group">
@@ -167,11 +167,11 @@
                                             Preview</span>
                                     </div>
                                     <input type="file" id="inputImage" name="image_file" accept="image/*"
-                                        class="file text mb-4">
+                                        class="form-control file text mb-4">
                                     <br>
-                                    <input type="submit" class="button me-2" value="Save Changes">
-                                    <a href="/resetProfilePic/{{!user.id}}">
-                                        <input type="button" class="button button-outline" value="Reset Profile Pic">
+                                    <input type="submit" class="btn btn-main me-2" value="Save Changes">
+                                    <a href="/user/resetProfilePic/{{!user.id}}" class="btn btn-outline">
+                                        Reset to Default
                                     </a>
                                 </div>
                                 <!--Change Password-->
@@ -202,4 +202,13 @@
 
         current.text(characterCount);
     });
+
+    inputImage.onchange = evt => {
+        const [file] = inputImage.files
+        if (file) {
+            $("#imagePreview").removeClass("d-none");
+            $("#imagePreviewText").addClass("d-none");
+            imagePreview.src = URL.createObjectURL(file);
+        };
+    };
 </script>

@@ -12,7 +12,6 @@ const session = require('express-session');
 const path = require('path');
 // require('dotenv').config();
 const helpers = require('./helpers/handlebars');
-const restartDB = false;
 const User = require('./models/User');
 
 async function setupAcc(userList)
@@ -83,6 +82,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // 	checkExpirationInterval: 1800000 // 30 min 
 // };
 
+const restartDB = false;
 const DBConnection = require('./config/DBConnection');
 DBConnection.setUpDB(restartDB) // To set up database with new tables
 
@@ -129,7 +129,6 @@ const userRoute = require('./routes/user');
 const adminRoute = require('./routes/admin');
 const paymentRoute = require('./routes/payment');
 const courseRoute = require('./routes/courses');
-const { use } = require('passport');
 
 
 // Any URL with the pattern ‘/*’ is directed to routes/main.js
