@@ -86,6 +86,12 @@
                                             Delete Review
                                         </a>
                                     </li>
+                                    <li>
+                                        <a class="dropdown-item card-link" data-bs-toggle="modal"
+                                            data-bs-target="#report_{{id}}">
+                                            Report
+                                        </a>
+                                    </li>
                                     {{#if reply}}
                                     <li>
                                         <a class="dropdown-item card-link" data-bs-toggle="modal"
@@ -320,6 +326,27 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                 <a href="/deleteReply/{{id}}" class="btn btn-primary">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Report Modal -->
+                <div class="modal" id="report_{{id}}">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <i class="fas fa-comments"></i>
+                                <h4 class="modal-title">Report</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">Are you sure you want to report this review?</div>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <a href="/report/{{id}}" class="btn btn-primary">Report</a>
                             </div>
                         </div>
                     </div>
