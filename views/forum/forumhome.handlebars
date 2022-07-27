@@ -109,20 +109,22 @@
                         {{#each thread}}
                         <div class="thread-wrapper">
                             <div class="container threads">
-                                <div class="row">
-                                    <div class="col-4 text-break">
-                                        <p>{{topic}}</p>
-                                        <div class="row">
-                                            <p>{{description}}</p>
+                                <a href="/forum/{{id}}" class="open-forum">
+                                    <div class="row">
+                                        <div class="col-4 text-break">
+                                            <p>{{topic}}</p>
+                                            <div class="row">
+                                                <p>{{description}}</p>
+                                            </div>
                                         </div>
+                                        {{#if pictureURL}}
+                                        <div class="col">
+                                            <img src="{{pictureURL}}" alt="Picture" class="img-thumbnail img-fluid mb-2"
+                                                onerror="this.src='/img/no-image.jpg'" style="max-height:160px">
+                                        </div>
+                                        {{/if}}
                                     </div>
-                                    {{#if pictureURL}}
-                                    <div class="col">
-                                        <img src="{{pictureURL}}" alt="Picture" class="img-thumbnail img-fluid mb-2"
-                                            onerror="this.src='/img/no-image.jpg'" style="max-height:160px">
-                                    </div>
-                                    {{/if}}
-                                </div>
+                                </a>
 
                                 <div class="thread-change">
                                     <div class="edit-btn">
@@ -142,6 +144,7 @@
 
                             </div>
                         </div>
+
 
                         <!-- The Modal -->
                         <div class="modal" id="editThread_{{id}}">
