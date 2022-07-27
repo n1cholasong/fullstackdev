@@ -86,16 +86,22 @@
                                             Delete Review
                                         </a>
                                     </li>
+                                    <li>
+                                        <a class="dropdown-item card-link" data-bs-toggle="modal"
+                                            data-bs-target="#report_{{id}}">
+                                            Report
+                                        </a>
+                                    </li>
                                     {{#if reply}}
                                     <li>
                                         <a class="dropdown-item card-link" data-bs-toggle="modal"
-                                            data-bs-target="#createReply_{{id}}">
+                                            data-bs-target="#editReply_{{id}}">
                                             Edit Reply
                                         </a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item card-link" data-bs-toggle="modal"
-                                            data-bs-target="#createReply_{{id}}">
+                                            data-bs-target="#deleteReply_{{id}}">
                                             Delete Reply
                                         </a>
                                     </li>
@@ -268,6 +274,84 @@
                         </div>
                     </form>
                 </div>
+
+                <!-- Create Reply Modal -->
+                <div class="modal" id="editReply_{{id}}">
+                    <form action="/editReply/{{id}}" method="post">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <i class="fas fa-comments"></i>
+                                    <h4 class="modal-title">Reply</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <div class="form-group mb-4">
+                                        <div class="form-group">
+                                            <label class="font-italic" for="review">Reply</label>
+                                            <textarea class="form-control" id="review" name="review" rows="7"
+                                                maxlength="2000">{{reply}}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" value="Update" class="btn btn-primary">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Delete Reply Modal -->
+                <div class="modal" id="deleteReply_{{id}}">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <i class="fas fa-comments"></i>
+                                <h4 class="modal-title">Delete Reply</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">Are you sure you want to delete the reply?</div>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <a href="/deleteReply/{{id}}" class="btn btn-primary">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Report Modal -->
+                <div class="modal" id="report_{{id}}">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <i class="fas fa-comments"></i>
+                                <h4 class="modal-title">Report</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">Are you sure you want to report this review?</div>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <a href="/report/{{id}}" class="btn btn-primary">Report</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 {{#if reply}}
                 <div class="accordion" id="storyAccordion">
                     <div class="card-header" id="headingOne">
