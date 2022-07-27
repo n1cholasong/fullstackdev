@@ -64,7 +64,7 @@ router.get('/course/details/:id', async function (req, res) {
 				}
 			});
 
-			var avg = sum / count;
+			var avg = (sum / count).toFixed(2);
 			var roundAvg = Math.floor(avg)
 
 			var print_star = [];
