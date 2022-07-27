@@ -1,0 +1,78 @@
+<div class="container">
+    <h2>Review Report Management</h2>
+    <div></div>
+    <div>
+        <table id="userAccounts" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Reported By [Username]</th>
+                    <th>Reported By [Email]</th>
+                    <th>Status</th>
+                    <th>Last Edit</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#if reviews}}
+                {{#each reviews}}
+                <tr>
+                    <td>{{lookup ../userdict userId}}</td>
+                    <td>{{lookup ../useremail userId}}</td>
+                    <td>pending</td>
+                    <td>{{formatDate updatedAt 'LLL'}}</td>
+                    <td>
+                        <div class="dropdown user-management">
+                            <button class="btn icon p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end text">
+                                <li><a class="dropdown-item text-danger" data-bs-toggle="modal"
+                                        data-bs-target="#staticBackdrop_{{id}}" role="button">View Report</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td>
+                        <!-- Delete Modal -->
+                        <div class="modal fade" id="staticBackdrop_{{id}}" data-bs-backdrop="static"
+                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">View Report</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        <p>{{review}}</p>
+                                    </div>  
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <a href="/admin/deleteReview/{{id}}" class="btn btn-primary">Take Action</a>
+                                        <a href="/admin/resolve/{{id}}" class="btn btn-primary">Resolve</a>
+
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {{/each}}
+                {{/if}}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#userAccounts').DataTable();
+    });
+</script>
