@@ -127,22 +127,22 @@ $('#pictureUpload').on('change', function () {
 // Use fetch to call post route /video/upload
 $('#videoUpload').on('change', function () {
    let formdata = new FormData();
-   let image = $("#videoUpload")[0].files[0];
-   formdata.append('videoUpload', image);
+   let video = $("#videoUpload")[0].files[0];
+   formdata.append('videoUpload', video);
    fetch('/Course/upload', {
       method: 'POST',
       body: formdata
    })
       .then(res => res.json())
       .then((data) => {
-         $('#picture').attr('src', data.file);
-         $('#pictureURL').attr('value', data.file); // sets posterURL hidden field
+         $('#video').attr('src', data.file);
+         $('[id^=videoURL]').attr('value', data.file); // sets posterURL hidden field
          if (data.err) {
-            $('#pictureErr').show();
-            $('#pictureErr').text(data.err.message);
+            $('#videoErr').show();
+            $('#videoErr').text(data.err.message);
          }
          else {
-            $('#pictureErr').hide();
+            $('#videoErr').hide();
          }
       })
 });

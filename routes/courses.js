@@ -3,8 +3,9 @@ const router = express.Router();
 const Course = require('../models/Courses');
 const Quiz = require('../models/Quizes');
 const Chapter = require('../models/chapter');
+const Video = require('../models/video');
 const fs = require('fs');
-const upload = require('../helpers/imageUpload');
+const upload = require('../helpers/videoUpload');
 
 router.get('/create',(req,res)=>{
     res.render('./courses/createcourses')
@@ -66,10 +67,92 @@ router.get('/quiz/create/:cid',(req,res)=>{
 })
 
 
+router.get('/user/chapter/view/:cid',async function(req,res){
+    const cid = req.params.cid;
+    var filePath = '';
+
+    await Chapter.findAll({
+        where: {
+        CourseId: cid
+      },raw:true}).then(async (Chapter)=>{
+        // if(Chapter.length > 1){
+        //     Chapter = Chapter[0]
+        // }
+        await Video.findAll({
+            where: {
+            ChapterId: Chapter[0].id
+          },raw:true}).then((video)=>{
+            filePath = './public' + video[0].videofile
+          })
+
+      })
+    
+
+    const stat = fs.statSync(filePath)
+    const fileSize = stat.size
+    const range = req.headers.range
+
+    if (range) {
+        const parts = range.replace(/bytes=/, "").split("-")
+        const start = parseInt(parts[0], 10)
+        const end = parts[1] 
+          ? parseInt(parts[1], 10)
+          : fileSize-1
+        const chunksize = (end-start)+1
+        const file = fs.createReadStream(filePath, {start, end})
+        const head = {
+          'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+          'Accept-Ranges': 'bytes',
+          'Content-Length': chunksize,
+          'Content-Type': 'video/mp4',
+        }
+        res.writeHead(206, head);
+        file.pipe(res);
+      } else {
+        const head = {
+          'Content-Length': fileSize,
+          'Content-Type': 'video/mp4',
+        }
+        res.writeHead(200, head)
+        fs.createReadStream(filePath).pipe(res)
+      }
+
+      res.render('./courses/viewVideoUser',{videoURL:'/user/chapter/view/' + cid})
+
+})
+
+router.get('/video/upload/:cid', (req, res) => {
+    // Creates user id directory for upload if not exist
+    const cid = req.params.cid;
+
+    res.render('./courses/uploadvideo')
+});
+
+router.post('/video/upload/:cid', (req, res) => {
+    // Creates user id directory for upload if not exist
+    const cid = req.params.cid;
+    const filename = req.body.VideoUpload;
+    const fileUrl = req.body.videoURL;
+    Video.create({
+        videoname:filename,
+        videofile:fileUrl,
+        ChapterId:cid
+    })
+
+    Chapter.findByPk(cid).then((chpater) => 
+    {
+        res.redirect('/Course/Chapter/view/' + chpater.CourseId);
+    })
+
+    
+});
+
+
 router.post('/upload', (req, res) => {
     // Creates user id directory for upload if not exist
-    if (!fs.existsSync('./public/uploads/' + 'temp' )) {
-        fs.mkdirSync('./public/uploads/' + 'temp' , {
+    console.log(req.user.id)
+    if (!fs.existsSync('./public/uploads/Video' + req.user.id )) {
+        fs.mkdirSync('./public/uploads/' + req.user.id , {
             recursive:
                 true
         });
@@ -81,7 +164,7 @@ router.post('/upload', (req, res) => {
         }
         else {
             res.json({
-                file: `/uploads/temp/${req.file.filename}`
+                file: `/uploads/${req.user.id}/${req.file.filename}`
             });
         }
     });
