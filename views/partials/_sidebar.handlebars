@@ -1,9 +1,12 @@
 <aside class="sidebar poppins" data-sidebar>
     {{#if user}}
     <div class="sidebar-head">
-        <a href="/user/profile/{{user.id}}" class="profile-pic">
-            <img src="/img/user.svg" alt="logo">
-        </a>
+        <div class="profile-menu">
+            <a href="/user/profile/{{user.id}}" class="profile-pic">
+                <div class="default-profile-pic">{{firstChar user.fname}}{{firstChar user.lname}}</div>
+                {{!-- <img src="/img/user.svg" class="user-profile-pic" alt="logo"> --}}
+            </a>
+        </div>
         <div class=" sidebar-hidden fullname">{{user.fname}} {{user.lname}}</div>
         <div class=" sidebar-hidden username">{{user.username}}</div>
     </div>
