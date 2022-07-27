@@ -7,16 +7,15 @@
                     <p>@{{lookup userdict course.userId}}</p>
                 </a>
                 <p class="ratings">
-                    5.0
+                    {{avg}}
                     <span class="star">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
+                       
+                        {{#each aaa}}
+                            <i class="fa-solid fa-star"></i>    
+                        {{/each}}
                     </span>
                     <span class="user-count">
-                        (100)
+                        ({{count}})
                     </span>
                 </p>
                 <a href="#" class="btn flex-grow-0" role="button">Enroll Now</a>
