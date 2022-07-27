@@ -141,7 +141,7 @@ router.post('/createReply/:id', ensureAuthenticated, async (req, res) => {
 				{ reply },
 				{ where: { id: req.params.id } }
 			)
-			console.log(result[0] + 'Review updated');
+			console.log(result[0] + 'Reply Created');
 			res.redirect('back');
 		})
 		.catch(err => console.log(err));
@@ -185,7 +185,7 @@ router.get('/deleteReply/:id', ensureAuthenticated, async (req, res) => {
 				{ reply },
 				{ where: { id: req.params.id } }
 			)
-			console.log(result[0] + 'Reply updated');
+			console.log(result[0] + 'Reply Deleted');
 			res.redirect('back');
 		})
 		.catch(err => console.log(err));
