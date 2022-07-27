@@ -1,7 +1,7 @@
 <div class="container signup admin">
 	<form method="post" action="" class="entry-form" data-multi-step>
 		{{!-- STEP 1 OF 3 --}}
-		<div class="entry-card row" data-step="1">
+		<div class="entry-card row" data-step>
 			<div class="img-box col">
 				<img src="/img/administration/learning_rafiki.svg" alt="">
 			</div>
@@ -22,12 +22,12 @@
 					<label for="password2">Confirm Password<span class="text-danger">*</span></label>
 					<input type="password" name="password2" id="password2" class="form-control" required>
 				</div>
-				<button type="submit" class="btn btn-main mt-2">Sign up</button>
+				<button type="button" class="btn btn-main mt-2" data-next>Next</button>
 				<p class="subtext mt-3">Already have an account? <a href="/user/login">Log in</a></p>
 			</div>
 		</div>
 		{{!-- STEP 2 OF 3 --}}
-		<div class="entry-card row" data-step="2">
+		<div class="entry-card row" data-step>
 			<div class="entry-box col">
 				<h2 class="card-title">Personal Details</h2>
 				<h3 class="card-subtitle mb-5">STEP 2 OF 3</h3>
@@ -68,13 +68,15 @@
 						{{/each}}
 					</select>
 				</div>
+				<button type="button" class="btn btn-main mt-2" data-back>Back</button>
+				<button type="button" class="btn btn-main mt-2" data-next>Next</button>
 			</div>
 			<div class="img-box col">
 				<img src="" alt="">
 			</div>
 		</div>
 		{{!-- STEP 3 OF 3 --}}
-		<div class="entry-card row" data-step="3">
+		<div class="entry-card row" data-step>
 			<div class="entry-box col">
 				<h2 class="card-title">What do you want to learn?</h2>
 				<h3 class="card-subtitle mb-5">STEP 3 OF 3</h3>
@@ -117,7 +119,8 @@
 						<span class="checkbox-label">Self Help</span>
 					</label>
 				</div>
-				<button type="submit" class="btn-main mt-2">Sign up</button>
+				<button type="button" class="btn btn-main mt-2" data-back>Back</button>
+				<button type="submit" class="btn btn-main mt-2">Sign up</button>
 			</div>
 			<div class="img-box col">
 				<img src="" alt="">
@@ -125,3 +128,4 @@
 		</div>
 	</form>
 </div>
+<script src="/js/signup.js"></script>

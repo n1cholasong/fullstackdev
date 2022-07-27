@@ -33,17 +33,18 @@ router.get('/signup', (req, res) => {
 })
 
 router.post('/signup', async function (req, res) {
-    let { email, username, password, password2, fname, lname, gender, birthday, country, } = req.body;
+    let { email, username, password, password2, fname, lname, gender, birthday, country } = req.body;
+
     // let interest = req.body.interest.toString();
     let isValid = true;
 
     if (password.length < 6) {
-        flashMessage(res, 'error', 'Password must be at least 6 characters');
+        flashMessage(res, 'error', 'Password must be at least 6 characters', '', 'true');
         isValid = false;
     }
 
     if (password != password2) {
-        flashMessage(res, 'error', 'Passwords do not match');
+        flashMessage(res, 'error', 'Passwords do not match', '', 'true');
         isValid = false;
     }
 
@@ -65,21 +66,21 @@ router.post('/signup', async function (req, res) {
         let user = await User.findOne({ where: { email: email } });
         if (user) {
             // If user is found, that means email has already been registered
-            flashMessage(res, 'error', email + ' alreay registered');
+            flashMessage(res, 'error', email + ' alreay registered', '', 'true');
             res.render('user/signup', {
                 email, username, fname, lname, gender, birthday, country,
             });
-        }
-        else {
+        } else {
             // Create new user record
             var salt = bcrypt.genSaltSync(10);
             var hash = bcrypt.hashSync(password, salt);
 
+            let birthday = moment(req.body.birthday).isValid() ? req.body.birthday : null;
             let interest = req.body.interest === undefined ? "" : req.body.interest.toString();
             let role = "STUDENT";
             let status = undefined;
             // Use hashed password
-            let user = await User.create({
+            await User.create({
                 email,
                 username,
                 password: hash,
@@ -92,7 +93,7 @@ router.post('/signup', async function (req, res) {
                 status,
                 role
             });
-            flashMessage(res, 'success', email + ' registered successfully');
+            flashMessage(res, 'success', email + ' registered successfully', '', 'true');
             res.redirect('/user/login');
         }
     }
@@ -108,7 +109,7 @@ router.get('/logout', (req, res, next) => {
     });
 })
 
-router.get('/profile/:id', async (req, res) => {
+router.get('/profile/:id', (req, res) => {
     title = "My Profile";
     country = countryList.getData()
     res.render('./user/profile', { title, country });
@@ -122,8 +123,6 @@ router.post('/updateAccount/:id', (req, res) => {
     let gender = req.body.gender;
     let birthday = moment(req.body.birthday).isValid() ? req.body.birthday : null;
     let country = req.body.country;
-
-    console.log(birthday)
     User.update(
         {
             email, fname, lname, username, gender, birthday, country
@@ -153,5 +152,46 @@ router.post('/updateStatus/:id', (req, res) => {
             console.log(err)
         );
 });
+
+router.get('/updatePassword/:id', (req, res) => {
+    title = "Update Password";
+    res.render('./user/updatePassword', { title });
+});
+
+router.post('/updatePassword/:id', async (req, res) => {
+    let { currentPassword, newPassword, newPassword2 } = req.body;
+
+    var salt = bcrypt.genSaltSync(10);
+    var hash = bcrypt.hashSync(currentPassword, salt);
+
+    try {
+        // If all is well, checks if user is already registered
+        let user = await User.findOne({ where: { id: req.params.id } });
+        
+        isMatch = bcrypt.compareSync(currentPassword, user.password)
+        if (!isMatch) {
+            flashMessage(res, 'error', 'Invalid Password', '', 'true');
+        }
+        // if (user.password = currentPassword) {
+        //     // If user is found, that means email has already been registered
+        //     flashMessage(res, 'error', 'Incorrect password');
+        //     res.render('./user/updatePassword');
+        // } else {
+        //     // Create new user record
+        //     var salt = bcrypt.genSaltSync(10);
+        //     var hash = bcrypt.hashSync(password, salt);
+        // }
+    }
+    catch (err) {
+        console.log(err);
+    }
+
+    
+    // if currentPassword !=
+
+
+    res.render('./user/updatePassword', { title });
+});
+
 
 module.exports = router;
