@@ -7,6 +7,7 @@ const Voucher = require('../models/Voucher');
 const Quiz = require('../models/Quizes');
 const Chapter = require('../models/chapter');
 const Video  = require('../models/video');
+const Comment = require('../models/Comments');
 
 // If drop is true, all existing tables are dropped and recreated 
 const setUpDB = (drop) => { 
@@ -19,13 +20,18 @@ const setUpDB = (drop) => {
         User.hasMany(Review);
         User.hasMany(Course);
         User.hasMany(Voucher);
+        User.hasMany(Comment);
         //Course.hasMany(Quiz);
         Course.hasMany(Chapter);
         Course.hasMany(Review);
         Chapter.hasOne(Video);
         Chapter.hasMany(Quiz)
-        //Decalring the child realtionship
+        //Forum bullshit
         Forum.belongsTo(User);
+        Forum.hasMany(Comment);
+        Comment.belongsTo(User);
+        //Decalring the child realtionship
+        Comment.belongsTo(Forum);
         Chapter.belongsTo(Course);
         Review.belongsTo(Course);
         Quiz.belongsTo(Chapter);

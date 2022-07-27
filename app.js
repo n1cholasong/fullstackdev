@@ -2,6 +2,7 @@
 * 'require' is similar to import used in Java and Python. It brings in the libraries required to be used
 * in this JS file.
 * */
+
 const express = require('express');
 const { engine } = require('express-handlebars');
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
@@ -10,7 +11,30 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const path = require('path');
 // require('dotenv').config();
-const helpers = require('./helpers/handlebars')
+const helpers = require('./helpers/handlebars');
+const restartDB = false;
+const User = require('./models/User');
+
+async function setupAcc(userList)
+{	
+
+	let user = await User.create({
+		email:userList[0],
+		username:userList[1],
+		password: userList[2],
+		fname:userList[3],
+		lname:userList[4],
+		gender:userList[5],
+		birthday:userList[6],
+		country:userList[7],
+		interest:userList[8],
+		status:userList[9],
+		role:userList[10]
+	});
+	
+	return user
+
+}
 
 /*
 * Creates an Express server - Express is a web application framework for creating web applications
@@ -60,7 +84,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // };
 
 const DBConnection = require('./config/DBConnection');
-DBConnection.setUpDB(false) // To set up database with new tables
+DBConnection.setUpDB(restartDB) // To set up database with new tables
+
 
 // Enables session to be stored using browser's Cookie ID
 app.use(cookieParser());
@@ -104,6 +129,7 @@ const userRoute = require('./routes/user');
 const adminRoute = require('./routes/admin');
 const paymentRoute = require('./routes/payment');
 const courseRoute = require('./routes/courses');
+const { use } = require('passport');
 
 
 // Any URL with the pattern ‘/*’ is directed to routes/main.js
@@ -124,3 +150,33 @@ const port = 5000;
 app.listen(port, () => {
 	console.log(`Server started on http://localhost:${port}`);
 });
+
+if (!restartDB){
+	userAcc = [
+	['nicholasong75@gmail.com','n1cholas.ong','$2a$10$sUm1yYEeoTRYxTEDyxqVFuaETT4mMBk0vYgPgrJrgVQ98YRP9NBRm','Nicholas','Ong','M',null,'SG','productivity,artsncrafts,langauge',null,'ADMIN'],
+	['Nat@gmail.com','nat','$2a$10$kFXNArrd0alYlG/zCzGfz./0m86G4Amgdub6656CHR4i.Aysc8NUi','Nat','Lee','M','1995-09-30','US','photography,productivity,langauge',null,'ADMIN'],
+	['lucaslee@gmail.com','Xepvoid','$2a$10$6fwMyC0jwW34PznlgWM8wOoyx1ritkY38XnklD4g4QLLyxoErxiyy','Lucas','Lee','M','2004-01-17','SG','programming,productivity,selfhelp',null,'ADMIN'],
+	['Kiat0878@gmail.com','Kiat10','$2a$10$jCtrCrWCNFhXI9kpEOgEeeTHxJi5yLFO2Bfkg.fZ2bJ2rx1qOD6mS','Kai Kiat','Lo',null,'2002-01-31','AT','programming,productivity,langauge,selfhelp',null,'ADMIN']]
+	
+	User.findByPk(1).then((user) =>{
+		if(user == null){
+			userAcc.forEach(async (acc)=>
+			{
+				try
+				{	
+					//console.log(acc)
+					var user = await setupAcc(acc)
+					//console.log(user)
+
+				}catch (error)
+				{
+
+					console.log(error)
+					
+				}
+			})
+		}
+	})
+	
+	
+	}

@@ -45,6 +45,8 @@ router.get('/course/details/:id', async function (req, res) {
 			userdict[u.id] = u.username
 			fullname[u.id] = u.fname + ' ' + u.lname
 		});
+
+
 	})
 
 	Review.findAll({
@@ -53,7 +55,23 @@ router.get('/course/details/:id', async function (req, res) {
 	})
 		.then((reviews) => {
 			// pass object to listVideos.handlebar
-			res.render('course', { reviews, course ,userdict, fullname});
+			var sum = 0.0;
+			var count = 0;
+			reviews.forEach((review) => {
+				if(review.CourseId == req.params.id) {
+					sum += review.rating;
+					count++;
+				}
+			});
+
+			var avg = (sum / count).toFixed(2);
+			var roundAvg = Math.floor(avg)
+
+			var print_star = [];
+			for(var i = 0; i < roundAvg; i++) {
+				print_star.push(i);
+			}
+			res.render('course', { reviews, course ,userdict, fullname, avg, roundAvg, print_star, count});
 		})
 		.catch(err => console.log(err));
 });
@@ -63,6 +81,7 @@ router.post("/createReview", ensureAuthenticated, (req, res) => {
 	let rating = req.body.rating;
 	let CourseId = req.body.courseId;
 	let userId = req.user.id;
+	let report = 0;
 	// let userName = req.user.username;
 	// Review.findAll({
 	// 	include : User,
@@ -75,7 +94,7 @@ router.post("/createReview", ensureAuthenticated, (req, res) => {
 	// })
 
 	Review.create(
-		{ review, rating, userId, CourseId }
+		{ review, rating, userId, CourseId, report }
 	)
 		.then((review) => {
 			console.log(review.toJSON());
@@ -191,6 +210,28 @@ router.get('/deleteReply/:id', ensureAuthenticated, async (req, res) => {
 		.catch(err => console.log(err));
 });
 
+router.get('/report/:id', ensureAuthenticated, async (req, res) => {
+	// by replacing the value in the database with null will help to reset the reply in the database to a null value which will
+	// show as there is no value for reply
+	// Using similar to editing way instead of delete is because i dont want to delete it completely as it might affect the review side
+	let report = 1;
+
+	await Review.findByPk(req.params.id)
+		.then((result) => {
+			if (req.user.id != result.userId) {
+				flashMessage(res, 'error', 'Unauthorised access');
+				res.redirect('back');
+				return;
+			}
+			Review.update(
+				{ report },
+				{ where: { id: req.params.id } }
+			)
+			console.log(result[0] + 'Reply Deleted');
+			res.redirect('back');
+		})
+		.catch(err => console.log(err));
+});
 
 
 router.post('/flash', (req, res) => {
