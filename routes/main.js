@@ -127,6 +127,47 @@ router.post('/editReview/:id', ensureAuthenticated, async (req, res) => {
 		.catch(err => console.log(err));
 });
 
+router.post('/editReply/:id', ensureAuthenticated, async (req, res) => {
+	let reply = req.body.review.slice(0, 1999);
+
+	await Review.findByPk(req.params.id)
+		.then((result) => {
+			if (req.user.id != result.userId) {
+				flashMessage(res, 'error', 'Unauthorised access');
+				res.redirect('back');
+				return;
+			}
+			Review.update(
+				{ reply },
+				{ where: { id: req.params.id } }
+			)
+			console.log(result[0] + 'Reply updated');
+			res.redirect('back');
+		})
+		.catch(err => console.log(err));
+});
+
+router.get('/deleteReply/:id', ensureAuthenticated, async (req, res) => {
+	let reply = null;
+
+	await Review.findByPk(req.params.id)
+		.then((result) => {
+			if (req.user.id != result.userId) {
+				flashMessage(res, 'error', 'Unauthorised access');
+				res.redirect('back');
+				return;
+			}
+			Review.update(
+				{ reply },
+				{ where: { id: req.params.id } }
+			)
+			console.log(result[0] + 'Reply updated');
+			res.redirect('back');
+		})
+		.catch(err => console.log(err));
+});
+
+
 router.post('/createReply/:id', ensureAuthenticated, async (req, res) => {
 	let reply = req.body.review.slice(0, 1999);
 
@@ -147,6 +188,8 @@ router.post('/createReply/:id', ensureAuthenticated, async (req, res) => {
 		.catch(err => console.log(err));
 });
 
+
+
 router.post('/flash', (req, res) => {
 	const message = 'This is an important message';
 	const error = 'This is an error message';
@@ -158,23 +201,5 @@ router.post('/flash', (req, res) => {
 	flashMessage(res, 'error', error2, 'fas fa-sign-in-alt', true);
 });
 
-router.get('/editReview/:id', ensureAuthenticated, (req, res) => {
-	Review.findByPk(req.params.id)
-		.then((review) => {
-			if (!review) {
-				flashMessage(res, 'error', 'Review not found');
-				res.redirect('back');
-				return;
-			}
-			if (req.user.id != review.userId) {
-				flashMessage(res, 'error', 'Unauthorised access');
-				res.redirect('back');
-				return;
-			}
-
-			res.render('/editReview', { review });
-		})
-		.catch(err => console.log(err));
-});
 
 module.exports = router;
