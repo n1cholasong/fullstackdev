@@ -127,6 +127,27 @@ router.post('/editReview/:id', ensureAuthenticated, async (req, res) => {
 		.catch(err => console.log(err));
 });
 
+router.post('/createReply/:id', ensureAuthenticated, async (req, res) => {
+	let reply = req.body.review.slice(0, 1999);
+
+	await Review.findByPk(req.params.id)
+		.then((result) => {
+			if (req.user.id != result.userId) {
+				flashMessage(res, 'error', 'Unauthorised access');
+				res.redirect('back');
+				return;
+			}
+			Review.update(
+				{ reply },
+				{ where: { id: req.params.id } }
+			)
+			console.log(result[0] + 'Review updated');
+			res.redirect('back');
+		})
+		.catch(err => console.log(err));
+});
+
+
 router.post('/editReply/:id', ensureAuthenticated, async (req, res) => {
 	let reply = req.body.review.slice(0, 1999);
 
@@ -148,6 +169,9 @@ router.post('/editReply/:id', ensureAuthenticated, async (req, res) => {
 });
 
 router.get('/deleteReply/:id', ensureAuthenticated, async (req, res) => {
+	// by replacing the value in the database with null will help to reset the reply in the database to a null value which will
+	// show as there is no value for reply
+	// Using similar to editing way instead of delete is because i dont want to delete it completely as it might affect the review side
 	let reply = null;
 
 	await Review.findByPk(req.params.id)
@@ -162,27 +186,6 @@ router.get('/deleteReply/:id', ensureAuthenticated, async (req, res) => {
 				{ where: { id: req.params.id } }
 			)
 			console.log(result[0] + 'Reply updated');
-			res.redirect('back');
-		})
-		.catch(err => console.log(err));
-});
-
-
-router.post('/createReply/:id', ensureAuthenticated, async (req, res) => {
-	let reply = req.body.review.slice(0, 1999);
-
-	await Review.findByPk(req.params.id)
-		.then((result) => {
-			if (req.user.id != result.userId) {
-				flashMessage(res, 'error', 'Unauthorised access');
-				res.redirect('back');
-				return;
-			}
-			Review.update(
-				{ reply },
-				{ where: { id: req.params.id } }
-			)
-			console.log(result[0] + 'Review updated');
 			res.redirect('back');
 		})
 		.catch(err => console.log(err));
