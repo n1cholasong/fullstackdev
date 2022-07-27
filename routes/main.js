@@ -45,6 +45,8 @@ router.get('/course/details/:id', async function (req, res) {
 			userdict[u.id] = u.username
 			fullname[u.id] = u.fname + ' ' + u.lname
 		});
+
+
 	})
 
 	Review.findAll({
@@ -53,7 +55,23 @@ router.get('/course/details/:id', async function (req, res) {
 	})
 		.then((reviews) => {
 			// pass object to listVideos.handlebar
-			res.render('course', { reviews, course ,userdict, fullname});
+			var sum = 0.0;
+			var count = 0;
+			reviews.forEach((review) => {
+				if(review.CourseId == req.params.id) {
+					sum += review.rating;
+					count++;
+				}
+			});
+
+			var avg = (sum / count).toFixed(2);
+			var roundAvg = Math.floor(avg)
+
+			var print_star = [];
+			for(var i = 0; i < roundAvg; i++) {
+				print_star.push(i);
+			}
+			res.render('course', { reviews, course ,userdict, fullname, avg, roundAvg, print_star, count});
 		})
 		.catch(err => console.log(err));
 });
@@ -209,7 +227,7 @@ router.get('/report/:id', ensureAuthenticated, async (req, res) => {
 				{ report },
 				{ where: { id: req.params.id } }
 			)
-			console.log(result[0] + 'Reply Deleted');
+			console.log(result[0] + 'Review Reported');
 			res.redirect('back');
 		})
 		.catch(err => console.log(err));
