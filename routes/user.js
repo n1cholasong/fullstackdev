@@ -8,6 +8,7 @@ const ensureAuthenticated = require("../helpers/auth");
 const moment = require('moment');
 const countryList = require('country-list');
 
+
 router.get('/login', (req, res) => {
     title = "Log in";
     res.render('./user/login', { title });
@@ -142,7 +143,8 @@ router.post('/updateStatus/:id', (req, res) => {
     let status = req.body.status;
 
     User.update(
-        { status }, { where: { id: req.params.id } }
+        { status },
+        { where: { id: req.params.id } }
     )
         .then((result) => {
             console.log(result[0] + ' status updated');
@@ -155,43 +157,49 @@ router.post('/updateStatus/:id', (req, res) => {
 
 router.get('/updatePassword/:id', (req, res) => {
     title = "Update Password";
-    res.render('./user/updatePassword', { title });
+    res.render('./user/passwordUpdate', { title });
 });
 
 router.post('/updatePassword/:id', async (req, res) => {
     let { currentPassword, newPassword, newPassword2 } = req.body;
-
     var salt = bcrypt.genSaltSync(10);
-    var hash = bcrypt.hashSync(currentPassword, salt);
 
     try {
         // If all is well, checks if user is already registered
         let user = await User.findOne({ where: { id: req.params.id } });
-        
-        isMatch = bcrypt.compareSync(currentPassword, user.password)
-        if (!isMatch) {
-            flashMessage(res, 'error', 'Invalid Password', '', 'true');
-        }
-        // if (user.password = currentPassword) {
-        //     // If user is found, that means email has already been registered
-        //     flashMessage(res, 'error', 'Incorrect password');
-        //     res.render('./user/updatePassword');
-        // } else {
-        //     // Create new user record
-        //     var salt = bcrypt.genSaltSync(10);
-        //     var hash = bcrypt.hashSync(password, salt);
-        // }
+        let isValid = true;
+
+        oldMatch = bcrypt.compareSync(currentPassword, user.password)
+        if (oldMatch) {
+            if (currentPassword != newPassword) {
+                if (newPassword.length >= 6) {
+                    if (newPassword == newPassword2) {
+                        var hash = bcrypt.hashSync(newPassword, salt);
+                        user.update({ password: hash });
+                        console.log('Password Updated');
+                        flashMessage(res, 'success', 'Password Updated', '', 'true');
+                        res.redirect(`../profile/${req.params.id}`);
+
+                    } else { flashMessage(res, 'error', 'Passwords do not match', '', 'true') }
+                } else { flashMessage(res, 'error', 'Password must be at least 6 or more characters', '', 'true') }
+            } else { flashMessage(res, 'error', 'New password cannot be same as old password', '', 'true') }
+        } else { flashMessage(res, 'error', 'Invalid Password', '', 'true') }
     }
     catch (err) {
         console.log(err);
     }
 
-    
-    // if currentPassword !=
-
-
-    res.render('./user/updatePassword', { title });
+    res.render('./user/passwordUpdate', { title });
 });
 
+router.get('/forgotPassword', (req, res) => {
+    title = "Forgot Password";
+    res.render('./user/passwordForgot', { title });
+});
+
+router.get('/resetPassword', (req, res) => {
+    title = "Reset Password";
+    res.render('./user/passwordReset', { title });
+});
 
 module.exports = router;
