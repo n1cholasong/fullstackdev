@@ -5,6 +5,7 @@
 }
 
 .admin .entry-card,
+.password .entry-card,
 .forum .entry-card {
     /* height: calc(100vh - var(--header-height) - 2rem); */
     /*outline: 1px solid black;*/
@@ -29,12 +30,14 @@
     align-items: center;
 }
 
-.admin .entry-card .form-group {
+.admin .entry-card .form-group,
+.password .entry-card .form-group {
     margin-bottom: 1rem;
 }
 
 .login .entry-card .row,
-.signup .entry-card .row {
+.signup .entry-card .row,
+.password .entry-card .row {
     align-items: center;
 }
 
