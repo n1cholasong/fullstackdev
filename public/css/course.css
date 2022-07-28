@@ -27,12 +27,12 @@
 }
 
 .course-info {
-    outline: 1px solid;
+    /* outline: 1px solid; */
 }
 
 .course-thumbnail {
     background-color: black;
-    outline: 1px solid;
+    /* outline: 1px solid; */
     width: 300px;
     aspect-ratio: 16/9;
 }
