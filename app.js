@@ -14,23 +14,23 @@ const path = require('path');
 const helpers = require('./helpers/handlebars');
 const User = require('./models/User');
 
-async function setupAcc(userList)
-{	
-
+async function setupAcc(userList) {
 	let user = await User.create({
-		email:userList[0],
-		username:userList[1],
+		email: userList[0],
+		username: userList[1],
 		password: userList[2],
-		fname:userList[3],
-		lname:userList[4],
-		gender:userList[5],
-		birthday:userList[6],
-		country:userList[7],
-		interest:userList[8],
-		status:userList[9],
-		role:userList[10]
+		fname: userList[3],
+		lname: userList[4],
+		gender: userList[5],
+		birthday: userList[6],
+		country: userList[7],
+		interest: userList[8],
+		status: userList[9],
+		profilePicURL: userList[10],
+		role: userList[11],
+		active: userList[12]
 	});
-	
+
 	return user
 
 }
@@ -82,9 +82,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // 	checkExpirationInterval: 1800000 // 30 min 
 // };
 
-const restartDB = false;
+const resetDB = false;
 const DBConnection = require('./config/DBConnection');
-DBConnection.setUpDB(restartDB) // To set up database with new tables
+DBConnection.setUpDB(resetDB) // To set up database with new tables
 
 
 // Enables session to be stored using browser's Cookie ID
@@ -150,32 +150,32 @@ app.listen(port, () => {
 	console.log(`Server started on http://localhost:${port}`);
 });
 
-if (!restartDB){
-	userAcc = [
-	['nicholasong75@gmail.com','n1cholas.ong','$2a$10$sUm1yYEeoTRYxTEDyxqVFuaETT4mMBk0vYgPgrJrgVQ98YRP9NBRm','Nicholas','Ong','M',null,'SG','productivity,artsncrafts,langauge',null,'ADMIN'],
-	['Nat@gmail.com','nat','$2a$10$kFXNArrd0alYlG/zCzGfz./0m86G4Amgdub6656CHR4i.Aysc8NUi','Nat','Lee','M','1995-09-30','US','photography,productivity,langauge',null,'ADMIN'],
-	['lucaslee@gmail.com','Xepvoid','$2a$10$6fwMyC0jwW34PznlgWM8wOoyx1ritkY38XnklD4g4QLLyxoErxiyy','Lucas','Lee','M','2004-01-17','SG','programming,productivity,selfhelp',null,'ADMIN'],
-	['Kiat0878@gmail.com','Kiat10','$2a$10$jCtrCrWCNFhXI9kpEOgEeeTHxJi5yLFO2Bfkg.fZ2bJ2rx1qOD6mS','Kai Kiat','Lo',null,'2002-01-31','AT','programming,productivity,langauge,selfhelp',null,'ADMIN']]
-	
-	User.findByPk(1).then((user) =>{
-		if(user == null){
-			userAcc.forEach(async (acc)=>
-			{
-				try
-				{	
+if (!resetDB) {
+	adminAcc = 
+	[
+		['nicholasong75@gmail.com', 'n1cholas.ong', '$2a$10$sUm1yYEeoTRYxTEDyxqVFuaETT4mMBk0vYgPgrJrgVQ98YRP9NBRm', 'Nicholas', 'Ong', 'M', null, 'SG', 'productivity,artsncrafts,langauge', null, null, 'ADMIN', 1],
+		['Nat@gmail.com', 'nat', '$2a$10$kFXNArrd0alYlG/zCzGfz./0m86G4Amgdub6656CHR4i.Aysc8NUi', 'Nat', 'Lee', 'M', '1995-09-30', 'US', 'photography,productivity,langauge', null, null, 'ADMIN', 1],
+		['lucaslee@gmail.com', 'Xepvoid', '$2a$10$6fwMyC0jwW34PznlgWM8wOoyx1ritkY38XnklD4g4QLLyxoErxiyy', 'Lucas', 'Lee', 'M', '2004-01-17', 'SG', 'programming,productivity,selfhelp', null, null, 'ADMIN', 1],
+		['Kiat0878@gmail.com', 'Kiat10', '$2a$10$jCtrCrWCNFhXI9kpEOgEeeTHxJi5yLFO2Bfkg.fZ2bJ2rx1qOD6mS', 'Kai Kiat', 'Lo', null, '2002-01-31', 'AT', 'programming,productivity,langauge,selfhelp', null, null, 'ADMIN', 1],
+		['johnsmith123@curodemy.com', 'johnsmith23', '$2a$10$MSYP/5u38iPwbk9gqyeuAeoN7cDzQwy32x9paLMu13l1fiewJ5hhS', 'John', 'Smith', '', null, '', null, null, null, 'STUDENT', 1]
+	]
+
+	User.findByPk(1).then((user) => {
+		if (user == null) {
+			adminAcc.forEach(async (acc) => {
+				try {
 					//console.log(acc)
 					var user = await setupAcc(acc)
 					//console.log(user)
 
-				}catch (error)
-				{
+				} catch (error) {
 
 					console.log(error)
-					
+
 				}
 			})
 		}
 	})
-	
-	
-	}
+
+
+}
