@@ -1,4 +1,4 @@
-@import './constants.css';
+@import '../constants.css';
 
 .admin {
     /* display: flex; */
@@ -10,6 +10,8 @@
     /* height: calc(100vh - var(--header-height) - 2rem); */
     /*outline: 1px solid black;*/
     height: calc(100% - 1rem);
+    /* min-height: 640px; */
+
 
     margin: 0 1rem;
 
@@ -18,7 +20,6 @@
     border-radius: 20px;
     padding: 3rem 4rem;
     flex-grow: 1;
-    align-items: center;
 }
 
 .admin .entry-card-body {
@@ -64,6 +65,7 @@
     grid-template-columns: 2fr 3fr;
     gap: 1.1rem;
 }
+
 .entry-form.interest {
     align-items: center;
 }
@@ -106,4 +108,23 @@
     /* transform: translateX(200%); */
     /* opacity: 0; */
     /* transition: 200ms ease-in-out; */
+}
+
+.admin .inactive {
+    height: 640px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin .inactive .row {
+    width: 100%;
+    align-items: center;
+}
+
+.admin .inactive .img-box {
+    width: 100%;
+    display: flex;
+    align-items: center;
 }

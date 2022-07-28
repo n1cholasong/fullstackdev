@@ -1,5 +1,6 @@
 <div class="container profile admin">
     <div class="entry-card">
+        {{#if account.active}}
         <div class="row">
             <div class="col">
                 <div class="profile-pic">
@@ -39,12 +40,13 @@
                 <div class="about-me">
                     <h5 class="section-title">About Me</h5>
                     <div class="form-group">
-                        <textarea name="status" id="status" class="form-control" maxlength="300"
-                            disabled>{{account.status}}</textarea>
-                    </div>
+                            <textarea name="status" id="status" class="form-control"
+                                placeholder="Write something about yourself..." disabled>{{account.status}}</textarea>
+                        </div>
                 </div>
             </div>
         </div>
+        {{#ifCond user.role 'ADMIN'}}
         <div class="row">
             <div class="col me-5 mt-4">
                 {{!-- <div class="setting-tab py-4">
@@ -82,11 +84,6 @@
                                             <label for="email">Email<span class="text-danger">*</span></label>
                                             <input type="email" name="email" id="email" class="form-control"
                                                 value="{{account.email}}" disabled>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="username">Username<span class="text-danger">*</span></label>
-                                            <input type="text" name="username" id="username" class="form-control"
-                                                value="{{account.username}}" disabled>
                                         </div>
                                         <div id="input-row-1">
                                             <div class="form-group">
@@ -163,5 +160,20 @@
                 </div>
             </div>
         </div>
+        {{/ifCond}}
+        {{else}}
+        <div class="inactive">
+            <div class="row">
+                <div class="img-box col">
+                    <img src="/img/administration/alien_pana.svg" alt="">
+                </div>
+                <div class="box col">
+                    <h2>User not found!</h2>
+                    <h4>User's account is no longer active.</h4>
+                    <a href="/" role="button" class="btn btn-main mt-5">Return to home</a>
+                </div>
+            </div>
+        </div>
+        {{/if}}
     </div>
 </div>
