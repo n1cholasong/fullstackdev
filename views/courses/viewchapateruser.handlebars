@@ -42,9 +42,9 @@
         {{/each}}
         {{#each chapters}}
         {{#if @first}}
-         <a href="/course/quiz/view/{{id}}" class="btn btn-warning">Quiz</a>  
+         <a id="quiz{{id}}" href="/course/quiz/view/{{id}}" class="btn btn-warning">Quiz</a>  
         {{else}}
-         <a href="/course/quiz/view/{{id}}" class="btn btn-warning" style="display: hidden ;">Quiz</a>   
+         <a id="quiz{{id}}" href="/course/quiz/view/{{id}}" class="btn btn-warning" style="display: hidden ;">Quiz</a>   
         {{/if}} 
 
         {{/each}}
