@@ -126,6 +126,7 @@
                                     </div>
                                 </a>
 
+                                {{#ifCond userId user.id}}
                                 <div class="thread-change">
                                     <div class="edit-btn">
                                         <div class="button-wrapper">
@@ -141,6 +142,7 @@
                                             class="delete-btn">Delete</a>
                                     </div>
                                 </div>
+                                {{/ifCond}}
 
                             </div>
                         </div>
