@@ -67,7 +67,7 @@ router.post('/deleteAccount/:id', ensureAuthenticated, async function (req, res)
             return;
         }
 
-        let result = await User.destroy({ where: { id: user.id } });
+        let result = await user.destroy({ id: user.id });
         console.log(result + ' account deleted');
         res.redirect('../../admin/manageAccounts/');
     }
@@ -90,7 +90,7 @@ router.post('/deactivateAccount/:id', ensureAuthenticated, async function (req, 
                 password: '',
                 gender: '',
                 birthday: null,
-                country: '',
+                country: '', 
                 interest: null,
                 status: null,
                 profilePicURL: null,

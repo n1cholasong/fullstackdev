@@ -144,7 +144,7 @@ router.post('/signup', async function (req, res) {
                 .then(response => {
                     console.log(response);
                     flashMessage(res, 'success', user.email + ' registered successfully', '', 'true');
-                    res.redirect('/user/login');
+            res.redirect('/user/login');
                 })
                 .catch(err => {
                     console.log(err);
@@ -216,10 +216,8 @@ router.post('/updateAccount/:id', (req, res) => {
 });
 
 router.post('/updateStatus/:id', (req, res) => {
-    let status = req.body.status;
-
     User.update(
-        { status },
+        { status: req.body.status },
         { where: { id: req.params.id } }
     )
         .then((result) => {
@@ -242,8 +240,8 @@ router.post('/updatePassword/:id', async (req, res) => {
 
     try {
         // If all is well, checks if user is already registered
-        let user = await User.findOne({ where: { id: req.params.id } });
-        let isValid = true;
+        let user = await User.findByPk(req.params.id);
+        // let isValid = true;
 
         oldMatch = bcrypt.compareSync(currentPassword, user.password)
         if (oldMatch) {
@@ -277,5 +275,57 @@ router.get('/resetPassword', (req, res) => {
     title = "Reset Password";
     res.render('./user/passwordReset', { title });
 });
+
+router.post('/uploadProfilePic', ensureAuthenticated, (req, res) => {
+    // Creates user id directory for upload if not exist
+    if (!fs.existsSync('./public/uploads/' + req.user.id)) {
+        fs.mkdirSync('./public/uploads/' + req.user.id, {
+            recursive:
+                true
+        });
+    }
+    upload(req, res, (err) => {
+        if (err) {
+            // e.g. File too large
+            res.json({ file: '/img/user.svg', err: err });
+        }
+        else {
+            res.json({
+                file: `/uploads/${req.user.id}/${req.file.filename}`
+            });
+        }
+    });
+});
+
+router.post('/updateProfilePic/:id', (req, res) => {
+    let profilePicURL = req.body.profilePicURL;
+
+    User.update(
+        { profilePicURL },
+        { where: { id: req.params.id } }
+    )
+        .then(
+            res.redirect('/user/profile/' + req.params.id)
+        )
+        .catch(err =>
+            console.log(err)
+        );
+    res.render('./user/profile');
+});
+
+router.get('/resetProfilePic/:id', (req, res) => {
+    User.update(
+        { profilePicURL: null },
+        { where: { id: req.params.id } }
+    )
+        .then(
+            res.redirect('/user/profile/' + req.params.id)
+        )
+        .catch(err =>
+            console.log(err)
+        );
+
+});
+
 
 module.exports = router;
