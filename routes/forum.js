@@ -4,6 +4,7 @@ const flashMessage = require('../helpers/messenger');
 const Forum = require('../models/Forum');
 const User = require('../models/User');
 const Comment = require('../models/Comments');
+const ensureAuthenticated = require("../helpers/auth");
 require('dotenv').config;
 // Required for file upload
 const fs = require('fs');
@@ -29,7 +30,7 @@ router.get("/", (req, res) => {
 
 });
 
-router.get("/mythreads", (req, res) => {
+router.get("/mythreads", ensureAuthenticated, (req, res) => {
     Forum.findAll({
         include: User,
         raw: true,
@@ -49,7 +50,7 @@ router.get("/mythreads", (req, res) => {
 
 });
 
-router.post("/createThread", (req, res) => {
+router.post("/createThread", ensureAuthenticated, (req, res) => {
     let topic = req.body.topic;
     let description = req.body.thread_description;
     let userId = req.user.id;
@@ -66,7 +67,7 @@ router.post("/createThread", (req, res) => {
     res.redirect('/forum/')
 });
 
-router.post('/editThread/:id', async function (req, res) {
+router.post('/editThread/:id', ensureAuthenticated, async function (req, res) {
     let forum = await Forum.findByPk(req.params.id);
 
     let topic = req.body.topic;
@@ -97,7 +98,7 @@ router.post('/editThread/:id', async function (req, res) {
         .catch(err => console.log(err));
 });
 
-router.post('/deleteThread/:id', async function (req, res) {
+router.post('/deleteThread/:id', ensureAuthenticated, async function (req, res) {
     try {
         let forum = await Forum.findByPk(req.params.id);
         let status = 0;
@@ -135,7 +136,7 @@ router.get('/:id', (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.post("/comment", (req, res) => {
+router.post("/comment", ensureAuthenticated, (req, res) => {
     let comment = req.body.comment;
     let forumId = req.body.forum_id;
     let userId = req.user.id;

@@ -7,8 +7,10 @@
                         {{forum.topic}}
                     </div>
                     <div class="picture-wrapper">
+                        {{#if pictureURL}}
                         <img src="{{forum.pictureURL}}" alt="Picture" class="img-thumbnail img-fluid mb-2"
                             onerror="this.src='/img/no-image.jpg'" style="max-height:160px">
+                        {{/if}}
                     </div>
                     <form action="/forum/comment" method="post">
                         <div class="input-wrapper row align-items-center">
