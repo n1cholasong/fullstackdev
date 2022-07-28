@@ -1,5 +1,6 @@
 <div class="container profile admin">
     <div class="entry-card">
+        {{#if account.active}}
         <div class="row">
             <div class="col">
                 <div class="profile-pic">
@@ -163,5 +164,19 @@
                 </div>
             </div>
         </div>
+        {{else}}
+        <div class="inactive">
+            <div class="row">
+                <div class="img-box col">
+                    <img src="/img/administration/alien_pana.svg" alt="">
+                </div>
+                <div class="box col">
+                    <h2>User not found</h2>
+                    <h4>User is no longer active!</h4>
+                    <a href="/" role="button" class="btn btn-main">Return to home</a>
+                </div>
+            </div>
+        </div>
+        {{/if}}
     </div>
 </div>
