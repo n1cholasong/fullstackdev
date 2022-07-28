@@ -1,0 +1,123 @@
+.header {
+    height: 64px;
+    flex-wrap: nowrap;
+}
+
+.header .search-container {
+    background: #F6F7F7;
+    /*F8F9FA*/
+    border: 1.5px solid #b6b6b6;
+    border-radius: 20px;
+    width: 55%;
+    height: 38px;
+}
+
+.header form {
+    line-height: 20px;
+}
+
+.header input {
+    border: none;
+    background: none;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 1rem;
+}
+
+.header input:focus {
+    outline: none;
+}
+
+.header .search-btn {
+    background: none;
+    border: none;
+    /* border-radius: 0 20px 20px 0; */
+    padding: 7px .75rem 7px 0;
+    width: fit-content;
+    height: fit-content;
+}
+
+.header .search-btn:hover {
+    color: #8E2DE2;
+}
+
+.header .login-btn {
+    background: none;
+    border: 1.5px solid #4A00E0 !important;
+    color: #4A00E0;
+    width: 90px;
+    padding: .5rem 1rem;
+}
+
+.header .login-btn:hover {
+    background: #310094;
+    border: 1.5px solid #310094 !important;
+    color: white;
+}
+
+.header .signup-btn {
+    border: 1.5px solid #4A00E0 !important;
+    background: #4A00E0;
+    width: 90px;
+    float: right;
+    padding: .5rem 1rem;
+}
+
+.header .signup-btn:hover {
+    border: 1.5px solid #310094 !important;
+    background: #310094;
+    color: white;
+}
+
+.header .button-group,
+.header .logo span {
+    width: 190px;
+}
+
+.header .logo {
+    float: left;
+}
+
+.header .profile-menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+
+}
+
+.header .profile-menu .user-text {
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.header .profile-pic {
+    display: block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    text-decoration: none;
+}
+
+.header .profile-pic>img {
+    width: 100%;
+    height: 100%;
+}
+
+.header .default-profile-pic {
+    width: 100%;
+    height: 100%;
+    color: white;
+    background: black;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 40px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/* 
+.header .user-profile-pic {} */

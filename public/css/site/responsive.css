@@ -1,0 +1,30 @@
+@import '../constants.css';
+
+@media (max-width: 1024px) {
+    .header .button-group {
+        display: none;
+    }
+
+    .admin .entry-card {
+        flex-direction: column;
+    }
+
+    .admin .entry-card .img-box {
+        display: none;
+    }
+}
+
+
+@media (max-width: 600px) {
+    .home .featured-courses {
+        display: none;
+    }
+
+    /* .header .logo span {
+        display: none;
+    }
+
+    .header .logo::after {
+        content: 'C';  
+    } */
+}
