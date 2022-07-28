@@ -57,6 +57,11 @@
     font-weight: 600;
 }
 
+.profile .verified {
+    height: 100%;
+
+}
+
 .profile .profile-info .user-role {
     font-size: 1.3rem;
     font-weight: 600;

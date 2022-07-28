@@ -12,9 +12,13 @@
             </div>
             <div class="col-9 d-flex flex-column justify-content-between">
                 <div class="profile-info">
-                    <span class="user-role">{{user.role}}</span>
+                    <span class="user-role">{{user.role}}</span> {{#if user.verified}}
+                    <span class="material-symbols-rounded text-success">verified</span>
+                    {{/if}}
                     <h1 class="fullname mb-0">{{user.fname}} {{user.lname}}</h1>
-                    <h4 class="username">@{{user.username}}</h4>
+                    <div class="d-flex align-items-center">
+                        <h4 class="username">@{{user.username}}</h4>
+                    </div>
                 </div>
                 <div id="editStatus">
                     <button type="button" class="btn btn-main" onclick="editStatus()">Edit Status</button>
@@ -24,6 +28,7 @@
         <div class="row">
             <div class="col mt-4">
                 <div class="user-info">
+
                     {{#if user.country}}
                     <div class="info-icon">
                         <i class="fa-solid fa-location-dot"></i>

@@ -7,8 +7,13 @@ const passport = require('passport');
 const ensureAuthenticated = require("../helpers/auth");
 const moment = require('moment');
 const countryList = require('country-list');
+// Require for image upload
 const fs = require('fs');
 const upload = require('../helpers/imageUpload');
+// Required for email verification
+require('dotenv').config();
+const jwt = require('jsonwebtoken');
+const sgMail = require('@sendgrid/mail');
 
 
 router.get('/login', (req, res) => {
@@ -27,6 +32,42 @@ router.post('/login', (req, res, next) => {
         When a failure occur passport passes the message object as error */
         failureFlash: true
     })(req, res, next);
+});
+
+router.get('/verify/:userID/:token', async function (req, res) {
+    let id = req.params.userID;
+    let token = req.params.token;
+    try {
+        // Check if user is found
+        let user = await User.findByPk(id);
+        if (!user) {
+            flashMessage(res, 'error', 'User not found');
+            res.redirect('/user/login');
+            return;
+        }
+        // Check if user has been verified
+        if (user.verified) {
+            flashMessage(res, 'info', 'User already verified');
+            res.redirect('/user/login');
+            return;
+        }
+        // Verify JWT token sent via URL
+        let authData = jwt.verify(token, process.env.APP_SECRET);
+        if (authData != user.email) {
+            flashMessage(res, 'error', 'Unauthorised Access');
+            res.redirect('/user/login');
+            return;
+        }
+        let result = await User.update(
+            { verified: 1 },
+            { where: { id: user.id } });
+        console.log(result[0] + ' user updated');
+        flashMessage(res, 'success', user.email + ' verified. Please login');
+        res.redirect('/user/login');
+    }
+    catch (err) {
+        console.log(err);
+    }
 });
 
 router.get('/signup', (req, res) => {
@@ -80,12 +121,9 @@ router.post('/signup', async function (req, res) {
 
             let birthday = moment(req.body.birthday).isValid() ? req.body.birthday : null;
             let interest = req.body.interest === undefined ? "" : req.body.interest.toString();
-            let role = "STUDENT";
-            let status = undefined;
-            let active = 1;
-            // Use hashed password
-            await User.create({
+            let user = await User.create({
                 email,
+                verified: 0,
                 username,
                 password: hash,
                 fname,
@@ -94,18 +132,52 @@ router.post('/signup', async function (req, res) {
                 birthday,
                 country,
                 interest,
-                status,
-                role,
-                active
+                status: undefined,
+                role: 'STUDENT',
+                active: 1
             });
-            flashMessage(res, 'success', email + ' registered successfully', '', 'true');
-            res.redirect('/user/login');
+
+            // Send email
+            let token = jwt.sign(email, process.env.APP_SECRET);
+            let url = `${process.env.BASE_URL}:${process.env.PORT}/user/verify/${user.id}/${token}`;
+            sendEmail(user.email, url)
+                .then(response => {
+                    console.log(response);
+                    flashMessage(res, 'success', user.email + ' registered successfully', '', 'true');
+                    res.redirect('/user/login');
+                })
+                .catch(err => {
+                    console.log(err);
+                    flashMessage(res, 'error', 'Error when sending email to ' +
+                        user.email, '', 'true');
+                    res.redirect('/');
+                });
         }
     }
     catch (err) {
         console.log(err);
     }
 });
+
+function sendEmail(toEmail, url) {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const message = {
+        to: toEmail,
+        from: `Curodemy Institute <${process.env.SENDGRID_SENDER_EMAIL}>`,
+        subject: 'Verify Curodemy Account',
+        html:
+            `
+            Thank you registering with Curodemy.<br><br> Please
+            <a href=\"${url}"><strong>verify</strong></a> your account.
+            `
+    };
+    // Returns the promise from SendGrid to the calling function
+    return new Promise((resolve, reject) => {
+        sgMail.send(message)
+            .then(response => resolve(response))
+            .catch(err => reject(err));
+    });
+}
 
 router.get('/logout', (req, res, next) => {
     req.logout(function (err) {
