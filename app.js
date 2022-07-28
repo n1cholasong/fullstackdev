@@ -13,13 +13,10 @@ const path = require('path');
 // require('dotenv').config();
 const helpers = require('./helpers/handlebars');
 const User = require('./models/User');
-const Courses = require('./models/Courses');
-const Quiz = require('./models/Quizes');
-const Chapter = require('./models/chapter');
-const Forum = require('./models/Forum');
-const Review = require('./models/Review');
 
-async function setupAcc(userList) {
+async function setupAcc(userList)
+{	
+
 	let user = await User.create({
 		email: userList[0],
 		verified: userList[1],
@@ -56,6 +53,7 @@ async function setupAcc(userList) {
 		})
 	}
 	return user
+
 }
 
 /*
@@ -73,8 +71,7 @@ const app = express();
 *
 * 3. 'defaultLayout' specifies the main.handlebars file under views/layouts as the main template
 *
-* 
-*/
+* */
 app.engine('handlebars', engine({
 	helpers: helpers,
 	handlebars: allowInsecurePrototypeAccess(Handlebars),
@@ -106,9 +103,9 @@ var options = {
 	checkExpirationInterval: 1800000 // 30 min 
 };
 
-const resetDB = false;
+const restartDB = false;
 const DBConnection = require('./config/DBConnection');
-DBConnection.setUpDB(resetDB) // To set up database with new tables
+DBConnection.setUpDB(restartDB) // To set up database with new tables
 
 
 // Enables session to be stored using browser's Cookie ID
@@ -192,14 +189,15 @@ if (!resetDB) {
 					var user = await setupAcc(acc)
 					//console.log(user)
 
-				} catch (error) {
+				}catch (error)
+				{
 
 					console.log(error)
-
+					
 				}
 			})
 		}
 	})
-
-
-}
+	
+	
+	}
