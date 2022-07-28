@@ -13,6 +13,10 @@ const path = require('path');
 // require('dotenv').config();
 const helpers = require('./helpers/handlebars');
 const User = require('./models/User');
+const Chapter = require('./models/chapter');
+const Review = require('./models/chapter');
+const Quiz = require('./models/chapter');
+const Courses = require('./models/Courses');
 
 async function setupAcc(userList)
 {	
@@ -34,7 +38,7 @@ async function setupAcc(userList)
 		active: userList[13]
 	});
 
-	if (userList[1] == "n1cholas.ong") {
+	if (userList[2] == "n1cholas.ong") {
 		var course = await Courses.create({
 			courseName: "Python", description: "Learn Python with us!!!", content: "Learn Python with us!!!", userId: user.id
 		})

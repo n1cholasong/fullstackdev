@@ -30,7 +30,6 @@
             <video width="320" height="240" controls>
                 <source src="/Course/user/video/view/{{id}}" type="video/mp4">
             </video>
-            <a href="/course/quiz/view/{{lookup ../videoDict id}}" class="btn btn-warning">Quiz</a>
         </div>
         {{else}}
         <div style="display:none;" id="videoPlayer{{@index}}">
@@ -38,10 +37,19 @@
             <video id="videoPlayer{{@index}}" width="320" height="240" controls>
                 <source src="/Course/user/video/view/{{id}}" type="video/mp4">
             </video>
-            <a href="/course/quiz/view/{{lookup ../videoDict id}}" class="btn btn-warning">Quiz</a>
         </div>
         {{/if}}
         {{/each}}
+        {{#each chapters}}
+        {{#if @first}}
+         <a href="/course/quiz/view/{{id}}" class="btn btn-warning">Quiz</a>  
+        {{else}}
+         <a href="/course/quiz/view/{{id}}" class="btn btn-warning" style="display: hidden ;">Quiz</a>   
+        {{/if}} 
+
+        {{/each}}
+
+
     </div>
 </div>
 
