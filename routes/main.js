@@ -51,6 +51,7 @@ router.get('/course/details/:id', async function (req, res) {
 
 	Review.findAll({
 		where : {courseId : course.id},
+		where : {report : 0},
 		raw: true
 	})
 		.then((reviews) => {
@@ -215,16 +216,18 @@ router.get('/report/:id', ensureAuthenticated, async (req, res) => {
 	// show as there is no value for reply
 	// Using similar to editing way instead of delete is because i dont want to delete it completely as it might affect the review side
 	let report = 1;
+	let reported = req.user.id;
+
 
 	await Review.findByPk(req.params.id)
 		.then((result) => {
-			if (req.user.id != result.userId) {
+			if (req.user.id == result.userId) {
 				flashMessage(res, 'error', 'Unauthorised access');
 				res.redirect('back');
 				return;
 			}
 			Review.update(
-				{ report },
+				{ report, reported },
 				{ where: { id: req.params.id } }
 			)
 			console.log(result[0] + 'Review Reported');

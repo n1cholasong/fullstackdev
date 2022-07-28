@@ -3,11 +3,7 @@
         <div class="row">
             <div class="col">
                 <div class="profile-pic">
-                    {{#if user.profilePicURL}}
-                    <img src="{{user.profilePicURL}}" class="user-profile-pic" alt="profile-pic">
-                    {{else}}
                     <div class="default-profile-pic">{{firstChar user.fname}}{{firstChar user.lname}}</div>
-                    {{/if}}
                 </div>
             </div>
             <div class="col-9 d-flex flex-column justify-content-between">
@@ -170,39 +166,18 @@
                                     aria-labelledby="edit-profile-pic-tab">
                                     <div class="image-preview d-flex align-items-center justify-content-center py-2 mb-2"
                                         id="">
-                                        <img id="imagePreview" src="" alt="Image Preview"
-                                            class="profile-pic-preview rounded-circle d-none">
+                                        <img id="imagePreview" src="/img/user.svg/{{!user.profile_pic}}"
+                                            alt="Image Preview" class="profile-pic-preview rounded-circle d-none">
                                         <span id="imagePreviewText" class="default-text text">Image
                                             Preview</span>
                                     </div>
-
-                                    <div class="custom-file mb-2">
-                                        <input type="file" class="custom-file-input form-control" id="inputImage"
-                                            name="inputImage" accept="image/png,image/jpeg,image/jpg,image/gif">
-                                    </div>
-                                    <div class="text-danger small mb-2" id="profileErr" style="display:none"></div>
-
-                                    {{!-- <div class="custom-file mb-2">
-                                        <input type="file" class="custom-file-input" id="inputImage" name="inputImage"
-                                            accept="image/png,image/jpeg,image/jpg,image/gif">
-                                        <label class="custom-file-label" for="customFile">Choose File</label>
-                                    </div>
-                                    <div class="text-danger small mb-2" id="profileErr" style="display:none"></div>
-                                    <img id="imagePreview" src="/img/user.svg" alt="Poster"
-                                        class="border img-thumbnail img-fluid"> --}}
-                                    <div class="pt-3">
-                                        <form method="post" action="/user/updateProfilePic/{{user.id}}"
-                                            id="updateProfilePic">
-                                            <input type="hidden" id="profilePicURL" name="profilePicURL">
-                                        </form>
-                                        <button type="submit" id="updateProfilePicBtn" class="btn btn-main me-2"
-                                            form="updateProfilePic" disabled>Save
-                                            Changes</button>
-                                        {{#if user.profilePicURL}}
-                                        <a href="/user/resetProfilePic/{{user.id}}" class="btn btn-outline">Reset to
-                                            Default</a>
-                                        {{/if}}
-                                    </div>
+                                    <input type="file" id="inputImage" name="image_file" accept="image/*"
+                                        class="form-control file text mb-4">
+                                    <br>
+                                    <input type="submit" class="btn btn-main me-2" value="Save Changes">
+                                    <a href="/user/resetProfilePic/{{!user.id}}" class="btn btn-outline">
+                                        Reset to Default
+                                    </a>
                                 </div>
                                 <!--Change Password-->
                                 <div class="tab-pane fade" id="change-password" role="tabpanel"

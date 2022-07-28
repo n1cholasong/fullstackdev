@@ -6,6 +6,7 @@ const Review = db.define('review', {
     rating: { type: Seqelize.INTEGER },
     reply: { type: Seqelize.STRING(2000) },
     report: { type: Seqelize.INTEGER },
+    reported : {type: Seqelize.STRING(30) },
 });
 
 module.exports = Review
