@@ -87,15 +87,17 @@ router.post('/deactivateAccount/:id', ensureAuthenticated, async function (req, 
         let result = user.update(
             {
                 email: 'inactive@curodemy.com',
+                password: '',
                 gender: '',
                 birthday: null,
                 country: '',
                 interest: null,
                 status: null,
+                profilePicURL: null,
                 active: 0
             });
         console.log(result + ' account deactivated');
-        res.render('../../admin/manageAccounts/');
+        res.redirect('back');
     }
     catch (err) {
         console.log(err);

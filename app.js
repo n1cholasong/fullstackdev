@@ -22,18 +22,19 @@ const Review = require('./models/Review');
 async function setupAcc(userList) {
 	let user = await User.create({
 		email: userList[0],
-		username: userList[1],
-		password: userList[2],
-		fname: userList[3],
-		lname: userList[4],
-		gender: userList[5],
-		birthday: userList[6],
-		country: userList[7],
-		interest: userList[8],
-		status: userList[9],
-		profilePicURL: userList[10],
-		role: userList[11],
-		active: userList[12]
+		verified: userList[1],
+		username: userList[2],
+		password: userList[3],
+		fname: userList[4],
+		lname: userList[5],
+		gender: userList[6],
+		birthday: userList[7],
+		country: userList[8],
+		interest: userList[9],
+		status: userList[10],
+		profilePicURL: userList[11],
+		role: userList[12],
+		active: userList[13]
 	});
 
 	if (userList[1] == "n1cholas.ong") {
@@ -53,12 +54,6 @@ async function setupAcc(userList) {
 		await Quiz.create({
 			question: "What is python?", description: "", a1: "It is an programing laung", a2: "The Snake DUH", a3: "Anaconda?", a4: "Anaconda?", correctans: "It is an programing laung", ChapterId: chapter.id
 		})
-
-		await Forum.create(
-			{
-				topic: "Python", description: "Python is good", pictureURL: "null", status: "Created", likes: "Good", userId: user.id
-			}
-		)
 	}
 	return user
 }
@@ -97,19 +92,19 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Library to use MySQL to store session objects
-// const MySQLStore = require('express-mysql-session');
-// var options = { 
-// 	host: process.env.DB_HOST, 
-// 	port: process.env.DB_PORT, 
-// 	user: process.env.DB_USER, 
-// 	password: process.env.DB_PWD, 
-// 	database: process.env.DB_NAME, 
-// 	clearExpired: true, 
-// 	// The maximum age of a valid session; milliseconds:
-// 	 expiration: 3600000, // 1 hour = 60x60x1000 milliseconds 
-// 	// How frequently expired sessions will be cleared; milliseconds: 
-// 	checkExpirationInterval: 1800000 // 30 min 
-// };
+const MySQLStore = require('express-mysql-session');
+var options = { 
+	host: process.env.DB_HOST, 
+	port: process.env.DB_PORT, 
+	user: process.env.DB_USER, 
+	password: process.env.DB_PWD, 
+	database: process.env.DB_NAME, 
+	clearExpired: true, 
+	// The maximum age of a valid session; milliseconds:
+	 expiration: 3600000, // 1 hour = 60x60x1000 milliseconds 
+	// How frequently expired sessions will be cleared; milliseconds: 
+	checkExpirationInterval: 1800000 // 30 min 
+};
 
 const resetDB = false;
 const DBConnection = require('./config/DBConnection');
@@ -121,9 +116,9 @@ app.use(cookieParser());
 
 // To store session information. By default it is stored as a cookie on browser
 app.use(session({
-	key: 'curodemy_session',
+	key: process.env.APP_SECRET,
 	secret: 'ymedoruc',
-	//store: new MySQLStore(options),
+	store: new MySQLStore(options),
 	resave: false,
 	saveUninitialized: false,
 }));
@@ -182,11 +177,11 @@ app.listen(port, () => {
 if (!resetDB) {
 	adminAcc =
 		[
-			['nicholasong75@gmail.com', 'n1cholas.ong', '$2a$10$sUm1yYEeoTRYxTEDyxqVFuaETT4mMBk0vYgPgrJrgVQ98YRP9NBRm', 'Nicholas', 'Ong', 'M', null, 'SG', 'productivity,artsncrafts,langauge', null, null, 'ADMIN', 1],
-			['Nat@gmail.com', 'nat', '$2a$10$kFXNArrd0alYlG/zCzGfz./0m86G4Amgdub6656CHR4i.Aysc8NUi', 'Nat', 'Lee', 'M', '1995-09-30', 'US', 'photography,productivity,langauge', null, null, 'ADMIN', 1],
-			['lucaslee@gmail.com', 'Xepvoid', '$2a$10$6fwMyC0jwW34PznlgWM8wOoyx1ritkY38XnklD4g4QLLyxoErxiyy', 'Lucas', 'Lee', 'M', '2004-01-17', 'SG', 'programming,productivity,selfhelp', null, null, 'ADMIN', 1],
-			['Kiat0878@gmail.com', 'Kiat10', '$2a$10$jCtrCrWCNFhXI9kpEOgEeeTHxJi5yLFO2Bfkg.fZ2bJ2rx1qOD6mS', 'Kai Kiat', 'Lo', null, '2002-01-31', 'AT', 'programming,productivity,langauge,selfhelp', null, null, 'ADMIN', 1],
-			['johnsmith123@curodemy.com', 'johnsmith23', '$2a$10$MSYP/5u38iPwbk9gqyeuAeoN7cDzQwy32x9paLMu13l1fiewJ5hhS', 'John', 'Smith', '', null, '', null, null, null, 'STUDENT', 1]
+			['nicholasong75@gmail.com', 1, 'n1cholas.ong', '$2a$10$sUm1yYEeoTRYxTEDyxqVFuaETT4mMBk0vYgPgrJrgVQ98YRP9NBRm', 'Nicholas', 'Ong', 'M', null, 'SG', 'productivity,artsncrafts,langauge', null, null, 'ADMIN', 1],
+			['Nat@gmail.com', 1, 'nat', '$2a$10$kFXNArrd0alYlG/zCzGfz./0m86G4Amgdub6656CHR4i.Aysc8NUi', 'Nat', 'Lee', 'M', '1995-09-30', 'US', 'photography,productivity,langauge', null, null, 'ADMIN', 1],
+			['lucaslee@gmail.com', 1, 'Xepvoid', '$2a$10$6fwMyC0jwW34PznlgWM8wOoyx1ritkY38XnklD4g4QLLyxoErxiyy', 'Lucas', 'Lee', 'M', '2004-01-17', 'SG', 'programming,productivity,selfhelp', null, null, 'ADMIN', 1],
+			['Kiat0878@gmail.com', 1, 'Kiat10', '$2a$10$jCtrCrWCNFhXI9kpEOgEeeTHxJi5yLFO2Bfkg.fZ2bJ2rx1qOD6mS', 'Kai Kiat', 'Lo', null, '2002-01-31', 'AT', 'programming,productivity,langauge,selfhelp', null, null, 'ADMIN', 1],
+			['johnsmith123@curodemy.com', 1, 'johnsmith23', '$2a$10$MSYP/5u38iPwbk9gqyeuAeoN7cDzQwy32x9paLMu13l1fiewJ5hhS', 'John', 'Smith', '', null, '', null, null, null, 'STUDENT', 1]
 		]
 
 	User.findByPk(1).then((user) => {

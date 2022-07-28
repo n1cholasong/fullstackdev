@@ -17,6 +17,12 @@ function localStrategy(passport) {
                             message: 'Password incorrect'
                         });
                     }
+
+                    // Email Verified
+                    if (!user.verified) {
+                        return done(null, false, { message: 'Email not verified' });
+                    }
+                    
                     return done(null, user);
                 })
         }));
