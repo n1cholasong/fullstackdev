@@ -1,4 +1,5 @@
-<div class="container">
+<link rel="stylesheet" href="/css/user/manage.css">
+<div class="container manage">
     <h2>Account Management</h2>
     <div></div>
     <div>
@@ -9,8 +10,8 @@
                     <th>Email</th>
                     <th>Username</th>
                     <th>Role</th>
+                    <th>Account</th>
                     <th>Last Updated</th>
-                    <th></th>
                     <th></th>
                 </tr>
             </thead>
@@ -22,6 +23,13 @@
                     <td>{{email}}</td>
                     <td>{{username}}</td>
                     <td>{{role}}</td>
+                    <td>
+                        {{#if active}}
+                        <span class="text-success">Active</span>
+                        {{else}}
+                        <span class="text-danger">Inctive</span>
+                        {{/if}}
+                    </td>
                     <td>{{formatDate updatedAt 'LLL'}}</td>
                     <td>
                         <div class="dropdown user-management">
@@ -29,9 +37,18 @@
                                 <i class="fas fa-ellipsis-v"></i>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end text">
+                                {{#ifCond ../user.id this.id}}
                                 <li><a class="dropdown-item" href="/admin/viewAccount/{{id}}">View Profile</a></li>
-                                <li><a class="dropdown-item text-danger" data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdrop_{{id}}" role="button">Delete Account</a></li>
+                                {{else}}
+                                <li><a class="dropdown-item" href="/admin/viewAccount/{{id}}">View Profile</a></li>
+                                {{#if active}}
+                                <li><a class="dropdown-item text-danger" href="/admin/deactivateAccount/{{id}}"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deactivateAccountBackdrop_{{id}}">Deactivate Account</a></li>
+                                {{/if}}
+                                {{!-- <li><a class="dropdown-item text-danger" data-bs-toggle="modal"
+                                        data-bs-target="#staticBackdrop_{{id}}">Delete Account</a></li> --}}
+                                {{/ifCond}}
                                 {{!-- {% if user.get_user_role_str() == 'STUDENT' %}
                                 <li><a class="dropdown-item" href="/makeAdmin/{{user.id}}">Promote to Admin</a></li>
                                 {% else %}
@@ -41,10 +58,41 @@
                                 {% if session.id != user.id %}
 
                                 {% endif %} --}}
+
                             </ul>
                         </div>
-                    </td>
-                    <td>
+                        <!-- De-activate Modal -->
+                        <form action="/admin/deactivateAccount/{{id}}" method="POST">
+                            <div class="modal fade" id="deactivateAccountBackdrop_{{id}}" data-bs-backdrop="static"
+                                data-bs-keyboard="false" tabindex="-1" aria-labelledby="deactivateAccountBackdropLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deactivateAccountBackdropLabel">De-activate
+                                                Account</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <!-- Modal body -->
+                                        <div class="modal-body">
+                                            <p>
+                                                Are you sure you want to <strong>permanently de-activate @{{username}}'s
+                                                    account</strong> You cannot undo this action.
+                                            </p>
+                                        </div>
+                                        <!-- Modal footer -->
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Cancel</button>
+                                            <button type="submit" class="btn btn-danger">De-activate</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
                         <!-- Delete Modal -->
                         <form action="/admin/deleteAccount/{{id}}" method="POST">
                             <div class="modal fade" id="staticBackdrop_{{id}}" data-bs-backdrop="static"
@@ -60,12 +108,14 @@
                                         </div>
                                         <!-- Modal body -->
                                         <div class="modal-body">
-                                            <p>Are you sure you want to <strong>permanently delete @{{username}}'s
-                                                    account</strong>. You cannot undo this action.</p>
+                                            <p>
+                                                Are you sure you want to <strong>permanently delete @{{username}}'s
+                                                    account</strong>. You cannot undo this action.
+                                            </p>
                                         </div>
                                         <!-- Modal footer -->
                                         <div class="modal-footer">
-                                            <input type="submit" value="Delete" class="btn btn-danger">
+                                            <button type="submit" class="btn btn-danger">Delete</button>
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Cancel</button>
                                         </div>

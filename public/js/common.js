@@ -97,6 +97,7 @@ function checkRange() {
 // Display selected file name
 $(".custom-file-input").on("change", function () {
    var fileName = $(this).val().split("\\").pop();
+   $('#updateProfilePicBtn').prop('disabled', false);
    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 });
 
@@ -143,6 +144,29 @@ $('#videoUpload').on('change', function () {
          }
          else {
             $('#videoErr').hide();
+         }
+      })
+});
+
+
+$('#inputImage').on('change', function () {
+   let formdata = new FormData();
+   let image = $("#inputImage")[0].files[0];
+   formdata.append('inputImage', image);
+   fetch('/user/uploadProfilePic', {
+      method: 'POST',
+      body: formdata
+   })
+      .then(res => res.json())
+      .then((data) => {
+         $('#imagePreview').attr('src', data.file); //Image Preview
+         $('#profilePicURL').attr('value', data.file); // sets profilePicURL hidden field
+         if (data.err) {
+            $('#profileErr').show();
+            $('#profileErr').text(data.err.message);
+         }
+         else {
+            $('#profileErr').hide();
          }
       })
 });

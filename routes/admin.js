@@ -38,8 +38,51 @@ router.post('/deleteAccount/:id', ensureAuthenticated, async function (req, res)
             return;
         }
 
-        let result = await User.destroy({ where: { id: user.id } });
+        let result = await user.destroy({ id: user.id });
         console.log(result + ' account deleted');
+        res.redirect('../../admin/manageAccounts/');
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
+router.post('/deactivateAccount/:id', ensureAuthenticated, async function (req, res) {
+    try {
+        let user = await User.findByPk(req.params.id);
+        if (!user) {
+            res.redirect('../../admin/manageAccounts/');
+            return;
+        }
+
+        let result = user.update(
+            {
+                email: 'inactive@curodemy.com',
+                gender: '',
+                birthday: null,
+                country: '', 
+                interest: null,
+                status: null,
+                active: 0
+            });
+        console.log(result + ' account deactivated');
+        res.render('../../admin/manageAccounts/');
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
+router.get('/activateAccount/:id', ensureAuthenticated, async function (req, res) {
+    try {
+        let user = await User.findByPk(req.params.id);
+        if (!user) {
+            res.redirect('../../admin/manageAccounts/');
+            return;
+        }
+
+        let result = user.update({ active: 1 });
+        console.log(result + ' account activated');
         res.redirect('../../admin/manageAccounts/');
     }
     catch (err) {
