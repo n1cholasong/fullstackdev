@@ -5,8 +5,8 @@
         <table id="userAccounts" class="table table-striped">
             <thead>
                 <tr>
-                    <th>Reported By [Username]</th>
-                    <th>Reported By [Email]</th>
+                    <th>Reported By</th>
+                    <th>Review Created By</th>
                     <th>Status</th>
                     <th>Last Edit</th>
                     <th></th>
@@ -17,8 +17,8 @@
                 {{#if reviews}}
                 {{#each reviews}}
                 <tr>
+                    <td>{{lookup ../userdict reported}}</td>
                     <td>{{lookup ../userdict userId}}</td>
-                    <td>{{lookup ../useremail userId}}</td>
                     <td>pending</td>
                     <td>{{formatDate updatedAt 'LLL'}}</td>
                     <td>

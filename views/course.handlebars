@@ -85,12 +85,6 @@
                                             Delete Review
                                         </a>
                                     </li>
-                                    <li>
-                                        <a class="dropdown-item card-link" data-bs-toggle="modal"
-                                            data-bs-target="#report_{{id}}">
-                                            Report
-                                        </a>
-                                    </li>
                                     {{#if reply}}
                                     <li>
                                         <a class="dropdown-item card-link" data-bs-toggle="modal"
@@ -116,14 +110,13 @@
                             </div>
                             {{else}}
                             <div class="dropdown user-management">
-
                                 <button class="btn icon" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fa-solid fa-ellipsis"></i>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end text">
                                     <li>
-                                        <a class="dropdown-item" data-bs-toggle="modal"
-                                            data-bs-target="#editReview_{{id}}">
+                                        <a class="dropdown-item card-link" data-bs-toggle="modal"
+                                            data-bs-target="#report_{{id}}">
                                             Report
                                         </a>
                                     </li>
