@@ -227,7 +227,7 @@ router.get('/report/:id', ensureAuthenticated, async (req, res) => {
 				{ report },
 				{ where: { id: req.params.id } }
 			)
-			console.log(result[0] + 'Reply Deleted');
+			console.log(result[0] + 'Review Reported');
 			res.redirect('back');
 		})
 		.catch(err => console.log(err));

@@ -1,0 +1,74 @@
+<script src="/js/viewChapter.js"></script>
+<div class="container profile admin row mx-auto">
+    <h1>Course Chapters</h1>
+    <div class="col me-5 mt-4">
+        <div class="setting-tab py-4">
+            <!--Settings Tab-->
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                {{#each chapters}}
+                {{#if @first}}
+                <button class="nav-link active me-0" id="update-account-tab" data-bs-toggle="pill"
+                    data-bs-target="#update-account" type="button" role="tab" aria-controls="update-account"
+                    aria-selected="true" onclick="hide({{@index}},{{../videos.length}})">Chapter 1
+                </button>
+                {{else}}
+                <button class="nav-link me-0" id="update-account-tab" data-bs-toggle="pill"
+                    data-bs-target="#update-account" type="button" role="tab" aria-controls="update-account"
+                    aria-selected="true" onclick="hide({{@index}},{{../videos.length}})">
+                    Chapter {{inc @index}}
+                </button>
+                {{/if}}
+                {{/each}}
+            </div>
+        </div>
+    </div>
+    <div class="Chapter col-9">
+        {{#each ../videos}}
+        {{#if @first}}
+        <div id="videoPlayer{{@index}}">
+            <input type="hidden" class="videoID" value="{{id}}">
+            <video width="320" height="240" controls>
+                <source src="/Course/user/video/view/{{id}}" type="video/mp4" alt="No Video Uploaded!">
+            </video>
+        </div>
+        {{else}}
+        <div style="display:none;" id="videoPlayer{{@index}}">
+            <input type="hidden" class="videoID" value="{{id}}">
+            <video id="videoPlayer{{@index}}" width="320" height="240" controls>
+                <source src="/Course/user/video/view/{{id}}" type="video/mp4" alt="No Video Uploaded!">
+            </video>
+        </div>
+        {{/if}}
+        {{/each}}
+        {{#each chapters}}
+        {{#if @first}}
+         <a href="/course/quiz/view/{{id}}" class="btn btn-warning">Quiz</a>  
+        {{else}}
+         <a href="/course/quiz/view/{{id}}" class="btn btn-warning" style="display: hidden ;">Quiz</a>   
+        {{/if}} 
+         
+        {{/each}}
+            
+        
+    </div>
+</div>
+
+
+<script>
+    //load videos
+    window.onload = async function () {
+        let formdata = new FormData();
+
+        var videos = $('.videoID');
+
+        for (var i = 0; i < videos.length; i++) {
+
+
+            await fetch('/Course/user/video/view/' + videos[i].value, {
+                method: 'GET'
+            })
+
+        }
+
+    };
+</script>

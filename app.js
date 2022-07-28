@@ -13,6 +13,11 @@ const path = require('path');
 // require('dotenv').config();
 const helpers = require('./helpers/handlebars');
 const User = require('./models/User');
+const Courses = require('./models/Courses');
+const Quiz = require('./models/Quizes');
+const Chapter = require('./models/chapter');
+const Forum = require('./models/Forum');
+const Review = require('./models/Review');
 
 async function setupAcc(userList) {
 	let user = await User.create({
@@ -31,8 +36,31 @@ async function setupAcc(userList) {
 		active: userList[12]
 	});
 
-	return user
+	if (userList[1] == "n1cholas.ong") {
+		var course = await Courses.create({
+			courseName: "Python", description: "Learn Python with us!!!", content: "Learn Python with us!!!", userId: user.id
+		})
 
+		var chapter = await Chapter.create({
+			ChapterNum: 1,
+			CourseId: course.id
+		})
+
+		await Review.create(
+			{ review: "Python is good", rating: 5, userId: user.id, CourseId: course.id, report: 0 }
+		)
+
+		await Quiz.create({
+			question: "What is python?", description: "", a1: "It is an programing laung", a2: "The Snake DUH", a3: "Anaconda?", a4: "Anaconda?", correctans: "It is an programing laung", ChapterId: chapter.id
+		})
+
+		await Forum.create(
+			{
+				topic: "Python", description: "Python is good", pictureURL: "null", status: "Created", likes: "Good", userId: user.id
+			}
+		)
+	}
+	return user
 }
 
 /*
@@ -50,7 +78,8 @@ const app = express();
 *
 * 3. 'defaultLayout' specifies the main.handlebars file under views/layouts as the main template
 *
-* */
+* 
+*/
 app.engine('handlebars', engine({
 	helpers: helpers,
 	handlebars: allowInsecurePrototypeAccess(Handlebars),
@@ -151,14 +180,14 @@ app.listen(port, () => {
 });
 
 if (!resetDB) {
-	adminAcc = 
-	[
-		['nicholasong75@gmail.com', 'n1cholas.ong', '$2a$10$sUm1yYEeoTRYxTEDyxqVFuaETT4mMBk0vYgPgrJrgVQ98YRP9NBRm', 'Nicholas', 'Ong', 'M', null, 'SG', 'productivity,artsncrafts,langauge', null, null, 'ADMIN', 1],
-		['Nat@gmail.com', 'nat', '$2a$10$kFXNArrd0alYlG/zCzGfz./0m86G4Amgdub6656CHR4i.Aysc8NUi', 'Nat', 'Lee', 'M', '1995-09-30', 'US', 'photography,productivity,langauge', null, null, 'ADMIN', 1],
-		['lucaslee@gmail.com', 'Xepvoid', '$2a$10$6fwMyC0jwW34PznlgWM8wOoyx1ritkY38XnklD4g4QLLyxoErxiyy', 'Lucas', 'Lee', 'M', '2004-01-17', 'SG', 'programming,productivity,selfhelp', null, null, 'ADMIN', 1],
-		['Kiat0878@gmail.com', 'Kiat10', '$2a$10$jCtrCrWCNFhXI9kpEOgEeeTHxJi5yLFO2Bfkg.fZ2bJ2rx1qOD6mS', 'Kai Kiat', 'Lo', null, '2002-01-31', 'AT', 'programming,productivity,langauge,selfhelp', null, null, 'ADMIN', 1],
-		['johnsmith123@curodemy.com', 'johnsmith23', '$2a$10$MSYP/5u38iPwbk9gqyeuAeoN7cDzQwy32x9paLMu13l1fiewJ5hhS', 'John', 'Smith', '', null, '', null, null, null, 'STUDENT', 1]
-	]
+	adminAcc =
+		[
+			['nicholasong75@gmail.com', 'n1cholas.ong', '$2a$10$sUm1yYEeoTRYxTEDyxqVFuaETT4mMBk0vYgPgrJrgVQ98YRP9NBRm', 'Nicholas', 'Ong', 'M', null, 'SG', 'productivity,artsncrafts,langauge', null, null, 'ADMIN', 1],
+			['Nat@gmail.com', 'nat', '$2a$10$kFXNArrd0alYlG/zCzGfz./0m86G4Amgdub6656CHR4i.Aysc8NUi', 'Nat', 'Lee', 'M', '1995-09-30', 'US', 'photography,productivity,langauge', null, null, 'ADMIN', 1],
+			['lucaslee@gmail.com', 'Xepvoid', '$2a$10$6fwMyC0jwW34PznlgWM8wOoyx1ritkY38XnklD4g4QLLyxoErxiyy', 'Lucas', 'Lee', 'M', '2004-01-17', 'SG', 'programming,productivity,selfhelp', null, null, 'ADMIN', 1],
+			['Kiat0878@gmail.com', 'Kiat10', '$2a$10$jCtrCrWCNFhXI9kpEOgEeeTHxJi5yLFO2Bfkg.fZ2bJ2rx1qOD6mS', 'Kai Kiat', 'Lo', null, '2002-01-31', 'AT', 'programming,productivity,langauge,selfhelp', null, null, 'ADMIN', 1],
+			['johnsmith123@curodemy.com', 'johnsmith23', '$2a$10$MSYP/5u38iPwbk9gqyeuAeoN7cDzQwy32x9paLMu13l1fiewJ5hhS', 'John', 'Smith', '', null, '', null, null, null, 'STUDENT', 1]
+		]
 
 	User.findByPk(1).then((user) => {
 		if (user == null) {

@@ -1,6 +1,9 @@
 const moment = require('moment');
 const countryList = require('country-list');
 
+const inc = function(value, options){
+    return parseInt(value) + 1;
+}
 
 const formatDate = function (date, targetFormat) {
     return moment(date).format(targetFormat);
@@ -75,5 +78,6 @@ module.exports = {
     authStud,
     authAdmin,
     ifCond,
+    inc
 }
 

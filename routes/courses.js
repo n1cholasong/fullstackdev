@@ -6,9 +6,49 @@ const Chapter = require('../models/chapter');
 const Video = require('../models/video');
 const fs = require('fs');
 const upload = require('../helpers/videoUpload');
+const { Console } = require('console');
+
+async function videoSearch(cid){
+
+   var video = await Video.findAll({
+        where:{
+            ChapterId: cid
+        },
+        raw:true
+    })
+
+
+    
+    return video[0];
+
+}
 
 router.get('/create',(req,res)=>{
     res.render('./courses/createcourses')
+})
+
+router.get('/user/chapter/view/:id' ,async function (req,res){
+    var videos = [];
+    var videoDict = {};
+    const courseId = req.params.id;
+    var chapters;
+
+    Chapter.findAll({
+        where:{
+            CourseId:courseId
+        },
+        raw:true
+    }).then(async (chapters) =>{
+        chapters = chapters
+        await chapters.forEach(async (c) => {
+            var vid = await videoSearch(c.id)
+            videos.push(vid)
+            if(vid != undefined){
+            videoDict[vid.id] =  c.id;    
+            } 
+        });
+        res.render('./courses/viewchapateruser',{ videos,chapters,videoDict })
+    })
 })
 
 router.get('/Chapter/view/:cid',(req,res)=>{
@@ -67,25 +107,22 @@ router.get('/quiz/create/:cid',(req,res)=>{
 })
 
 
-router.get('/user/chapter/view/:cid',async function(req,res){
-    const cid = req.params.cid;
+router.post('/Chapter/delete/:cid',(req,res)=>{
+    const chpaterId = req.params.cid;
+    console.log(chpaterId)
+    Chapter.destroy( {where:{id:chpaterId}})
+    res.redirect('back')
+})
+
+router.get('/user/video/view/:vid',async function(req,res){
+    const vid = req.params.vid;
     var filePath = '';
 
-    await Chapter.findAll({
-        where: {
-        CourseId: cid
-      },raw:true}).then(async (Chapter)=>{
-        // if(Chapter.length > 1){
-        //     Chapter = Chapter[0]
-        // }
-        await Video.findAll({
-            where: {
-            ChapterId: Chapter[0].id
-          },raw:true}).then((video)=>{
-            filePath = './public' + video[0].videofile
-          })
+    await Video.findByPk(vid).then((video)=>{
 
-      })
+
+        filePath = './public'+video.videofile;
+    })
     
 
     const stat = fs.statSync(filePath)
@@ -116,8 +153,6 @@ router.get('/user/chapter/view/:cid',async function(req,res){
         res.writeHead(200, head)
         fs.createReadStream(filePath).pipe(res)
       }
-
-      res.render('./courses/viewVideoUser',{videoURL:'/user/chapter/view/' + cid})
 
 })
 
