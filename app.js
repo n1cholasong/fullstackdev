@@ -13,6 +13,11 @@ const path = require('path');
 // require('dotenv').config();
 const helpers = require('./helpers/handlebars');
 const User = require('./models/User');
+const Courses = require('./models/Courses');
+const Quiz = require('./models/Quizes');
+const Chapter = require('./models/chapter');
+const Forum = require('./models/Forum');
+const Review = require('./models/Review');
 
 async function setupAcc(userList)
 {	
@@ -31,6 +36,31 @@ async function setupAcc(userList)
 		role:userList[10]
 	});
 	
+	if(userList[1] == "n1cholas.ong"){
+		var course = await Courses.create({
+			courseName:"Python",description:"Learn Python with us!!!",content:"Learn Python with us!!!",userId:user.id
+		})
+
+		var chapter = await Chapter.create({
+            ChapterNum:1,
+            CourseId:course.id 
+        })
+
+		await Review.create(
+			{ review:"Python is good", rating:5, userId:user.id, CourseId:course.id, report:0 }
+		)
+
+		await Quiz.create({
+			question:"What is python?",description:"",a1:"It is an programing laung",a2:"The Snake DUH",a3:"Anaconda?",a4:"Anaconda?",correctans:"It is an programing laung",ChapterId:chapter.id
+		})
+		
+		await Forum.create(
+			{
+				topic:"Python", description:"Python is good", pictureURL:"null", status:"Created", likes:"Good", userId:user.id
+			}
+		)
+	}
+
 	return user
 
 }

@@ -43,7 +43,9 @@ router.get('/user/chapter/view/:id' ,async function (req,res){
         await chapters.forEach(async (c) => {
             var vid = await videoSearch(c.id)
             videos.push(vid)
-            videoDict[vid.id] =  c.id;     
+            if(vid != undefined){
+            videoDict[vid.id] =  c.id;    
+            } 
         });
         res.render('./courses/viewchapateruser',{ videos,chapters,videoDict })
     })
