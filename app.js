@@ -103,9 +103,9 @@ var options = {
 	checkExpirationInterval: 1800000 // 30 min 
 };
 
-const restartDB = false;
+const resetDB = true;
 const DBConnection = require('./config/DBConnection');
-DBConnection.setUpDB(restartDB) // To set up database with new tables
+DBConnection.setUpDB(resetDB) // To set up database with new tables
 
 
 // Enables session to be stored using browser's Cookie ID
