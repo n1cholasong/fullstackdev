@@ -55,6 +55,10 @@ async function setupAcc(userList)
 		await Quiz.create({
 			question: "What is python?", description: "", a1: "It is an programing laung", a2: "The Snake DUH", a3: "Anaconda?", a4: "Anaconda?", correctans: "It is an programing laung", ChapterId: chapter.id
 		})
+
+		var forum = await Forum.create({
+			topic: "This is created by Nic", description: "Test data for my threads", status: 1, likes: 0, userId: user.id
+		})
 	}
 	return user
 
@@ -154,6 +158,7 @@ const userRoute = require('./routes/user');
 const adminRoute = require('./routes/admin');
 const paymentRoute = require('./routes/payment');
 const courseRoute = require('./routes/courses');
+const Forum = require('./models/Forum');
 
 
 // Any URL with the pattern ‘/*’ is directed to routes/main.js

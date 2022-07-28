@@ -100,6 +100,7 @@ $(".custom-file-input").on("change", function () {
    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 });
 
+// For forum images only
 // Use fetch to call post route /video/upload
 $('#pictureUpload').on('change', function () {
    let formdata = new FormData();

@@ -7,7 +7,7 @@ const Comment = require('../models/Comments');
 require('dotenv').config;
 // Required for file upload
 const fs = require('fs');
-const upload = require('../helpers/imageUpload');
+const upload = require('../helpers/forumUpload');
 
 router.get("/", (req, res) => {
     Forum.findAll({
