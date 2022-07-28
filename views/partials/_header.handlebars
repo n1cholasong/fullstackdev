@@ -19,8 +19,11 @@
 			<div class="profile-menu">
 				<div class="user-text pe-2">Hi, {{user.fname}}!</div>
 				<a href="/user/profile/{{user.id}}" class="profile-pic d-inline-block">
-					<div class="default-profile-pic">{{firstChar user.fname}}{{firstChar user.lname}}</div>
-					{{!-- <img src="/img/user.svg" class="user-profile-pic" alt="logo"> --}}
+					{{#if user.profilePicURL}}
+                    <img src="{{user.profilePicURL}}" class="user-profile-pic" alt="profile-pic">
+                    {{else}}
+                    <div class="default-profile-pic">{{firstChar user.fname}}{{firstChar user.lname}}</div>
+                    {{/if}}
 				</a>
 			</div>
 			{{else}}
