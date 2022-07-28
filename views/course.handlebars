@@ -6,6 +6,7 @@
                 <a href="#">
                     <p>@{{lookup userdict course.userId}}</p>
                 </a>
+                {{#if reviews}}
                 <p class="ratings">
                     {{avg}}
                     <span class="star">
@@ -18,7 +19,10 @@
                         ({{count}})
                     </span>
                 </p>
-                <a href="#" class="btn flex-grow-0" role="button">Enroll Now</a>
+                {{else}}
+                <p>No Review</p>
+                {{/if}}
+                <a href="#" class="btn btn-main" role="button">Enroll Now</a>
             </div>
             <div class="course-thumbnail">
                 <img src="/img/carousel/grassland.jpg" alt="">
