@@ -12,9 +12,8 @@ const upload = require('../helpers/forumUpload');
 
 router.get("/", (req, res) => {
     Forum.findAll({
+        where: { status: 1 },
         include: User,
-        raw: true,
-        where: { status: 1 }
     })
         .then((thread) => {
             // if (thread.userId == User.id) {
