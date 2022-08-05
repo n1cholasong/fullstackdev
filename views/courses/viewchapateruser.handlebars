@@ -9,12 +9,12 @@
                 {{#if @first}}
                 <button class="nav-link active me-0" id="update-account-tab" data-bs-toggle="pill"
                     data-bs-target="#update-account" type="button" role="tab" aria-controls="update-account"
-                    aria-selected="true" onclick="hide({{@index}},{{../videos.length}})">Chapter 1
+                    aria-selected="true" onclick="hide({{@index}},{{../chapters.length}})">Chapter 1
                 </button>
                 {{else}}
                 <button class="nav-link me-0" id="update-account-tab" data-bs-toggle="pill"
                     data-bs-target="#update-account" type="button" role="tab" aria-controls="update-account"
-                    aria-selected="true" onclick="hide({{@index}},{{../videos.length}})">
+                    aria-selected="true" onclick="hide({{@index}},{{../chapters.length}})">
                     Chapter {{inc @index}}
                 </button>
                 {{/if}}
@@ -23,6 +23,7 @@
         </div>
     </div>
     <div class="Chapter col-9">
+        {{#if videos}}
         {{#each videos}}
         {{#if @first}}
         <div id="videoPlayer{{@index}}">
@@ -40,11 +41,12 @@
         </div>
         {{/if}}
         {{/each}}
+        {{/if}}
         {{#each chapters}}
         {{#if @first}}
-         <a id="quiz{{id}}" href="/course/quiz/view/{{id}}" class="btn btn-warning">Quiz</a>  
+         <a id="quiz{{@index}}" href="/course/quiz/view/{{id}}" class="btn btn-warning">Quiz</a>  
         {{else}}
-         <a id="quiz{{id}}" href="/course/quiz/view/{{id}}" class="btn btn-warning" style="display: hidden ;">Quiz</a>   
+         <a id="quiz{{@index}}" href="/course/quiz/view/{{id}}" class="btn btn-warning" style="display: none">Quiz</a>   
         {{/if}} 
 
         {{/each}}
