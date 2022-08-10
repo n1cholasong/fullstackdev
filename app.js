@@ -14,8 +14,8 @@ const path = require('path');
 const helpers = require('./helpers/handlebars');
 const User = require('./models/User');
 const Chapter = require('./models/chapter');
-const Review = require('./models/chapter');
-const Quiz = require('./models/chapter');
+const Review = require('./models/Review');
+const Quiz = require('./models/Quizes');
 const Courses = require('./models/Courses');
 
 async function setupAcc(userList)
@@ -59,6 +59,7 @@ async function setupAcc(userList)
 		var forum = await Forum.create({
 			topic: "This is created by Nic", description: "Test data for my threads", status: 1, likes: 0, userId: user.id
 		})
+
 	}
 	return user
 

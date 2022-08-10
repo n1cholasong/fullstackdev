@@ -42,9 +42,12 @@ router.get('/user/chapter/view/:id' ,async function (req,res){
         chapters = chapters
         await chapters.forEach(async (c) => {
             var vid = await videoSearch(c.id)
+            if (vid != undefined){
             videos.push(vid)
-            videoDict[vid.id] =  c.id;     
+            videoDict[vid.id] =  c.id; 
+            }    
         });
+        console.log(videos)
         res.render('./courses/viewchapateruser',{ videos,chapters,videoDict })
     })
 })
