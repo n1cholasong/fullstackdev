@@ -10,9 +10,8 @@
                 <p class="ratings">
                     {{avg}}
                     <span class="star">
-                       
                         {{#each print_star}}
-                            <i class="fa-solid fa-star"></i>    
+                        <i class="fa-solid fa-star"></i>
                         {{/each}}
                     </span>
                     <span class="user-count">
@@ -149,6 +148,23 @@
                         </div>
                         {{/if}}
                     </div>
+                    {{#if reply}}
+                    <div class="accordion" id="storyAccordion">
+                        <div class="card-header" id="headingOne">
+                            <button class="btn btn-link" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseOne{{id}}" aria-expanded="false"
+                                aria-controls="collapseOne{{id}}" style="text-decoration: none;">
+                                Reply <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        <div id="collapseOne{{id}}" class="collapse" aria-labelledby="headingOne"
+                            data-bs-parent="#storyAccordion">
+                            <div class="card-body">
+                                {{reply}}
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
                 </div>
                 {{/if}}
                 <!-- Edit Review Modal -->
@@ -347,24 +363,6 @@
                         </div>
                     </div>
                 </div>
-
-                {{#if reply}}
-                <div class="accordion" id="storyAccordion">
-                    <div class="card-header" id="headingOne">
-                        <button class="btn btn-link" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseOne{{id}}" aria-expanded="false" aria-controls="collapseOne{{id}}"
-                            style="text-decoration: none;">
-                            Reply <i class="fas fa-chevron-down"></i>
-                        </button>
-                    </div>
-                    <div id="collapseOne{{id}}" class="collapse" aria-labelledby="headingOne"
-                        data-bs-parent="#storyAccordion">
-                        <div class="card-body">
-                            {{reply}}
-                        </div>
-                    </div>
-                </div>
-                {{/if}}
                 {{/each}}
                 {{else}}
                 <p>No Reviews</p>
