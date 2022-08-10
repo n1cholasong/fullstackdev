@@ -50,8 +50,7 @@ router.get('/course/details/:id', async function (req, res) {
 	})
 
 	Review.findAll({
-		where : {courseId : course.id},
-		where : {report : 0},
+		where : [{courseId : course.id}, {report : 0}],
 		raw: true
 	})
 		.then((reviews) => {
@@ -152,11 +151,11 @@ router.post('/createReply/:id', ensureAuthenticated, async (req, res) => {
 
 	await Review.findByPk(req.params.id)
 		.then((result) => {
-			if (req.user.id != result.userId) {
-				flashMessage(res, 'error', 'Unauthorised access');
-				res.redirect('back');
-				return;
-			}
+			// if (req.user.id == result.userId) {
+			// 	flashMessage(res, 'error', 'Unauthorised access');
+			// 	res.redirect('back');
+			// 	return;
+			// }
 			Review.update(
 				{ reply },
 				{ where: { id: req.params.id } }
@@ -173,11 +172,11 @@ router.post('/editReply/:id', ensureAuthenticated, async (req, res) => {
 
 	await Review.findByPk(req.params.id)
 		.then((result) => {
-			if (req.user.id != result.userId) {
-				flashMessage(res, 'error', 'Unauthorised access');
-				res.redirect('back');
-				return;
-			}
+			// if (req.user.id == result.userId) {
+			// 	flashMessage(res, 'error', 'Unauthorised access');
+			// 	res.redirect('back');
+			// 	return;
+			// }
 			Review.update(
 				{ reply },
 				{ where: { id: req.params.id } }
@@ -196,11 +195,11 @@ router.get('/deleteReply/:id', ensureAuthenticated, async (req, res) => {
 
 	await Review.findByPk(req.params.id)
 		.then((result) => {
-			if (req.user.id != result.userId) {
-				flashMessage(res, 'error', 'Unauthorised access');
-				res.redirect('back');
-				return;
-			}
+			// if (req.user.id == result.userId) {
+			// 	flashMessage(res, 'error', 'Unauthorised access');
+			// 	res.redirect('back');
+			// 	return;
+			// }
 			Review.update(
 				{ reply },
 				{ where: { id: req.params.id } }
@@ -221,16 +220,16 @@ router.get('/report/:id', ensureAuthenticated, async (req, res) => {
 
 	await Review.findByPk(req.params.id)
 		.then((result) => {
-			if (req.user.id == result.userId) {
-				flashMessage(res, 'error', 'Unauthorised access');
-				res.redirect('back');
-				return;
-			}
+			// if (req.user.id == result.userId) {
+			// 	flashMessage(res, 'error', 'Unauthorised access');
+			// 	res.redirect('back');
+			// 	return;
+			// }
 			Review.update(
 				{ report, reported },
 				{ where: { id: req.params.id } }
 			)
-			console.log(result[0] + 'Review Reported');
+			// console.log(result[0] + 'Review Reported');
 			res.redirect('back');
 		})
 		.catch(err => console.log(err));
