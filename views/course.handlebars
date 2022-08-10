@@ -88,6 +88,36 @@
                                             Delete Review
                                         </a>
                                     </li>
+                                    {{!-- {{#if reply}}
+                                    <li>
+                                        <a class="dropdown-item card-link" data-bs-toggle="modal"
+                                            data-bs-target="#editReply_{{id}}">
+                                            Edit Reply
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item card-link" data-bs-toggle="modal"
+                                            data-bs-target="#deleteReply_{{id}}">
+                                            Delete Reply
+                                        </a>
+                                    </li>
+                                    {{else}}
+                                    <li>
+                                        <a class="dropdown-item card-link" data-bs-toggle="modal"
+                                            data-bs-target="#createReply_{{id}}">
+                                            Reply
+                                        </a>
+                                    </li>
+                                    {{/if}} --}}
+                                </ul>
+                            </div>
+                            {{else}}
+                            <div class="dropdown user-management">
+                                <button class="btn icon" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end text">
+                                    {{#if (equalsTo ../user.id ../course.userId)}}
                                     {{#if reply}}
                                     <li>
                                         <a class="dropdown-item card-link" data-bs-toggle="modal"
@@ -109,14 +139,7 @@
                                         </a>
                                     </li>
                                     {{/if}}
-                                </ul>
-                            </div>
-                            {{else}}
-                            <div class="dropdown user-management">
-                                <button class="btn icon" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa-solid fa-ellipsis"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end text">
+                                    {{/if}}
                                     <li>
                                         <a class="dropdown-item card-link" data-bs-toggle="modal"
                                             data-bs-target="#report_{{id}}">
