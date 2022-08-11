@@ -3,8 +3,11 @@
     <div class="sidebar-head">
         <div class="profile-menu">
             <a href="/user/profile/{{user.id}}" class="profile-pic">
+                {{#if user.profilePicURL}}
+                <img src="{{user.profilePicURL}}" class="user-profile-pic" alt="profile-pic">
+                {{else}}
                 <div class="default-profile-pic">{{firstChar user.fname}}{{firstChar user.lname}}</div>
-                {{!-- <img src="/img/user.svg" class="user-profile-pic" alt="logo"> --}}
+                {{/if}}
             </a>
         </div>
         <div class=" sidebar-hidden fullname">{{user.fname}} {{user.lname}}</div>
@@ -37,16 +40,16 @@
 
             {{#if user}}
             {{!-- Instructor Page --}}
-            <div class="sidebar-hidden sidebar-subtext">Instructor</div>
-            <li id="course/view" class="nav-item">
+            {{!-- <div class="sidebar-hidden sidebar-subtext">Instructor</div> --}}
+            {{!-- <li id="course/view" class="nav-item">
                 <a class="nav-link" href="/course/view">
                     <span class="nav-icon material-symbols-rounded">note_alt</span>
                     <div class="sidebar-hidden">Manage Courses</div>
                 </a>
-            </li>
+            </li> --}}
 
             {{!-- Admin Page --}}
-            {{#ifCond user.role 'ADMIN' }}
+            {{#ifCond user.roleId 1 }}
             <div class="sidebar-hidden sidebar-subtext">Admin</div>
             <li class="nav-item">
                 <a class="nav-link" href="#">
@@ -58,6 +61,12 @@
                 <a class="nav-link" href="/admin/manageAccounts">
                     <span class="nav-icon material-symbols-rounded">manage_accounts</span>
                     <div class="sidebar-hidden">Manage Users</div>
+                </a>
+            </li>
+            <li id="course/view" class="nav-item">
+                <a class="nav-link" href="/course/view">
+                    <span class="nav-icon material-symbols-rounded">note_alt</span>
+                    <div class="sidebar-hidden">Manage Courses</div>
                 </a>
             </li>
             <li id="payment/Vouchers" class="nav-item">

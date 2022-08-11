@@ -1,28 +1,31 @@
 const express = require('express');
 const router = express.Router();
+const Role = require('../models/Role')
 const User = require('../models/User');
 const Review = require("../models/Review");
 const Course = require('../models/Courses');
-const ensureAuthenticated = require("../helpers/auth");
+const { ensureAuthenticated, authRole } = require("../helpers/auth");
 const sgMail = require('@sendgrid/mail');
 
 userdict = {}
 fullname = {}
 useremail = {}
 
-router.get('/manageAccounts', (req, res) => {
-    title = "Manage Account";
-    User.findAll({
-        raw: true
+router.get('/manageAccounts', async (req, res) => {
+    let title = "Manage Account";
+    await User.findAll({
+        include: Role
     })
         .then((account) => {
             res.render('./admin/accountManagement', { account, title });
         })
-        .catch((err) => console.log(err));
+        .catch((err) =>
+            console.log(err)
+        );
 });
 
 router.get('/reviewManagement', (req, res) => {
-    title = "Review Management";
+    let title = "Review Management";
     let course = Course.findByPk(req.params.id);
     User.findAll({
         raw: true
@@ -42,22 +45,26 @@ router.get('/reviewManagement', (req, res) => {
         .then((reviews) => {
             res.render('./admin/reviewManagement', { reviews, course, useremail, userdict, title });
         })
-        .catch((err) => console.log(err));
+        .catch((err) =>
+            console.log(err)
+        );
 });
 
 router.get('/viewAccount/:id', async (req, res) => {
-    User.findByPk(req.params.id)
+    User.findByPk(req.params.id, {include: Role})
         .then((account) => {
             if (!account) {
                 flashMessage(res, 'error', 'User not found');
                 res.redirect('./admin/viewAccount');
                 return;
             }
-            title = `${account.username}'s Profile`;
+            let title = `${account.username}'s Profile`;
 
             res.render('./admin/viewAccount', { account, title });
         })
-        .catch(err => console.log(err));
+        .catch((err) =>
+            console.log(err)
+        );
 
 });
 
@@ -69,7 +76,7 @@ router.post('/deleteAccount/:id', ensureAuthenticated, async function (req, res)
             return;
         }
 
-        let result = await User.destroy({ where: { id: user.id } });
+        let result = await user.destroy({ id: user.id });
         console.log(result + ' account deleted');
         res.redirect('../../admin/manageAccounts/');
     }
