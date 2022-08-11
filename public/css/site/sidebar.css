@@ -70,6 +70,13 @@
     height: 90px;
 }
 
+.sidebar .user-profile-pic {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 .sidebar .default-profile-pic {
     width: 100%;
     height: 100%;

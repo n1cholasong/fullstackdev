@@ -9,12 +9,12 @@
                 {{#if @first}}
                 <button class="nav-link active me-0" id="update-account-tab" data-bs-toggle="pill"
                     data-bs-target="#update-account" type="button" role="tab" aria-controls="update-account"
-                    aria-selected="true" onclick="hide({{@index}},{{../videos.length}})">Chapter 1
+                    aria-selected="true" onclick="hide({{id}},{{../chapters.length}})">Chapter 1
                 </button>
                 {{else}}
                 <button class="nav-link me-0" id="update-account-tab" data-bs-toggle="pill"
                     data-bs-target="#update-account" type="button" role="tab" aria-controls="update-account"
-                    aria-selected="true" onclick="hide({{@index}},{{../videos.length}})">
+                    aria-selected="true" onclick="hide({{id}},{{../chapters.length}})">
                     Chapter {{inc @index}}
                 </button>
                 {{/if}}
@@ -23,28 +23,21 @@
         </div>
     </div>
     <div class="Chapter col-9">
+        {{#if videos}}
         {{#each videos}}
-        {{#if @first}}
-        <div id="videoPlayer{{@index}}">
-            <input type="hidden" class="videoID" value="{{id}}">
-            <video width="320" height="240" controls>
-                <source src="/Course/user/video/view/{{id}}" type="video/mp4">
-            </video>
-        </div>
-        {{else}}
-        <div style="display:none;" id="videoPlayer{{@index}}">
+        <div class="videoPlayer" style="display:none;" id="videoPlayer{{lookup ../videoDict id}}">
             <input type="hidden" class="videoID" value="{{id}}">
             <video id="videoPlayer{{@index}}" width="320" height="240" controls>
                 <source src="/Course/user/video/view/{{id}}" type="video/mp4">
             </video>
         </div>
-        {{/if}}
         {{/each}}
+        {{/if}}
         {{#each chapters}}
         {{#if @first}}
-         <a href="/course/quiz/view/{{id}}" class="btn btn-warning">Quiz</a>  
+         <a id="quiz{{id}}" href="/course/quiz/view/{{id}}" class="btn btn-warning quiz">Quiz</a>  
         {{else}}
-         <a href="/course/quiz/view/{{id}}" class="btn btn-warning" style="display: hidden ;">Quiz</a>   
+         <a id="quiz{{id}}" href="/course/quiz/view/{{id}}" class="btn btn-warning quiz" style="display: none">Quiz</a>   
         {{/if}} 
 
         {{/each}}
@@ -53,22 +46,13 @@
     </div>
 </div>
 
-
 <script>
-    //load videos
-    window.onload = async function () {
-        let formdata = new FormData();
-
-        var videos = $('.videoID');
-
-        for (var i = 0; i < videos.length; i++) {
-
-
-            await fetch('/Course/user/video/view/' + videos[i].value, {
-                method: 'GET'
-            })
-
+    window.onload = function loadVid(){
+        console.log("Hi")
+        var firstVidChap = "{{lookup videoDict videos.0.id}}"
+        var firstChapid = "{{chapters.0.id}}"
+        if(firstVidChap == firstChapid){
+            document.getElementById("videoPlayer0").style = "display:block;";
         }
-
-    };
+    }
 </script>

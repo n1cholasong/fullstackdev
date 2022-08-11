@@ -31,10 +31,10 @@
 			</button>
 		</div>
 	</div>
-	
+
 	<h1 class="heading">Trending</h1>
 	<div class="trending d-flex flex-row mb-5">
-		
+
 		{{#each Courses}}
 		<a class="card-link me-4" href="/course/details/{{id}}">
 			<div class="card" style="width: 18rem;">
@@ -71,29 +71,6 @@
 
 	<h1 class="heading">Recommended for you</h1>
 	<div class="recommendations d-flex flex-row">
-		<a class="card-link me-4" href="/course">
-			<div class="card" style="width: 18rem;">
-				<img src="/img/carousel/grassland.jpg" class="card-img-top" alt="...">
-				<div class="card-body">
-					<h5 class="card-title m-0">Python 101</h5>
-					<p class="username">@Username</p>
-					<p class="ratings">
-						5.0
-						<span class="star">
-							<i class="fa-solid fa-star"></i>
-							<i class="fa-solid fa-star"></i>
-							<i class="fa-solid fa-star"></i>
-							<i class="fa-solid fa-star"></i>
-							<i class="fa-solid fa-star"></i>
-						</span>
-						<span class="user-count">
-							(100)
-						</span>
-					</p>
-					{{!-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
-				</div>
-			</div>
-		</a>
-
+		{{!-- Course --}}
 	</div>
 </div>

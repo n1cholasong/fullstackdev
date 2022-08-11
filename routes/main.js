@@ -1,7 +1,7 @@
 const express = require('express');
 const Review = require("../models/Review");
 const router = express.Router();
-const ensureAuthenticated = require('../helpers/auth');
+const { ensureAuthenticated, authRole } = require('../helpers/auth');
 const flashMessage = require('../helpers/messenger');
 const Course = require('../models/Courses');
 const User = require('../models/User')
