@@ -21,14 +21,21 @@
                                 {{n_likes}}
                             </div>
                             <form action="/forum/like/{{forum.id}}" method="post">
+                                {{#if likeStatus}}
+                                {{else}}
+                                <button type="submit" class="like-button" id="like-button"><i
+                                        class="fas fa-thumbs-up"></i></button>
+                                <input id="forum_id" type="hidden" name="forum_id" value="{{forum.id}}">
+                                {{/if}}
+                                <input id="forum_id" type="hidden" name="forum_id" value="{{forum.id}}">
                                 {{#ifCond likeStatus.liked 1}}
                                 <button type="submit" class="like-button active" id="like-button"><i
-                                        class="fa fa-thumbs-up"></i></button>
+                                        class="fas fa-thumbs-up"></i></button>
                                 <input id="forum_id" type="hidden" name="forum_id" value="{{forum.id}}">
                                 {{/ifCond}}
                                 {{#ifCond likeStatus.liked 0}}
                                 <button type="submit" class="like-button" id="like-button"><i
-                                        class="fa fa-thumbs-up"></i></button>
+                                        class="fas fa-thumbs-up"></i></button>
                                 <input id="forum_id" type="hidden" name="forum_id" value="{{forum.id}}">
                                 {{/ifCond}}
                             </form>
