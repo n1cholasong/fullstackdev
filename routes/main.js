@@ -5,16 +5,18 @@ const ensureAuthenticated = require('../helpers/auth');
 const flashMessage = require('../helpers/messenger');
 const Course = require('../models/Courses');
 const User = require('../models/User')
+const jwt = require('jsonwebtoken');
+const sgMail = require('@sendgrid/mail');
 userdict = {}
 fullname = {}
 
-router.get('/', async function(req, res,)  {
+router.get('/', async function (req, res,) {
 	title = "Home";
 	// renders views/index.handlebars, passing title as an object
 	//find all users and put them into a dict
 	await User.findAll({
-		raw:true
-	}).then((users) =>{
+		raw: true
+	}).then((users) => {
 		users.forEach(u => {
 			userdict[u.id] = u.username
 		});
@@ -22,13 +24,13 @@ router.get('/', async function(req, res,)  {
 
 
 	Course.findAll({
-        raw:true
-    }).then((Courses) => {
-		res.render('index',{Courses, title,userdict});
-		
-    })
-    .catch(err => console.log(err));
-	
+		raw: true
+	}).then((Courses) => {
+		res.render('index', { Courses, title, userdict });
+
+	})
+		.catch(err => console.log(err));
+
 });
 
 router.get('/mycourse', (req, res,) => {
@@ -39,8 +41,8 @@ router.get('/course/details/:id', async function (req, res) {
 	let course = await Course.findByPk(req.params.id);
 	//find all users and put them into a dict
 	await User.findAll({
-		raw:true
-	}).then((users) =>{
+		raw: true
+	}).then((users) => {
 		users.forEach(u => {
 			userdict[u.id] = u.username
 			fullname[u.id] = u.fname + ' ' + u.lname
@@ -50,7 +52,8 @@ router.get('/course/details/:id', async function (req, res) {
 	})
 
 	Review.findAll({
-		where : [{courseId : course.id}, {report : 0}],
+		where: [{ courseId: course.id }, { report: 0 }],
+		order: [[ 'createdAt', 'DESC']],
 		raw: true
 	})
 		.then((reviews) => {
@@ -58,7 +61,7 @@ router.get('/course/details/:id', async function (req, res) {
 			var sum = 0.0;
 			var count = 0;
 			reviews.forEach((review) => {
-				if(review.CourseId == req.params.id) {
+				if (review.CourseId == req.params.id) {
 					sum += review.rating;
 					count++;
 				}
@@ -68,10 +71,10 @@ router.get('/course/details/:id', async function (req, res) {
 			var roundAvg = Math.floor(avg)
 
 			var print_star = [];
-			for(var i = 0; i < roundAvg; i++) {
+			for (var i = 0; i < roundAvg; i++) {
 				print_star.push(i);
 			}
-			res.render('course', { reviews, course ,userdict, fullname, avg, roundAvg, print_star, count});
+			res.render('course', { reviews, course, userdict, fullname, avg, roundAvg, print_star, count });
 		})
 		.catch(err => console.log(err));
 });
@@ -90,8 +93,20 @@ router.post("/createReview", ensureAuthenticated, (req, res) => {
 	// })
 	// .then((result) => {
 	// 	console.log(result);
-		
+
 	// })
+
+	// Send email
+	// let token = jwt.sign(req.user.email, process.env.APP_SECRET);
+	// let url = `${process.env.BASE_URL}:${process.env.PORT}/user/verify/${req.user.id}/${token}`;
+
+	// sendEmail_Case1(req.user.email)	
+	// 	.catch(err => {
+	// 		console.log(err);
+	// 		flashMessage(res, 'error', 'Error when sending email to ' +
+	// 			req.user.email);
+	// 		res.redirect('/');
+	// 	});
 
 	Review.create(
 		{ review, rating, userId, CourseId, report }
@@ -216,7 +231,13 @@ router.get('/report/:id', ensureAuthenticated, async (req, res) => {
 	// Using similar to editing way instead of delete is because i dont want to delete it completely as it might affect the review side
 	let report = 1;
 	let reported = req.user.id;
-
+	let admin_email = "lucasleejiajin@gmail.com";
+	sendEmail_Case1(admin_email)	
+		.catch(err => {
+			console.log(err);
+			flashMessage(res, 'error', 'Error when sending email to ' + req.user.email);
+			res.redirect('/');
+		});
 
 	await Review.findByPk(req.params.id)
 		.then((result) => {
@@ -246,6 +267,31 @@ router.post('/flash', (req, res) => {
 	flashMessage(res, 'error', error);
 	flashMessage(res, 'error', error2, 'fas fa-sign-in-alt', true);
 });
+
+
+// To the admin when a review has been reported (To notify that a review has been reported) [To Lucasleejiajin@gmail.com]
+function sendEmail_Case1(toEmail) {
+	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+	const message = {
+		to: toEmail,
+		from: `Curodemy Institute <${process.env.SENDGRID_SENDER_EMAIL}>`,
+		subject: 'Review Added in the database',
+		html:
+			// `
+			// Thank you registering with Curodemy.<br><br> Please
+			// <a href=\"${url}"><strong>verify</strong></a> your account.
+			// `
+			`
+			A review has been reported, please take action
+			`
+	};
+	// Returns the promise from SendGrid to the calling function
+	return new Promise((resolve, reject) => {
+		sgMail.send(message)
+			.then(response => resolve(response))
+			.catch(err => reject(err));
+	});
+}
 
 
 module.exports = router;
