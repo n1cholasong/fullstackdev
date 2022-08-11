@@ -1,15 +1,23 @@
 const express = require('express');
 const router = express.Router();
+
 const flashMessage = require('../helpers/messenger');
+
+const Role = require('../models/Role');
 const User = require('../models/User');
+
+// Passport Authentication
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
-const ensureAuthenticated = require("../helpers/auth");
+const { ensureAuthenticated, authRole } = require("../helpers/auth");
+
 const moment = require('moment');
 const countryList = require('country-list');
+
 // Require for image upload
 const fs = require('fs');
 const upload = require('../helpers/imageUpload');
+
 // Required for email verification
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
@@ -133,8 +141,8 @@ router.post('/signup', async function (req, res) {
                 country,
                 interest,
                 status: undefined,
-                role: 'STUDENT',
-                active: 1
+                active: 1,
+                re
             });
 
             // Send email
@@ -186,10 +194,13 @@ router.get('/logout', (req, res, next) => {
     });
 })
 
-router.get('/profile/:id', (req, res) => {
+router.get('/profile/:id', ensureAuthenticated, authRole([1]), async (req, res) => {
     title = "My Profile";
-    country = countryList.getData()
-    res.render('./user/profile', { title, country });
+    country = countryList.getData();
+    let user = await User.findByPk(req.params.id);
+    roleType = await Role.findByPk(user.roleId)
+        .then(roleType => roleType.title)
+    res.render('./user/profile', { title, country, roleType });
 });
 
 router.post('/updateAccount/:id', (req, res) => {
