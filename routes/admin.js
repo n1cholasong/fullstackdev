@@ -10,18 +10,20 @@ fullname = {}
 useremail = {}
 
 router.get('/manageAccounts', async (req, res) => {
-    title = "Manage Account";
+    let title = "Manage Account";
     await User.findAll({
         include: Role
     })
         .then((account) => {
             res.render('./admin/accountManagement', { account, title });
         })
-        .catch((err) => console.log(err));
+        .catch((err) =>
+            console.log(err)
+        );
 });
 
 router.get('/reviewManagement', (req, res) => {
-    title = "Review Management";
+    let title = "Review Management";
     let course = Course.findByPk(req.params.id);
     User.findAll({
         raw: true
@@ -41,22 +43,26 @@ router.get('/reviewManagement', (req, res) => {
         .then((reviews) => {
             res.render('./admin/reviewManagement', { reviews, course, useremail, userdict, title });
         })
-        .catch((err) => console.log(err));
+        .catch((err) =>
+            console.log(err)
+        );
 });
 
 router.get('/viewAccount/:id', async (req, res) => {
-    User.findByPk(req.params.id)
+    User.findByPk(req.params.id, {include: Role})
         .then((account) => {
             if (!account) {
                 flashMessage(res, 'error', 'User not found');
                 res.redirect('./admin/viewAccount');
                 return;
             }
-            title = `${account.username}'s Profile`;
+            let title = `${account.username}'s Profile`;
 
             res.render('./admin/viewAccount', { account, title });
         })
-        .catch(err => console.log(err));
+        .catch((err) =>
+            console.log(err)
+        );
 
 });
 
