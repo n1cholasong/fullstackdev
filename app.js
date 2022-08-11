@@ -19,12 +19,7 @@ const Forum = require('./models/Forum');
 
 const resetDB = false; // DB RESET SWITCH
 
-/*
-* Creates an Express server - Express is a web application framework for creating web applications
-* in Node JS.
-*/
 const app = express();
-
 // Handlebars Middleware
 /*
 * 1. Handlebars is a front-end web templating engine that helps to create dynamic web pages using variables

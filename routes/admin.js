@@ -9,58 +9,38 @@ userdict = {}
 fullname = {}
 useremail = {}
 
-router.get('/manageAccounts', async (req, res) => {
-    title = "Manage Account";
+router.get('/manageAccounts', ensureAuthenticated, authRole([1]), async (req, res) => {
+    let title = "Manage Account";
     await User.findAll({
         include: Role
     })
         .then((account) => {
             res.render('./admin/accountManagement', { account, title });
         })
-        .catch((err) => console.log(err));
+        .catch((err) =>
+            console.log(err)
+        );
 });
 
-router.get('/reviewManagement', (req, res) => {
-    title = "Review Management";
-    let course = Course.findByPk(req.params.id);
-    User.findAll({
-        raw: true
-    }).then((users) => {
-        users.forEach(u => {
-            userdict[u.id] = u.username
-            useremail[u.id] = u.email
-            fullname[u.id] = u.fname + ' ' + u.lname
-        });
-
-
-    })
-    Review.findAll({
-        where: { report: 1 },
-        raw: true
-    })
-        .then((reviews) => {
-            res.render('./admin/reviewManagement', { reviews, course, useremail, userdict, title });
-        })
-        .catch((err) => console.log(err));
-});
-
-router.get('/viewAccount/:id', async (req, res) => {
-    User.findByPk(req.params.id)
+router.get('/viewAccount/:id', ensureAuthenticated, authRole([1]), async (req, res) => {
+    User.findByPk(req.params.id, { include: Role })
         .then((account) => {
             if (!account) {
                 flashMessage(res, 'error', 'User not found');
                 res.redirect('./admin/viewAccount');
                 return;
             }
-            title = `${account.username}'s Profile`;
+            let title = `${account.username}'s Profile`;
 
             res.render('./admin/viewAccount', { account, title });
         })
-        .catch(err => console.log(err));
+        .catch((err) =>
+            console.log(err)
+        );
 
 });
 
-router.post('/deleteAccount/:id', ensureAuthenticated, async function (req, res) {
+router.post('/deleteAccount/:id', ensureAuthenticated, authRole([1]), async function (req, res) {
     try {
         let user = await User.findByPk(req.params.id);
         if (!user) {
@@ -77,7 +57,7 @@ router.post('/deleteAccount/:id', ensureAuthenticated, async function (req, res)
     }
 });
 
-router.post('/deactivateAccount/:id', ensureAuthenticated, async function (req, res) {
+router.post('/deactivateAccount/:id', ensureAuthenticated, authRole([1]), async function (req, res) {
     try {
         let user = await User.findByPk(req.params.id);
         if (!user) {
@@ -105,7 +85,7 @@ router.post('/deactivateAccount/:id', ensureAuthenticated, async function (req, 
     }
 });
 
-router.get('/activateAccount/:id', ensureAuthenticated, async function (req, res) {
+router.get('/activateAccount/:id', ensureAuthenticated, authRole([1]), async function (req, res) {
     try {
         let user = await User.findByPk(req.params.id);
         if (!user) {
@@ -122,7 +102,33 @@ router.get('/activateAccount/:id', ensureAuthenticated, async function (req, res
     }
 });
 
-router.get('/deleteReview/:id', ensureAuthenticated, async function (req, res) {
+router.get('/reviewManagement', ensureAuthenticated, authRole([1]), (req, res) => {
+    let title = "Review Management";
+    let course = Course.findByPk(req.params.id);
+    User.findAll({
+        raw: true
+    }).then((users) => {
+        users.forEach(u => {
+            userdict[u.id] = u.username
+            useremail[u.id] = u.email
+            fullname[u.id] = u.fname + ' ' + u.lname
+        });
+    })
+    Review.findAll({
+        where: { report: 1 },
+        raw: true
+    })
+        .then((reviews) => {
+            res.render('./admin/reviewManagement', { reviews, course, useremail, userdict, title });
+        })
+        .catch((err) =>
+            console.log(err)
+        );
+});
+
+
+// LUCAS ADMIN REVIEW ROUTES ============================================================
+router.get('/deleteReview/:id', ensureAuthenticated, authRole([1]), async function (req, res) {
     try {
         let review = await Review.findByPk(req.params.id);
         if (!review) {
@@ -140,7 +146,7 @@ router.get('/deleteReview/:id', ensureAuthenticated, async function (req, res) {
     }
 });
 
-router.get('/resolve/:id', ensureAuthenticated, async (req, res) => {
+router.get('/resolve/:id', ensureAuthenticated, authRole([1]), async (req, res) => {
     // by replacing the value in the database with null will help to reset the reply in the database to a null value which will
     // show as there is no value for reply
     // Using similar to editing way instead of delete is because i dont want to delete it completely as it might affect the review side
@@ -158,4 +164,5 @@ router.get('/resolve/:id', ensureAuthenticated, async (req, res) => {
         })
         .catch(err => console.log(err));
 });
+
 module.exports = router;
