@@ -74,6 +74,10 @@ function checkRange() {
    $('#perc').val(initPerc);
 }
 
+function stopLoading(){
+   $('#loadingModal').modal('hide'); 
+}
+
 
 
 // function saveChanges() {
@@ -127,9 +131,15 @@ $('#pictureUpload').on('change', function () {
 
 
 // Use fetch to call post route /video/upload
-$('#videoUpload').on('change', function () {
+$('#videoUpload').on('change', async function () {
+   $('#loadingModal').modal({backdrop: 'static', keyboard: false})
+   $('#loadingModal').modal('show');
+   //stop loading after 2 seconds
+   setTimeout(function() {
+      $('#loadingModal').modal('hide');
+   }, 2000);
    let formdata = new FormData();
-   let video = $("#videoUpload")[0].files[0];
+   let video = await $("#videoUpload")[0].files[0];
    formdata.append('videoUpload', video);
    fetch('/Course/upload', {
       method: 'POST',
@@ -138,13 +148,15 @@ $('#videoUpload').on('change', function () {
       .then(res => res.json())
       .then((data) => {
          $('#video').attr('src', data.file);
-         $('[id^=videoURL]').attr('value', data.file); // sets posterURL hidden field
+         $('#videoURL').attr('value', data.file); // sets posterURL hidden field
+         $('#videoURL').trigger('change');
          if (data.err) {
             $('#videoErr').show();
             $('#videoErr').text(data.err.message);
          }
          else {
             $('#videoErr').hide();
+           // $('#loadingModal').modal().hide() ;
          }
       })
 });

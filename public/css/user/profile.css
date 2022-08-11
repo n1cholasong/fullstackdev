@@ -156,3 +156,9 @@
     height: 240px;
     object-fit: cover;
 }
+
+.admin .inactive .row {
+    display: flex;
+    align-items: center;
+    padding: 3.5rem 1rem;
+}

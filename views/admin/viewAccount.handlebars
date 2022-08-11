@@ -9,7 +9,7 @@
             </div>
             <div class="col-9 d-flex flex-column justify-content-between">
                 <div class="profile-info">
-                    <span class="user-role">{{account.role}}</span>
+                    <span class="user-role">{{account.role.title}}</span>
                     <h1 class="fullname mb-0">{{account.fname}} {{account.lname}}</h1>
                     <h4 class="username">@{{account.username}}</h4>
                 </div>
@@ -173,7 +173,7 @@
                 <div class="box col">
                     <h2>User not found</h2>
                     <h4>User is no longer active!</h4>
-                    <a href="/" role="button" class="btn btn-main">Return to home</a>
+                    <a href="/" role="button" class="btn btn-main mt-5">Return to home</a>
                 </div>
             </div>
         </div>

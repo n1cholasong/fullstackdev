@@ -20,7 +20,7 @@ function localStrategy(passport) {
 
                     // Email Verified
                     if (!user.verified) {
-                        return done(null, false, { message: 'Email not verified' });
+                        return done(null, false, { message: 'Please verify you email' });
                     }
                     
                     return done(null, user);

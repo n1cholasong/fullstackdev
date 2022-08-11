@@ -1,9 +1,76 @@
-<div class="container">
-    <form method="post">
-    <input name="videoUpload{{id}}" type="file" class="custom-file-input" id="videoUpload"
-								accept="video/mp4,video/x-m4v,video/*">
-    <button class="btn btn-warning" type="submit">submit
-    <br>
-    <input type="hidden" name="videoURL" id="videoURL">
-    </form>
-</div>
+<link rel="stylesheet" href="/css/Course/uploadvideo.css">
+<div class="container profile admin mx-auto" onload="reload()">
+    <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-body mx-auto text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <br>
+                        <p>Loading...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+        <form method="post" id="form">
+            {{#if video}}
+            {{#if (emptyCheck video.videofile)}}
+            <h1>Upload a video</h1>
+            <input name="videoUpload{{id}}" type="file" class="custom-file-input" id="videoUpload"
+                accept="video/mp4,video/x-m4v,video/*">
+            <button class="btn btn-warning" type="submit">submit
+                <br>
+                {{else}}
+                <h1>Your video:</h1>
+                <div class="container row">
+                    <div class="col me-5 mt-4">
+                        <div id="videoPlayer">
+                            <input type="hidden" id="videoID" class="videoID" value="{{video.id}}">
+                            <video src="{{video.videofile}}" id="video{{video.id}}" width="320" height="240" controls>
+                            </video>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
+                            id="replaceBtn">
+                            Reupload Video
+                        </button>
+
+                        <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                                <input name="videoUpload{{id}}" type="file" class="custom-file-input" id="videoUpload"
+                                    accept="video/mp4,video/x-m4v,video/*">
+                                <button class="btn btn-warning" type="submit">submit
+                            </div>
+                        </div>
+                        <br>
+                        <button class="btn btn-primary" type="button" onclick="deleteViedo()">
+                            Dlete Video
+                        </button>
+
+                    </div>
+                </div>
+
+                {{/if}}
+                {{else}}
+                <h1>Upload a video</h1>
+                <input name="videoUpload{{id}}" type="file" class="custom-file-input" id="videoUpload"
+                    accept="video/mp4,video/x-m4v,video/*">
+                <button class="btn btn-warning" type="submit">submit
+                    <br>
+                    {{/if}}
+                    <input type="hidden" name="videoURL" id="videoURL" onblur="stopLoading()">
+
+        </form>
+    </div>
+
+    <script src="/js/viewVidoes.js"></script>

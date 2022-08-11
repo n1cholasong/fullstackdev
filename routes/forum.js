@@ -6,7 +6,7 @@ const Forum = require('../models/Forum');
 const User = require('../models/User');
 const Comment = require('../models/Comments');
 const ForumLikes = require('../models/ForumLikes');
-const ensureAuthenticated = require("../helpers/auth");
+const { ensureAuthenticated, authRole } = require("../helpers/auth");
 require('dotenv').config;
 // Required for file upload
 const fs = require('fs');
@@ -146,53 +146,12 @@ router.post("/comment", ensureAuthenticated, async function (req, res) {
     let forumId = req.body.forum_id;
     let userId = req.user.id;
 
-    let forum = await Forum.findByPk(forumId);
-    if (forum.status == 0) {
-        flashMessage(res, 'error', 'Forum has been deleted');
-        res.redirect('/forum/')
-    }
-    else {
-        Comment.create(
-            {
-                comment, forumId, userId
-            }
-        )
-    }
-
-    res.redirect(`/forum/${forumId}`);
-});
-
-//Like bullshit
-router.post("/like/:id", ensureAuthenticated, async function (req, res) {
-    let forumId = req.body.forum_id;
-    let userId = req.user.id;
-
-    let forum = await Forum.findByPk(forumId);
-    let likeStatus = await ForumLikes.findOne({ where: { forumId: forumId, userId: userId } });
-    if (forum.status == 0) {
-        flashMessage(res, 'error', 'Forum has been deleted');
-        res.redirect('/forum/')
-    }
-    if (likeStatus.liked == 1) {
-        let liked = 0;
-        likeStatus.update({
-            liked
-        })
-    }
-    else if (likeStatus.liked == 0) {
-        let liked = 1;
-        likeStatus.update({
-            liked
-        })
-    }
-    else {
-        ForumLikes.create(
-            {
-                forumId, userId
-            }
-        )
-    }
-
+    Comment.create(
+        {
+            comment, forumId, userId
+        }
+    )
+    
     res.redirect(`/forum/${forumId}`);
 });
 
