@@ -1,15 +1,23 @@
 const express = require('express');
 const router = express.Router();
+
 const flashMessage = require('../helpers/messenger');
+
+const Role = require('../models/Role');
 const User = require('../models/User');
+
+// Passport Authentication
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
-const ensureAuthenticated = require("../helpers/auth");
+const { ensureAuthenticated, authRole } = require("../helpers/auth");
+
 const moment = require('moment');
 const countryList = require('country-list');
+
 // Require for image upload
 const fs = require('fs');
 const upload = require('../helpers/imageUpload');
+
 // Required for email verification
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
@@ -17,7 +25,7 @@ const sgMail = require('@sendgrid/mail');
 
 
 router.get('/login', (req, res) => {
-    title = "Log in";
+    let title = "Log in";
     res.render('./user/login', { title });
 })
 
@@ -71,8 +79,8 @@ router.get('/verify/:userID/:token', async function (req, res) {
 });
 
 router.get('/signup', (req, res) => {
-    title = "Sign Up";
-    country = countryList.getData();
+    let title = "Sign Up";
+    let country = countryList.getData();
     res.render('./user/signup', { title, country });
 })
 
@@ -133,8 +141,8 @@ router.post('/signup', async function (req, res) {
                 country,
                 interest,
                 status: undefined,
-                role: 'STUDENT',
-                active: 1
+                active: 1,
+                roleId: 2
             });
 
             // Send email
@@ -144,7 +152,7 @@ router.post('/signup', async function (req, res) {
                 .then(response => {
                     console.log(response);
                     flashMessage(res, 'success', user.email + ' registered successfully', '', 'true');
-            res.redirect('/user/login');
+                    res.redirect('/user/login');
                 })
                 .catch(err => {
                     console.log(err);
@@ -186,13 +194,14 @@ router.get('/logout', (req, res, next) => {
     });
 })
 
-router.get('/profile/:id', (req, res) => {
-    title = "My Profile";
-    country = countryList.getData()
-    res.render('./user/profile', { title, country });
+router.get('/profile/:id', ensureAuthenticated, async (req, res) => {
+    let title = "My Profile";
+    let country = countryList.getData();
+    let user = await User.findByPk(req.params.id, { include: Role });
+    res.render('./user/profile', { title, country, user });
 });
 
-router.post('/updateAccount/:id', (req, res) => {
+router.post('/updateAccount/:id', async (req, res) => {
     let email = req.body.email;
     let fname = req.body.fname;
     let lname = req.body.lname;
@@ -200,19 +209,30 @@ router.post('/updateAccount/:id', (req, res) => {
     let gender = req.body.gender;
     let birthday = moment(req.body.birthday).isValid() ? req.body.birthday : null;
     let country = req.body.country;
-    User.update(
-        {
-            email, fname, lname, username, gender, birthday, country
-        },
-        { where: { id: req.params.id } }
-    )
-        .then((result) => {
-            console.log(result[0] + ' user updated');
-            res.redirect('/user/profile/' + req.params.id);
-        })
-        .catch(err =>
-            console.log(err)
-        );
+
+    let user = await User.findOne({ where: { email: email } })
+
+    try {
+        if (!user) {
+            User.update(
+                {
+                    email, fname, lname, username, gender, birthday, country
+                },
+                { where: { id: req.params.id } }
+            )
+                .then((result) => {
+                    console.log(result[0] + ' user updated');
+                    res.redirect('/user/profile/' + req.params.id);
+                })
+                .catch(err =>
+                    console.log(err)
+                );
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+
 });
 
 router.post('/updateStatus/:id', (req, res) => {
@@ -230,7 +250,7 @@ router.post('/updateStatus/:id', (req, res) => {
 });
 
 router.get('/updatePassword/:id', (req, res) => {
-    title = "Update Password";
+    let title = "Update Password";
     res.render('./user/passwordUpdate', { title });
 });
 
@@ -267,12 +287,12 @@ router.post('/updatePassword/:id', async (req, res) => {
 });
 
 router.get('/forgotPassword', (req, res) => {
-    title = "Forgot Password";
+    let title = "Forgot Password";
     res.render('./user/passwordForgot', { title });
 });
 
 router.get('/resetPassword', (req, res) => {
-    title = "Reset Password";
+    let title = "Reset Password";
     res.render('./user/passwordReset', { title });
 });
 
