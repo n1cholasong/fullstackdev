@@ -142,7 +142,7 @@ router.post('/signup', async function (req, res) {
                 interest,
                 status: undefined,
                 active: 1,
-                re
+                roleId: 2
             });
 
             // Send email
@@ -203,7 +203,7 @@ router.get('/profile/:id', ensureAuthenticated, authRole([1]), async (req, res) 
     res.render('./user/profile', { title, country, roleType });
 });
 
-router.post('/updateAccount/:id', (req, res) => {
+router.post('/updateAccount/:id', async (req, res) => {
     let email = req.body.email;
     let fname = req.body.fname;
     let lname = req.body.lname;
