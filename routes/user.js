@@ -144,7 +144,7 @@ router.post('/signup', async function (req, res) {
                 .then(response => {
                     console.log(response);
                     flashMessage(res, 'success', user.email + ' registered successfully', '', 'true');
-            res.redirect('/user/login');
+                    res.redirect('/user/login');
                 })
                 .catch(err => {
                     console.log(err);
@@ -200,19 +200,30 @@ router.post('/updateAccount/:id', (req, res) => {
     let gender = req.body.gender;
     let birthday = moment(req.body.birthday).isValid() ? req.body.birthday : null;
     let country = req.body.country;
-    User.update(
-        {
-            email, fname, lname, username, gender, birthday, country
-        },
-        { where: { id: req.params.id } }
-    )
-        .then((result) => {
-            console.log(result[0] + ' user updated');
-            res.redirect('/user/profile/' + req.params.id);
-        })
-        .catch(err =>
-            console.log(err)
-        );
+
+    let user = await User.findOne({ where: { email: email } })
+
+    try {
+        if (!user) {
+            User.update(
+                {
+                    email, fname, lname, username, gender, birthday, country
+                },
+                { where: { id: req.params.id } }
+            )
+                .then((result) => {
+                    console.log(result[0] + ' user updated');
+                    res.redirect('/user/profile/' + req.params.id);
+                })
+                .catch(err =>
+                    console.log(err)
+                );
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+
 });
 
 router.post('/updateStatus/:id', (req, res) => {
