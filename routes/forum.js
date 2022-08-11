@@ -4,7 +4,7 @@ const flashMessage = require('../helpers/messenger');
 const Forum = require('../models/Forum');
 const User = require('../models/User');
 const Comment = require('../models/Comments');
-const ensureAuthenticated = require("../helpers/auth");
+const { ensureAuthenticated, authRole } = require("../helpers/auth");
 require('dotenv').config;
 // Required for file upload
 const fs = require('fs');
@@ -145,7 +145,7 @@ router.post("/comment", ensureAuthenticated, (req, res) => {
             comment, forumId, userId
         }
     )
-    
+
     res.redirect(`/forum/${forumId}`);
 });
 
