@@ -25,7 +25,7 @@ const sgMail = require('@sendgrid/mail');
 
 
 router.get('/login', (req, res) => {
-    title = "Log in";
+    let title = "Log in";
     res.render('./user/login', { title });
 })
 
@@ -79,8 +79,8 @@ router.get('/verify/:userID/:token', async function (req, res) {
 });
 
 router.get('/signup', (req, res) => {
-    title = "Sign Up";
-    country = countryList.getData();
+    let title = "Sign Up";
+    let country = countryList.getData();
     res.render('./user/signup', { title, country });
 })
 
@@ -194,13 +194,11 @@ router.get('/logout', (req, res, next) => {
     });
 })
 
-router.get('/profile/:id', ensureAuthenticated, authRole([1]), async (req, res) => {
-    title = "My Profile";
-    country = countryList.getData();
-    let user = await User.findByPk(req.params.id);
-    roleType = await Role.findByPk(user.roleId)
-        .then(roleType => roleType.title)
-    res.render('./user/profile', { title, country, roleType });
+router.get('/profile/:id', ensureAuthenticated, async (req, res) => {
+    let title = "My Profile";
+    let country = countryList.getData();
+    let user = await User.findByPk(req.params.id, { include: Role });
+    res.render('./user/profile', { title, country, user });
 });
 
 router.post('/updateAccount/:id', async (req, res) => {
@@ -252,7 +250,7 @@ router.post('/updateStatus/:id', (req, res) => {
 });
 
 router.get('/updatePassword/:id', (req, res) => {
-    title = "Update Password";
+    let title = "Update Password";
     res.render('./user/passwordUpdate', { title });
 });
 
@@ -289,12 +287,12 @@ router.post('/updatePassword/:id', async (req, res) => {
 });
 
 router.get('/forgotPassword', (req, res) => {
-    title = "Forgot Password";
+    let title = "Forgot Password";
     res.render('./user/passwordForgot', { title });
 });
 
 router.get('/resetPassword', (req, res) => {
-    title = "Reset Password";
+    let title = "Reset Password";
     res.render('./user/passwordReset', { title });
 });
 
