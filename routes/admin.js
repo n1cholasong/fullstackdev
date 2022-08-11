@@ -9,7 +9,7 @@ userdict = {}
 fullname = {}
 useremail = {}
 
-router.get('/manageAccounts', async (req, res) => {
+router.get('/manageAccounts', ensureAuthenticated, authRole([1]), async (req, res) => {
     let title = "Manage Account";
     await User.findAll({
         include: Role
@@ -22,7 +22,7 @@ router.get('/manageAccounts', async (req, res) => {
         );
 });
 
-router.get('/reviewManagement', (req, res) => {
+router.get('/reviewManagement', ensureAuthenticated, authRole([1]), (req, res) => {
     let title = "Review Management";
     let course = Course.findByPk(req.params.id);
     User.findAll({
@@ -33,8 +33,6 @@ router.get('/reviewManagement', (req, res) => {
             useremail[u.id] = u.email
             fullname[u.id] = u.fname + ' ' + u.lname
         });
-
-
     })
     Review.findAll({
         where: { report: 1 },
@@ -48,8 +46,8 @@ router.get('/reviewManagement', (req, res) => {
         );
 });
 
-router.get('/viewAccount/:id', async (req, res) => {
-    User.findByPk(req.params.id, {include: Role})
+router.get('/viewAccount/:id', ensureAuthenticated, authRole([1]), async (req, res) => {
+    User.findByPk(req.params.id, { include: Role })
         .then((account) => {
             if (!account) {
                 flashMessage(res, 'error', 'User not found');
@@ -66,7 +64,7 @@ router.get('/viewAccount/:id', async (req, res) => {
 
 });
 
-router.post('/deleteAccount/:id', ensureAuthenticated, async function (req, res) {
+router.post('/deleteAccount/:id', ensureAuthenticated, authRole([1]), async function (req, res) {
     try {
         let user = await User.findByPk(req.params.id);
         if (!user) {
@@ -83,7 +81,7 @@ router.post('/deleteAccount/:id', ensureAuthenticated, async function (req, res)
     }
 });
 
-router.post('/deactivateAccount/:id', ensureAuthenticated, async function (req, res) {
+router.post('/deactivateAccount/:id', ensureAuthenticated, authRole([1]), async function (req, res) {
     try {
         let user = await User.findByPk(req.params.id);
         if (!user) {
@@ -111,7 +109,7 @@ router.post('/deactivateAccount/:id', ensureAuthenticated, async function (req, 
     }
 });
 
-router.get('/activateAccount/:id', ensureAuthenticated, async function (req, res) {
+router.get('/activateAccount/:id', ensureAuthenticated, authRole([1]), async function (req, res) {
     try {
         let user = await User.findByPk(req.params.id);
         if (!user) {
