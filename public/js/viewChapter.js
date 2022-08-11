@@ -1,15 +1,17 @@
 function hide(vNum,maxNum) {
-    for(var i = 0;i<maxNum;i++)
-    {
-        var y = document.getElementById("quiz" + i)
-        y.style.display = "none"
-        try{
-        var x = document.getElementById("videoPlayer" + i)
-        x.style.display = "none"
-        }catch{
-          continue
+    
+        var y = document.getElementsByClassName("quiz")
+        var x = document.getElementsByClassName("videoPlayer")
+        for(var i = 0;i<maxNum;i++)
+        {
+          y[i].style.display = "none"
+          try{
+          x[i].style.display = "none"
+          }catch{
+            continue
+          }
         }
-    }
+        
 
 
     var y = document.getElementById("quiz" + vNum);

@@ -1,6 +1,10 @@
 const moment = require('moment');
 const countryList = require('country-list');
 
+const emptyCheck = function(value,options){
+    return value == "";
+}
+
 const inc = function(value, options){
     return parseInt(value) + 1;
 }
@@ -78,6 +82,7 @@ module.exports = {
     authStud,
     authAdmin,
     ifCond,
-    inc
+    inc,
+    emptyCheck
 }
 
