@@ -5,6 +5,7 @@ function checkans(obj) {
 
     document.getElementById("cans").value = parseInt(obj.id.split("ansBtn")[1]);
     obj.style = "background-color: #7560FF;"
+    document.getElementById("saveBtn").removeAttribute('disabled')
 }
 
 
