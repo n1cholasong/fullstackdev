@@ -57,3 +57,16 @@
     text-decoration: none;
     color: black;
 }
+
+.forum .forum-info{
+    display: flex;
+
+}
+
+.forum .like-button-wrapper{
+    display: contents;
+}
+
+.forum .likes-display{
+    font-size: 25px;
+}

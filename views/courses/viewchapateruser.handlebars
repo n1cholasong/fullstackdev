@@ -28,7 +28,7 @@
         <div class="videoPlayer" style="display:none;" id="videoPlayer{{lookup ../videoDict id}}">
             <input type="hidden" class="videoID" value="{{id}}">
             <video id="videoPlayer{{@index}}" width="320" height="240" controls>
-                <source src="/Course/user/video/view/{{id}}" type="video/mp4">
+                <source src="{{videofile}}" type="video/mp4">
             </video>
         </div>
         {{/each}}
@@ -52,7 +52,7 @@
         var firstVidChap = "{{lookup videoDict videos.0.id}}"
         var firstChapid = "{{chapters.0.id}}"
         if(firstVidChap == firstChapid){
-            document.getElementById("videoPlayer0").style = "display:block;";
+            document.getElementById("videoPlayer" + firstVidChap).style = "display:block;";
         }
     }
 </script>
