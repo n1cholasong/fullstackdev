@@ -12,7 +12,6 @@ useremail = {}
 router.get('/manageAccounts', async (req, res) => {
     title = "Manage Account";
     await User.findAll({
-        raw: true,
         include: Role
     })
         .then((account) => {
