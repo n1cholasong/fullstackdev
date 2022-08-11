@@ -28,7 +28,7 @@
         <div class="videoPlayer" style="display:none;" id="videoPlayer{{lookup ../videoDict id}}">
             <input type="hidden" class="videoID" value="{{id}}">
             <video id="videoPlayer{{@index}}" width="320" height="240" controls>
-                <source src="/Course/user/video/view/{{id}}" type="video/mp4">
+                <source src="{{videofile}}" type="video/mp4">
             </video>
         </div>
         {{/each}}

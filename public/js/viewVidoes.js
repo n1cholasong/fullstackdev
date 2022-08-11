@@ -1,11 +1,17 @@
 window.onload = async function () {
-    var videos = $('.videoID');
+    // var videos = $('.videoID');
 
-    for (var i = 0; i < videos.length; i++) {
-        var video = document.getElementById("video" + videos[i].value)
-        video.src = '/Course/user/video/view/' + videos[i].value
-        video.load();
-    }
+    // for (var i = 0; i < videos.length; i++) {
+    //     var video = document.getElementById("video" + videos[i].value)
+    //     var source = document.createElement('source');
+        
+    //     source.setAttribute('src', videos[i].value);
+    //     source.setAttribute('type', 'video/mp4');
+
+    //     video.appendChild(source);
+    //     video.load();
+
+    // }
 
 };
 

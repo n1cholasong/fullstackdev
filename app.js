@@ -186,7 +186,7 @@ app.listen(port, () => {
 // 	return user
 // }
 
-// // Manual Creation
+// // // Manual Creation
 // if (!resetDB) {
 // 	User.findByPk(1).then((user) => {
 // 		if (user == null) {
