@@ -1,20 +1,20 @@
 const express = require('express');
 const Review = require("../models/Review");
 const router = express.Router();
-const ensureAuthenticated = require('../helpers/auth');
+const { ensureAuthenticated, authRole } = require('../helpers/auth');
 const flashMessage = require('../helpers/messenger');
 const Course = require('../models/Courses');
 const User = require('../models/User')
 userdict = {}
 fullname = {}
 
-router.get('/', async function(req, res,)  {
+router.get('/', async function (req, res,) {
 	title = "Home";
 	// renders views/index.handlebars, passing title as an object
 	//find all users and put them into a dict
 	await User.findAll({
-		raw:true
-	}).then((users) =>{
+		raw: true
+	}).then((users) => {
 		users.forEach(u => {
 			userdict[u.id] = u.username
 		});
@@ -22,13 +22,13 @@ router.get('/', async function(req, res,)  {
 
 
 	Course.findAll({
-        raw:true
-    }).then((Courses) => {
-		res.render('index',{Courses, title,userdict});
-		
-    })
-    .catch(err => console.log(err));
-	
+		raw: true
+	}).then((Courses) => {
+		res.render('index', { Courses, title, userdict });
+
+	})
+		.catch(err => console.log(err));
+
 });
 
 router.get('/mycourse', (req, res,) => {
@@ -39,8 +39,8 @@ router.get('/course/details/:id', async function (req, res) {
 	let course = await Course.findByPk(req.params.id);
 	//find all users and put them into a dict
 	await User.findAll({
-		raw:true
-	}).then((users) =>{
+		raw: true
+	}).then((users) => {
 		users.forEach(u => {
 			userdict[u.id] = u.username
 			fullname[u.id] = u.fname + ' ' + u.lname
@@ -50,8 +50,8 @@ router.get('/course/details/:id', async function (req, res) {
 	})
 
 	Review.findAll({
-		where : {courseId : course.id},
-		where : {report : 0},
+		where: { courseId: course.id },
+		where: { report: 0 },
 		raw: true
 	})
 		.then((reviews) => {
@@ -59,7 +59,7 @@ router.get('/course/details/:id', async function (req, res) {
 			var sum = 0.0;
 			var count = 0;
 			reviews.forEach((review) => {
-				if(review.CourseId == req.params.id) {
+				if (review.CourseId == req.params.id) {
 					sum += review.rating;
 					count++;
 				}
@@ -69,10 +69,10 @@ router.get('/course/details/:id', async function (req, res) {
 			var roundAvg = Math.floor(avg)
 
 			var print_star = [];
-			for(var i = 0; i < roundAvg; i++) {
+			for (var i = 0; i < roundAvg; i++) {
 				print_star.push(i);
 			}
-			res.render('course', { reviews, course ,userdict, fullname, avg, roundAvg, print_star, count});
+			res.render('course', { reviews, course, userdict, fullname, avg, roundAvg, print_star, count });
 		})
 		.catch(err => console.log(err));
 });
@@ -91,7 +91,7 @@ router.post("/createReview", ensureAuthenticated, (req, res) => {
 	// })
 	// .then((result) => {
 	// 	console.log(result);
-		
+
 	// })
 
 	Review.create(

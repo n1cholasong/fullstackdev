@@ -1,7 +1,8 @@
 const moment = require('moment');
 const countryList = require('country-list');
+const Role = require('../models/Role')
 
-const inc = function(value, options){
+const inc = function (value, options) {
     return parseInt(value) + 1;
 }
 
@@ -50,14 +51,14 @@ const setVariable = function (varName, varValue, options) {
 };
 
 const authStud = function (role) {
-    return (role == 'STUDENT') ? true : false;
+    return (role == 2) ? true : false;
 }
 
 const authAdmin = function (role) {
-    return (role == 'ADMIN') ? true : false;
+    return (role == 1) ? true : false;
 }
 
-const ifCond = function(params1, params2, options) {
+const ifCond = function (params1, params2, options) {
     if (params1 == params2) {
         return options.fn(this);
     }
