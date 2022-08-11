@@ -20,7 +20,7 @@ router.get("/", (req, res) => {
     })
         .then(async (thread) => {
             var likes_dict = [];
-            for (i in  thread){
+            for (i in thread) {
                 let test = thread[0]
                 let forum_id = thread[i].id;
                 const n_likes = await ForumLikes.count({ where: { liked: 1, forumId: forum_id } });
@@ -151,7 +151,41 @@ router.post("/comment", ensureAuthenticated, async function (req, res) {
             comment, forumId, userId
         }
     )
-    
+
+    res.redirect(`/forum/${forumId}`);
+});
+
+//Like bullshit
+router.post("/like/:id", ensureAuthenticated, async function (req, res) {
+    let forumId = req.params.id;
+    let userId = req.user.id;
+
+    let forum = await Forum.findByPk(forumId);
+    let likeStatus = await ForumLikes.findOne({ where: { forumId: forumId, userId: userId } });
+    if (forum.status == 0) {
+        flashMessage(res, 'error', 'Forum has been deleted');
+        res.redirect('/forum/')
+    }
+    if (likeStatus == null) {
+        ForumLikes.create(
+            {
+                forumId, userId
+            }
+        )
+    }
+    else if (likeStatus.liked == 1) {
+        let liked = 0;
+        likeStatus.update({
+            liked
+        })
+    }
+    else if (likeStatus.liked == 0) {
+        let liked = 1;
+        likeStatus.update({
+            liked
+        })
+    }
+
     res.redirect(`/forum/${forumId}`);
 });
 
