@@ -194,7 +194,7 @@ router.get('/logout', (req, res, next) => {
     });
 })
 
-router.get('/profile/:id', ensureAuthenticated, authRole([1]), async (req, res) => {
+router.get('/profile/:id', ensureAuthenticated, async (req, res) => {
     let title = "My Profile";
     let country = countryList.getData();
     let user = await User.findByPk(req.params.id, { include: Role });

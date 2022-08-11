@@ -117,12 +117,15 @@
                                                 <p>{{description}}</p>
                                             </div>
                                         </div>
-                                        {{#if pictureURL}}
                                         <div class="col">
+                                            {{#if pictureURL}}
                                             <img src="{{pictureURL}}" alt="Picture" class="img-thumbnail img-fluid mb-2"
                                                 onerror="this.src='/img/no-image.jpg'" style="max-height:160px">
+                                            {{/if}}
                                         </div>
-                                        {{/if}}
+                                        {{../likes_dict.id}}
+                                        <div>
+                                        </div>
                                     </div>
                                 </a>
 
