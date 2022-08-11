@@ -7,6 +7,7 @@ const Course = require('../models/Courses');
 const User = require('../models/User')
 const jwt = require('jsonwebtoken');
 const sgMail = require('@sendgrid/mail');
+const CourseLikes = require('../models/CourseLikes');
 userdict = {}
 fullname = {}
 
@@ -47,8 +48,6 @@ router.get('/course/details/:id', async function (req, res) {
 			userdict[u.id] = u.username
 			fullname[u.id] = u.fname + ' ' + u.lname
 		});
-
-
 	})
 
 	Review.findAll({
@@ -56,7 +55,15 @@ router.get('/course/details/:id', async function (req, res) {
 		order: [[ 'createdAt', 'DESC']],
 		raw: true
 	})
-		.then((reviews) => {
+		.then(async (reviews) => {
+			let course_id = req.params.id;
+			let user_id = req.user.id
+			const n_likes = await CourseLikes.count({ where: { liked: 1, courseId: course_id } });
+			const likeStatus = await CourseLikes.findOne({ where: { courseId: course_id, userId: user_id } })
+			// res.render('forum/comments', { forum, n_likes, likeStatus });
+
+			
+			
 			// pass object to listVideos.handlebar
 			var sum = 0.0;
 			var count = 0;
@@ -74,7 +81,7 @@ router.get('/course/details/:id', async function (req, res) {
 			for (var i = 0; i < roundAvg; i++) {
 				print_star.push(i);
 			}
-			res.render('course', { reviews, course, userdict, fullname, avg, roundAvg, print_star, count });
+			res.render('course', { reviews, course, userdict, fullname, avg, roundAvg, print_star, count, n_likes, likeStatus });
 		})
 		.catch(err => console.log(err));
 });
@@ -267,6 +274,42 @@ router.post('/flash', (req, res) => {
 	flashMessage(res, 'error', error);
 	flashMessage(res, 'error', error2, 'fas fa-sign-in-alt', true);
 });
+
+router.post("/like/:id", ensureAuthenticated, async function (req, res) {
+    let CourseId = req.params.id;
+    let userId = req.user.id;
+    // let course = await Course.findByPk(courseId);
+    let likeStatus = await CourseLikes.findOne({ where: { CourseId: CourseId, userId: userId } });
+    // if (course.status == 0) {
+    //     flashMessage(res, 'error', 'Forum has been deleted');
+    //     res.redirect('/forum/')
+    // }
+
+    if (likeStatus == null) {
+        CourseLikes.create(
+            {
+                CourseId, userId
+            }
+        )
+    }
+    else if (likeStatus.liked == 1) {
+        let liked = 0;
+        likeStatus.update({
+            liked
+        })
+    }
+    else if (likeStatus.liked == 0) {
+        let liked = 1;
+        likeStatus.update({
+            liked
+        })
+    }
+	res.redirect('back');
+
+    // res.redirect(`/forum/${forumId}`);
+});
+
+
 
 
 // To the admin when a review has been reported (To notify that a review has been reported) [To Lucasleejiajin@gmail.com]
