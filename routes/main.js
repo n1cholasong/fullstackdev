@@ -60,7 +60,7 @@ router.get('/course/details/:id', async function (req, res) {
 			let course_id = req.params.id;
 			try{
 				let user_id = req.user.id
-				const likeStatus = await CourseLikes.findOne({ where: { courseId: course_id, userId: user_id } })
+				likeStatus = await CourseLikes.findOne({ where: { courseId: course_id, userId: user_id } })
 			}
 			catch{
 				let user_id = null;
