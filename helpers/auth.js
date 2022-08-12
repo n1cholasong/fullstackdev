@@ -12,7 +12,8 @@ const authRole = (role) => {
         if (role.includes(userRole)) {
             next()
         } else {
-            return res.status(401).json("You do not have access")
+            return res.status(403).json("You do not have access")
+            // return res.render('403')
         }
     }
 }
