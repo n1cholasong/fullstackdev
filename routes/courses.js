@@ -221,6 +221,51 @@ router.post('/upload', (req, res) => {
     });
 });
 
+router.get('/quiz/edit/:cid', (req, res) => {
+    const cid = req.params.cid;
+    Quiz.findAll({
+        where: {
+            ChapterId: cid
+        }
+    }).then((Quizes) => {
+        res.render('./courses/editQuiz', { Quizes })
+    })
+})
+
+router.post('/quiz/edit/:cid', async function(req, res)  {
+    const cid = req.params.cid;
+    const body = req.body;
+    var cansList = [];
+    var count = 0;
+
+    for (var [field, value] of Object.entries(body)) {
+        if (field.includes("cans")) {
+            if (value == "1") {
+                cansList.push(body.ans1[count])
+            } else if (value == "2") {
+                cansList.push(body.ans2[count])
+            }
+            else if (value == "3") {
+                cansList.push(body.ans3[count])
+            }
+            else if (value == "4") {
+                cansList.push(body.ans4[count])
+            }
+            count ++;
+        }
+    }
+
+
+    for (var i = 0; i < body.qId.length; i++) {
+       await Quiz.update({
+            ans1: body.ans1[i], ans2: body.ans2[i], ans3: body.ans3[i], ans4: body.ans4[i], cans: cansList[i]
+        },
+            { where: { id: body.qId[i] } })
+    }
+
+    res.redirect('/Course/Chapter/view/' + cid)
+})
+
 router.get('/quiz/view/:cid', (req, res) => {
     const cid = req.params.cid;
     Quiz.findAll({
