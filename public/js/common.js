@@ -78,8 +78,6 @@ function stopLoading(){
    $('#loadingModal').modal('hide'); 
 }
 
-
-
 // function saveChanges() {
 //    $("#saveChanges").prop('disabled', false);
 //    $("#saveChanges").removeClass('btn-outline');
@@ -106,7 +104,6 @@ $(".custom-file-input").on("change", function () {
 });
 
 // For forum images only
-// Use fetch to call post route /video/upload
 $('#pictureUpload').on('change', function () {
    let formdata = new FormData();
    let image = $("#pictureUpload")[0].files[0];
