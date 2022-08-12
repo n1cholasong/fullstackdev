@@ -119,6 +119,16 @@ app.use('/admin', adminRoute);
 app.use('/payment', paymentRoute);
 app.use('/course', courseRoute);
 
+// The 404 Route
+app.use(function(req, res, next){
+	res.status(404);
+  
+	if (req.accepts('html')) {
+	  res.render('404', { url: req.url });
+	  return;
+	}
+});
+
 const port = process.env.PORT
 
 app.listen(port, () => {
