@@ -5,6 +5,7 @@ const { ensureAuthenticated, authRole } = require('../helpers/auth');
 const flashMessage = require('../helpers/messenger');
 const Course = require('../models/Courses');
 const User = require('../models/User')
+
 userdict = {}
 fullname = {}
 
@@ -247,6 +248,5 @@ router.post('/flash', (req, res) => {
 	flashMessage(res, 'error', error);
 	flashMessage(res, 'error', error2, 'fas fa-sign-in-alt', true);
 });
-
 
 module.exports = router;
