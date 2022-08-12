@@ -19,11 +19,11 @@ router.get("/", (req, res) => {
         include: [User, ForumLikes]
     })
         .then(async (thread) => {
-            var likes_dict = {};
+            var likes_dict = [];
             for (i in thread) {
                 let forum_id = thread[i].id;
                 const n_likes = await ForumLikes.count({ where: { liked: 1, forumId: forum_id } });
-                likes_dict[thread[i].id] = (n_likes);
+                likes_dict.push({'forumId' : forum_id, 'n_likes' : n_likes});
             }
             res.render('forum/forumhome', { thread, likes_dict });
         })
@@ -125,13 +125,13 @@ router.post('/deleteThread/:id', ensureAuthenticated, async function (req, res) 
 });
 
 //Comments bullshit
-router.get('/:id', (req, res) => {
+router.get('/:id', ensureAuthenticated, (req, res) => {
     Forum.findOne({
         where: { id: req.params.id },
         include: [Comment, ForumLikes]
     }).then(async (forum) => {
         let forum_id = req.params.id;
-        let user_id = req.body.user_id;
+        let user_id = req.user.id;
         if (user_id) {
             const n_likes = await ForumLikes.count({ where: { liked: 1, forumId: forum_id } });
             const likeStatus = await ForumLikes.findOne({ where: { forumId: forum_id, userId: user_id } })
