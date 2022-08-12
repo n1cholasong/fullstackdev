@@ -52,25 +52,25 @@ router.get('/course/details/:id', async function (req, res) {
 
 	Review.findAll({
 		where: [{ courseId: course.id }, { report: 0 }],
-		order: [[ 'createdAt', 'DESC']],
+		order: [['createdAt', 'DESC']],
 		raw: true
 	})
 		.then(async (reviews) => {
 			var likeStatus
 			let course_id = req.params.id;
-			try{
+			try {
 				let user_id = req.user.id
 				likeStatus = await CourseLikes.findOne({ where: { courseId: course_id, userId: user_id } })
 			}
-			catch{
+			catch {
 				let user_id = null;
 				likeStatus = null;
 			};
 			const n_likes = await CourseLikes.count({ where: { liked: 1, courseId: course_id } });
 			// res.render('forum/comments', { forum, n_likes, likeStatus });
 
-			
-			
+
+
 			// pass object to listVideos.handlebar
 			var sum = 0.0;
 			var count = 0;
@@ -134,11 +134,17 @@ router.post("/createReview", ensureAuthenticated, (req, res) => {
 router.get('/deleteReview/:id', ensureAuthenticated, async function (req, res) {
 	try {
 		let review = await Review.findByPk(req.params.id);
+		// Case 1: Check if the review is still there
 		if (!review) {
 			flashMessage(res, 'error', 'Review not found');
 			return res.redirect('back');
-
 		}
+		// Case 2: Check if report value of the review = 0
+		if (review.report == 1) {
+			flashMessage(res, 'error', 'The review has been reported. Deleting of review is NOT ALLOWED');
+			return res.redirect('back');
+		}
+		// Case 3: Only user can delete he/her own review
 		if (req.user.id != review.userId) {
 			flashMessage(res, 'error', 'Unauthorised access');
 			return res.redirect('back');
@@ -160,10 +166,21 @@ router.post('/editReview/:id', ensureAuthenticated, async (req, res) => {
 
 	await Review.findByPk(req.params.id)
 		.then((result) => {
+			// Case 1: Check if review is still there
+			if (!result) {
+				flashMessage(res, 'error', 'Review not found');
+				return res.redirect('back');
+			}
+			// Case 2: Only user can edit he/her own review
 			if (req.user.id != result.userId) {
 				flashMessage(res, 'error', 'Unauthorised access');
 				res.redirect('back');
 				return;
+			}
+			// Case 3: Check if report value of the review = 0
+			if (result.report == 1) {
+				flashMessage(res, 'error', 'The review has been reported. Editing of review is NOT ALLOWEED');
+				return res.redirect('back');
 			}
 			Review.update(
 				{ review, rating },
@@ -179,12 +196,19 @@ router.post('/createReply/:id', ensureAuthenticated, async (req, res) => {
 	let reply = req.body.review.slice(0, 1999);
 
 	await Review.findByPk(req.params.id)
-		.then((result) => {
-			// if (req.user.id == result.userId) {
-			// 	flashMessage(res, 'error', 'Unauthorised access');
-			// 	res.redirect('back');
-			// 	return;
-			// }
+		.then(async (result) => {
+			// Case 1: Check if the review is still there
+			if (!result) {
+				flashMessage(res, 'error', 'Review not found');
+				return res.redirect('back');
+			}
+			// Case 2: Check if the current user's id = course.userid
+			var check_course_user = await Course.findByPk(result.CourseId).then((course) => { return course.userId });
+			if (req.user.id != check_course_user) {
+				flashMessage(res, 'error', 'Unauthorised access');
+				res.redirect('back');
+				return;
+			}
 			Review.update(
 				{ reply },
 				{ where: { id: req.params.id } }
@@ -200,12 +224,19 @@ router.post('/editReply/:id', ensureAuthenticated, async (req, res) => {
 	let reply = req.body.review.slice(0, 1999);
 
 	await Review.findByPk(req.params.id)
-		.then((result) => {
-			// if (req.user.id == result.userId) {
-			// 	flashMessage(res, 'error', 'Unauthorised access');
-			// 	res.redirect('back');
-			// 	return;
-			// }
+		.then(async (result) => {
+			// Case 1: Check if the review is still there
+			if (!result) {
+				flashMessage(res, 'error', 'Review not found');
+				return res.redirect('back');
+			}
+			// Case 2: Check if the current user's id = course.userid
+			var check_course_user = await Course.findByPk(result.CourseId).then((course) => { return course.userId });
+			if (req.user.id != check_course_user) {
+				flashMessage(res, 'error', 'Unauthorised access');
+				res.redirect('back');
+				return;
+			}
 			Review.update(
 				{ reply },
 				{ where: { id: req.params.id } }
@@ -223,12 +254,19 @@ router.get('/deleteReply/:id', ensureAuthenticated, async (req, res) => {
 	let reply = null;
 
 	await Review.findByPk(req.params.id)
-		.then((result) => {
-			// if (req.user.id == result.userId) {
-			// 	flashMessage(res, 'error', 'Unauthorised access');
-			// 	res.redirect('back');
-			// 	return;
-			// }
+		.then(async (result) => {
+			// Case 1: Check if the review is still there
+			if (!result) {
+				flashMessage(res, 'error', 'Review not found');
+				return res.redirect('back');
+			}
+			// Case 2: Check if the current user's id = course.userid
+			var check_course_user = await Course.findByPk(result.CourseId).then((course) => { return course.userId });
+			if (req.user.id != check_course_user) {
+				flashMessage(res, 'error', 'Unauthorised access');
+				res.redirect('back');
+				return;
+			}
 			Review.update(
 				{ reply },
 				{ where: { id: req.params.id } }
@@ -246,7 +284,7 @@ router.get('/report/:id', ensureAuthenticated, async (req, res) => {
 	let report = 1;
 	let reported = req.user.id;
 	let admin_email = "lucasleejiajin@gmail.com";
-	sendEmail_Case1(admin_email)	
+	sendEmail_Case1(admin_email)
 		.catch(err => {
 			console.log(err);
 			flashMessage(res, 'error', 'Error when sending email to ' + req.user.email);
@@ -255,11 +293,16 @@ router.get('/report/:id', ensureAuthenticated, async (req, res) => {
 
 	await Review.findByPk(req.params.id)
 		.then((result) => {
-			// if (req.user.id == result.userId) {
-			// 	flashMessage(res, 'error', 'Unauthorised access');
-			// 	res.redirect('back');
-			// 	return;
-			// }
+			// Case 1: Check if the review is still there
+			if (!result) {
+				flashMessage(res, 'error', 'Review not found');
+				return res.redirect('back');
+			}
+			// Case 2: Check if report value of the review = 0
+			if (result.report == 1) {
+				flashMessage(res, 'error', 'The review has already been reported.');
+				return res.redirect('back');
+			}
 			Review.update(
 				{ report, reported },
 				{ where: { id: req.params.id } }
@@ -283,37 +326,37 @@ router.post('/flash', (req, res) => {
 });
 
 router.post("/like/:id", ensureAuthenticated, async function (req, res) {
-    let CourseId = req.params.id;
-    let userId = req.user.id;
-    // let course = await Course.findByPk(courseId);
-    let likeStatus = await CourseLikes.findOne({ where: { CourseId: CourseId, userId: userId } });
-    // if (course.status == 0) {
-    //     flashMessage(res, 'error', 'Forum has been deleted');
-    //     res.redirect('/forum/')
-    // }
+	let CourseId = req.params.id;
+	let userId = req.user.id;
+	// let course = await Course.findByPk(courseId);
+	let likeStatus = await CourseLikes.findOne({ where: { CourseId: CourseId, userId: userId } });
+	// if (course.status == 0) {
+	//     flashMessage(res, 'error', 'Forum has been deleted');
+	//     res.redirect('/forum/')
+	// }
 
-    if (likeStatus == null) {
-        CourseLikes.create(
-            {
-                CourseId, userId
-            }
-        )
-    }
-    else if (likeStatus.liked == 1) {
-        let liked = 0;
-        likeStatus.update({
-            liked
-        })
-    }
-    else if (likeStatus.liked == 0) {
-        let liked = 1;
-        likeStatus.update({
-            liked
-        })
-    }
+	if (likeStatus == null) {
+		CourseLikes.create(
+			{
+				CourseId, userId
+			}
+		)
+	}
+	else if (likeStatus.liked == 1) {
+		let liked = 0;
+		likeStatus.update({
+			liked
+		})
+	}
+	else if (likeStatus.liked == 0) {
+		let liked = 1;
+		likeStatus.update({
+			liked
+		})
+	}
 	res.redirect('back');
 
-    // res.redirect(`/forum/${forumId}`);
+	// res.redirect(`/forum/${forumId}`);
 });
 
 
