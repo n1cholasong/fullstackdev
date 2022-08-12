@@ -5,8 +5,7 @@ const Forum = db.define('forum', {
     topic: { type: Seqelize.STRING },
     description: { type: Seqelize.STRING },
     pictureURL: { type: Seqelize.STRING },
-    status: { type: Seqelize.TINYINT(1) },
-    likes: { type: Seqelize.INTEGER }
+    status: { type: Seqelize.TINYINT(1) }
 
 });
 
