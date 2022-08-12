@@ -9,7 +9,7 @@ const User = require('../models/User');
 // Passport Authentication
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
-const { ensureAuthenticated, authUser, authRole } = require("../helpers/auth");
+const { ensureAuthenticated, authUser } = require("../helpers/auth");
 
 const moment = require('moment');
 const countryList = require('country-list');

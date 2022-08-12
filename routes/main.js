@@ -249,4 +249,5 @@ router.post('/flash', (req, res) => {
 	flashMessage(res, 'error', error2, 'fas fa-sign-in-alt', true);
 });
 
+
 module.exports = router;
