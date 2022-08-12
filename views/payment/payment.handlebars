@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href="./css/payment/payment.css">
-<div class="container">
-    <h1 class="legend text mt-5">Credit Card Details</h1>
+<div class="container mx-auto">
+{{!--    <h1 class="legend text mt-5">Credit Card Details</h1>
 
     <form class="" method="post">
         <label for="Name">Name on card</label> <br>
@@ -47,4 +47,30 @@
             <button type="submit" class="btn paymeant search-btn text mx-auto" name="button">Confirm</button>
         </div>
     </form>
+    <div id="smart-button-container">
+      <div style="text-align: center;">
+        <div id="paypal-button-container"></div>
+      </div>
+    </div> --}}
+<div style=""id="paypal-button-container-P-36M250812D994073KML23RMI"></div>
+<script src="https://www.paypal.com/sdk/js?client-id=AYGQTNRc8K5MiEyX-maSalrLmIISBzWAn1V7zN9SFOm84edhi_1LJHETARvwp4WG4vM0cU5vbB0Djpd0&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+<script>
+  paypal.Buttons({
+      style: {
+          shape: 'rect',
+          color: 'gold',
+          layout: 'vertical',
+          label: 'subscribe'
+      },
+      createSubscription: function(data, actions) {
+        return actions.subscription.create({
+          /* Creates the subscription */
+          plan_id: 'P-36M250812D994073KML23RMI'
+        });
+      },
+      onApprove: function(data, actions) {
+        alert(data.subscriptionID); // You can add optional success message for the subscriber here
+      }
+  }).render('#paypal-button-container-P-36M250812D994073KML23RMI'); // Renders the PayPal button
+</script>
 </div>
