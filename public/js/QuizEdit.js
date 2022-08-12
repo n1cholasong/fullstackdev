@@ -1,3 +1,8 @@
+window.onload = (event)=>{
+    var x = document.getElementById("quiz0");
+    document.getElementById("quizDeleteForm").action = "/Course/Quiz/Delete/" + x.getAttribute('value');
+}
+
 function checkans(obj) {
     const id = obj.id.split("|")[2]
     $('.ansBtn' + id).each(function () {
@@ -36,4 +41,6 @@ function hide(qNum, maxNum) {
     } else {
         x.style.display = "none";
     }
+
+    document.getElementById("quizDeleteForm").action = "/Course/Quiz/Delete/" + x.getAttribute('value');
 }
