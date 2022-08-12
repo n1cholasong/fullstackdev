@@ -1,29 +1,32 @@
 const express = require('express');
 const router = express.Router();
 const flashMessage = require('../helpers/messenger');
+const getLikeCount = require('../helpers/forumLikes')
 const Forum = require('../models/Forum');
 const User = require('../models/User');
 const Comment = require('../models/Comments');
+const ForumLikes = require('../models/ForumLikes');
 const { ensureAuthenticated, authRole } = require("../helpers/auth");
 require('dotenv').config;
 // Required for file upload
 const fs = require('fs');
 const upload = require('../helpers/forumUpload');
 
+
 router.get("/", (req, res) => {
     Forum.findAll({
         where: { status: 1 },
-        include: User,
+        include: [User, ForumLikes]
     })
-        .then((thread) => {
-            // if (thread.userId == User.id) {
-            //     editable = true
-            // }
-            // else{
-            //     editable = false
-            // }
-
-            res.render('forum/forumhome', { thread });
+        .then(async (thread) => {
+            var likes_dict = [];
+            for (i in thread) {
+                let test = thread[0]
+                let forum_id = thread[i].id;
+                const n_likes = await ForumLikes.count({ where: { liked: 1, forumId: forum_id } });
+                likes_dict.push(n_likes);
+            }
+            res.render('forum/forumhome', { thread, likes_dict });
         })
         .catch(err => console.log(err));
 
@@ -55,11 +58,10 @@ router.post("/createThread", ensureAuthenticated, (req, res) => {
     let userId = req.user.id;
     let pictureURL = req.body.pictureURL;
     let status = 1;
-    let likes = 0;
 
     Forum.create(
         {
-            topic, description, pictureURL, status, likes, userId
+            topic, description, pictureURL, status, userId
         }
     )
 
@@ -127,15 +129,19 @@ router.post('/deleteThread/:id', ensureAuthenticated, async function (req, res) 
 router.get('/:id', (req, res) => {
     Forum.findOne({
         where: { id: req.params.id },
-        include: Comment
-    })
-        .then((forum) => {
-            res.render('forum/comments', { forum });
-        })
-        .catch(err => console.log(err));
+        include: [Comment, ForumLikes]
+    }).then(async (forum) => {
+        let forum_id = req.params.id;
+        let user_id = req.user.id
+        const n_likes = await ForumLikes.count({ where: { liked: 1, forumId: forum_id } });
+        const likeStatus = await ForumLikes.findOne({ where: { forumId: forum_id, userId: user_id } })
+        res.render('forum/comments', { forum, n_likes, likeStatus });
+    }).catch((err) => {
+        console.log('err', err);
+    });
 });
 
-router.post("/comment", ensureAuthenticated, (req, res) => {
+router.post("/comment", ensureAuthenticated, async function (req, res) {
     let comment = req.body.comment;
     let forumId = req.body.forum_id;
     let userId = req.user.id;
@@ -145,6 +151,40 @@ router.post("/comment", ensureAuthenticated, (req, res) => {
             comment, forumId, userId
         }
     )
+
+    res.redirect(`/forum/${forumId}`);
+});
+
+//Like bullshit
+router.post("/like/:id", ensureAuthenticated, async function (req, res) {
+    let forumId = req.params.id;
+    let userId = req.user.id;
+
+    let forum = await Forum.findByPk(forumId);
+    let likeStatus = await ForumLikes.findOne({ where: { forumId: forumId, userId: userId } });
+    if (forum.status == 0) {
+        flashMessage(res, 'error', 'Forum has been deleted');
+        res.redirect('/forum/')
+    }
+    if (likeStatus == null) {
+        ForumLikes.create(
+            {
+                forumId, userId
+            }
+        )
+    }
+    else if (likeStatus.liked == 1) {
+        let liked = 0;
+        likeStatus.update({
+            liked
+        })
+    }
+    else if (likeStatus.liked == 0) {
+        let liked = 1;
+        likeStatus.update({
+            liked
+        })
+    }
 
     res.redirect(`/forum/${forumId}`);
 });
