@@ -6,6 +6,7 @@ const Forum = require('../models/Forum');
 const User = require('../models/User');
 const Comment = require('../models/Comments');
 const ForumLikes = require('../models/ForumLikes');
+const ForumFav = require('../models/ForumFavourites')
 const { ensureAuthenticated, authRole } = require("../helpers/auth");
 require('dotenv').config;
 // Required for file upload
@@ -16,15 +17,18 @@ const upload = require('../helpers/forumUpload');
 router.get("/", (req, res) => {
     Forum.findAll({
         where: { status: 1 },
-        include: [User, ForumLikes]
+        include: [User, ForumLikes, ForumFav]
     })
         .then(async (thread) => {
+            //To count likes
             var likes_dict = [];
             for (i in thread) {
                 let forum_id = thread[i].id;
                 const n_likes = await ForumLikes.count({ where: { liked: 1, forumId: forum_id } });
                 likes_dict.push({'forumId' : forum_id, 'n_likes' : n_likes});
             }
+
+
             res.render('forum/forumhome', { thread, likes_dict });
         })
         .catch(err => console.log(err));
@@ -193,6 +197,52 @@ router.post("/like/:id", ensureAuthenticated, async function (req, res) {
     }
 
     res.redirect(`/forum/${forumId}`);
+});
+
+router.post("/addFav/:id", ensureAuthenticated, async function (req, res) {
+    let forumId = req.params.id;
+    let userId = req.user.id;
+
+    //Check if forum exist
+    let forum = await Forum.findByPk(forumId);
+
+    //Check if it is already added as favourites
+    let favStatus = await ForumFav.findOne({ where: { forumId: forumId, userId: userId } });
+
+    //If forum is deleted
+    if (forum.status == 0) {
+        flashMessage(res, 'error', 'Forum has been deleted');
+        res.redirect('/forum/')
+    }
+    let topic = forum.topic
+    //If an instance does not exist
+    if (favStatus == null) {
+        ForumFav.create(
+            {
+                topic, forumId, userId
+            }
+        )
+    }
+
+    //If already added to favourits
+    else if (favStatus.favourite == 1) {
+        let favourite = 0;
+        //Remove from favourites
+        favStatus.update({
+            favourite: favourite
+        })
+    }
+
+    //If removed from favourites
+    else if (favStatus.favourite == 0) {
+        let favourite = 1;
+        //Add back to favourites
+        favStatus.update({
+            favourite: favourite
+        })
+    }
+
+    res.redirect(`/forum/`);
 });
 
 router.post('/upload', (req, res) => {

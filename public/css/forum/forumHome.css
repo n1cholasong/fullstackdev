@@ -134,6 +134,15 @@
     align-self: center;
 }
 
+.forum .fav-button {
+    border: none;
+    background-color: white;
+}
+
+.forum .fav-button.active {
+    color: red;
+}
+
 /* scrollbar edit */
 /* width */
 .forum ::-webkit-scrollbar {
