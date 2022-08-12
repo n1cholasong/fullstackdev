@@ -78,26 +78,6 @@ function stopLoading(){
    $('#loadingModal').modal('hide'); 
 }
 
-
-
-// function saveChanges() {
-//    $("#saveChanges").prop('disabled', false);
-//    $("#saveChanges").removeClass('btn-outline');
-//    $("#saveChanges").addClass('btn-main');
-// }
-
-// function displayStar(rating) {
-//    for (let i = 0; i < rating; i++) {
-//       document.getElementById("star").innerHTML += '<i class="fa-solid fa-star"></i>'
-//    }
-// }
-
-
-// $(".sidebar .nav-item").on("click", function () {
-//    $(".sidebar .nav-item").find(".active").removeClass("active");
-//    $(this).addClass("active");
-// });
-
 // Display selected file name
 $(".custom-file-input").on("change", function () {
    var fileName = $(this).val().split("\\").pop();
@@ -106,7 +86,6 @@ $(".custom-file-input").on("change", function () {
 });
 
 // For forum images only
-// Use fetch to call post route /video/upload
 $('#pictureUpload').on('change', function () {
    let formdata = new FormData();
    let image = $("#pictureUpload")[0].files[0];

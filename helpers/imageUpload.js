@@ -10,17 +10,16 @@ const storage = multer.diskStorage({
         callback(null, req.user.id + '-' + Date.now() +
             path.extname(file.originalname));
     }
-
 });
 
-// Check File Type 
+// Check File Type
 function checkFileType(file, callback) {
-    // Allowed file extensions 
+    // Allowed file extensions
     const filetypes = /jpeg|jpg|png|gif/;
-    // Test extension 
+    // Test extension
     const extname =
         filetypes.test(path.extname(file.originalname).toLowerCase());
-    // Test mime 
+    // Test mime
     const mimetype = filetypes.test(file.mimetype);
     if (mimetype && extname) {
         return callback(null, true);
@@ -29,15 +28,6 @@ function checkFileType(file, callback) {
         callback({ message: 'Images Only' });
     }
 }
-
-// Define Upload Function
-// const upload = multer({
-//     storage: storage,
-//     limits: { fileSize: 1000000 }, // 1MB
-//     fileFilter: (req, file, callback) => {
-//         checkFileType(file, callback);
-//     }
-// }).single('pictureUpload'); // Must be the name as the HTML file upload input
 
 // Profile Picture
 const upload = multer({
@@ -50,4 +40,3 @@ const upload = multer({
 
 
 module.exports = upload;
-
