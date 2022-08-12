@@ -221,6 +221,83 @@ router.post('/upload', (req, res) => {
     });
 });
 
+router.get('/quiz/edit/:cid', (req, res) => {
+    const cid = req.params.cid;
+    Quiz.findAll({
+        where: {
+            ChapterId: cid
+        }
+    }).then((Quizes) => {
+        res.render('./courses/editQuiz', { Quizes })
+    })
+})
+
+router.post('/quiz/edit/:cid', async function(req, res)  {
+    const cid = req.params.cid;
+    const body = req.body;
+    var cansList = [];
+    var count = 0;
+
+    for (var [field, value] of Object.entries(body)) {
+        if (field.includes("cans")) {
+            if (value == "1") {
+                cansList.push(body.ans1[count])
+            } else if (value == "2") {
+                cansList.push(body.ans2[count])
+            }
+            else if (value == "3") {
+                cansList.push(body.ans3[count])
+            }
+            else if (value == "4") {
+                cansList.push(body.ans4[count])
+            }
+            count ++;
+        }
+    }
+
+
+
+    for (var i = 0; i < body.qId.length; i++) {
+        var check = {
+            question:body.question[i],
+            description:body.description[i],
+             ans1: body.ans1[i],
+             ans2: body.ans2[i], 
+             ans3: body.ans3[i], 
+             ans4: body.ans4[i], 
+             cans: cansList[i],
+             ChapterId:cid}
+
+       await Quiz.update({
+        question:body.question[i],
+        description:body.description[i],
+         a1: body.ans1[i],
+         a2: body.ans2[i], 
+         a3: body.ans3[i], 
+         a4: body.ans4[i], 
+         correctans: cansList[i],
+         ChapterId:cid
+        },
+            { where: { 
+                id: parseInt(body.qId[i]) 
+            } }).then((quiz)=>{
+                console.log("CHanged:",quiz)
+            })
+    }
+
+    res.redirect('/Course/Chapter/view/' + cid)
+})
+
+router.post('/Quiz/Delete/:qid', (req, res) => {
+    const qid = req.params.qid;
+    Quiz.destroy({ where: { 
+        id: qid } 
+    }).then(() => {
+        res.redirect(req.get('referer'));
+    })
+})
+
+
 router.get('/quiz/view/:cid', (req, res) => {
     const cid = req.params.cid;
     Quiz.findAll({

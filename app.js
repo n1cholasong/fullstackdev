@@ -100,6 +100,9 @@ app.use(function (req, res, next) {
 	next();
 });
 
+// Error Handling
+
+
 // mainRoute is declared to point to routes/main.js
 const mainRoute = require('./routes/main');
 const forumRoute = require('./routes/forum');
@@ -107,7 +110,6 @@ const userRoute = require('./routes/user');
 const adminRoute = require('./routes/admin');
 const paymentRoute = require('./routes/payment');
 const courseRoute = require('./routes/courses');
-
 
 // Any URL with the pattern ‘/*’ is directed to routes/main.js
 app.use('/', mainRoute);
@@ -117,13 +119,18 @@ app.use('/admin', adminRoute);
 app.use('/payment', paymentRoute);
 app.use('/course', courseRoute);
 
-/*
-* Creates a port for express server since we don't want our app to clash with well known
-* ports such as 80 or 8080.
-* */
-const port = 5000;
+// The 404 Route
+app.use(function(req, res, next){
+	res.status(404);
+  
+	if (req.accepts('html')) {
+	  res.render('404', { url: req.url });
+	  return;
+	}
+});
 
-// Starts the server and listen to port
+const port = process.env.PORT
+
 app.listen(port, () => {
 	console.log(`Server started on http://localhost:${port}`);
 });
