@@ -4,6 +4,7 @@ const Role = require('../models/Role')
 const User = require('../models/User');
 const Review = require("../models/Review");
 const Course = require('../models/Courses');
+const flashMessage = require('../helpers/messenger');
 const { ensureAuthenticated, authRole } = require("../helpers/auth");
 const sgMail = require('@sendgrid/mail');
 
@@ -133,10 +134,14 @@ router.get('/reviewManagement', ensureAuthenticated, authRole([1]), (req, res) =
 router.get('/deleteReview/:id', ensureAuthenticated, authRole([1]), async function (req, res) {
     try {
         let review = await Review.findByPk(req.params.id);
+        // Case 1: Check if review is still there
         if (!review) {
             flashMessage(res, 'error', 'Review not found');
             return res.redirect('back');
-
+        }
+        if (review.report != 1) {
+            flashMessage(res, 'error', 'Action has already been taken. Report Not Found');
+            return res.redirect('back');
         }
         await Review.findByPk(req.params.id)
             .then(async (result) => {
@@ -173,9 +178,17 @@ router.get('/resolve/:id', ensureAuthenticated, authRole([1]), async (req, res) 
     let report = 0;
     let reported = null;
 
-
     await Review.findByPk(req.params.id)
         .then(async (result) => {
+            // Case 1: Check if review is still there
+            if (!result) {
+				flashMessage(res, 'error', 'Review not found');
+				return res.redirect('back');
+			}
+            if (result.report != 1) {
+                flashMessage(res, 'error', 'Action has already been taken. Report Not Found');
+                return res.redirect('back');
+            }
             var reportedEmail = await User.findByPk(result.reported).then((user) => { return user.email });
             sendEmail_Case2(reportedEmail)
                 .catch(err => {
