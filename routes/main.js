@@ -56,10 +56,17 @@ router.get('/course/details/:id', async function (req, res) {
 		raw: true
 	})
 		.then(async (reviews) => {
+			var likeStatus
 			let course_id = req.params.id;
-			let user_id = req.user.id
+			try{
+				let user_id = req.user.id
+				const likeStatus = await CourseLikes.findOne({ where: { courseId: course_id, userId: user_id } })
+			}
+			catch{
+				let user_id = null;
+				likeStatus = null;
+			};
 			const n_likes = await CourseLikes.count({ where: { liked: 1, courseId: course_id } });
-			const likeStatus = await CourseLikes.findOne({ where: { courseId: course_id, userId: user_id } })
 			// res.render('forum/comments', { forum, n_likes, likeStatus });
 
 			
