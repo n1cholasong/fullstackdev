@@ -143,7 +143,7 @@ router.post('/signup', async function (req, res) {
                 interest,
                 status: undefined,
                 active: 1,
-                roleId: 2
+                roleId: 2 // Student
             });
 
             // Send email
@@ -287,21 +287,21 @@ router.post('/updatePassword/:id', ensureAuthenticated, authUser, async (req, re
     res.render('./user/passwordUpdate', { title });
 });
 
-router.get('/forgotPassword', ensureAuthenticated, authUser, (req, res) => {
+router.get('/forgotPassword', ensureAuthenticated, (req, res) => {
     let title = "Forgot Password";
     res.render('./user/passwordForgot', { title });
 });
 
-router.get('/resetPassword', ensureAuthenticated, authUser, (req, res) => {
+router.get('/resetPassword', ensureAuthenticated, (req, res) => {
     let title = "Reset Password";
     res.render('./user/passwordReset', { title });
 });
 
-router.post('/uploadProfilePic', ensureAuthenticated, authUser, (req, res) => {
-    // Creates user id directory for upload if not exist
+router.post('/uploadProfilePic', ensureAuthenticated, (req, res) => {
     // Creates user id directory for upload if not exist
     if (!fs.existsSync('./public/uploads/' + req.user.id)) {
         fs.mkdirSync('./public/uploads/' + req.user.id, { recursive: true });
+        console.log("Upload File Created")
     }
 
     upload(req, res, (err) => {
@@ -319,19 +319,16 @@ router.post('/uploadProfilePic', ensureAuthenticated, authUser, (req, res) => {
 
 router.post('/updateProfilePic/:id', ensureAuthenticated, authUser, (req, res) => {
     let profilePicURL = req.body.profilePicURL;
-    console.log("Testaaaaaaaaaaaaa")
-    console.log(profilePicURL)
     User.update(
         { profilePicURL },
         { where: { id: req.params.id } }
     )
         .then(
-            res.redirect('/user/profile/' + req.params.id)
+            res.redirect('/user/profile/' + req.user.id)
         )
         .catch(err =>
             console.log(err)
         );
-    res.render('./user/profile');
 });
 
 router.get('/resetProfilePic/:id', ensureAuthenticated, authUser, (req, res) => {
