@@ -219,7 +219,7 @@
     </div>
 </div>
 <script>
-    $('textarea').keyup(function () {
+    $('textarea').keydown(function () {
         var characterCount = $(this).val().length,
             current = $('#current'),
             maxLength = $('#maxLength'),

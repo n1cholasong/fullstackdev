@@ -9,7 +9,7 @@ const User = require('../models/User');
 // Passport Authentication
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
-const { ensureAuthenticated, authRole } = require("../helpers/auth");
+const { ensureAuthenticated, authUser, authRole } = require("../helpers/auth");
 
 const moment = require('moment');
 const countryList = require('country-list');
@@ -28,6 +28,7 @@ router.get('/login', (req, res) => {
     let title = "Log in";
     res.render('./user/login', { title });
 })
+
 
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
@@ -194,14 +195,14 @@ router.get('/logout', (req, res, next) => {
     });
 })
 
-router.get('/profile/:id', ensureAuthenticated, async (req, res) => {
+router.get('/profile/:id', ensureAuthenticated, authUser, async (req, res) => {
     let title = "My Profile";
     let country = countryList.getData();
     let user = await User.findByPk(req.params.id, { include: Role });
     res.render('./user/profile', { title, country, user });
 });
 
-router.post('/updateAccount/:id', async (req, res) => {
+router.post('/updateAccount/:id', ensureAuthenticated, authUser, async (req, res) => {
     let email = req.body.email;
     let fname = req.body.fname;
     let lname = req.body.lname;
@@ -235,7 +236,7 @@ router.post('/updateAccount/:id', async (req, res) => {
 
 });
 
-router.post('/updateStatus/:id', (req, res) => {
+router.post('/updateStatus/:id', ensureAuthenticated, authUser, (req, res) => {
     User.update(
         { status: req.body.status },
         { where: { id: req.params.id } }
@@ -249,12 +250,12 @@ router.post('/updateStatus/:id', (req, res) => {
         );
 });
 
-router.get('/updatePassword/:id', (req, res) => {
+router.get('/updatePassword/:id', ensureAuthenticated, authUser, (req, res) => {
     let title = "Update Password";
     res.render('./user/passwordUpdate', { title });
 });
 
-router.post('/updatePassword/:id', async (req, res) => {
+router.post('/updatePassword/:id', ensureAuthenticated, authUser, async (req, res) => {
     let { currentPassword, newPassword, newPassword2 } = req.body;
     var salt = bcrypt.genSaltSync(10);
 
@@ -286,28 +287,27 @@ router.post('/updatePassword/:id', async (req, res) => {
     res.render('./user/passwordUpdate', { title });
 });
 
-router.get('/forgotPassword', (req, res) => {
+router.get('/forgotPassword', ensureAuthenticated, authUser, (req, res) => {
     let title = "Forgot Password";
     res.render('./user/passwordForgot', { title });
 });
 
-router.get('/resetPassword', (req, res) => {
+router.get('/resetPassword', ensureAuthenticated, authUser, (req, res) => {
     let title = "Reset Password";
     res.render('./user/passwordReset', { title });
 });
 
-router.post('/uploadProfilePic', ensureAuthenticated, (req, res) => {
+router.post('/uploadProfilePic', ensureAuthenticated, authUser, (req, res) => {
+    // Creates user id directory for upload if not exist
     // Creates user id directory for upload if not exist
     if (!fs.existsSync('./public/uploads/' + req.user.id)) {
-        fs.mkdirSync('./public/uploads/' + req.user.id, {
-            recursive:
-                true
-        });
+        fs.mkdirSync('./public/uploads/' + req.user.id, { recursive: true });
     }
+
     upload(req, res, (err) => {
         if (err) {
             // e.g. File too large
-            res.json({ file: '/img/user.svg', err: err });
+            res.json({ file: '/img/no-image.jpg', err: err });
         }
         else {
             res.json({
@@ -317,9 +317,10 @@ router.post('/uploadProfilePic', ensureAuthenticated, (req, res) => {
     });
 });
 
-router.post('/updateProfilePic/:id', (req, res) => {
+router.post('/updateProfilePic/:id', ensureAuthenticated, authUser, (req, res) => {
     let profilePicURL = req.body.profilePicURL;
-
+    console.log("Testaaaaaaaaaaaaa")
+    console.log(profilePicURL)
     User.update(
         { profilePicURL },
         { where: { id: req.params.id } }
@@ -333,7 +334,7 @@ router.post('/updateProfilePic/:id', (req, res) => {
     res.render('./user/profile');
 });
 
-router.get('/resetProfilePic/:id', (req, res) => {
+router.get('/resetProfilePic/:id', ensureAuthenticated, authUser, (req, res) => {
     User.update(
         { profilePicURL: null },
         { where: { id: req.params.id } }
