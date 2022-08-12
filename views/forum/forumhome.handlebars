@@ -118,13 +118,26 @@
                                             </div>
                                         </div>
                                         <div class="col">
-                                            {{#if pictureURL}}
-                                            <img src="{{pictureURL}}" alt="Picture" class="img-thumbnail img-fluid mb-2"
-                                                onerror="this.src='/img/no-image.jpg'" style="max-height:160px">
-                                            {{/if}}
-                                        </div>
-                                        {{../likes_dict.id}}
-                                        <div>
+                                            <div class="pic-like-favourites">
+                                                {{#if pictureURL}}
+                                                <img src="{{pictureURL}}" alt="Picture"
+                                                    class="img-thumbnail img-fluid mb-2"
+                                                    onerror="this.src='/img/no-image.jpg'" style="max-height:160px">
+                                                {{/if}}
+                                                <div class="like-favourites">
+                                                    <div class="likes-display">
+                                                        <i class="fa-solid fa-angles-up"></i>
+                                                        {{#each ../likes_dict}}
+                                                        {{#ifCond forumId ../id}}
+                                                        <h5 class="likes">{{n_likes}}</h5>
+                                                        {{/ifCond}}
+                                                        {{/each}}
+                                                    </div>
+                                                    <div class="favourites">
+                                                        <i class="fa-solid fa-heart"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </a>
