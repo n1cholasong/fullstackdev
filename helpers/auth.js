@@ -16,7 +16,6 @@ const authUser = (req, res, next) => {
 const authRole = (role) => {
     return (req, res, next) => {
         const userRole = req.user.roleId
-        console.log(userRole)
         if (role.includes(userRole)) {
             return next()
         }
@@ -25,4 +24,14 @@ const authRole = (role) => {
     }
 }
 
-module.exports = { ensureAuthenticated, authRole, authUser };
+const authActive = (req, res, next) => {
+    const accountStatus = req.user.active
+    if (accountStatus == 1) {
+        return next()
+    }
+
+    return res.render('./user/deactivated')
+}
+
+
+module.exports = { ensureAuthenticated, authRole, authUser, authActive };
