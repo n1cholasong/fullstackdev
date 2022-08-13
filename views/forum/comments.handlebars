@@ -21,22 +21,25 @@
                                 {{n_likes}}
                             </div>
                             <form action="/forum/like/{{forum.id}}" method="post">
+                            {{log likeStatus.liked }}
                                 {{#if likeStatus}}
                                 {{else}}
                                 <button type="submit" class="like-button" id="like-button"><i
                                         class="fas fa-thumbs-up"></i></button>
                                 <input id="forum_id" type="hidden" name="forum_id" value="{{forum.id}}">
+                                <input id="user_id" type="hidden" name="user_id" value="{{user.id}}">
                                 {{/if}}
-                                <input id="forum_id" type="hidden" name="forum_id" value="{{forum.id}}">
                                 {{#ifCond likeStatus.liked 1}}
                                 <button type="submit" class="like-button active" id="like-button"><i
-                                        class="fas fa-thumbs-up"></i></button>
+                                        class="fas fa-thumbs-up" ></i></button>
                                 <input id="forum_id" type="hidden" name="forum_id" value="{{forum.id}}">
+                                <input id="user_id" type="hidden" name="user_id" value="{{user.id}}">
                                 {{/ifCond}}
                                 {{#ifCond likeStatus.liked 0}}
                                 <button type="submit" class="like-button" id="like-button"><i
                                         class="fas fa-thumbs-up"></i></button>
                                 <input id="forum_id" type="hidden" name="forum_id" value="{{forum.id}}">
+                                <input id="user_id" type="hidden" name="user_id" value="{{user.id}}">
                                 {{/ifCond}}
                             </form>
                         </div>
@@ -46,7 +49,7 @@
                             <div class="comments-input col">
                                 <div class="form-group">
                                     <input class="form-control border-0" id="comment" name="comment"
-                                        placeholder="Enter Comments Here">
+                                        placeholder="Enter Comments Here" required>
                                 </div>
                                 <input id="forum_id" type="hidden" name="forum_id" value="{{forum.id}}">
                             </div>
