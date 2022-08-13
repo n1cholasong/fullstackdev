@@ -1,6 +1,7 @@
 <script src="/js/viewChapter.js"></script>
 <div class="container profile admin row mx-auto">
     <h1>Course Chapters</h1>
+    {{#if chapters}}
     <div class="col me-5 mt-4">
         <div class="setting-tab py-4">
             <!--Settings Tab-->
@@ -44,6 +45,9 @@
 
 
     </div>
+    {{else}}
+    <h1>No chapters yet....</h1>
+    {{/if}}
 </div>
 
 <script>

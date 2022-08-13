@@ -21,11 +21,11 @@ const setUpDB = (drop) => {
             Role.hasOne(User);
             User.hasMany(Forum);
             User.hasMany(Review);
-            User.hasMany(Course);
             User.hasMany(Voucher);
             User.hasMany(Comment);
             User.hasMany(ForumLike);
             User.hasMany(ForumFav);
+            User.hasMany(Course)
             //Course.hasMany(Quiz);
             Course.hasMany(Chapter);
             Course.hasMany(Review);
@@ -43,6 +43,7 @@ const setUpDB = (drop) => {
             Comment.belongsTo(User);
             //Decalring the child realtionship
             User.belongsTo(Role);
+            User.belongsToMany(Course, { through: 'UserCourses' });
             Comment.belongsTo(Forum);
             Chapter.belongsTo(Course);
             Review.belongsTo(Course);

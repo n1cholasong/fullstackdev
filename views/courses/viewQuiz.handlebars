@@ -1,119 +1,137 @@
 <script src="/js/Quiz.js"></script>
 <div class="container">
-        {{#if Quizes}}
-        <form method="POST">
-            {{#each Quizes}}
-            {{#if @first}}
-            <div id="quiz{{@index}}">
-                <input type="hidden" name="cans" id="cans" value="">
-                <div class="form-group mt-2 mb-4">
-                    <label for="question">Quiz Question:</label>
-                    <p></p>{{question}}</p>
+    {{#if Quizes}}
+    <form method="POST">
+        {{#each Quizes}}
+        {{#if @first}}
+        <div id="quiz{{@index}}">
+            <input type="hidden" name="cans" id="cans" value="">
+            <div class="form-group mt-2 mb-4">
+                <label for="question">Quiz Question:</label>
+                <p></p>{{question}}</p>
+            </div>
+            <div class="form-group mt-2 mb-4">
+                {{#if description}}
+                <label for="description">Quiz Description:</label>
+                <p>{{description}}</p>
+                {{/if}}
+            </div>
+            <div class="option p-3" style="border: 2px solid #bcbcbc; border-radius: 5px;">
+                <div class="input-group mb-3">
+                    <div class="input-group-text">
+                        <input class="form-check-input mt-0" type="radio" value="{{a1}}" name="anwser{{@index}}"
+                            aria-label="Radio button for following text input">
+                    </div>
+                    <input type="text" id="popt1" name="ans1" class="form-control"
+                        aria-label="Text input with radio button" value="{{a1}}" readonly>
+
                 </div>
-                <div class="form-group mt-2 mb-4">
-                    <label for="description">Quiz Description:</label>
-                    <p>{{description}}</p>
+                <div class="input-group mb-3">
+                    <div class="input-group-text">
+                        <input class="form-check-input mt-0" type="radio" value="{{a2}}" name="anwser{{@index}}"
+                            aria-label="Radio button for following text input">
+                    </div>
+                    <input type="text" id="popt2" name="ans2" class="form-control"
+                        aria-label="Text input with radio button" value="{{a2}}" readonly>
+
                 </div>
-                <div class="option p-3" style="border: 2px solid #bcbcbc; border-radius: 5px;">
-                    <div class="input-group mb-3">
-                        <div class="input-group-text">
-                            <input class="form-check-input mt-0" type="radio" value="{{a1}}" name="anwser{{@index}}" aria-label="Radio button for following text input">
-                        </div>
-                        <input type="text" id="popt1"  name="ans1"  class="form-control" aria-label="Text input with radio button" value="{{a1}}" readonly>
-                        
+                <div class="input-group mb-3">
+                    <div class="input-group-text">
+                        <input class="form-check-input mt-0" type="radio" value="{{a3}}" name="anwser{{@index}}"
+                            aria-label="Radio button for following text input">
                     </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-text">
-                            <input class="form-check-input mt-0" type="radio" value="{{a2}}" name="anwser{{@index}}" aria-label="Radio button for following text input">
-                        </div>
-                        <input type="text" id="popt2"  name="ans2"  class="form-control" aria-label="Text input with radio button" value="{{a2}}" readonly>
-                        
+                    <input type="text" id="popt3" name="ans3" class="form-control"
+                        aria-label="Text input with radio button" value="{{a3}}" readonly>
+
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-text">
+                        <input class="form-check-input mt-0" type="radio" value="{{a4}}" name="anwser{{@index}}"
+                            aria-label="Radio button for following text input">
                     </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-text">
-                            <input class="form-check-input mt-0" type="radio" value="{{a3}}" name="anwser{{@index}}" aria-label="Radio button for following text input">
-                        </div>
-                        <input type="text" id="popt3"  name="ans3"  class="form-control" aria-label="Text input with radio button" value="{{a3}}" readonly>
-                        
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-text">
-                            <input class="form-check-input mt-0" type="radio" value="{{a4}}" name="anwser{{@index}}" aria-label="Radio button for following text input">
-                        </div>
-                        <input type="text" id="popt4"  name="ans4" class="form-control" aria-label="Text input with radio button" value="{{a4}}" readonly>
-                        
-                    </div>
+                    <input type="text" id="popt4" name="ans4" class="form-control"
+                        aria-label="Text input with radio button" value="{{a4}}" readonly>
+
                 </div>
             </div>
+        </div>
         {{else}}
-            <div id="quiz{{@index}}" style="display: none;">
-                <input type="hidden" name="cans" id="cans" value="">
-                <div class="form-group mt-2 mb-4">
-                    <label for="question">Quiz Question:</label>
-                    <p></p>{{question}}</p>
+        <div id="quiz{{@index}}" style="display: none;">
+            <input type="hidden" name="cans" id="cans" value="">
+            <div class="form-group mt-2 mb-4">
+                <label for="question">Quiz Question:</label>
+                <p></p>{{question}}</p>
+            </div>
+            <div class="form-group mt-2 mb-4">
+                {{#if description}}
+                <label for="description">Quiz Description:</label>
+                <p>{{description}}</p>
+                {{/if}}
+            </div>
+            <div class="option p-3" style="border: 2px solid #bcbcbc; border-radius: 5px;">
+                <div class="input-group mb-3">
+                    <div class="input-group-text">
+                        <input class="form-check-input mt-0" type="radio" value="{{a1}}" name="anwser{{@index}}"
+                            aria-label="Radio button for following text input">
+                    </div>
+                    <input type="text" id="popt1" placeholder="Option 1" name="ans1" class="form-control"
+                        aria-label="Text input with radio button" value="{{a1}}" readonly>
+
                 </div>
-                <div class="form-group mt-2 mb-4">
-                    <label for="description">Quiz Description:</label>
-                    <p>{{description}}</p>
+                <div class="input-group mb-3">
+                    <div class="input-group-text">
+                        <input class="form-check-input mt-0" type="radio" value="{{a2}}" name="anwser{{@index}}"
+                            aria-label="Radio button for following text input">
+                    </div>
+                    <input type="text" id="popt2" placeholder="Option 2" name="ans2" class="form-control"
+                        aria-label="Text input with radio button" value="{{a2}}" readonly>
+
                 </div>
-                <div class="option p-3" style="border: 2px solid #bcbcbc; border-radius: 5px;">
-                    <div class="input-group mb-3">
-                        <div class="input-group-text">
-                            <input class="form-check-input mt-0" type="radio" value="{{a1}}" name="anwser{{@index}}" aria-label="Radio button for following text input">
-                        </div>
-                        <input type="text" id="popt1" placeholder="Option 1" name="ans1"  class="form-control" aria-label="Text input with radio button" value="{{a1}}" readonly>
-                        
+                <div class="input-group mb-3">
+                    <div class="input-group-text">
+                        <input class="form-check-input mt-0" type="radio" value="{{a3}}" name="anwser{{@index}}"
+                            aria-label="Radio button for following text input">
                     </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-text">
-                            <input class="form-check-input mt-0" type="radio" value="{{a2}}" name="anwser{{@index}}" aria-label="Radio button for following text input">
-                        </div>
-                        <input type="text" id="popt2" placeholder="Option 2" name="ans2"  class="form-control" aria-label="Text input with radio button" value="{{a2}}" readonly>
-                        
+                    <input type="text" id="popt3" placeholder="Option 3" name="ans3" class="form-control"
+                        aria-label="Text input with radio button" value="{{a3}}" readonly>
+
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-text">
+                        <input class="form-check-input mt-0" type="radio" value="{{a4}}" name="anwser{{@index}}"
+                            aria-label="Radio button for following text input">
                     </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-text">
-                            <input class="form-check-input mt-0" type="radio" value="{{a3}}" name="anwser{{@index}}" aria-label="Radio button for following text input">
-                        </div>
-                        <input type="text" id="popt3" placeholder="Option 3" name="ans3"  class="form-control" aria-label="Text input with radio button" value="{{a3}}" readonly>
-                        
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-text">
-                            <input class="form-check-input mt-0" type="radio" value="{{a4}}" name="anwser{{@index}}" aria-label="Radio button for following text input">
-                        </div>
-                        <input type="text" id="popt4"  placeholder="Option 4" name="ans4" class="form-control" aria-label="Text input with radio button" value="{{a4}}" readonly>
-                        
-                    </div>
+                    <input type="text" id="popt4" placeholder="Option 4" name="ans4" class="form-control"
+                        aria-label="Text input with radio button" value="{{a4}}" readonly>
+
                 </div>
             </div>
-            <div class="btn-group"></div>
+        </div>
+        <div class="btn-group"></div>
         {{/if}}
         {{/each}}
-    <div class="d-flex justify-content-between mt-2">
-                <button type="sumbit" class="btn btn-main" value="Sumbit">Sumbit</button>
-    </div>
+        <div class="d-flex justify-content-between mt-2">
+            <button type="sumbit" class="btn btn-main" value="Sumbit">Sumbit</button>
+        </div>
     </form>
     {{else}}
     <h2>No quiz here! refer to creator</h2>
     <button class="btn btn-main" onclick="history.go(-1)">Go Back</button>
     {{/if}}
-        
+
 </div>
 
 <script>
-function loadBtn()
-{
-    var quizNum = parseInt("{{Quizes.length}}");
+    function loadBtn() {
+        var quizNum = parseInt("{{Quizes.length}}");
 
-    for(var i=0;i<quizNum;i++)
-    {
-    var count = i + 1
-    console.log($('.btn-group'))
-    $('.btn-group').append("<button id=" +"S"+i +" type='button' class='btn btn-secondary' " + "onclick='hide(" + i +","+ quizNum +")' " + ">" + count + "</button>")
+        for (var i = 0; i < quizNum; i++) {
+            var count = i + 1
+            console.log($('.btn-group'))
+            $('.btn-group').append("<button id=" + "S" + i + " type='button' class='btn btn-secondary' " + "onclick='hide(" + i + "," + quizNum + ")' " + ">" + count + "</button>")
+        }
     }
-}
 
 
-window.onload = loadBtn();
+    window.onload = loadBtn();
 </script>
