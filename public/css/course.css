@@ -1,5 +1,10 @@
 @import './constants.css';
 
+#viewCourseBtn {
+    text-decoration: none; 
+    color:white;
+}
+
 .course .banner {
     background: bisque;
     width: 100%;
@@ -61,4 +66,21 @@
 
 .course .rating .fa-star{
     line-height: 2rem;
+}
+
+
+.course .like-button-wrapper{
+    display: contents;
+}
+
+.course .likes-display{
+    font-size: 25px;
+}
+
+.course .like-button i {
+    opacity: 1;
+}
+
+.course .like-button.active {
+    color: #2196f3;
 }

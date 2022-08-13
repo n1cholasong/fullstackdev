@@ -1,7 +1,33 @@
 <div class="course">
+    {{> _flashmsg }}
     <div class="banner text d-flex align-items-center mt-3">
         <div class="container d-flex justify-content-between">
             <div class="course-info">
+                <!-- Use an element to toggle between a like/dislike icon -->
+                <div class="like-button-wrapper col">
+                    <div class="likes-display">
+                        {{n_likes}}
+                    </div>
+                    <form action="/like/{{course.id}}" method="post">
+                        {{#if likeStatus}}
+                        {{else}}
+                        <button type="submit" class="like-button" id="like-button"><i
+                                class="fas fa-thumbs-up"></i></button>
+                        <input id="course_id" type="hidden" name="course_id" value="{{course.id}}">
+                        {{/if}}
+                        <input id="course_id" type="hidden" name="course_id" value="{{course.id}}">
+                        {{#ifCond likeStatus.liked 1}}
+                        <button type="submit" class="like-button active" id="like-button"><i
+                                class="fas fa-thumbs-up"></i></button>
+                        <input id="course_id" type="hidden" name="course_id" value="{{course.id}}">
+                        {{/ifCond}}
+                        {{#ifCond likeStatus.liked 0}}
+                        <button type="submit" class="like-button" id="like-button"><i
+                                class="fas fa-thumbs-up"></i></button>
+                        <input id="course_id" type="hidden" name="course_id" value="{{course.id}}">
+                        {{/ifCond}}
+                    </form>
+                </div>
                 <h1>{{course.courseName}}</h1>
                 <a href="#">
                     <p>@{{lookup userdict course.userId}}</p>
@@ -10,9 +36,8 @@
                 <p class="ratings">
                     {{avg}}
                     <span class="star">
-                       
                         {{#each print_star}}
-                            <i class="fa-solid fa-star"></i>    
+                        <i class="fa-solid fa-star"></i>
                         {{/each}}
                     </span>
                     <span class="user-count">
@@ -22,11 +47,18 @@
                 {{else}}
                 <p>No Review</p>
                 {{/if}}
-                <a href="#" class="btn btn-main" role="button">Enroll Now</a>
+                {{#if enrolled}}
+                <button class="btn btn-main"><a id="viewCourseBtn" href="/course/user/chapter/view/{{course.id}}">View Course</a></button>
+                {{else}}
+                <form action="/Course/Enroll/{{course.id}}" method="post">
+                    <button type="submit" class="btn btn-main">Enroll Now
+                </form>
+                {{/if}}
             </div>
             <div class="course-thumbnail">
                 <img src="/img/carousel/grassland.jpg" alt="">
             </div>
+
         </div>
     </div>
     <div class="container d-flex flex-column align-items-center">
@@ -89,6 +121,36 @@
                                             Delete Review
                                         </a>
                                     </li>
+                                    {{!-- {{#if reply}}
+                                    <li>
+                                        <a class="dropdown-item card-link" data-bs-toggle="modal"
+                                            data-bs-target="#editReply_{{id}}">
+                                            Edit Reply
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item card-link" data-bs-toggle="modal"
+                                            data-bs-target="#deleteReply_{{id}}">
+                                            Delete Reply
+                                        </a>
+                                    </li>
+                                    {{else}}
+                                    <li>
+                                        <a class="dropdown-item card-link" data-bs-toggle="modal"
+                                            data-bs-target="#createReply_{{id}}">
+                                            Reply
+                                        </a>
+                                    </li>
+                                    {{/if}} --}}
+                                </ul>
+                            </div>
+                            {{else}}
+                            <div class="dropdown user-management">
+                                <button class="btn icon" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end text">
+                                    {{#if (equalsTo ../user.id ../course.userId)}}
                                     {{#if reply}}
                                     <li>
                                         <a class="dropdown-item card-link" data-bs-toggle="modal"
@@ -110,14 +172,7 @@
                                         </a>
                                     </li>
                                     {{/if}}
-                                </ul>
-                            </div>
-                            {{else}}
-                            <div class="dropdown user-management">
-                                <button class="btn icon" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa-solid fa-ellipsis"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end text">
+                                    {{/if}}
                                     <li>
                                         <a class="dropdown-item card-link" data-bs-toggle="modal"
                                             data-bs-target="#report_{{id}}">
@@ -149,6 +204,23 @@
                         </div>
                         {{/if}}
                     </div>
+                    {{#if reply}}
+                    <div class="accordion" id="storyAccordion">
+                        <div class="card-header" id="headingOne">
+                            <button class="btn btn-link" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseOne{{id}}" aria-expanded="false"
+                                aria-controls="collapseOne{{id}}" style="text-decoration: none;">
+                                Reply <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        <div id="collapseOne{{id}}" class="collapse" aria-labelledby="headingOne"
+                            data-bs-parent="#storyAccordion">
+                            <div class="card-body">
+                                {{reply}}
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
                 </div>
                 {{/if}}
                 <!-- Edit Review Modal -->
@@ -347,24 +419,6 @@
                         </div>
                     </div>
                 </div>
-
-                {{#if reply}}
-                <div class="accordion" id="storyAccordion">
-                    <div class="card-header" id="headingOne">
-                        <button class="btn btn-link" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseOne{{id}}" aria-expanded="false" aria-controls="collapseOne{{id}}"
-                            style="text-decoration: none;">
-                            Reply <i class="fas fa-chevron-down"></i>
-                        </button>
-                    </div>
-                    <div id="collapseOne{{id}}" class="collapse" aria-labelledby="headingOne"
-                        data-bs-parent="#storyAccordion">
-                        <div class="card-body">
-                            {{reply}}
-                        </div>
-                    </div>
-                </div>
-                {{/if}}
                 {{/each}}
                 {{else}}
                 <p>No Reviews</p>
