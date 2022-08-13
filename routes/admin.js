@@ -4,7 +4,10 @@ const Role = require('../models/Role')
 const User = require('../models/User');
 const Review = require("../models/Review");
 const Course = require('../models/Courses');
+const flashMessage = require('../helpers/messenger');
 const { ensureAuthenticated, authRole } = require("../helpers/auth");
+const sgMail = require('@sendgrid/mail');
+
 
 userdict = {}
 fullname = {}
@@ -127,12 +130,34 @@ router.get('/reviewManagement', (req, res) => {
 router.get('/deleteReview/:id', async function (req, res) {
     try {
         let review = await Review.findByPk(req.params.id);
+        // Case 1: Check if review is still there
         if (!review) {
             flashMessage(res, 'error', 'Review not found');
             return res.redirect('back');
-
         }
-
+        if (review.report != 1) {
+            flashMessage(res, 'error', 'Action has already been taken. Report Not Found');
+            return res.redirect('back');
+        }
+        await Review.findByPk(req.params.id)
+            .then(async (result) => {
+                var reportedEmail = await User.findByPk(result.reported).then((user) => { return user.email });
+                sendEmail_Case3(reportedEmail)
+                    .catch(err => {
+                        console.log(err);
+                        flashMessage(res, 'error', 'Error when sending email to ' +
+                            req.user.email);
+                        res.redirect('/');
+                    });
+                var reviewreport = await User.findByPk(result.userId).then((user) => { return user.email });
+                sendEmail_Case4(reviewreport)
+                    .catch(err => {
+                        console.log(err);
+                        flashMessage(res, 'error', 'Error when sending email to ' +
+                            req.user.email);
+                        res.redirect('/');
+                    });
+            })
         let result = await Review.destroy({ where: { id: review.id } });
         console.log(result + ' Review deleted');
         res.redirect('back');
@@ -150,15 +175,102 @@ router.get('/resolve/:id', async (req, res) => {
     let reported = null;
 
     await Review.findByPk(req.params.id)
-        .then((result) => {
+        .then(async (result) => {
+            // Case 1: Check if review is still there
+            if (!result) {
+				flashMessage(res, 'error', 'Review not found');
+				return res.redirect('back');
+			}
+            if (result.report != 1) {
+                flashMessage(res, 'error', 'Action has already been taken. Report Not Found');
+                return res.redirect('back');
+            }
+            var reportedEmail = await User.findByPk(result.reported).then((user) => { return user.email });
+            sendEmail_Case2(reportedEmail)
+                .catch(err => {
+                    console.log(err);
+                    flashMessage(res, 'error', 'Error when sending email to ' +
+                        req.user.email);
+                    res.redirect('/');
+                });
             Review.update(
                 { report, reported },
                 { where: { id: req.params.id } }
             )
-            console.log(result[0] + 'Review Reported');
+            // console.log(result[0] + 'Review Reported');
             res.redirect('back');
         })
         .catch(err => console.log(err));
 });
+
+function sendEmail_Case2(toEmail) {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const message = {
+        to: toEmail,
+        from: `Curodemy Institute <${process.env.SENDGRID_SENDER_EMAIL}>`,
+        subject: 'Review Report',
+        html:
+            // `
+            // Thank you registering with Curodemy.<br><br> Please
+            // <a href=\"${url}"><strong>verify</strong></a> your account.
+            // `
+            `
+			Action Taken: Report Review Unsuccessfully
+			`
+    };
+    // Returns the promise from SendGrid to the calling function
+    return new Promise((resolve, reject) => {
+        sgMail.send(message)
+            .then(response => resolve(response))
+            .catch(err => reject(err));
+    });
+}
+
+function sendEmail_Case3(toEmail) {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const message = {
+        to: toEmail,
+        from: `Curodemy Institute <${process.env.SENDGRID_SENDER_EMAIL}>`,
+        subject: 'Review Report',
+        html:
+            // `
+            // Thank you registering with Curodemy.<br><br> Please
+            // <a href=\"${url}"><strong>verify</strong></a> your account.
+            // `
+            `
+			Action Taken: Report Review Successfully
+			`
+    };
+    // Returns the promise from SendGrid to the calling function
+    return new Promise((resolve, reject) => {
+        sgMail.send(message)
+            .then(response => resolve(response))
+            .catch(err => reject(err));
+    });
+}
+
+function sendEmail_Case4(toEmail) {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const message = {
+        to: toEmail,
+        from: `Curodemy Institute <${process.env.SENDGRID_SENDER_EMAIL}>`,
+        subject: 'Review Report',
+        html:
+            // `
+            // Thank you registering with Curodemy.<br><br> Please
+            // <a href=\"${url}"><strong>verify</strong></a> your account.
+            // `
+            `
+            Your Review Has Been Report & Actions Have Been Taken. Your Review Has Been Deleted.
+            `
+    };
+    // Returns the promise from SendGrid to the calling function
+    return new Promise((resolve, reject) => {
+        sgMail.send(message)
+            .then(response => resolve(response))
+            .catch(err => reject(err));
+    });
+}
+
 
 module.exports = router;

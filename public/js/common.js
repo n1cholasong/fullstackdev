@@ -39,7 +39,7 @@ function cancelProfile() {
    $("#updateProfile").each(function () {
       $(this).find(':input').prop('disabled', true);
    });
-   // location.reload();
+   location.reload();
 
    //Idk what is this ?? 
    var value = $(".form-control").innerHTML;
@@ -90,7 +90,7 @@ $('#pictureUpload').on('change', function () {
    let formdata = new FormData();
    let image = $("#pictureUpload")[0].files[0];
    formdata.append('pictureUpload', image);
-   fetch('/forum/upload', {
+   fetch('/forum/upload', { 
       method: 'POST',
       body: formdata
    })
