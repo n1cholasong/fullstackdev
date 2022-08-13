@@ -9,7 +9,7 @@ const User = require('../models/User');
 // Passport Authentication
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
-const { ensureAuthenticated, authRole } = require("../helpers/auth");
+const { ensureAuthenticated, authUser, authActive } = require("../helpers/auth");
 
 const moment = require('moment');
 const countryList = require('country-list');
@@ -29,17 +29,20 @@ router.get('/login', (req, res) => {
     res.render('./user/login', { title });
 })
 
-router.post('/login', (req, res, next) => {
-    passport.authenticate('local', {
-        // Success redirect URL
-        successRedirect: '/',
-        // Failure redirect URL
-        failureRedirect: '/user/login',
-        /* Setting the failureFlash option to true instructs Passport to flash
-        an error message using the message given by the strategy's verify callback.
-        When a failure occur passport passes the message object as error */
-        failureFlash: true
-    })(req, res, next);
+
+router.post('/login', passport.authenticate('local', {
+    // Success redirect URL
+    // successRedirect: '/',
+    // Failure redirect URL
+    failureRedirect: '/user/login',
+    failureFlash: true
+}), (req, res, next) => {
+    User.update({ logonAt: Date.now() }, { where: { id: req.user.id } })
+    if (req.user.roleId == 1) {
+        res.redirect('/admin/manageAccounts');
+    } else {
+        res.redirect('/');
+    }
 });
 
 router.get('/verify/:userID/:token', async function (req, res) {
@@ -142,7 +145,7 @@ router.post('/signup', async function (req, res) {
                 interest,
                 status: undefined,
                 active: 1,
-                roleId: 2
+                roleId: 2 // Student
             });
 
             // Send email
@@ -194,14 +197,14 @@ router.get('/logout', (req, res, next) => {
     });
 })
 
-router.get('/profile/:id', ensureAuthenticated, async (req, res) => {
+router.get('/profile/:id', ensureAuthenticated, authUser, authActive, async (req, res) => {
     let title = "My Profile";
     let country = countryList.getData();
     let user = await User.findByPk(req.params.id, { include: Role });
     res.render('./user/profile', { title, country, user });
 });
 
-router.post('/updateAccount/:id', async (req, res) => {
+router.post('/updateAccount/:id', ensureAuthenticated, authUser, async (req, res) => {
     let email = req.body.email;
     let fname = req.body.fname;
     let lname = req.body.lname;
@@ -235,7 +238,7 @@ router.post('/updateAccount/:id', async (req, res) => {
 
 });
 
-router.post('/updateStatus/:id', (req, res) => {
+router.post('/updateStatus/:id', ensureAuthenticated, authUser, (req, res) => {
     User.update(
         { status: req.body.status },
         { where: { id: req.params.id } }
@@ -249,12 +252,12 @@ router.post('/updateStatus/:id', (req, res) => {
         );
 });
 
-router.get('/updatePassword/:id', (req, res) => {
+router.get('/updatePassword/:id', ensureAuthenticated, authUser, (req, res) => {
     let title = "Update Password";
     res.render('./user/passwordUpdate', { title });
 });
 
-router.post('/updatePassword/:id', async (req, res) => {
+router.post('/updatePassword/:id', ensureAuthenticated, authUser, async (req, res) => {
     let { currentPassword, newPassword, newPassword2 } = req.body;
     var salt = bcrypt.genSaltSync(10);
 
@@ -286,12 +289,12 @@ router.post('/updatePassword/:id', async (req, res) => {
     res.render('./user/passwordUpdate', { title });
 });
 
-router.get('/forgotPassword', (req, res) => {
+router.get('/forgotPassword', ensureAuthenticated, (req, res) => {
     let title = "Forgot Password";
     res.render('./user/passwordForgot', { title });
 });
 
-router.get('/resetPassword', (req, res) => {
+router.get('/resetPassword', ensureAuthenticated, (req, res) => {
     let title = "Reset Password";
     res.render('./user/passwordReset', { title });
 });
@@ -299,15 +302,14 @@ router.get('/resetPassword', (req, res) => {
 router.post('/uploadProfilePic', ensureAuthenticated, (req, res) => {
     // Creates user id directory for upload if not exist
     if (!fs.existsSync('./public/uploads/' + req.user.id)) {
-        fs.mkdirSync('./public/uploads/' + req.user.id, {
-            recursive:
-                true
-        });
+        fs.mkdirSync('./public/uploads/' + req.user.id, { recursive: true });
+        console.log("Upload File Created")
     }
+
     upload(req, res, (err) => {
         if (err) {
             // e.g. File too large
-            res.json({ file: '/img/user.svg', err: err });
+            res.json({ file: '/img/no-image.jpg', err: err });
         }
         else {
             res.json({
@@ -317,23 +319,21 @@ router.post('/uploadProfilePic', ensureAuthenticated, (req, res) => {
     });
 });
 
-router.post('/updateProfilePic/:id', (req, res) => {
+router.post('/updateProfilePic/:id', ensureAuthenticated, authUser, (req, res) => {
     let profilePicURL = req.body.profilePicURL;
-
     User.update(
         { profilePicURL },
         { where: { id: req.params.id } }
     )
         .then(
-            res.redirect('/user/profile/' + req.params.id)
+            res.redirect('/user/profile/' + req.user.id)
         )
         .catch(err =>
             console.log(err)
         );
-    res.render('./user/profile');
 });
 
-router.get('/resetProfilePic/:id', (req, res) => {
+router.get('/resetProfilePic/:id', ensureAuthenticated, authUser, (req, res) => {
     User.update(
         { profilePicURL: null },
         { where: { id: req.params.id } }
@@ -347,5 +347,10 @@ router.get('/resetProfilePic/:id', (req, res) => {
 
 });
 
+
+router.get('/deactivated', ensureAuthenticated, authUser, (req, res) => {
+    let title = "Account Deactivated"
+    res.render('./user/deactivated', { title })
+});
 
 module.exports = router;

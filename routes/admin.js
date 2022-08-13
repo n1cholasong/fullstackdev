@@ -8,11 +8,15 @@ const flashMessage = require('../helpers/messenger');
 const { ensureAuthenticated, authRole } = require("../helpers/auth");
 const sgMail = require('@sendgrid/mail');
 
+
 userdict = {}
 fullname = {}
 useremail = {}
 
-router.get('/manageAccounts', ensureAuthenticated, authRole([1]), async (req, res) => {
+
+router.all('*', ensureAuthenticated, authRole([1]))
+
+router.get('/manageAccounts', async (req, res) => {
     let title = "Manage Account";
     await User.findAll({
         include: Role
@@ -25,7 +29,7 @@ router.get('/manageAccounts', ensureAuthenticated, authRole([1]), async (req, re
         );
 });
 
-router.get('/viewAccount/:id', ensureAuthenticated, authRole([1]), async (req, res) => {
+router.get('/viewAccount/:id', async (req, res) => {
     User.findByPk(req.params.id, { include: Role })
         .then((account) => {
             if (!account) {
@@ -43,7 +47,7 @@ router.get('/viewAccount/:id', ensureAuthenticated, authRole([1]), async (req, r
 
 });
 
-router.post('/deleteAccount/:id', ensureAuthenticated, authRole([1]), async function (req, res) {
+router.post('/deleteAccount/:id', async function (req, res) {
     try {
         let user = await User.findByPk(req.params.id);
         if (!user) {
@@ -60,7 +64,7 @@ router.post('/deleteAccount/:id', ensureAuthenticated, authRole([1]), async func
     }
 });
 
-router.post('/deactivateAccount/:id', ensureAuthenticated, authRole([1]), async function (req, res) {
+router.post('/deactivateAccount/:id', async function (req, res) {
     try {
         let user = await User.findByPk(req.params.id);
         if (!user) {
@@ -70,14 +74,6 @@ router.post('/deactivateAccount/:id', ensureAuthenticated, authRole([1]), async 
 
         let result = user.update(
             {
-                email: 'inactive@curodemy.com',
-                password: '',
-                gender: '',
-                birthday: null,
-                country: '',
-                interest: null,
-                status: null,
-                profilePicURL: null,
                 active: 0
             });
         console.log(result + ' account deactivated');
@@ -88,7 +84,7 @@ router.post('/deactivateAccount/:id', ensureAuthenticated, authRole([1]), async 
     }
 });
 
-router.get('/activateAccount/:id', ensureAuthenticated, authRole([1]), async function (req, res) {
+router.get('/activateAccount/:id', async function (req, res) {
     try {
         let user = await User.findByPk(req.params.id);
         if (!user) {
@@ -105,7 +101,7 @@ router.get('/activateAccount/:id', ensureAuthenticated, authRole([1]), async fun
     }
 });
 
-router.get('/reviewManagement', ensureAuthenticated, authRole([1]), (req, res) => {
+router.get('/reviewManagement', (req, res) => {
     let title = "Review Management";
     let course = Course.findByPk(req.params.id);
     User.findAll({
@@ -131,7 +127,7 @@ router.get('/reviewManagement', ensureAuthenticated, authRole([1]), (req, res) =
 
 
 // LUCAS ADMIN REVIEW ROUTES ============================================================
-router.get('/deleteReview/:id', ensureAuthenticated, authRole([1]), async function (req, res) {
+router.get('/deleteReview/:id', async function (req, res) {
     try {
         let review = await Review.findByPk(req.params.id);
         // Case 1: Check if review is still there
@@ -171,7 +167,7 @@ router.get('/deleteReview/:id', ensureAuthenticated, authRole([1]), async functi
     }
 });
 
-router.get('/resolve/:id', ensureAuthenticated, authRole([1]), async (req, res) => {
+router.get('/resolve/:id', async (req, res) => {
     // by replacing the value in the database with null will help to reset the reply in the database to a null value which will
     // show as there is no value for reply
     // Using similar to editing way instead of delete is because i dont want to delete it completely as it might affect the review side

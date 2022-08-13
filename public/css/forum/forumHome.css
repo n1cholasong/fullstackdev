@@ -61,6 +61,8 @@
     border-radius: 20px;
     justify-content: flex-start;
     max-height: 600px;
+    display: flex;
+    min-height: 550px;
 }
 
 /* .forum .favourites {
@@ -115,6 +117,32 @@
     color: black;
 }
 
+.forum .pic-like-favourites {
+    float: right;
+    display: flex;
+    padding: 15px;
+}
+
+.forum .like-favourites {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.forum .favourites {
+    font-size: 20px;
+    align-self: center;
+}
+
+.forum .fav-button {
+    border: none;
+    background-color: white;
+}
+
+.forum .fav-button.active {
+    color: red;
+}
+
 /* scrollbar edit */
 /* width */
 .forum ::-webkit-scrollbar {
@@ -136,6 +164,18 @@
 /* Handle on hover */
 .forum ::-webkit-scrollbar-thumb:hover {
     background: #555;
+}
+
+.forum .likes-display {
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+    padding-left: 15px;
+}
+
+.forum .likes {
+    padding-left: 5px;
+    float: right;
 }
 
 /* Like bitton */

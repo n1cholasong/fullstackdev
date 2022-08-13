@@ -1,15 +1,39 @@
-<script src="/js/QuizEdit.js"></script>
+<link rel="stylesheet" href="/css/Course/editvideo.css">
 <div class="container">
+
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="ModalLongTitle">Delete?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </button>
+              </div>
+              <div class="modal-body">
+                Confirm delete?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                  <form id="quizDeleteForm" method="POST" action="">
+                    <button type="submit" class="btn btn-primary">Yes</button>
+                  </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+        <button id="delete" data-bs-target="#deleteModal" data-bs-toggle="modal" class="btn btn-main">Delete</button>
         {{#if Quizes}}
         <form method="POST">
             {{#each Quizes}}
             {{#if @first}}
             <input type="hidden" name="qId" id="qId" value="{{id}}">
             <input type="hidden" name="cans{{id}}" id="cans{{id}}" onchange="lastcheck()" class="cans" value="">
-            <div id="quiz{{@index}}">
+            <div id="quiz{{@index}}" value="{{id}}">
                 <div class="form-group mt-2 mb-4">
                     <label for="question">Quiz Question:</label>
-                    <input type="text" class="form-control" name="description" id="description" value="{{question}}" placeholder="Quiz Description">
+                    <input type="text" class="form-control" name="question" id="question" value="{{question}}" placeholder="Quiz Description">
                 </div>
                 <div class="form-group mt-2 mb-4">
                     <label for="description">Quiz Description:</label>
@@ -49,10 +73,10 @@
         {{else}}
         <input type="hidden" name="qId" id="qId" value="{{id}}">
         <input type="hidden" name="cans{{id}}" id="cans{{id}}" onchange="lastcheck()" class="cans" value="">
-            <div id="quiz{{@index}}" style="display: none;">
+            <div id="quiz{{@index}}" value="{{id}}" style="display: none;">
                 <div class="form-group mt-2 mb-4">
                     <label for="question">Quiz Question:</label>
-                    <input type="text" class="form-control" name="description" id="description" value="{{question}}" placeholder="Quiz Description">
+                    <input type="text" class="form-control" name="question" id="question" value="{{question}}" placeholder="Quiz Description">
                 </div>
                 <div class="form-group mt-2 mb-4">
                     <label for="description">Quiz Description:</label>
@@ -89,9 +113,9 @@
                     </div>
                 </div>
             </div>
-            <div class="btn-group"></div>
         {{/if}}
         {{/each}}
+         <div class="btn-group"></div>
     <div class="d-flex justify-content-between mt-2">
                 <button id="save" type="sumbit" class="btn btn-main" value="Sumbit" disabled>Save</button>
     </div>
@@ -119,3 +143,5 @@ function loadBtn()
 
 window.onload = loadBtn();
 </script>
+
+<script src="/js/QuizEdit.js"></script>

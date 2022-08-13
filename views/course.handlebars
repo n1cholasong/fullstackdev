@@ -47,7 +47,13 @@
                 {{else}}
                 <p>No Review</p>
                 {{/if}}
-                <a href="#" class="btn btn-main" role="button">Enroll Now</a>
+                {{#if enrolled}}
+                <button class="btn btn-main"><a id="viewCourseBtn" href="/course/user/chapter/view/{{course.id}}">View Course</a></button>
+                {{else}}
+                <form action="/Course/Enroll/{{course.id}}" method="post">
+                    <button type="submit" class="btn btn-main">Enroll Now
+                </form>
+                {{/if}}
             </div>
             <div class="course-thumbnail">
                 <img src="/img/carousel/grassland.jpg" alt="">

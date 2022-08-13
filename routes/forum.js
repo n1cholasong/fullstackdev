@@ -1,54 +1,113 @@
 const express = require('express');
 const router = express.Router();
 const flashMessage = require('../helpers/messenger');
-const getLikeCount = require('../helpers/forumLikes')
 const Forum = require('../models/Forum');
 const User = require('../models/User');
 const Comment = require('../models/Comments');
-const ForumLikes = require('../models/ForumLikes');
+const ForumLikeFavs = require('../models/ForumLikeFavs');
 const { ensureAuthenticated, authRole } = require("../helpers/auth");
 require('dotenv').config;
 // Required for file upload
 const fs = require('fs');
 const upload = require('../helpers/forumUpload');
+const sequelize = require('sequelize');
 
-
+//Landing page
 router.get("/", (req, res) => {
     Forum.findAll({
         where: { status: 1 },
-        include: [User, ForumLikes]
+        include: [User, ForumLikeFavs],
+        attributes: {
+            include: [[
+                //Count likes
+                sequelize.literal(
+                    `(SELECT COUNT(*) FROM ForumLikeFavs AS ForumLikeFavs WHERE ForumLikeFavs.Liked = 1 AND ForumLikeFavs.forumId = Forum.id)`
+                ), 'likes'
+            ]]
+        }
     })
         .then(async (thread) => {
-            var likes_dict = [];
-            for (i in thread) {
-                let test = thread[0]
-                let forum_id = thread[i].id;
-                const n_likes = await ForumLikes.count({ where: { liked: 1, forumId: forum_id } });
-                likes_dict.push(n_likes);
-            }
-            res.render('forum/forumhome', { thread, likes_dict });
+            res.render('forum/forumhome', { thread });
         })
         .catch(err => console.log(err));
 
 });
 
-router.get("/mythreads", ensureAuthenticated, (req, res) => {
+//Filter by my Forum
+router.get("/myforum", ensureAuthenticated, (req, res) => {
     Forum.findAll({
-        include: User,
-        raw: true,
-        where: { status: 1, userId: req.user.id }
+        where: { status: 1, userId: req.user.id },
+        include: [User, ForumLikeFavs],
+        attributes: {
+            include: [[
+                //Count likes
+                sequelize.literal(
+                    `(SELECT COUNT(*) FROM ForumLikeFavs AS ForumLikeFavs WHERE ForumLikeFavs.Liked = 1 AND ForumLikeFavs.forumId = Forum.id)`
+                ), 'likes'
+            ]]
+        }
     })
-        .then((thread) => {
-            // if (thread.userId == User.id) {
-            //     editable = true
-            // }
-            // else{
-            //     editable = false
-            // }
-
+        .then(async (thread) => {
             res.render('forum/forumhome', { thread });
         })
         .catch(err => console.log(err));
+
+
+});
+
+//Filter by most likes
+router.get("/hot", ensureAuthenticated, (req, res) => {
+    Forum.findAll({
+        where: { status: 1 },
+        include: [User, ForumLikeFavs],
+        attributes: {
+            include: [[
+                //Count likes
+                sequelize.literal(
+                    `(SELECT COUNT(*) FROM ForumLikeFavs AS ForumLikeFavs WHERE ForumLikeFavs.Liked = 1 AND ForumLikeFavs.forumId = Forum.id)`
+                ), 'likes'
+            ]]
+        },
+        order: [
+            [sequelize.literal('likes'), 'DESC']
+        ]
+    })
+        .then(async (thread) => {
+            console.log(thread)
+            res.render('forum/forumhome', { thread });
+        })
+        .catch(err => console.log(err));
+
+
+});
+
+//Filter by most comments
+router.get("/top", ensureAuthenticated, (req, res) => {
+    Forum.findAll({
+        where: { status: 1 },
+        include: [User, ForumLikeFavs, Comment],
+        attributes: {
+            include: [[
+                //Count Comments
+                sequelize.literal(
+                    `(SELECT COUNT(*) FROM Comments AS Comments WHERE Comments.forumId = Forum.id)`
+                ), 'countComments'
+            ],[
+                //Count likes
+                sequelize.literal(
+                    `(SELECT COUNT(*) FROM ForumLikeFavs AS ForumLikeFavs WHERE ForumLikeFavs.Liked = 1 AND ForumLikeFavs.forumId = Forum.id)`
+                ), 'likes'
+            ]]
+        },
+        order: [
+            [sequelize.literal('countComments'), 'DESC']
+        ]
+    })
+        .then(async (thread) => {
+            res.render('forum/forumhome', { thread });
+        })
+        .catch(err => console.log(err));
+
 
 });
 
@@ -126,16 +185,23 @@ router.post('/deleteThread/:id', ensureAuthenticated, async function (req, res) 
 });
 
 //Comments bullshit
-router.get('/:id', (req, res) => {
+router.get('/:id', ensureAuthenticated, (req, res) => {
     Forum.findOne({
         where: { id: req.params.id },
-        include: [Comment, ForumLikes]
+        include: [Comment, ForumLikeFavs]
     }).then(async (forum) => {
         let forum_id = req.params.id;
-        let user_id = req.user.id
-        const n_likes = await ForumLikes.count({ where: { liked: 1, forumId: forum_id } });
-        const likeStatus = await ForumLikes.findOne({ where: { forumId: forum_id, userId: user_id } })
-        res.render('forum/comments', { forum, n_likes, likeStatus });
+        let user_id = req.user.id;
+        if (user_id) {
+            const n_likes = await ForumLikeFavs.count({ where: { liked: 1, forumId: forum_id } });
+            const likeStatus = await ForumLikeFavs.findOne({ where: { forumId: forum_id, userId: user_id } })
+            res.render('forum/comments', { forum, n_likes, likeStatus });
+        }
+        else {
+            let likeStatus = 0;
+            const n_likes = await ForumLikeFavs.count({ where: { liked: 1, forumId: forum_id } });
+            res.render('forum/comments', { forum, n_likes, likeStatus });
+        }
     }).catch((err) => {
         console.log('err', err);
     });
@@ -161,32 +227,78 @@ router.post("/like/:id", ensureAuthenticated, async function (req, res) {
     let userId = req.user.id;
 
     let forum = await Forum.findByPk(forumId);
-    let likeStatus = await ForumLikes.findOne({ where: { forumId: forumId, userId: userId } });
+    let likeStatus = await ForumLikeFavs.findOne({ where: { forumId: forumId, userId: userId } });
     if (forum.status == 0) {
         flashMessage(res, 'error', 'Forum has been deleted');
         res.redirect('/forum/')
     }
     if (likeStatus == null) {
-        ForumLikes.create(
+        ForumLikeFavs.create(
             {
-                forumId, userId
+                forumId, userId, liked : 1
             }
         )
     }
     else if (likeStatus.liked == 1) {
         let liked = 0;
         likeStatus.update({
-            liked
+            liked : liked
         })
     }
     else if (likeStatus.liked == 0) {
         let liked = 1;
         likeStatus.update({
-            liked
+            liked : liked
         })
     }
 
     res.redirect(`/forum/${forumId}`);
+});
+
+router.post("/addFav/:id", ensureAuthenticated, async function (req, res) {
+    let forumId = req.params.id;
+    let userId = req.user.id;
+
+    //Check if forum exist
+    let forum = await Forum.findByPk(forumId);
+
+    //Check if it is already added as favourites
+    let favStatus = await ForumLikeFavs.findOne({ where: { forumId: forumId, userId: userId } });
+
+    //If forum is deleted
+    if (forum.status == 0) {
+        flashMessage(res, 'error', 'Forum has been deleted');
+        res.redirect('/forum/')
+    }
+    let topic = forum.topic
+    //If an instance does not exist
+    if (favStatus == null) {
+        ForumLikeFavs.create(
+            {
+                topic, forumId, userId, favourite : 1
+            }
+        )
+    }
+
+    //If already added to favourits
+    else if (favStatus.favourite == 1) {
+        let favourite = 0;
+        //Remove from favourites
+        favStatus.update({
+            favourite: favourite
+        })
+    }
+
+    //If removed from favourites
+    else if (favStatus.favourite == 0) {
+        let favourite = 1;
+        //Add back to favourites
+        favStatus.update({
+            favourite: favourite
+        })
+    }
+
+    res.redirect(`/forum/`);
 });
 
 router.post('/upload', (req, res) => {
