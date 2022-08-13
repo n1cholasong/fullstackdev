@@ -22,13 +22,8 @@ const setUpDB = (drop) => {
             User.hasMany(Review);
             User.hasMany(Voucher);
             User.hasMany(Comment);
-<<<<<<< HEAD
             User.hasMany(ForumLikeFavs);
-=======
-            User.hasMany(ForumLike);
-            User.hasMany(ForumFav);
             User.hasMany(Course)
->>>>>>> 77082425a7e2bcf322e134b04c506980f4e7f981
             //Course.hasMany(Quiz);
             Course.hasMany(Chapter);
             Course.hasMany(Review);
@@ -44,11 +39,8 @@ const setUpDB = (drop) => {
             Comment.belongsTo(Forum);
             //Decalring the child realtionship
             User.belongsTo(Role);
-<<<<<<< HEAD
-=======
             User.belongsToMany(Course, { through: 'UserCourses' });
             Comment.belongsTo(Forum);
->>>>>>> 77082425a7e2bcf322e134b04c506980f4e7f981
             Chapter.belongsTo(Course);
             Review.belongsTo(Course);
             Quiz.belongsTo(Chapter);
