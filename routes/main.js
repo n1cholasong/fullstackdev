@@ -32,7 +32,7 @@ router.get('/', async function (req, res,) {
 
 });
 
-router.get('/mycourse',ensureAuthenticated,authUser ,async function (req, res,) {
+router.get('/mycourse',ensureAuthenticated ,async function (req, res,) {
 	const user = await User.findOne(
 		{   where: {id:req.user.id},
 			include: "Courses"

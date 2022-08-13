@@ -29,7 +29,7 @@ router.get('/create', (req, res) => {
     res.render('./courses/createcourses')
 })
 
-router.post('/Enroll/:cid', ensureAuthenticated, authUser,async function (req,res){
+router.post('/Enroll/:cid', ensureAuthenticated,async function (req,res){
     const user = await User.findByPk(req.user.id)
     const course = await Course.findByPk(req.params.cid)
     await course.addUsers(user,{ through: 'UserCourses' })
@@ -299,7 +299,7 @@ router.post('/Quiz/Delete/:qid', ensureAuthenticated, authRole([1]), (req, res) 
 })
 
 
-router.get('/quiz/view/:cid', ensureAuthenticated, authUser, (req, res) => {
+router.get('/quiz/view/:cid', ensureAuthenticated, (req, res) => {
     const cid = req.params.cid;
     Quiz.findAll({
         where: {
@@ -310,7 +310,7 @@ router.get('/quiz/view/:cid', ensureAuthenticated, authUser, (req, res) => {
     })
 })
 
-router.post('/quiz/view/:cid', ensureAuthenticated, authUser, (req, res) => {
+router.post('/quiz/view/:cid', ensureAuthenticated, (req, res) => {
     const cid = req.params.cid;
     const form = req.body;
     var points = 0
@@ -360,7 +360,7 @@ router.post('/quiz/create/:cid', ensureAuthenticated, authRole([1]), (req, res) 
         question: question, description: description, a1: ans1, a2: ans2, a3: ans3, a4: ans4, correctans: correctans, ChapterId: cid
     })
 
-    res.redirect('/course/view')
+    res.redirect('/course/Chapter/view/' + cid)
 })
 
 router.post('/create', ensureAuthenticated, authRole([1]), (req, res) => {
