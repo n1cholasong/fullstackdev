@@ -1,5 +1,10 @@
 @import './constants.css';
 
+#viewCourseBtn {
+    text-decoration: none; 
+    color:white;
+}
+
 .course .banner {
     background: bisque;
     width: 100%;

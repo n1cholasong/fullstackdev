@@ -1,6 +1,8 @@
 <script src="/js/viewChapter.js"></script>
+<link rel="stylesheet" href="/css/Course/chpaterview.css">
 <div class="container profile admin row mx-auto">
     <h1>Course Chapters</h1>
+    {{#if chapters}}
     <div class="col me-5 mt-4">
         <div class="setting-tab py-4">
             <!--Settings Tab-->
@@ -22,27 +24,33 @@
             </div>
         </div>
     </div>
-    <div class="Chapter col-9">
+    <div class="Chapter col-9 card">
+        <div class="card-body text-center row">
         {{#if videos}}
         {{#each videos}}
-        <div class="videoPlayer" style="display:none;" id="videoPlayer{{lookup ../videoDict id}}">
+        <div class="videoPlayer mx-auto col" style="display:none;" id="videoPlayer{{lookup ../videoDict id}}">
             <input type="hidden" class="videoID" value="{{id}}">
-            <video id="videoPlayer{{@index}}" width="320" height="240" controls>
+            <video id="videoPlayer{{@index}}" controls>
                 <source src="{{videofile}}" type="video/mp4">
             </video>
         </div>
         {{/each}}
         {{/if}}
         {{#each chapters}}
+        <div class="">
         {{#if @first}}
-         <a id="quiz{{id}}" href="/course/quiz/view/{{id}}" class="btn btn-warning quiz">Quiz</a>  
+         <a id="quiz{{id}}" href="/course/quiz/view/{{id}}" class="btn btn-warning quiz text-right">Quiz</a>  
         {{else}}
-         <a id="quiz{{id}}" href="/course/quiz/view/{{id}}" class="btn btn-warning quiz" style="display: none">Quiz</a>   
+         <a id="quiz{{id}}" href="/course/quiz/view/{{id}}" class="btn btn-warning quiz text-right" style="display: none">Quiz</a>   
         {{/if}} 
-
+        </div>
         {{/each}}
 
 
+    </div>
+    {{else}}
+    <h1>No chapters yet....</h1>
+    {{/if}}
     </div>
 </div>
 
