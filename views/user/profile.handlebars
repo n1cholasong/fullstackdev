@@ -81,10 +81,6 @@
                             aria-selected="false">Edit Profile
                             Picture
                         </button>
-                        <button class="nav-link" id="change-password-tab" data-bs-toggle="pill"
-                            data-bs-target="#change-password" type="button" role="tab" aria-controls="change-password"
-                            aria-selected="false">Change Password
-                        </button>
                         <button class="nav-link" id="settings-tab" data-bs-toggle="pill" data-bs-target="#settings"
                             type="button" role="tab" aria-controls="settings" aria-selected="false">Settings
                         </button>
@@ -96,8 +92,9 @@
                     <h5 class="section-title">Account Management</h5>
                     {{#unless user.verified}}
                     <div class="alert alert-warning notVerified" role="alert">
-                        <i class="fa-solid fa-triangle-exclamation pe-2"></i> 
-                        Account not verified! Click <a href="/user/resendVerification/{{user.id}}">here</a> to resend email verification.
+                        <i class="fa-solid fa-triangle-exclamation pe-2"></i>
+                        Account not verified! Click <a href="/user/resendVerification/{{user.id}}">here</a> to resend
+                        email verification.
                     </div>
                     {{/unless}}
                     {{>_flashmsg}}
@@ -113,8 +110,8 @@
                                         class="entry-form">
                                         <div class="form-group">
                                             <label for="email">Email<span class="text-danger">*</span></label>
-                                            <input type="email" name="email" id="email" class="form-control" value="{{user.email}}"
-                                                required disabled>
+                                            <input type="email" name="email" id="email" class="form-control"
+                                                value="{{user.email}}" required disabled>
                                         </div>
                                         <div id="input-row-1">
                                             <div class="form-group">
@@ -212,26 +209,56 @@
                                         {{/if}}
                                     </div>
                                 </div>
-                                <!--Change Password-->
-                                <div class="tab-pane fade" id="change-password" role="tabpanel"
-                                    aria-labelledby="change-password-tab">
-                                    <a href="../updatePassword/{{user.id}}" class="btn btn-main login-btn"
-                                        role="button">
-                                        Update Password
-                                    </a>
-                                    <div class="text mt-3">
-                                        Password was last updated on {{formatDate user.updatedAt 'LLL'}}
-                                    </div>
-                                </div>
                                 <!--Settings-->
-                                <div class="tab-pane fade" id="settings" role="tabpanel"
-                                    aria-labelledby="change-password-tab">
-                                    <a href="../updatePassword/{{user.id}}" class="btn btn-main login-btn"
-                                        role="button">
-                                        Update Password
-                                    </a>
-                                    <div class="text mt-3">
-                                        Password was last updated on {{formatDate user.updatedAt 'LLL'}}
+                                <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                                    {{>_flashmsg}}
+                                    <div class="mt-3">
+                                        <span class="">Password:</span>
+                                        <a href="../updatePassword/{{user.id}}" class="btn btn-main mx-2" role="button">
+                                            Update Password
+                                        </a>
+                                        <span class="subtext text-secondary">
+                                            Last updated: {{dateDiff user.updatedAt}} ago
+                                        </span>
+                                    </div>
+                                    <div class="mt-3">
+                                        <span class="">Account Deactivation:</span>
+                                        <a class="btn btn-main mx-2" data-bs-toggle="modal"
+                                            data-bs-target="#deactivateAccountBackdrop_{{user.id}}">Deactivate
+                                        </a>
+
+                                        <form action="/user/deactivateAccount/{{user.id}}" method="POST">
+                                            <div class="modal fade" id="deactivateAccountBackdrop_{{user.id}}"
+                                                data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                                aria-labelledby="deactivateAccountBackdropLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="deactivateAccountBackdropLabel">
+                                                                Deactivate Account
+                                                            </h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <div class="modal-body">
+                                                            <p>
+                                                                Are you sure you want to your account?
+                                                            </p>
+                                                        </div>
+                                                        <!-- Modal footer -->
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-outline"
+                                                                data-bs-dismiss="modal">Cancel</button>
+                                                            <button type="submit"
+                                                                class="btn btn-danger">Deactivate</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+
                                     </div>
                                 </div>
                             </div>
