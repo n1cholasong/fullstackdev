@@ -21,7 +21,6 @@
                                 {{n_likes}}
                             </div>
                             <form action="/forum/like/{{forum.id}}" method="post">
-                            {{log likeStatus.liked }}
                                 {{#if likeStatus}}
                                 {{else}}
                                 <button type="submit" class="like-button" id="like-button"><i
