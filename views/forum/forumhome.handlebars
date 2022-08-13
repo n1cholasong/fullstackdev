@@ -6,7 +6,7 @@
                     <div class="container forum-nav">
                         <ul class="navbar-nav d-flex flex-row align-items-center justify-content-evenly">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="/forum/hot">
                                     <button type="button" class="btn btn-main">
                                         HOT
                                     </button>
@@ -20,16 +20,16 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="/forum/top">
                                     <button type="button" class="btn btn-main">
                                         Top
                                     </button>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/forum/mythreads">
+                                <a class="nav-link" href="/forum/myforum">
                                     <button type="button" class="btn btn-main">
-                                        My Threads
+                                        My Forum
                                     </button>
                                 </a>
                             </li>
@@ -42,7 +42,7 @@
                         <div class="button-wrapper">
                             <button type="button" class="btn btn-main create-button" data-bs-toggle="modal"
                                 data-bs-target="#createThread">
-                                Create New Thread
+                                Create New Forum
                             </button>
                         </div>
                         {{/if}}
@@ -58,7 +58,7 @@
                                     <!-- Modal Header -->
                                     <div class="modal-header">
                                         <i class="fas fa-comments"></i>
-                                        <h4 class="modal-title">Create new thread</h4>
+                                        <h4 class="modal-title">Create new forum</h4>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
 
@@ -127,15 +127,15 @@
                                                 <div class="like-favourites">
                                                     <div class="likes-display">
                                                         <i class="fa-solid fa-angles-up"></i>
-                                                        {{#each ../likes_dict}}
-                                                        {{#ifCond forumId ../id}}
-                                                        <h5 class="likes">{{n_likes}}</h5>
-                                                        {{/ifCond}}
-                                                        {{/each}}
+                                                        {{!-- {{#each ../likes_dict}}
+                                                        {{#ifCond forumId ../id}} --}}
+                                                        <h5 class="likes">{{this.dataValues.likes}}</h5>
+                                                        {{!-- {{/ifCond}}
+                                                        {{/each}} --}}
                                                     </div>
                                                     <div class="favourites">
                                                         <form method="post" action="/forum/addFav/{{id}}">
-                                                            {{#each forumfavs}}
+                                                            {{#each forumlikefavs}}
                                                             {{#ifCond ../../user.id this.userId}}
                                                             {{#ifCond this.favourite 1}}
                                                             <button type="submit" class="fav-button active"
@@ -148,7 +148,7 @@
                                                             {{/ifCond}}
                                                             {{/ifCond}}
                                                             {{/each}}
-                                                            {{#unless this.forumfavs}}
+                                                            {{#unless this.forumlikefavs}}
                                                             <button type="submit" class="fav-button" id="fav-button"><i
                                                                     class="fa-solid fa-heart"></i></button>
                                                             {{/unless}}
@@ -191,7 +191,7 @@
                                         <!-- Modal Header -->
                                         <div class="modal-header">
                                             <i class="fas fa-comments"></i>
-                                            <h4 class="modal-title">Edit current thread</h4>
+                                            <h4 class="modal-title">Edit current forum</h4>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
 
@@ -229,7 +229,7 @@
                                     <div class="modal-content">
                                         <!-- Modal Header -->
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="staticBackdropLabel">Delete Thread</h5>
+                                            <h5 class="modal-title" id="staticBackdropLabel">Delete Forum</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
@@ -258,7 +258,7 @@
                     </div>
                     <div class="favourites-overflow">
                         {{#each thread}}
-                        {{#each forumfavs}}
+                        {{#each forumlikefavs}}
                         {{#ifCond this.favourite 1}}
                         {{#ifCond ../../user.id this.userId}}
                         <div class="favourites-wrapper">
