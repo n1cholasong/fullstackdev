@@ -10,7 +10,7 @@
                     <th>Username</th>
                     <th>Role</th>
                     <th>Account</th>
-                    <th>Last Updated</th>
+                    <th>Last Logged On</th>
                     <th></th>
                 </tr>
             </thead>
@@ -29,7 +29,14 @@
                         <span class="text-danger">Inctive</span>
                         {{/if}}
                     </td>
-                    <td>{{formatDate updatedAt 'LLL'}}</td>
+                    <td>
+                        {{#if logonAt}}
+                        {{!-- {{formatDate logonAt 'LLL'}} --}}
+                        {{dateDiff logonAt}} ago
+                        {{else}}
+                        created {{dateDiff createdAt}} ago
+                        {{/if}}
+                    </td>
                     <td>
                         <div class="dropdown user-management">
                             <button class="btn icon p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -69,7 +76,7 @@
                                     <div class="modal-content">
                                         <!-- Modal Header -->
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="deactivateAccountBackdropLabel">De-activate
+                                            <h5 class="modal-title" id="deactivateAccountBackdropLabel">Deactivate
                                                 Account</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
@@ -77,15 +84,15 @@
                                         <!-- Modal body -->
                                         <div class="modal-body">
                                             <p>
-                                                Are you sure you want to <strong>permanently de-activate @{{username}}'s
-                                                    account</strong> You cannot undo this action.
+                                                Are you sure you want to <strong>deactivate @{{username}}'s
+                                                    account</strong>.
                                             </p>
                                         </div>
                                         <!-- Modal footer -->
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
+                                            <button type="button" class="btn btn-outline"
                                                 data-bs-dismiss="modal">Cancel</button>
-                                            <button type="submit" class="btn btn-danger">De-activate</button>
+                                            <button type="submit" class="btn btn-danger">Deactivate</button>
                                         </div>
                                     </div>
                                 </div>

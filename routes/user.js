@@ -9,7 +9,7 @@ const User = require('../models/User');
 // Passport Authentication
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
-const { ensureAuthenticated, authUser } = require("../helpers/auth");
+const { ensureAuthenticated, authUser, authActive } = require("../helpers/auth");
 
 const moment = require('moment');
 const countryList = require('country-list');
@@ -30,17 +30,19 @@ router.get('/login', (req, res) => {
 })
 
 
-router.post('/login', (req, res, next) => {
-    passport.authenticate('local', {
-        // Success redirect URL
-        successRedirect: '/',
-        // Failure redirect URL
-        failureRedirect: '/user/login',
-        /* Setting the failureFlash option to true instructs Passport to flash
-        an error message using the message given by the strategy's verify callback.
-        When a failure occur passport passes the message object as error */
-        failureFlash: true
-    })(req, res, next);
+router.post('/login', passport.authenticate('local', {
+    // Success redirect URL
+    // successRedirect: '/',
+    // Failure redirect URL
+    failureRedirect: '/user/login',
+    failureFlash: true
+}), (req, res, next) => {
+    User.update({ logonAt: Date.now() }, { where: { id: req.user.id } })
+    if (req.user.roleId == 1) {
+        res.redirect('/admin/manageAccounts');
+    } else {
+        res.redirect('/');
+    }
 });
 
 router.get('/verify/:userID/:token', async function (req, res) {
@@ -195,7 +197,7 @@ router.get('/logout', (req, res, next) => {
     });
 })
 
-router.get('/profile/:id', ensureAuthenticated, authUser, async (req, res) => {
+router.get('/profile/:id', ensureAuthenticated, authUser, authActive, async (req, res) => {
     let title = "My Profile";
     let country = countryList.getData();
     let user = await User.findByPk(req.params.id, { include: Role });
@@ -345,5 +347,10 @@ router.get('/resetProfilePic/:id', ensureAuthenticated, authUser, (req, res) => 
 
 });
 
+
+router.get('/deactivated', ensureAuthenticated, authUser, (req, res) => {
+    let title = "Account Deactivated"
+    res.render('./user/deactivated', { title })
+});
 
 module.exports = router;
