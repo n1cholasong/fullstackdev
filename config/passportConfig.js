@@ -8,21 +8,19 @@ function localStrategy(passport) {
             User.findOne({ where: { email: email } })
                 .then(user => {
                     if (!user) {
-                        return done(null, false, { message: 'Incorrect username or password.' });
+                        return done(null, false, { message: 'Incorrect email or password.' });
                     }
                     // Match password
                     isMatch = bcrypt.compareSync(password, user.password);
                     if (!isMatch) {
-                        return done(null, false, {
-                            message: 'Password incorrect'
-                        });
+                        return done(null, false, { message: 'Incorrect email or password.' });
                     }
 
                     // Email Verified
                     if (!user.verified) {
                         return done(null, false, { message: 'Please verify you email' });
                     }
-                    
+
                     return done(null, user);
                 })
         }));
