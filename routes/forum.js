@@ -11,6 +11,8 @@ require('dotenv').config;
 const fs = require('fs');
 const upload = require('../helpers/forumUpload');
 const sequelize = require('sequelize');
+const { order } = require('paypal-rest-sdk');
+const { where } = require('sequelize');
 
 //Landing page
 router.get("/", (req, res) => {
@@ -188,13 +190,16 @@ router.post('/deleteThread/:id', ensureAuthenticated, async function (req, res) 
 router.get('/:id', ensureAuthenticated, (req, res) => {
     Forum.findOne({
         where: { id: req.params.id },
-        include: [Comment, ForumLikeFavs]
+        include: [Comment, ForumLikeFavs, User],
+        order : [
+            [sequelize.literal('comments.id'), 'DESC']
+        ]
     }).then(async (forum) => {
         let forum_id = req.params.id;
         let user_id = req.user.id;
         if (user_id) {
             const n_likes = await ForumLikeFavs.count({ where: { liked: 1, forumId: forum_id } });
-            const likeStatus = await ForumLikeFavs.findOne({ where: { forumId: forum_id, userId: user_id } })
+            const likeStatus = await ForumLikeFavs.findOne({ where: { forumId: forum_id, userId: user_id } });
             res.render('forum/comments', { forum, n_likes, likeStatus });
         }
         else {

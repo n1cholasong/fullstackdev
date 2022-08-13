@@ -38,15 +38,15 @@ router.post('/login', passport.authenticate('local', {
     failureFlash: true
 }), (req, res, next) => {
     User.update({ logonAt: Date.now() }, { where: { id: req.user.id } })
-    if (req.user.roleId == 1) {
-        res.redirect('/admin/manageAccounts');
+    if (req.user.active == 0) {
+        res.redirect('/user/deactivated');
     } else {
         res.redirect('/');
     }
 });
 
-router.get('/verify/:userID/:token', async function (req, res) {
-    let id = req.params.userID;
+router.get('/verify/:id/:token', authUser, authActive, async function (req, res) {
+    let id = req.params.id;
     let token = req.params.token;
     try {
         // Check if user is found
@@ -58,8 +58,8 @@ router.get('/verify/:userID/:token', async function (req, res) {
         }
         // Check if user has been verified
         if (user.verified) {
-            flashMessage(res, 'info', 'User already verified');
-            res.redirect('/user/login');
+            flashMessage(res, 'info', 'Account already verified');
+            res.redirect('/user/profile/' + id);
             return;
         }
         // Verify JWT token sent via URL
@@ -73,8 +73,8 @@ router.get('/verify/:userID/:token', async function (req, res) {
             { verified: 1 },
             { where: { id: user.id } });
         console.log(result[0] + ' user updated');
-        flashMessage(res, 'success', user.email + ' verified. Please login');
-        res.redirect('/user/login');
+        flashMessage(res, 'success', user.email + ' is verified. Please login');
+        res.redirect('/user/profile/' + id);
     }
     catch (err) {
         console.log(err);
@@ -151,7 +151,15 @@ router.post('/signup', async function (req, res) {
             // Send email
             let token = jwt.sign(email, process.env.APP_SECRET);
             let url = `${process.env.BASE_URL}:${process.env.PORT}/user/verify/${user.id}/${token}`;
-            sendEmail(user.email, url)
+            let message =
+                `
+                Hi ${user.fname}, 
+                <br>
+                <br>
+                Thank you for registering with Curodemy!              
+                `
+            let verb = "verify"
+            sendEmail(user.email, url, message, verb)
                 .then(response => {
                     console.log(response);
                     flashMessage(res, 'success', user.email + ' registered successfully', '', 'true');
@@ -170,26 +178,6 @@ router.post('/signup', async function (req, res) {
     }
 });
 
-function sendEmail(toEmail, url) {
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-    const message = {
-        to: toEmail,
-        from: `Curodemy Institute <${process.env.SENDGRID_SENDER_EMAIL}>`,
-        subject: 'Verify Curodemy Account',
-        html:
-            `
-            Thank you registering with Curodemy.<br><br> Please
-            <a href=\"${url}"><strong>verify</strong></a> your account.
-            `
-    };
-    // Returns the promise from SendGrid to the calling function
-    return new Promise((resolve, reject) => {
-        sgMail.send(message)
-            .then(response => resolve(response))
-            .catch(err => reject(err));
-    });
-}
-
 router.get('/logout', (req, res, next) => {
     req.logout(function (err) {
         if (err) { return next(err); }
@@ -204,8 +192,9 @@ router.get('/profile/:id', ensureAuthenticated, authUser, authActive, async (req
     res.render('./user/profile', { title, country, user });
 });
 
-router.post('/updateAccount/:id', ensureAuthenticated, authUser, async (req, res) => {
+router.post('/updateAccount/:id', ensureAuthenticated, authUser, authActive, async (req, res) => {
     let email = req.body.email;
+    let re = /\S+@\S+\.\S+/;
     let fname = req.body.fname;
     let lname = req.body.lname;
     let username = req.body.username;
@@ -213,32 +202,59 @@ router.post('/updateAccount/:id', ensureAuthenticated, authUser, async (req, res
     let birthday = moment(req.body.birthday).isValid() ? req.body.birthday : null;
     let country = req.body.country;
 
-    let user = await User.findOne({ where: { email: email } })
+    let user = await User.findByPk(req.params.id);
 
     try {
-        if (!user) {
-            User.update(
-                {
-                    email, fname, lname, username, gender, birthday, country
-                },
-                { where: { id: req.params.id } }
-            )
-                .then((result) => {
-                    console.log(result[0] + ' user updated');
-                    res.redirect('/user/profile/' + req.params.id);
-                })
-                .catch(err =>
-                    console.log(err)
-                );
+        // Check for valid email
+        if (re.test(email)) {
+            // Check if body email match with DB 
+            if (email == user.email) {
+                User.update(
+                    {
+                        fname, lname, username, gender, birthday, country
+                    },
+                    { where: { id: req.params.id } }
+                )
+                    .then((result) => {
+                        console.log(result[0] + ' user updated');
+                        res.redirect('/user/profile/' + req.params.id);
+                    })
+                    .catch(err =>
+                        console.log(err)
+                    );
+            } else {
+                let otherUser = await User.findOne({ where: { email: email } })
+                // Check if body email exists in DB
+                if (!otherUser) {
+                    User.update(
+                        {
+                            email, fname, lname, username, gender, birthday, country
+                        },
+                        { where: { id: req.params.id } }
+                    )
+                        .then((result) => {
+                            console.log(result[0] + ' user updated');
+                            res.redirect('/user/profile/' + req.params.id);
+                        })
+                        .catch(err =>
+                            console.log(err)
+                        );
+                } else {
+                    flashMessage(res, 'error', 'Email is taken', '', 'true');
+                    res.redirect('back');
+                }
+            }
+        } else {
+            flashMessage(res, 'error', 'Invalid Email', '', 'true');
+            res.redirect('back');
         }
     }
     catch (err) {
         console.log(err);
     }
-
 });
 
-router.post('/updateStatus/:id', ensureAuthenticated, authUser, (req, res) => {
+router.post('/updateStatus/:id', ensureAuthenticated, authUser, authActive, (req, res) => {
     User.update(
         { status: req.body.status },
         { where: { id: req.params.id } }
@@ -252,12 +268,12 @@ router.post('/updateStatus/:id', ensureAuthenticated, authUser, (req, res) => {
         );
 });
 
-router.get('/updatePassword/:id', ensureAuthenticated, authUser, (req, res) => {
+router.get('/updatePassword/:id', ensureAuthenticated, authUser, authActive, (req, res) => {
     let title = "Update Password";
     res.render('./user/passwordUpdate', { title });
 });
 
-router.post('/updatePassword/:id', ensureAuthenticated, authUser, async (req, res) => {
+router.post('/updatePassword/:id', ensureAuthenticated, authUser, authActive, async (req, res) => {
     let { currentPassword, newPassword, newPassword2 } = req.body;
     var salt = bcrypt.genSaltSync(10);
 
@@ -289,17 +305,19 @@ router.post('/updatePassword/:id', ensureAuthenticated, authUser, async (req, re
     res.render('./user/passwordUpdate', { title });
 });
 
-router.get('/forgotPassword', ensureAuthenticated, (req, res) => {
+// Not Complete
+router.get('/forgotPassword', ensureAuthenticated, authActive, (req, res) => {
     let title = "Forgot Password";
     res.render('./user/passwordForgot', { title });
 });
 
-router.get('/resetPassword', ensureAuthenticated, (req, res) => {
+// Not Complete
+router.get('/resetPassword', ensureAuthenticated, authActive, (req, res) => {
     let title = "Reset Password";
     res.render('./user/passwordReset', { title });
 });
 
-router.post('/uploadProfilePic', ensureAuthenticated, (req, res) => {
+router.post('/uploadProfilePic', ensureAuthenticated, authActive, (req, res) => {
     // Creates user id directory for upload if not exist
     if (!fs.existsSync('./public/uploads/' + req.user.id)) {
         fs.mkdirSync('./public/uploads/' + req.user.id, { recursive: true });
@@ -319,7 +337,7 @@ router.post('/uploadProfilePic', ensureAuthenticated, (req, res) => {
     });
 });
 
-router.post('/updateProfilePic/:id', ensureAuthenticated, authUser, (req, res) => {
+router.post('/updateProfilePic/:id', ensureAuthenticated, authUser, authActive, (req, res) => {
     let profilePicURL = req.body.profilePicURL;
     User.update(
         { profilePicURL },
@@ -333,7 +351,7 @@ router.post('/updateProfilePic/:id', ensureAuthenticated, authUser, (req, res) =
         );
 });
 
-router.get('/resetProfilePic/:id', ensureAuthenticated, authUser, (req, res) => {
+router.get('/resetProfilePic/:id', ensureAuthenticated, authUser, authActive, (req, res) => {
     User.update(
         { profilePicURL: null },
         { where: { id: req.params.id } }
@@ -347,10 +365,71 @@ router.get('/resetProfilePic/:id', ensureAuthenticated, authUser, (req, res) => 
 
 });
 
+router.get('/resendVerification/:id', ensureAuthenticated, authUser, authActive, (req, res) => {
+    let title = "Resend Verification";
+    res.render('./user/resendVerification', { title });
+});
 
-router.get('/deactivated', ensureAuthenticated, authUser, (req, res) => {
+router.post('/resendVerification/:id', ensureAuthenticated, authUser, authActive, async (req, res) => {
+    let email = req.body.email;
+    let user = await User.findByPk(req.user.id);
+
+    if (user.email == email) {
+        let token = jwt.sign(email, process.env.APP_SECRET);
+        let url = `${process.env.BASE_URL}:${process.env.PORT}/user/verify/${user.id}/${token}`;
+        let message =
+            `
+            Hi ${user.fname}, 
+            <br>
+            <br>
+            Thank you for registering with Curodemy!              
+            `
+        let verb = "verify"
+        sendEmail(user.email, url, message, verb)
+            .then(response => {
+                console.log(response);
+                flashMessage(res, 'success', 'A verification link has been sent to your email', '', 'true');
+                res.redirect('/user/profile/' + req.params.id);
+            })
+            .catch(err => {
+                console.log(err);
+                flashMessage(res, 'error', 'Error when sending email to ' +
+                    user.email, '', 'true');
+                res.redirect('/');
+            });
+    } else {
+        flashMessage(res, 'error', 'Email do not match with registered address', '', 'true');
+        res.redirect('back');
+    }
+});
+
+
+
+router.get('/deactivated', ensureAuthenticated, authActive, (req, res) => {
     let title = "Account Deactivated"
     res.render('./user/deactivated', { title })
 });
+
+
+function sendEmail(toEmail, url, intro, verb) {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const message = {
+        to: toEmail,
+        from: `Curodemy Institute <${process.env.SENDGRID_SENDER_EMAIL}>`,
+        subject: 'Verify Curodemy Account',
+        html:
+            `
+            ${intro}.
+            <br>
+            Click <a href=\"${url}"><strong>here</strong></a> to ${verb} your account.
+            `
+    };
+    // Returns the promise from SendGrid to the calling function
+    return new Promise((resolve, reject) => {
+        sgMail.send(message)
+            .then(response => resolve(response))
+            .catch(err => reject(err));
+    });
+}
 
 module.exports = router;
