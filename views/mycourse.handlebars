@@ -1,12 +1,15 @@
 <div class="container course">
     <h1 class="heading">My Courses</h1>
     <div class="d-flex flex-row">
-		{{!-- <a class="card-link me-4" href="/course">
+		{{#each courses}}
+		<a class="card-link me-4" href="/course/details/{{id}}">
 			<div class="card" style="width: 18rem;">
 				<img src="/img/carousel/grassland.jpg" class="card-img-top" alt="...">
 				<div class="card-body">
-					<h5 class="card-title m-0">Python 101</h5>
-					<p class="username">@Username</p>
+					<h5 class="card-title m-0">{{courseName}}</h5>
+					<p class="username">
+						@{{lookup ../userdict userId}}
+					</p>
 					<p class="ratings">
 						5.0
 						<span class="star">
@@ -23,7 +26,8 @@
 					{{!-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
 				</div>
 			</div>
-		</a>--}}
+		</a>
+		{{/each}}
 		
     </div>
 </div>

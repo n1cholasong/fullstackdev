@@ -1,11 +1,9 @@
 const moment = require('moment');
 const countryList = require('country-list');
-const Role = require('../models/Role')
 
-const emptyCheck = function(value,options){
+const emptyCheck = function (value, options) {
     return value == "";
 }
-
 
 const inc = function (value, options) {
 
@@ -15,6 +13,45 @@ const inc = function (value, options) {
 const formatDate = function (date, targetFormat) {
     return moment(date).format(targetFormat);
 };
+
+const dateDiff = function (date) {
+    var timeNow = moment(Date.now())
+    var timePast = moment(date)
+    var diff = moment.duration(timeNow.diff(timePast))
+    
+    let time = diff
+    let unit = "ms"
+
+    if (diff >= 1000) {
+        time = moment.duration(timeNow.diff(timePast, 'seconds'))
+        unit = "s"
+    }
+    if (diff >= 60000) {
+        time = moment.duration(timeNow.diff(timePast, 'minutes'))
+        unit = "m"
+    }
+    if (diff >= 3.6e+6) {
+        time = moment.duration(timeNow.diff(timePast, 'hours'))
+        unit = "h"
+    }
+    if (diff >= 8.64e+7) {
+        time = moment.duration(timeNow.diff(timePast, 'days'))
+        unit = "d"
+    }
+    if (diff >= 6.048e+8) {
+        time = moment.duration(timeNow.diff(timePast, 'weeks'))
+        unit = " wk."
+    }
+    if (diff >= 2.628e+9) {
+        time = moment.duration(timeNow.diff(timePast, 'months'))
+        unit = " mo."
+    }
+    if (diff >= 3.154e+10) {
+        time = moment.duration(timeNow.diff(timePast, 'years'))
+        unit = " yr."
+    }
+    return time + unit
+}
 
 const replaceCommas = function (value) {
     return value ? value.replace(/,/g, ' | ') : 'None';
@@ -71,8 +108,10 @@ const ifCond = function (params1, params2, options) {
     return options.inverse(this);
 }
 
+
 module.exports = {
     formatDate,
+    dateDiff,
     replaceCommas,
     isSelected,
     checkboxCheck,

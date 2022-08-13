@@ -7,6 +7,8 @@ const Video = require('../models/video');
 const fs = require('fs');
 const upload = require('../helpers/videoUpload');
 const { Console } = require('console');
+const User = require('../models/User');
+const { ensureAuthenticated, authUser,authRole } = require("../helpers/auth");
 
 async function videoSearch(cid) {
 
@@ -27,7 +29,14 @@ router.get('/create', (req, res) => {
     res.render('./courses/createcourses')
 })
 
-router.get('/user/chapter/view/:id', async function (req, res) {
+router.post('/Enroll/:cid', ensureAuthenticated,async function (req,res){
+    const user = await User.findByPk(req.user.id)
+    const course = await Course.findByPk(req.params.cid)
+    await course.addUsers(user,{ through: 'UserCourses' })
+    res.redirect('/');
+})
+
+router.get('/user/chapter/view/:id', ensureAuthenticated, async function (req, res) {
     var videos = [];
     var videoDict = {};
     const courseId = req.params.id;
@@ -53,7 +62,7 @@ router.get('/user/chapter/view/:id', async function (req, res) {
     })
 })
 
-router.get('/Chapter/view/:cid', (req, res) => {
+router.get('/Chapter/view/:cid', ensureAuthenticated, authRole([1]),(req, res) => {
     const cid = req.params.cid;
     Chapter.findAll({
         where: {
@@ -68,7 +77,7 @@ router.get('/Chapter/view/:cid', (req, res) => {
 
 })
 
-router.post('/Chapter/view/:cid', (req, res) => {
+router.post('/Chapter/view/:cid', ensureAuthenticated, authRole([1]) , (req, res) => {
     const cid = req.body.cid;
     var chapterNum = req.body.chapterNum;
     //console.log(cid)
@@ -99,13 +108,13 @@ router.post('/Chapter/view/:cid', (req, res) => {
 
 })
 
-router.get('/quiz/create/:cid', (req, res) => {
+router.get('/quiz/create/:cid', ensureAuthenticated, authRole([1]) , (req, res) => {
     const cid = req.body.cid;
     res.render('./courses/createquiz', { cid })
 })
 
 
-router.post('/Chapter/delete/:cid', (req, res) => {
+router.post('/Chapter/delete/:cid', ensureAuthenticated, authRole([1]) , (req, res) => {
     const chpaterId = req.params.cid;
     //console.log(chpaterId)
     Chapter.destroy({ where: { id: chpaterId } })
@@ -156,7 +165,7 @@ router.get('/user/video/view/:vid', async function (req, res) {
 
 })
 
-router.get('/video/upload/:chapterid', async function (req, res) {
+router.get('/video/upload/:chapterid', ensureAuthenticated, authRole([1]), async function (req, res) {
     // Creates user id directory for upload if not exist
     //cid here means chpater id
     const cid = req.params.chapterid;
@@ -199,7 +208,7 @@ router.post('/video/upload/:chapterid', async function (req, res) {
 });
 
 
-router.post('/upload', (req, res) => {
+router.post('/upload', ensureAuthenticated, authRole([1]), (req, res) => {
     // Creates user id directory for upload if not exist
     //console.log(req.user.id)
     if (!fs.existsSync('./public/uploads/Video' + req.user.id)) {
@@ -221,7 +230,7 @@ router.post('/upload', (req, res) => {
     });
 });
 
-router.get('/quiz/edit/:cid', (req, res) => {
+router.get('/quiz/edit/:cid', ensureAuthenticated, authRole([1]), (req, res) => {
     const cid = req.params.cid;
     Quiz.findAll({
         where: {
@@ -232,7 +241,7 @@ router.get('/quiz/edit/:cid', (req, res) => {
     })
 })
 
-router.post('/quiz/edit/:cid', async function(req, res)  {
+router.post('/quiz/edit/:cid', ensureAuthenticated, authRole([1]), async function(req, res)  {
     const cid = req.params.cid;
     const body = req.body;
     var cansList = [];
@@ -258,15 +267,6 @@ router.post('/quiz/edit/:cid', async function(req, res)  {
 
 
     for (var i = 0; i < body.qId.length; i++) {
-        var check = {
-            question:body.question[i],
-            description:body.description[i],
-             ans1: body.ans1[i],
-             ans2: body.ans2[i], 
-             ans3: body.ans3[i], 
-             ans4: body.ans4[i], 
-             cans: cansList[i],
-             ChapterId:cid}
 
        await Quiz.update({
         question:body.question[i],
@@ -283,12 +283,13 @@ router.post('/quiz/edit/:cid', async function(req, res)  {
             } }).then((quiz)=>{
                 console.log("CHanged:",quiz)
             })
+
     }
 
     res.redirect('/Course/Chapter/view/' + cid)
 })
 
-router.post('/Quiz/Delete/:qid', (req, res) => {
+router.post('/Quiz/Delete/:qid', ensureAuthenticated, authRole([1]), (req, res) => {
     const qid = req.params.qid;
     Quiz.destroy({ where: { 
         id: qid } 
@@ -298,7 +299,7 @@ router.post('/Quiz/Delete/:qid', (req, res) => {
 })
 
 
-router.get('/quiz/view/:cid', (req, res) => {
+router.get('/quiz/view/:cid', ensureAuthenticated, (req, res) => {
     const cid = req.params.cid;
     Quiz.findAll({
         where: {
@@ -309,7 +310,7 @@ router.get('/quiz/view/:cid', (req, res) => {
     })
 })
 
-router.post('/quiz/view/:cid', (req, res) => {
+router.post('/quiz/view/:cid', ensureAuthenticated, (req, res) => {
     const cid = req.params.cid;
     const form = req.body;
     var points = 0
@@ -332,7 +333,7 @@ router.post('/quiz/view/:cid', (req, res) => {
 })
 
 
-router.post('/quiz/create/:cid', (req, res) => {
+router.post('/quiz/create/:cid', ensureAuthenticated, authRole([1]), (req, res) => {
     let cid = req.params.cid;
     let question = req.body.question;
     let description = req.body.description;
@@ -359,10 +360,10 @@ router.post('/quiz/create/:cid', (req, res) => {
         question: question, description: description, a1: ans1, a2: ans2, a3: ans3, a4: ans4, correctans: correctans, ChapterId: cid
     })
 
-    res.redirect('/course/view')
+    res.redirect('/course/Chapter/view/' + cid)
 })
 
-router.post('/create', (req, res) => {
+router.post('/create', ensureAuthenticated, authRole([1]), (req, res) => {
     let Coursename = req.body.Coursename;
     let description = req.body.desc
     let content = req.body.content
@@ -374,7 +375,7 @@ router.post('/create', (req, res) => {
     res.redirect('/course/view')
 })
 
-router.get('/view', (req, res) => {
+router.get('/view', ensureAuthenticated, authRole([1]), (req, res) => {
     Course.findAll({
         raw: true
     }).then((Courses) => {
@@ -383,13 +384,13 @@ router.get('/view', (req, res) => {
         .catch(err => console.log(err));
 })
 
-router.get('/update/:id', (req, res) => {
+router.get('/update/:id', ensureAuthenticated, authRole([1]), (req, res) => {
     Course.findByPk(req.params.id).then((course) => {
         res.render('./courses/updatecourse', { course })
     })
 })
 
-router.post('/update/:id', (req, res) => {
+router.post('/update/:id', ensureAuthenticated, authRole([1]), (req, res) => {
     let Coursename = req.body.Coursename;
     let description = req.body.desc
     let content = req.body.content
@@ -407,7 +408,7 @@ router.post('/update/:id', (req, res) => {
 })
 
 
-router.post('/delete/:id', async function (req, res) {
+router.post('/delete/:id', ensureAuthenticated, authRole([1]), async function (req, res) {
     try {
         let course = await Course.findByPk(req.params.id)
         if (!course) {
