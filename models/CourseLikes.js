@@ -1,10 +1,10 @@
 const Seqelize = require('sequelize');
 const db = require('../config/DBConfig');
 
-const ForumLikes = db.define('forumlikes', {
+const Courselikes = db.define('courselikes', {
     liked: { type: Seqelize.TINYINT(1), defaultValue: '1'}
 });
 
 
 
-module.exports = ForumLikes;
+module.exports = Courselikes;
