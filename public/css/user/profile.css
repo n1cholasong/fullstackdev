@@ -77,6 +77,14 @@
 .profile .profile-info .username {
     font-weight: 500;
     color: var(--cobaltblue);
+    /* border: 1px solid black; */
+}
+
+.profile .profile-info .verified {
+    /* border: 1px solid black; */
+    line-height: normal;
+    font-weight: 600;
+    color: #228B22
 }
 
 .profile .section-title {
@@ -105,6 +113,19 @@
     height: 18px;
 }
 
+.profile #status {
+    height: 120px;
+    resize: none;
+    /* outline: 1px solid; */
+}
+
+.profile #counter {
+    float: right;
+    padding: 0.1rem 0 0 0;
+    font-size: 0.875rem;
+    display: none;
+}
+
 .profile .setting-tab {
     background-color: #F6F7F7;
     border-radius: 0.3rem;
@@ -129,17 +150,9 @@
     background-color: #DBDCDD;
 }
 
-.profile #status {
-    height: 120px;
-    resize: none;
-    /* outline: 1px solid; */
-}
-
-.profile #counter {
-    float: right;
-    padding: 0.1rem 0 0 0;
-    font-size: 0.875rem;
-    display: none;
+.profile .notVerified a.disabled {
+    pointer-events: none;
+    cursor: default;
 }
 
 /* Edit Image */

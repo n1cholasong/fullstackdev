@@ -14,7 +14,12 @@
                 <div class="profile-info">
                     <span class="user-role">{{user.role.title}}</span>
                     <h1 class="fullname mb-0">{{user.fname}} {{user.lname}}</h1>
-                    <h4 class="username">@{{user.username}}</h4>
+                    <div class="d-flex">
+                        <h4 class="username pe-2">@{{user.username}}</h4>
+                        {{#if user.verified}}
+                        <span class="verified material-symbols-rounded">verified</span>
+                        {{/if}}
+                    </div>
                 </div>
                 <div id="editStatus">
                     <button type="button" class="btn btn-main" onclick="editStatus()">Edit Status</button>
@@ -80,13 +85,21 @@
                             data-bs-target="#change-password" type="button" role="tab" aria-controls="change-password"
                             aria-selected="false">Change Password
                         </button>
+                        <button class="nav-link" id="settings-tab" data-bs-toggle="pill" data-bs-target="#settings"
+                            type="button" role="tab" aria-controls="settings" aria-selected="false">Settings
+                        </button>
                     </div>
                 </div>
             </div>
             <div class="col-9">
                 <div class="setting-body">
                     <h5 class="section-title">Account Management</h5>
-
+                    {{#unless user.verified}}
+                    <div class="alert alert-warning notVerified" role="alert">
+                        <i class="fa-solid fa-triangle-exclamation pe-2"></i> 
+                        Account not verified! Click <a href="/user/resendVerification/{{user.id}}">here</a> to resend email verification.
+                    </div>
+                    {{/unless}}
                     {{>_flashmsg}}
                     <div>
                         <div id="account-entry" class="section-content mb-5">
@@ -100,7 +113,7 @@
                                         class="entry-form">
                                         <div class="form-group">
                                             <label for="email">Email<span class="text-danger">*</span></label>
-                                            <input type="email" name="email" class="form-control" value="{{user.email}}"
+                                            <input type="email" name="email" id="email" class="form-control" value="{{user.email}}"
                                                 required disabled>
                                         </div>
                                         <div id="input-row-1">
@@ -201,6 +214,17 @@
                                 </div>
                                 <!--Change Password-->
                                 <div class="tab-pane fade" id="change-password" role="tabpanel"
+                                    aria-labelledby="change-password-tab">
+                                    <a href="../updatePassword/{{user.id}}" class="btn btn-main login-btn"
+                                        role="button">
+                                        Update Password
+                                    </a>
+                                    <div class="text mt-3">
+                                        Password was last updated on {{formatDate user.updatedAt 'LLL'}}
+                                    </div>
+                                </div>
+                                <!--Settings-->
+                                <div class="tab-pane fade" id="settings" role="tabpanel"
                                     aria-labelledby="change-password-tab">
                                     <a href="../updatePassword/{{user.id}}" class="btn btn-main login-btn"
                                         role="button">
