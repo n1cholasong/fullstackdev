@@ -29,6 +29,7 @@ function hide(vNum,maxNum) {
     }
    }
    catch{
-    console.log("I DON'tCARE")
+    var div = document.getElementById("content");
+    div.innerHTML += '<h1 style="display:block;" class="videoPlayer" id="videoPlayer' + vNum + '"> No Videos Here.. </h1>';
    }
   } 
