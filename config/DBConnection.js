@@ -9,7 +9,10 @@ const Quiz = require('../models/Quizes');
 const Chapter = require('../models/chapter');
 const Video = require('../models/video');
 const Comment = require('../models/Comments');
+//const ForumLike = require('../models/');
+const Courselike = require('../models/CourseLikes');
 const ForumLikeFavs = require('../models/ForumLikeFavs');
+
 // If drop is true, all existing tables are dropped and recreated 
 const setUpDB = (drop) => {
     mySQLDB.authenticate()
@@ -20,6 +23,8 @@ const setUpDB = (drop) => {
             Role.hasOne(User);
             User.hasMany(Forum);
             User.hasMany(Review);
+            User.hasMany(Courselike);
+            User.hasMany(Course);
             User.hasMany(Voucher);
             User.hasMany(Comment);
             User.hasMany(ForumLikeFavs);
@@ -27,6 +32,7 @@ const setUpDB = (drop) => {
             //Course.hasMany(Quiz);
             Course.hasMany(Chapter);
             Course.hasMany(Review);
+            Course.hasMany(Courselike);
             Chapter.hasOne(Video);
             Chapter.hasMany(Quiz)
             //Forum bullshit
@@ -38,6 +44,8 @@ const setUpDB = (drop) => {
             Comment.belongsTo(User);
             Comment.belongsTo(Forum);
             //Decalring the child realtionship
+            Courselike.belongsTo(User);
+            Courselike.belongsTo(Course);
             User.belongsTo(Role);
             User.belongsToMany(Course, { through: 'UserCourses' });
             Comment.belongsTo(Forum);
