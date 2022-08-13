@@ -7,7 +7,7 @@
   <form method="POST" action="">
     <div class="form-group">
       <label for="name">Course Name</label>
-        <input type="text" name="Coursename" id="Coursename" class="form-control">
+        <input type="text" name="Coursename" id="Coursename" class="form-control" required>
     </div>
       <div class="form-group">
           <label for="desc">Description</label>
@@ -15,7 +15,7 @@
       </div>
       <div class="form-group">
           <label for="expiryDate">content</label>
-          <input type="text" name="content" id="content" class="form-control">
+          <input type="text" name="content" id="content" class="form-control" required>
       </div>
       <input name="uid" type="hidden" value="{{user.id}}">
       <input type="submit" value="Submit" class="btn btn-primary mt-3"/>
