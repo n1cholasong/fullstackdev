@@ -1,0 +1,44 @@
+<div class="container card-box">
+    <form method="post" action="" class="entry-form">
+        <div class="entry-card row">
+            <div class="entry-box col">
+                <h1 class="card-title">Verify your Email</h1>
+                <h4 class="card-subtitle mb-5">Are you a bot?</h4>
+                {{> _flashmsg }}
+
+                <div class="form-group mb-4">
+                    <label for="email">Email<span class="text-danger">*</span></label>
+                    <input type="email" name="email" id="email" class="form-control" required>
+                </div>
+                <div class="d-flex">
+                    <button type="submit" id="resend" class="btn btn-main me-2">Resend Email</button>
+                    <div id="timer"></div>
+                    <style>
+                        #timer {
+
+                            line-height: 37.61px;
+                        }
+                    </style>
+                </div>
+            </div>
+            <div class="img-box col">
+                <img src="/img/administration/mail_amico.svg" alt="">
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    $(document).ready(() => {
+        $('#email').click(() => {
+            $('#email').val('');
+        });
+    });
+
+    $("body").on("submit", "form", function () {
+        $(this).submit(function () {
+            return false;
+        });
+        return true;
+    });
+</script>
