@@ -68,13 +68,13 @@
                                             <div class="col-8">
                                                 <div class="form-group">
                                                     <label for="topic">Topic</label>
-                                                    <input class="form-control" id="topic" name="topic">
+                                                    <input class="form-control" id="topic" name="topic" required>
                                                 </div>
 
                                                 <div class="form-group mb-4">
                                                     <label for="thread-description">Description</label>
                                                     <textarea class="form-control" id="thread_description"
-                                                        name="thread_description" rows="4" maxlength="1000"></textarea>
+                                                        name="thread_description" rows="4" maxlength="1000" required></textarea>
                                                 </div>
                                             </div>
                                             <div class="col">
@@ -118,13 +118,44 @@
                                             </div>
                                         </div>
                                         <div class="col">
-                                            {{#if pictureURL}}
-                                            <img src="{{pictureURL}}" alt="Picture" class="img-thumbnail img-fluid mb-2"
-                                                onerror="this.src='/img/no-image.jpg'" style="max-height:160px">
-                                            {{/if}}
-                                        </div>
-                                        {{../likes_dict.id}}
-                                        <div>
+                                            <div class="pic-like-favourites">
+                                                {{#if pictureURL}}
+                                                <img src="{{pictureURL}}" alt="Picture"
+                                                    class="img-thumbnail img-fluid mb-2"
+                                                    onerror="this.src='/img/no-image.jpg'" style="max-height:160px">
+                                                {{/if}}
+                                                <div class="like-favourites">
+                                                    <div class="likes-display">
+                                                        <i class="fa-solid fa-angles-up"></i>
+                                                        {{#each ../likes_dict}}
+                                                        {{#ifCond forumId ../id}}
+                                                        <h5 class="likes">{{n_likes}}</h5>
+                                                        {{/ifCond}}
+                                                        {{/each}}
+                                                    </div>
+                                                    <div class="favourites">
+                                                        <form method="post" action="/forum/addFav/{{id}}">
+                                                            {{#each forumfavs}}
+                                                            {{#ifCond ../../user.id this.userId}}
+                                                            {{#ifCond this.favourite 1}}
+                                                            <button type="submit" class="fav-button active"
+                                                                id="fav-button"><i
+                                                                    class="fa-solid fa-heart"></i></button>
+                                                            {{/ifCond}}
+                                                            {{#ifCond this.favourite 0}}
+                                                            <button type="submit" class="fav-button" id="fav-button"><i
+                                                                    class="fa-solid fa-heart"></i></button>
+                                                            {{/ifCond}}
+                                                            {{/ifCond}}
+                                                            {{/each}}
+                                                            {{#unless this.forumfavs}}
+                                                            <button type="submit" class="fav-button" id="fav-button"><i
+                                                                    class="fa-solid fa-heart"></i></button>
+                                                            {{/unless}}
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </a>
@@ -226,20 +257,21 @@
                         <h2>Favourites</h2>
                     </div>
                     <div class="favourites-overflow">
+                        {{#each thread}}
+                        {{#each forumfavs}}
+                        {{#ifCond this.favourite 1}}
+                        {{#ifCond ../../user.id this.userId}}
                         <div class="favourites-wrapper">
-                            <a class="text-decoration-none favourites-link" href="#">
+                            <a class="text-decoration-none favourites-link" href="/forum/{{../id}}">
                                 <div class="favourites">
-                                    Thread 1
+                                    {{topic}}
                                 </div>
                             </a>
                         </div>
-                        <div class="favourites-wrapper">
-                            <a class="text-decoration-none favourites-link" href="#">
-                                <div class="favourites">
-                                    Thread 1
-                                </div>
-                            </a>
-                        </div>
+                        {{/ifCond}}
+                        {{/ifCond}}
+                        {{/each}}
+                        {{/each}}
                     </div>
                 </div>
             </div>
