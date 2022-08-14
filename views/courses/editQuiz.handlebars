@@ -23,8 +23,9 @@
         </div>
 
         
-        <button id="delete" data-bs-target="#deleteModal" data-bs-toggle="modal" class="btn btn-main">Delete</button>
         {{#if Quizes}}
+        <button id="delete" data-bs-target="#deleteModal" data-bs-toggle="modal" class="btn btn-main">Delete Quiz</button>
+        <a href="/course/quiz/create/{{cid}}" id="addBtn" class="btn btn-main">Add Quiz</a>
         <form method="POST">
             {{#each Quizes}}
             {{#if @first}}
@@ -121,8 +122,8 @@
     </div>
     </form>
     {{else}}
-    <h2>No quiz here! refer to creator</h2>
-    <button class="btn btn-main" onclick="history.go(-1)">Go Back</button>
+    <h2>No quiz here! Please create a quiz</h2>
+    <a href="/course/quiz/create/{{cid}}" id="addBtn" class="btn btn-main">Add Quiz</a>
     {{/if}}
         
 </div>
