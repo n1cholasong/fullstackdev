@@ -25,13 +25,12 @@ async function videoSearch(cid) {
 
 }
 
-router.all('*', authActive)
 
 router.get('/create', (req, res) => {
     res.render('./courses/createcourses')
 })
 
-router.post('/Enroll/:cid', ensureAuthenticated, async function (req, res) {
+router.post('/Enroll/:cid',ensureAuthenticated, async function (req, res) {
     const user = await User.findByPk(req.user.id)
     const course = await Course.findByPk(req.params.cid)
     await course.addUsers(user, { through: 'UserCourses' })
@@ -120,7 +119,7 @@ router.post('/Chapter/delete/:cid', ensureAuthenticated, authRole([1]), (req, re
     const chpaterId = req.params.cid;
     //console.log(chpaterId)
     Chapter.destroy({ where: { id: chpaterId } })
-    res.redirect('/course/Chapter/view/' + chpaterId )
+    res.redirect(req.get('referer') )
 })
 
 router.get('/user/video/view/:vid', async function (req, res) {

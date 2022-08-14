@@ -24,8 +24,6 @@ function hide(vNum,maxNum) {
     var x = document.getElementById("videoPlayer" + vNum);
     if (x.style.display === "none") {
       x.style.display = "block";
-    } else {
-      x.style.display = "none";
     }
    }
    catch{
