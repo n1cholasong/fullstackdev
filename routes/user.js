@@ -9,7 +9,7 @@ const User = require('../models/User');
 // Passport Authentication
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
-const { ensureAuthenticated, authUser, authActive } = require("../helpers/auth");
+const { ensureAuthenticated, authUser, authActive, authValid } = require("../helpers/auth");
 
 const moment = require('moment');
 const countryList = require('country-list');
@@ -45,7 +45,7 @@ router.post('/login', passport.authenticate('local', {
     }
 });
 
-router.get('/verify/:id/:token', authUser, authActive, async function (req, res) {
+router.get('/verify/:id/:token', async function (req, res) {
     let id = req.params.id;
     let token = req.params.token;
     try {
@@ -59,7 +59,11 @@ router.get('/verify/:id/:token', authUser, authActive, async function (req, res)
         // Check if user has been verified
         if (user.verified) {
             flashMessage(res, 'info', 'Account already verified');
-            res.redirect('/user/profile/' + id);
+            if (req.user) {
+                res.redirect('/user/profile/' + id);
+            } else {
+                res.redirect('/user/login');
+            }
             return;
         }
         // Verify JWT token sent via URL
@@ -74,7 +78,11 @@ router.get('/verify/:id/:token', authUser, authActive, async function (req, res)
             { where: { id: user.id } });
         console.log(result[0] + ' user updated');
         flashMessage(res, 'success', user.email + ' is verified. Please login');
-        res.redirect('/user/profile/' + id);
+        if (req.user) {
+            res.redirect('/user/profile/' + id);
+        } else {
+            res.redirect('/user/login');
+        }
     }
     catch (err) {
         console.log(err);
@@ -365,17 +373,18 @@ router.get('/resetProfilePic/:id', ensureAuthenticated, authUser, authActive, (r
 
 });
 
-router.get('/resendVerification/:id', ensureAuthenticated, authUser, authActive, (req, res) => {
+router.get('/resendVerification/:id', ensureAuthenticated, authUser, authActive, authValid, (req, res) => {
     let title = "Resend Verification";
     res.render('./user/resendVerification', { title });
 });
 
-router.post('/resendVerification/:id', ensureAuthenticated, authUser, authActive, async (req, res) => {
+router.post('/resendVerification/:id', ensureAuthenticated, authUser, authActive, authValid, async (req, res) => {
     let email = req.body.email;
     let user = await User.findByPk(req.user.id);
 
     if (user.email == email) {
         let token = jwt.sign(email, process.env.APP_SECRET);
+        // different link
         let url = `${process.env.BASE_URL}:${process.env.PORT}/user/verify/${user.id}/${token}`;
         let message =
             `
@@ -403,13 +412,99 @@ router.post('/resendVerification/:id', ensureAuthenticated, authUser, authActive
     }
 });
 
-
-
-router.get('/deactivated', ensureAuthenticated, authActive, (req, res) => {
+router.get('/deactivated', ensureAuthenticated, (req, res) => {
     let title = "Account Deactivated"
     res.render('./user/deactivated', { title })
 });
 
+router.post('/deactivateAccount/:id', ensureAuthenticated, authUser, (req, res) => {
+    let title = "Account Deactivated"
+    User.update({ active: 0 }, { where: { id: req.user.id } })
+    res.render('./user/deactivated', { title })
+});
+
+router.get('/reactivate/:id/:token', async function (req, res) {
+    let id = req.params.id;
+    let token = req.params.token;
+    try {
+        // Check if user is found
+        let user = await User.findByPk(id);
+        if (!user) {
+            flashMessage(res, 'error', 'User not found', '', 'true');
+            if (req.user) {
+                res.redirect('/user/profile/' + id);
+            } else {
+                res.redirect('/user/login');
+            }
+            return;
+        }
+        // Check if user has been re-activated
+        if (user.active) {
+            flashMessage(res, 'info', 'Account already activated', '', 'true');
+            if (req.user) {
+                res.redirect('/user/profile/' + id);
+            } else {
+                res.redirect('/user/login');
+            }
+            return;
+        }
+        // Verify JWT token sent via URL
+        let authData = jwt.verify(token, process.env.APP_SECRET);
+        if (authData != user.email) {
+            flashMessage(res, 'error', 'Unauthorised Access', '', 'true');
+            if (req.user) {
+                res.redirect('/user/profile/' + id);
+            } else {
+                res.redirect('/user/login');
+            }
+            return;
+        }
+        let result = await User.update(
+            { active: 1 },
+            { where: { id: user.id } });
+        console.log(result[0] + ' user updated');
+        flashMessage(res, 'success', 'Account is re-activated.', '', 'true');
+        if (req.user) {
+            res.redirect('/user/profile/' + id);
+        } else {
+            res.redirect('/user/login');
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
+router.get('/reactivateAccount/:id', ensureAuthenticated, authUser, async (req, res) => {
+    let user = await User.findByPk(req.user.id);
+
+    let token = jwt.sign(user.email, process.env.APP_SECRET);
+    let url = `${process.env.BASE_URL}:${process.env.PORT}/user/reactivate/${user.id}/${token}`;
+    let message =
+        `
+                Hello ${user.fname}, 
+                <br>
+                <br>
+                We are delighted to welcome you back to the Curodemy family!            
+                `
+    let verb = "reactivate"
+    sendEmail(user.email, url, message, verb)
+        .then(response => {
+            console.log(response);
+            flashMessage(res, 'success', 'A re-activation link has been sent to your email', '', 'true');
+            if (req.user) {
+                res.redirect('/user/deactivated/');
+            } else {
+                res.redirect('/user/login');
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            flashMessage(res, 'error', 'Error when sending email to ' +
+                user.email, '', 'true');
+            res.redirect('/');
+        });
+});
 
 function sendEmail(toEmail, url, intro, verb) {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -419,9 +514,14 @@ function sendEmail(toEmail, url, intro, verb) {
         subject: 'Verify Curodemy Account',
         html:
             `
-            ${intro}.
+            ${intro}
             <br>
             Click <a href=\"${url}"><strong>here</strong></a> to ${verb} your account.
+            <br>
+            <br>
+            Regards,
+            <br>
+            The Curodemy Team
             `
     };
     // Returns the promise from SendGrid to the calling function

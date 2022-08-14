@@ -5,7 +5,7 @@ const User = require('../models/User');
 const Review = require("../models/Review");
 const Course = require('../models/Courses');
 const flashMessage = require('../helpers/messenger');
-const { ensureAuthenticated, authRole } = require("../helpers/auth");
+const { ensureAuthenticated, authRole, authActive } = require("../helpers/auth");
 const sgMail = require('@sendgrid/mail');
 
 
@@ -14,7 +14,7 @@ fullname = {}
 useremail = {}
 
 
-router.all('*', ensureAuthenticated, authRole([1]))
+router.all('*', ensureAuthenticated, authRole([1]), authActive)
 
 router.get('/manageAccounts', async (req, res) => {
     let title = "Manage Account";
