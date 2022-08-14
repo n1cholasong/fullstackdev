@@ -118,7 +118,7 @@ router.post('/Chapter/delete/:cid', ensureAuthenticated, authRole([1]) , (req, r
     const chpaterId = req.params.cid;
     //console.log(chpaterId)
     Chapter.destroy({ where: { id: chpaterId } })
-    res.redirect('back')
+    res.redirect('/course/Chapter/view/' + chpaterId )
 })
 
 router.get('/user/video/view/:vid', async function (req, res) {
@@ -237,7 +237,7 @@ router.get('/quiz/edit/:cid', ensureAuthenticated, authRole([1]), (req, res) => 
             ChapterId: cid
         }
     }).then((Quizes) => {
-        res.render('./courses/editQuiz', { Quizes })
+        res.render('./courses/editQuiz', { Quizes,cid })
     })
 })
 
@@ -285,8 +285,9 @@ router.post('/quiz/edit/:cid', ensureAuthenticated, authRole([1]), async functio
             })
 
     }
+    const chapter = await Chapter.findByPk(cid)
 
-    res.redirect('/Course/Chapter/view/' + cid)
+    res.redirect('/Course/Chapter/view/' + chapter.CourseId)
 })
 
 router.post('/Quiz/Delete/:qid', ensureAuthenticated, authRole([1]), (req, res) => {
@@ -333,7 +334,7 @@ router.post('/quiz/view/:cid', ensureAuthenticated, (req, res) => {
 })
 
 
-router.post('/quiz/create/:cid', ensureAuthenticated, authRole([1]), (req, res) => {
+router.post('/quiz/create/:cid', ensureAuthenticated, authRole([1]), async function (req, res) {
     let cid = req.params.cid;
     let question = req.body.question;
     let description = req.body.description;
@@ -356,11 +357,12 @@ router.post('/quiz/create/:cid', ensureAuthenticated, authRole([1]), (req, res) 
         correctans = ans4
     }
 
-    Quiz.create({
+    await Quiz.create({
         question: question, description: description, a1: ans1, a2: ans2, a3: ans3, a4: ans4, correctans: correctans, ChapterId: cid
     })
 
-    res.redirect('/course/Chapter/view/' + cid)
+
+    res.redirect('/course/quiz/edit/' + cid)
 })
 
 router.post('/create', ensureAuthenticated, authRole([1]), (req, res) => {
