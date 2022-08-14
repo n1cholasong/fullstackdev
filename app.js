@@ -120,12 +120,13 @@ app.use('/payment', paymentRoute);
 app.use('/course', courseRoute);
 
 // The 404 Route
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
+	let title = "Page not Found"
 	res.status(404);
-  
+
 	if (req.accepts('html')) {
-	  res.render('404', { url: req.url });
-	  return;
+		res.render('404', { url: req.url, title });
+		return;
 	}
 });
 

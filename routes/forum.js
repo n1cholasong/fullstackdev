@@ -5,7 +5,7 @@ const Forum = require('../models/Forum');
 const User = require('../models/User');
 const Comment = require('../models/Comments');
 const ForumLikeFavs = require('../models/ForumLikeFavs');
-const { ensureAuthenticated, authRole } = require("../helpers/auth");
+const { ensureAuthenticated, authRole, authActive } = require("../helpers/auth");
 require('dotenv').config;
 // Required for file upload
 const fs = require('fs');
@@ -13,6 +13,7 @@ const upload = require('../helpers/forumUpload');
 const sequelize = require('sequelize');
 const { order } = require('paypal-rest-sdk');
 const { where } = require('sequelize');
+
 
 //Landing page
 router.get("/", (req, res) => {
@@ -36,7 +37,7 @@ router.get("/", (req, res) => {
 });
 
 //Filter by my Forum
-router.get("/myforum", ensureAuthenticated, (req, res) => {
+router.get("/myforum", ensureAuthenticated, authActive, (req, res) => {
     Forum.findAll({
         where: { status: 1, userId: req.user.id },
         include: [User, ForumLikeFavs],
@@ -94,7 +95,7 @@ router.get("/top", ensureAuthenticated, (req, res) => {
                 sequelize.literal(
                     `(SELECT COUNT(*) FROM Comments AS Comments WHERE Comments.forumId = Forum.id)`
                 ), 'countComments'
-            ],[
+            ], [
                 //Count likes
                 sequelize.literal(
                     `(SELECT COUNT(*) FROM ForumLikeFavs AS ForumLikeFavs WHERE ForumLikeFavs.Liked = 1 AND ForumLikeFavs.forumId = Forum.id)`
@@ -113,7 +114,7 @@ router.get("/top", ensureAuthenticated, (req, res) => {
 
 });
 
-router.post("/createThread", ensureAuthenticated, (req, res) => {
+router.post("/createThread", ensureAuthenticated, authActive, (req, res) => {
     let topic = req.body.topic;
     let description = req.body.thread_description;
     let userId = req.user.id;
@@ -191,7 +192,7 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
     Forum.findOne({
         where: { id: req.params.id },
         include: [Comment, ForumLikeFavs, User],
-        order : [
+        order: [
             [sequelize.literal('comments.id'), 'DESC']
         ]
     }).then(async (forum) => {
@@ -240,20 +241,20 @@ router.post("/like/:id", ensureAuthenticated, async function (req, res) {
     if (likeStatus == null) {
         ForumLikeFavs.create(
             {
-                forumId, userId, liked : 1
+                forumId, userId, liked: 1
             }
         )
     }
     else if (likeStatus.liked == 1) {
         let liked = 0;
         likeStatus.update({
-            liked : liked
+            liked: liked
         })
     }
     else if (likeStatus.liked == 0) {
         let liked = 1;
         likeStatus.update({
-            liked : liked
+            liked: liked
         })
     }
 
@@ -280,7 +281,7 @@ router.post("/addFav/:id", ensureAuthenticated, async function (req, res) {
     if (favStatus == null) {
         ForumLikeFavs.create(
             {
-                topic, forumId, userId, favourite : 1
+                topic, forumId, userId, favourite: 1
             }
         )
     }

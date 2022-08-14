@@ -1,7 +1,7 @@
 const express = require('express');
 const Review = require("../models/Review");
 const router = express.Router();
-const { ensureAuthenticated, authRole,authUser } = require('../helpers/auth');
+const { ensureAuthenticated, authRole, authUser, authActive } = require('../helpers/auth');
 const flashMessage = require('../helpers/messenger');
 const Course = require('../models/Courses');
 const User = require('../models/User')
@@ -35,41 +35,43 @@ router.get('/', async function (req, res,) {
 
 });
 
-router.get('/mycourse',ensureAuthenticated ,async function (req, res,) {
+router.get('/mycourse', ensureAuthenticated, authActive, async function (req, res,) {
 	const user = await User.findOne(
-		{   where: {id:req.user.id},
+		{
+			where: { id: req.user.id },
 			include: "Courses"
 		});
 
 	const courses = user.Courses;
 
-	const userList = await User.findAll({raw:true});
+	const userList = await User.findAll({ raw: true });
 	userList.forEach((user) => {
 		userdict[user.id] = user.username;
 	});
 
-	res.render('myCourse', { user, courses,userdict });
+	res.render('myCourse', { user, courses, userdict });
 });
 
 router.get('/course/details/:id', async function (req, res) {
 	let course = await Course.findByPk(req.params.id);
 	var enrolled = false;
 	//find all users and put them into a dict
-	if(req.user != null) {
-	const user = await User.findOne(
-		{   where: {id:req.user.id},
-			include: "Courses"
-		});
+	if (req.user != null) {
+		const user = await User.findOne(
+			{
+				where: { id: req.user.id },
+				include: "Courses"
+			});
 
-	const courses = user.Courses;
-	for (let i = 0; i < courses.length; i++) {
-		enrolled = true ? courses[i].id == req.params.id : false;
-		if(enrolled){
-			break;
-		}	
-	}
-		
-	
+		const courses = user.Courses;
+		for (let i = 0; i < courses.length; i++) {
+			enrolled = true ? courses[i].id == req.params.id : false;
+			if (enrolled) {
+				break;
+			}
+		}
+
+
 	}
 
 	await User.findAll({
@@ -122,7 +124,7 @@ router.get('/course/details/:id', async function (req, res) {
 
 			//res.render('course', { reviews, course, userdict, fullname, avg, roundAvg, print_star, count, n_likes, likeStatus });
 
-			res.render('course', { reviews, course, userdict, fullname, avg, roundAvg, print_star, count ,enrolled, n_likes, likeStatus});
+			res.render('course', { reviews, course, userdict, fullname, avg, roundAvg, print_star, count, enrolled, n_likes, likeStatus });
 
 		})
 		.catch(err => console.log(err));
