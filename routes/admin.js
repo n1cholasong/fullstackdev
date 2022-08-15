@@ -9,7 +9,6 @@ const flashMessage = require('../helpers/messenger');
 const { ensureAuthenticated, authRole, authActive } = require("../helpers/auth");
 const sgMail = require('@sendgrid/mail');
 
-
 userdict = {}
 fullname = {}
 useremail = {}
@@ -56,6 +55,24 @@ router.post('/manageCategory/create', (req, res) => {
         );
 });
 
+router.post('/manageCategory/edit/:id', (req, res) => {
+    let title = req.body.title;
+    let description = req.body.desc;
+
+    Subject.update(
+        { title: title, description: description },
+        { where: { id: req.params.id } }
+    )
+        .then(() => {
+            flashMessage(res, 'info', title + ' updated', '', 'true');
+            res.redirect('/admin/manageCategory');
+        })
+        .catch((err) =>
+            console.log(err)
+        );
+});
+
+
 router.post('/manageCategory/deactivate/:id', async (req, res) => {
     let subject = await Subject.findByPk(req.params.id)
 
@@ -76,7 +93,7 @@ router.get('/manageCategory/activate/:id', async (req, res) => {
 
     subject.update({ active: 1 }, { where: { id: req.params.id } })
         .then((result) => {
-            console.log(result + ' category activated');
+            console.log(result.title + ' category activated');
             flashMessage(res, 'success', subject.title + ' is Online', '', 'true');
             res.redirect('/admin/manageCategory');
 
