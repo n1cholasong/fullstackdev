@@ -4,6 +4,10 @@
     max-height: 450px;
 }
 
+.forum .danger {
+    color: red;
+}
+
 .forum .forum-main {
     min-height: 550px;
     padding-bottom: 10px;

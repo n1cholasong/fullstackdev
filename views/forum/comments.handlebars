@@ -21,13 +21,12 @@
                                 {{n_likes}}
                             </div>
                             <form action="/forum/like/{{forum.id}}" method="post">
-                                {{#if likeStatus}}
-                                {{else}}
+                                {{#unless likeStatus}}
                                 <button type="submit" class="like-button" id="like-button"><i
                                         class="fas fa-thumbs-up"></i></button>
                                 <input id="forum_id" type="hidden" name="forum_id" value="{{forum.id}}">
                                 <input id="user_id" type="hidden" name="user_id" value="{{user.id}}">
-                                {{/if}}
+                                {{/unless}}
                                 {{#ifCond likeStatus.liked 1}}
                                 <button type="submit" class="like-button active" id="like-button"><i
                                         class="fas fa-thumbs-up"></i></button>
@@ -62,12 +61,18 @@
                         {{#each forum.comments}}
                         {{#ifCond this.userId ../user.id}}
                         <div class="indv-comment own">
+                            <div class="username own">
+                                @{{lookup ../userdict this.userId}}
+                            </div>
                             <div class="comment-text own">
                                 {{this.comment}}
                             </div>
                         </div>
                         {{else}}
                         <div class="indv-comment">
+                            <div class="username">
+                                @{{lookup ../userdict this.userId}}
+                            </div>
                             <div class="comment-text">
                                 {{this.comment}}
                             </div>
