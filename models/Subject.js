@@ -17,5 +17,28 @@ const Subject = db.define('subject',
 
 );
 
+Subject.sync();
+
+subjectList = [
+    {title:"Photography",description:""},
+    {title:"Science",description:""},
+    {title:"Programming",description:""},
+    {title:"DIY",description:""},
+    {title:"Productivity",description:""},
+    {title:"Arts n' Craft",description:""},
+    {title:"Mathematics",description:""},
+    {title:"Language",description:""},
+    {title:"Self Help",description:""}
+];
+
+Subject.findAndCountAll()
+    .then(result => {
+        if (result.count < 1) {
+            subjectList.forEach(subject => {
+                Subject.create(subject)    
+            });
+            
+        }
+    })
 
 module.exports = Subject

@@ -8,6 +8,7 @@ const User = require('../models/User')
 const jwt = require('jsonwebtoken');
 const sgMail = require('@sendgrid/mail');
 const CourseLikes = require('../models/CourseLikes');
+const Subject = require('../models/Subject')
 
 userdict = {}
 fullname = {}
@@ -26,9 +27,11 @@ router.get('/', async function (req, res,) {
 
 
 	Course.findAll({
-		raw: true
-	}).then((Courses) => {
-		res.render('index', { Courses, title, userdict });
+		include:"subjects",
+		nested:true
+	}).then(async (Courses) => {
+		subjectList = await Subject.findAll({raw:true});
+		res.render('index', { Courses, title, userdict,subjectList });
 
 	})
 		.catch(err => console.log(err));

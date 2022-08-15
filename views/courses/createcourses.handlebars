@@ -18,7 +18,15 @@
           <input type="text" name="content" id="content" class="form-control" required>
       </div>
       <input name="uid" type="hidden" value="{{user.id}}">
+      <label for="Subjects">Subjects</label>
+					<select id="Subjects" name="Subjects" class="form-select">
+						<option value="">None</option>
+						{{#each subjects}}
+						<option value="{{id}}">{{title}}</option>
+						{{/each}}
+					</select>
       <input type="submit" value="Submit" class="btn btn-primary mt-3"/>
+
   </form>
 </div>
 
