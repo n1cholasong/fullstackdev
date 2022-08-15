@@ -46,12 +46,40 @@ router.get('/manageCategory', async (req, res) => {
 router.post('/manageCategory/create', (req, res) => {
     let title = req.body.title;
     let description = req.body.desc;
-    console.log(title, description)
-
     Subject.create({ title: title, description: description })
         .then(() => {
             flashMessage(res, 'success', 'New category created', '', 'true');
             res.redirect('/admin/manageCategory');
+        })
+        .catch((err) =>
+            console.log(err)
+        );
+});
+
+router.post('/manageCategory/deactivate/:id', async (req, res) => {
+    let subject = await Subject.findByPk(req.params.id)
+
+    subject.update({ active: 0 }, { where: { id: req.params.id } })
+        .then((result) => {
+            console.log(result + ' category deactivated');
+            flashMessage(res, 'error', subject.title + ' is Offline', '', 'true');
+            res.redirect('/admin/manageCategory');
+
+        })
+        .catch((err) =>
+            console.log(err)
+        );
+});
+
+router.get('/manageCategory/activate/:id', async (req, res) => {
+    let subject = await Subject.findByPk(req.params.id)
+
+    subject.update({ active: 1 }, { where: { id: req.params.id } })
+        .then((result) => {
+            console.log(result + ' category activated');
+            flashMessage(res, 'success', subject.title + ' is Online', '', 'true');
+            res.redirect('/admin/manageCategory');
+
         })
         .catch((err) =>
             console.log(err)

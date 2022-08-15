@@ -5,9 +5,9 @@
                 class="fa-solid fa-plus me-2"></i>New category</button>
     </div>
     {{>_flashmsg}}
-    <div class="modal fade" id="exampleModal" data-bs-backdrop="static"
-                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-                            aria-hidden="true">
+    <!-- Create new category modal -->
+    <div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <form action="/admin/manageCategory/create" method="post" id="" class="entry-form">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -57,9 +57,9 @@
                     <td>{{description}}</td>
                     <td>
                         {{#if active}}
-                        <span class="text-success">Active</span>
+                        <span class="text-success">Online</span>
                         {{else}}
-                        <span class="text-danger">Inctive</span>
+                        <span class="text-danger">Offline</span>
                         {{/if}}
                     </td>
                     <td>
@@ -69,35 +69,31 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end text">
                                 {{#if active}}
-                                <li><a class="dropdown-item text-danger" href="/admin/manageCategory/deactivate{{id}}"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deactivateAccountBackdrop_{{id}}">Deactivate Category</a></li>
+                                <li><a class="dropdown-item text-danger" data-bs-toggle="modal"
+                                        data-bs-target="#deactivateCategoryBackdrop_{{id}}">Deactivate</a></li>
                                 {{else}}
-                                <li><a class="dropdown-item text-success" href="/admin/manageCategory/activate/{{id}}"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deactivateAccountBackdrop_{{id}}">Activate Category</a></li>
+                                <li><a class="dropdown-item text-success" href="/admin/manageCategory/activate/{{id}}">Activate</a></li>
                                 {{/if}}
                             </ul>
                         </div>
                         <!-- De-activate Modal -->
-                        <form action="/admin/deactivateAccount/{{id}}" method="POST">
-                            <div class="modal fade" id="deactivateAccountBackdrop_{{id}}" data-bs-backdrop="static"
-                                data-bs-keyboard="false" tabindex="-1" aria-labelledby="deactivateAccountBackdropLabel"
+                        <form action="/admin/manageCategory/deactivate/{{id}}" method="POST">
+                            <div class="modal fade" id="deactivateCategoryBackdrop_{{id}}" data-bs-backdrop="static"
+                                data-bs-keyboard="false" tabindex="-1" aria-labelledby="deactivateCategoryBackdropLabel"
                                 aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <!-- Modal Header -->
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="deactivateAccountBackdropLabel">Deactivate
-                                                Account</h5>
+                                            <h5 class="modal-title" id="deactivateCategoryBackdropLabel">Deactivate
+                                                Category</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
                                         <!-- Modal body -->
                                         <div class="modal-body">
                                             <p>
-                                                Are you sure you want to <strong>deactivate @{{username}}'s
-                                                    account</strong>.
+                                                Are you sure you want to <strong>deactivate {{title}}</strong>.
                                             </p>
                                         </div>
                                         <!-- Modal footer -->
