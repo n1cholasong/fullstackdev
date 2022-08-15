@@ -9,7 +9,6 @@ const flashMessage = require('../helpers/messenger');
 const { ensureAuthenticated, authRole, authActive } = require("../helpers/auth");
 const sgMail = require('@sendgrid/mail');
 
-
 userdict = {}
 fullname = {}
 useremail = {}
@@ -45,11 +44,91 @@ router.get('/manageCategory', async (req, res) => {
 
 router.post('/manageCategory/create', async (req, res) => {
     let title = req.body.title;
-    let description = req.body.description;
-    await Subject.create({ title: title, description: description })
-        .then(() => {
-            flashMessage(res, 'success', 'New category created', '', 'true');
-            // res.redirect('/user/profile/' + req.params.id);
+    let description = req.body.desc;
+
+    let sameTitle = await Subject.findOne({ where: { title: title } })
+
+    if (!sameTitle) {
+        Subject.create({ title: title, description: description })
+            .then(() => {
+                flashMessage(res, 'success', 'New category created', '', 'true');
+                res.redirect('/admin/manageCategory');
+            })
+            .catch((err) =>
+                console.log(err)
+            );
+    } else {
+        flashMessage(res, 'error', `[ID: ${id}]'s title is not unique`, '', 'true');
+        res.redirect('/admin/manageCategory');
+    }
+
+});
+
+router.post('/manageCategory/edit/:id', async (req, res) => {
+    let id = req.params.id
+    let title = req.body.title;
+    let description = req.body.desc;
+
+    let category = await Subject.findByPk(id)
+    let sameTitle = await Subject.findOne({ where: { title: title } })
+
+    if (category.title == title) {
+        Subject.update(
+            { description: description },
+            { where: { id: id} }
+        )
+            .then(() => {
+                flashMessage(res, 'info', title + ' updated', '', 'true');
+                res.redirect('/admin/manageCategory');
+            })
+            .catch((err) =>
+                console.log(err)
+            );
+    } else {
+        if (!sameTitle) {
+            Subject.update(
+                { title: title, description: description },
+                { where: { id: id} }
+            )
+                .then(() => {
+                    flashMessage(res, 'info', title + ' updated', '', 'true');
+                    res.redirect('/admin/manageCategory');
+                })
+                .catch((err) =>
+                    console.log(err)
+                );
+        } else {
+            flashMessage(res, 'error', `[ID: ${id}]'s title is not unique`, '', 'true');
+            res.redirect('/admin/manageCategory');
+        }
+    }
+});
+
+
+router.post('/manageCategory/deactivate/:id', async (req, res) => {
+    let subject = await Subject.findByPk(req.params.id)
+
+    subject.update({ active: 0 }, { where: { id: req.params.id } })
+        .then((result) => {
+            console.log(result + ' category deactivated');
+            flashMessage(res, 'error', subject.title + ' is Offline', '', 'true');
+            res.redirect('/admin/manageCategory');
+
+        })
+        .catch((err) =>
+            console.log(err)
+        );
+});
+
+router.get('/manageCategory/activate/:id', async (req, res) => {
+    let subject = await Subject.findByPk(req.params.id)
+
+    subject.update({ active: 1 }, { where: { id: req.params.id } })
+        .then((result) => {
+            console.log(result.title + ' category activated');
+            flashMessage(res, 'success', subject.title + ' is Online', '', 'true');
+            res.redirect('/admin/manageCategory');
+
         })
         .catch((err) =>
             console.log(err)
