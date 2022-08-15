@@ -15,7 +15,6 @@ async function init(){
                     const progamingSub = await Subject.findAll({ where: { title: "Programming" } })
                     course.addSubjects(progamingSub, { through: "CourseSubjects" })
                 })
-
             };
         } catch (err) {
             console.log(err)
