@@ -41,6 +41,14 @@
         <div id="content" class="card-body text-center row">
             {{#if videos}}
             {{#each videos}}
+            {{#if @first}}
+            <div class="videoPlayer mx-auto col" style="display:block;" id="videoPlayer{{lookup ../videoDict id}}">
+                <input type="hidden" class="videoID" value="{{id}}">
+                <video id="videoPlayer{{@index}}" controls>
+                    <source src="{{videofile}}" type="video/mp4">
+                </video>
+            </div>
+            {{/if}}
             <div class="videoPlayer mx-auto col" style="display:none;" id="videoPlayer{{lookup ../videoDict id}}">
                 <input type="hidden" class="videoID" value="{{id}}">
                 <video id="videoPlayer{{@index}}" controls>

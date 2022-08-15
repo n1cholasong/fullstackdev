@@ -6,19 +6,19 @@
 
   <form method="POST" action="">
     <div class="form-group">
-      <label for="name">Course Name</label>
+      <label for="name">Course Name<span class="text-danger">*</span></label>
         <input type="text" name="Coursename" id="Coursename" class="form-control" required>
     </div>
       <div class="form-group">
-          <label for="desc">Description</label>
+          <label for="desc">Description<span class="text-danger">*</span></label>
           <input type="text" name="desc" id="desc" class="form-control">
       </div>
       <div class="form-group">
-          <label for="expiryDate">content</label>
+          <label for="expiryDate">Content<span class="text-danger">*</span></label>
           <input type="text" name="content" id="content" class="form-control" required>
       </div>
       <input name="uid" type="hidden" value="{{user.id}}">
-      <label for="Subjects">Subjects</label>
+      <label for="Subjects">Subjects<span class="text-danger">*</span></label>
 					<select id="Subjects" name="Subjects" class="form-select" required>
 						<option value=""></option>
 						{{#each subjects}}

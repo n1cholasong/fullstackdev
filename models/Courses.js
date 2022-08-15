@@ -4,6 +4,7 @@ const User = require('./User');
 const Subject = require('../models/Subject');
 const Chapter = require('../models/chapter');
 const Quiz = require('../models/Quizes');
+const Video = require('../models/video');
 
 async function init(){
     await Courses.findAndCountAll()
@@ -68,6 +69,7 @@ User.sync();
 Subject.sync();
 Chapter.sync();
 Quiz.sync();
+Video.sync();
 
 coursesList = [{
     courseName: "Python 101", description: "Basic Python knowdlge", content: "Basic Python knowdlge", userId: 1

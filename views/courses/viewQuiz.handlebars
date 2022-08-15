@@ -115,8 +115,8 @@
         </div>
     </form>
     {{else}}
-    <h2>No quiz here! refer to creator</h2>
-    <button class="btn btn-main" onclick="history.go(-1)">Go Back</button>
+    <h2>Quiz is currently unavailable</h2>
+    <button class="btn btn-main" onclick=" location.href = 'http://localhost:5000/course/user/chapter/view/{{courseID}}'  ">Go Back to chapters</button>
     {{/if}}
 </div>
 

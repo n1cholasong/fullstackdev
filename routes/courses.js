@@ -50,14 +50,14 @@ router.post('/create', ensureAuthenticated, authRole([1]),async function (req, r
     res.redirect('/course/view')
 })
 
-router.post('/Enroll/:cid',ensureAuthenticated, async function (req, res) {
+router.post('/Enroll/:cid',ensureAuthenticated,authActive, async function (req, res) {
     const user = await User.findByPk(req.user.id)
     const course = await Course.findByPk(req.params.cid)
     await course.addUsers(user, { through: 'UserCourses' })
     res.redirect('/');
 })
 
-router.get('/user/chapter/view/:id', ensureAuthenticated, async function (req, res) {
+router.get('/user/chapter/view/:id', ensureAuthenticated,authActive, async function (req, res) {
     var videos = [];
     var videoDict = {};
     const courseId = req.params.id;
@@ -324,8 +324,9 @@ router.get('/quiz/view/:cid', ensureAuthenticated, (req, res) => {
         where: {
             ChapterId: cid
         }
-    }).then((Quizes) => {
-        res.render('./courses/viewQuiz', { Quizes })
+    }).then(async (Quizes) => {
+        const course = await Chapter.findByPk(cid,{raw:true});
+        res.render('./courses/viewQuiz', { Quizes ,courseID:course.CourseId})
     })
 })
 
