@@ -4,30 +4,6 @@
         <div class="container d-flex justify-content-between">
             <div class="course-info">
                 <!-- Use an element to toggle between a like/dislike icon -->
-                <div class="like-button-wrapper col">
-                    <div class="likes-display">
-                        {{n_likes}}
-                    </div>
-                    <form action="/like/{{course.id}}" method="post">
-                        {{#if likeStatus}}
-                        {{else}}
-                        <button type="submit" class="like-button" id="like-button"><i
-                                class="fas fa-thumbs-up"></i></button>
-                        <input id="course_id" type="hidden" name="course_id" value="{{course.id}}">
-                        {{/if}}
-                        <input id="course_id" type="hidden" name="course_id" value="{{course.id}}">
-                        {{#ifCond likeStatus.liked 1}}
-                        <button type="submit" class="like-button active" id="like-button"><i
-                                class="fas fa-thumbs-up"></i></button>
-                        <input id="course_id" type="hidden" name="course_id" value="{{course.id}}">
-                        {{/ifCond}}
-                        {{#ifCond likeStatus.liked 0}}
-                        <button type="submit" class="like-button" id="like-button"><i
-                                class="fas fa-thumbs-up"></i></button>
-                        <input id="course_id" type="hidden" name="course_id" value="{{course.id}}">
-                        {{/ifCond}}
-                    </form>
-                </div>
                 <h1>{{course.courseName}}</h1>
                 <a href="#">
                     <p>@{{lookup userdict course.userId}}</p>
@@ -47,13 +23,42 @@
                 {{else}}
                 <p>No Review</p>
                 {{/if}}
-                {{#if enrolled}}
-                <button class="btn btn-main"><a id="viewCourseBtn" href="/course/user/chapter/view/{{course.id}}">View Course</a></button>
-                {{else}}
-                <form action="/Course/Enroll/{{course.id}}" method="post">
-                    <button type="submit" class="btn btn-main">Enroll Now
-                </form>
-                {{/if}}
+
+                <div>
+                    <form action="/Course/Enroll/{{course.id}}" method="post">
+                        {{#if enrolled}}
+                        <button class="btn btn-main"><a id="viewCourseBtn"
+                                href="/course/user/chapter/view/{{course.id}}">View Course</a></button>
+                        {{else}}
+                        <button type="submit" class="btn btn-main">Enroll Now
+                            {{/if}}
+                    </form>
+                </div>
+
+                <div class="like-button-wrapper d-flex">
+                    <div class="likes-display">
+                        <span class="">{{n_likes}}</span>
+                    </div>
+                    <form action="/like/{{course.id}}" method="post">
+                        {{#if likeStatus}}
+                        {{else}}
+                        <button type="submit" class="btn like-button" id="like-button"><i
+                                class="fas fa-thumbs-up"></i></button>
+                        <input id="course_id" type="hidden" name="course_id" value="{{course.id}}">
+                        {{/if}}
+                        <input id="course_id" type="hidden" name="course_id" value="{{course.id}}">
+                        {{#ifCond likeStatus.liked 1}}
+                        <button type="submit" class="btn like-button active" id="like-button"><i
+                                class="fas fa-thumbs-up"></i></button>
+                        <input id="course_id" type="hidden" name="course_id" value="{{course.id}}">
+                        {{/ifCond}}
+                        {{#ifCond likeStatus.liked 0}}
+                        <button type="submit" class="btn like-button" id="like-button"><i
+                                class="fas fa-thumbs-up"></i></button>
+                        <input id="course_id" type="hidden" name="course_id" value="{{course.id}}">
+                        {{/ifCond}}
+                    </form>
+                </div>
             </div>
             <div class="course-thumbnail">
                 <img src="{{course.imgURL}}" alt="">
