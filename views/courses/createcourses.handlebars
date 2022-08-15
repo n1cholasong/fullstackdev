@@ -19,8 +19,8 @@
       </div>
       <input name="uid" type="hidden" value="{{user.id}}">
       <label for="Subjects">Subjects</label>
-					<select id="Subjects" name="Subjects" class="form-select">
-						<option value="">None</option>
+					<select id="Subjects" name="Subjects" class="form-select" required>
+						<option value=""></option>
 						{{#each subjects}}
 						<option value="{{id}}">{{title}}</option>
 						{{/each}}

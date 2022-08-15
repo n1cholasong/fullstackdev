@@ -19,8 +19,8 @@
     </div>
     <input name="uid" type="hidden" value="{{course.userId}}">
     <label for="Subjects">Subjects</label>
-    <select id="Subjects" name="Subjects" class="form-select">
-      <option value="">None</option>
+    <select id="Subjects" name="Subjects" class="form-select" required>
+      <option value=""></option>
       {{#each subjects}}
       {{#ifCond id ../sid}}
       <option value="{{id}}" selected>{{title}}</option>
