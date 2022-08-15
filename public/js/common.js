@@ -74,8 +74,8 @@ function checkRange() {
    $('#perc').val(initPerc);
 }
 
-function stopLoading(){
-   $('#loadingModal').modal('hide'); 
+function stopLoading() {
+   $('#loadingModal').modal('hide');
 }
 
 // Display selected file name
@@ -90,7 +90,7 @@ $('#pictureUpload').on('change', function () {
    let formdata = new FormData();
    let image = $("#pictureUpload")[0].files[0];
    formdata.append('pictureUpload', image);
-   fetch('/forum/upload', { 
+   fetch('/forum/upload', {
       method: 'POST',
       body: formdata
    })
@@ -111,10 +111,10 @@ $('#pictureUpload').on('change', function () {
 
 // Use fetch to call post route /video/upload
 $('#videoUpload').on('change', async function () {
-   $('#loadingModal').modal({backdrop: 'static', keyboard: false})
+   $('#loadingModal').modal({ backdrop: 'static', keyboard: false })
    $('#loadingModal').modal('show');
    //stop loading after 2 seconds
-   setTimeout(function() {
+   setTimeout(function () {
       $('#loadingModal').modal('hide');
    }, 2000);
    let formdata = new FormData();
@@ -135,7 +135,7 @@ $('#videoUpload').on('change', async function () {
          }
          else {
             $('#videoErr').hide();
-           // $('#loadingModal').modal().hide() ;
+            // $('#loadingModal').modal().hide() ;
          }
       })
 });
