@@ -110,7 +110,7 @@ router.post('/manageCategory/deactivate/:id', async (req, res) => {
 
     subject.update({ active: 0 }, { where: { id: req.params.id } })
         .then((result) => {
-            console.log(result + ' category deactivated');
+            console.log(result.title + ' category deactivated');
             flashMessage(res, 'error', subject.title + ' is Offline', '', 'true');
             res.redirect('/admin/manageCategory');
 
