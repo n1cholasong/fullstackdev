@@ -45,10 +45,10 @@
 					<img src="/img/carousel/grassland.jpg" class="card-img-top" alt="...">
 					<div class="card-body">
 						<h5 class="card-title m-0">{{courseName}}</h5>
-						<p class="username">
+						<p class="username text-primary">
 							@{{lookup ../userdict userId}}
 						</p>
-						<p class="ratings">
+						{{!-- <p class="ratings">
 							5.0
 							<span class="star">
 								<i class="fa-solid fa-star"></i>
@@ -60,6 +60,9 @@
 							<span class="user-count">
 								(100)
 							</span>
+						</p> --}}
+						<p class="tag subtext">
+							tag: <span><b></b> {{subjects.[0].title}}</span>
 						</p>
 						{{!-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
 					</div>
@@ -76,7 +79,6 @@
 	<h1 class="heading">Categories</h1>
 	<div class="categories d-grid">
 		{{#each subjectList}}
-
 		<h5>{{title}}</h5>
 		{{#each ../Courses}}
 		{{#ifCond subjects.[0].id ../id}}
@@ -88,7 +90,7 @@
 					<p class="username">
 						@{{lookup ../../userdict userId}}
 					</p>
-					<p class="ratings">
+					{{!-- <p class="ratings">
 						5.0
 						<span class="star">
 							<i class="fa-solid fa-star"></i>
@@ -100,7 +102,7 @@
 						<span class="user-count">
 							(100)
 						</span>
-					</p>
+					</p> --}}
 					{{!-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
 				</div>
 			</div>
