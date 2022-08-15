@@ -34,28 +34,28 @@ async function init() {
             }
         });
 
-    // await Quiz.findAndCountAll()
-    //     .then(async function (result) {
-    //         try {
-    //             if (result.count < 1) {
+    await Quiz.findAndCountAll()
+        .then(async function (result) {
+            try {
+                if (result.count < 1) {
 
-    //                 await Quiz.create({
-    //                     question: "What is python",
-    //                     description: "fist question",
-    //                     a1: "A progmaming laungague",
-    //                     a2: "A Type of Snake",
-    //                     a3: "Anaconda?",
-    //                     a4: "I don't know",
-    //                     correctans: "A progmaming laungague",
-    //                     ChapterId: 1
-    //                 })
+                    await Quiz.create({
+                        question: "What is python",
+                        description: "fist question",
+                        a1: "A progmaming laungague",
+                        a2: "A Type of Snake",
+                        a3: "Anaconda?",
+                        a4: "I don't know",
+                        correctans: "A progmaming laungague",
+                        ChapterId: 1
+                    })
 
-    //             };
-    //         }
-    //         catch (err) {
-    //             console.log(err)
-    //         }
-    //     });
+                };
+            }
+            catch (err) {
+                console.log(err)
+            }
+        });
 
         await  Video.findAndCountAll()
         .then(async function (result){
