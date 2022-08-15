@@ -43,6 +43,19 @@ router.get('/manageCategory', async (req, res) => {
         );
 });
 
+router.post('/manageCategory/create', async (req, res) => {
+
+    await Subject.findAll({
+        raw: true
+    })
+        .then((categories) => {
+            res.render('./admin/categoryManagement', { categories, title });
+        })
+        .catch((err) =>
+            console.log(err)
+        );
+});
+
 router.get('/viewAccount/:id', async (req, res) => {
     User.findByPk(req.params.id, { include: Role })
         .then((account) => {
