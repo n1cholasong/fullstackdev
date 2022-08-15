@@ -43,13 +43,15 @@ router.get('/manageCategory', async (req, res) => {
         );
 });
 
-router.post('/manageCategory/create', async (req, res) => {
+router.post('/manageCategory/create', (req, res) => {
     let title = req.body.title;
-    let description = req.body.description;
-    await Subject.create({ title: title, description: description })
+    let description = req.body.desc;
+    console.log(title, description)
+
+    Subject.create({ title: title, description: description })
         .then(() => {
             flashMessage(res, 'success', 'New category created', '', 'true');
-            // res.redirect('/user/profile/' + req.params.id);
+            res.redirect('/admin/manageCategory');
         })
         .catch((err) =>
             console.log(err)

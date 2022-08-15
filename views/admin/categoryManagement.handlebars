@@ -5,32 +5,36 @@
                 class="fa-solid fa-plus me-2"></i>New category</button>
     </div>
     {{>_flashmsg}}
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Create new category</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="/admin/manageCategory/create" method="post" id="createCategory" class="entry-form">
+    <div class="modal fade" id="exampleModal" data-bs-backdrop="static"
+                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                            aria-hidden="true">
+        <form action="/admin/manageCategory/create" method="post" id="" class="entry-form">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Create new category</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
                         <div class="mb-3">
                             <label for="title" class="form-label">Title<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="title" required>
+                            <input type="text" class="form-control" id="title" name="title" required>
                         </div>
                         <div class="mb-3">
-                            <label for="description" class="col-form-label">Description<span
+                            <label for="desc" class="col-form-label">Description<span
                                     class="text-danger">*</span></label>
-                            <textarea class="form-control" id="description" required></textarea>
+                            <textarea class="form-control" id="desc" name="desc" required></textarea>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-main" form="createCategory">Create</button>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-main">Create</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 
     <div>
