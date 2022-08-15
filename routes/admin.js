@@ -4,6 +4,7 @@ const Role = require('../models/Role')
 const User = require('../models/User');
 const Review = require("../models/Review");
 const Course = require('../models/Courses');
+const Subject = require('../models/Subject');
 const flashMessage = require('../helpers/messenger');
 const { ensureAuthenticated, authRole, authActive } = require("../helpers/auth");
 const sgMail = require('@sendgrid/mail');
@@ -23,6 +24,19 @@ router.get('/manageAccounts', async (req, res) => {
     })
         .then((account) => {
             res.render('./admin/accountManagement', { account, title });
+        })
+        .catch((err) =>
+            console.log(err)
+        );
+});
+
+router.get('/manageCategory', async (req, res) => {
+    let title = "Manage Category";
+    await Subject.findAll({
+        raw: true
+    })
+        .then((categories) => {
+            res.render('./admin/categoryManagement', { categories, title });
         })
         .catch((err) =>
             console.log(err)
