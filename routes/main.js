@@ -27,10 +27,10 @@ router.get('/', async function (req, res,) {
 
 
 	Course.findAll({
-		raw: true
+		include:"subjects",
+		nested:true
 	}).then(async (Courses) => {
 		subjectList = await Subject.findAll({raw:true});
-
 		res.render('index', { Courses, title, userdict,subjectList });
 
 	})

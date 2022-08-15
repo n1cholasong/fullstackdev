@@ -66,7 +66,41 @@
 
 	<h1 class="heading">Categories</h1>
 	<div class="categories d-grid">
-		<a href="#" class="" role="button">Programming</a>
+		{{#each subjectList}}
+
+		<h5>{{title}}</h5>
+		{{#each ../Courses}}
+		{{#ifCond subjects.[0].id ../id}}
+		<a class="card-link me-4" href="/course/details/{{id}}">
+			<div class="card" style="width: 18rem;">
+				<img src="/img/carousel/grassland.jpg" class="card-img-top" alt="...">
+				<div class="card-body">
+					<h5 class="card-title m-0">{{courseName}}</h5>
+					<p class="username">
+						@{{lookup ../../userdict userId}}
+					</p>
+					<p class="ratings">
+						5.0
+						<span class="star">
+							<i class="fa-solid fa-star"></i>
+							<i class="fa-solid fa-star"></i>
+							<i class="fa-solid fa-star"></i>
+							<i class="fa-solid fa-star"></i>
+							<i class="fa-solid fa-star"></i>
+						</span>
+						<span class="user-count">
+							(100)
+						</span>
+					</p>
+					{{!-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
+				</div>
+			</div>
+		</a>
+		{{else}}
+		{{/ifCond}}
+		{{/each}}
+		<br>
+		{{/each}}
 	</div>
 
 	<h1 class="heading">Recommended for you</h1>
