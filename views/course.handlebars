@@ -117,7 +117,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item text-danger card-link" data-bs-toggle="modal"
+                                        <a class="dropdown-item text-danger" data-bs-toggle="modal"
                                             data-bs-target="#deleteReview_{{id}}">
                                             Delete Review
                                         </a>
@@ -154,20 +154,20 @@
                                     {{#if (equalsTo ../user.id ../course.userId)}}
                                     {{#if reply}}
                                     <li>
-                                        <a class="dropdown-item card-link" data-bs-toggle="modal"
+                                        <a class="dropdown-item" data-bs-toggle="modal"
                                             data-bs-target="#editReply_{{id}}">
                                             Edit Reply
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item card-link" data-bs-toggle="modal"
+                                        <a class="dropdown-item text-danger" data-bs-toggle="modal"
                                             data-bs-target="#deleteReply_{{id}}">
                                             Delete Reply
                                         </a>
                                     </li>
                                     {{else}}
                                     <li>
-                                        <a class="dropdown-item card-link" data-bs-toggle="modal"
+                                        <a class="dropdown-item" data-bs-toggle="modal"
                                             data-bs-target="#createReply_{{id}}">
                                             Reply
                                         </a>
@@ -175,7 +175,7 @@
                                     {{/if}}
                                     {{/if}}
                                     <li>
-                                        <a class="dropdown-item card-link" data-bs-toggle="modal"
+                                        <a class="dropdown-item" data-bs-toggle="modal"
                                             data-bs-target="#report_{{id}}">
                                             Report
                                         </a>
