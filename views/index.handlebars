@@ -34,34 +34,43 @@
 
 	<h1 class="heading">Trending</h1>
 	<div class="trending d-flex flex-row mb-5">
-
-		{{#each Courses}}
-		<a class="card-link me-4" href="/course/details/{{id}}">
-			<div class="card" style="width: 18rem;">
-				<img src="/img/carousel/grassland.jpg" class="card-img-top" alt="...">
-				<div class="card-body">
-					<h5 class="card-title m-0">{{courseName}}</h5>
-					<p class="username">
-						@{{lookup ../userdict userId}}
-					</p>
-					<p class="ratings">
-						5.0
-						<span class="star">
-							<i class="fa-solid fa-star"></i>
-							<i class="fa-solid fa-star"></i>
-							<i class="fa-solid fa-star"></i>
-							<i class="fa-solid fa-star"></i>
-							<i class="fa-solid fa-star"></i>
-						</span>
-						<span class="user-count">
-							(100)
-						</span>
-					</p>
-					{{!-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
+		{{#ifMore Courses.length 4 }}
+		<button id="scrollLeft" class="btn btn-arrow"><i
+				class="fa-solid fa-angle-left"></i></button>
+		{{/ifMore}}
+		<div id="media_scroller" class="media-scroller snaps-inline">
+			{{#each Courses}}
+			<a class="card-link" href="/course/details/{{id}}">
+				<div class="card" style="width: 18rem;">
+					<img src="/img/carousel/grassland.jpg" class="card-img-top" alt="...">
+					<div class="card-body">
+						<h5 class="card-title m-0">{{courseName}}</h5>
+						<p class="username">
+							@{{lookup ../userdict userId}}
+						</p>
+						<p class="ratings">
+							5.0
+							<span class="star">
+								<i class="fa-solid fa-star"></i>
+								<i class="fa-solid fa-star"></i>
+								<i class="fa-solid fa-star"></i>
+								<i class="fa-solid fa-star"></i>
+								<i class="fa-solid fa-star"></i>
+							</span>
+							<span class="user-count">
+								(100)
+							</span>
+						</p>
+						{{!-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
+					</div>
 				</div>
-			</div>
-		</a>
-		{{/each}}
+			</a>
+			{{/each}}
+		</div>
+		{{#ifMore Courses.length 4 }}
+		<button id="scrollRight" class="btn btn-arrow"><i
+				class="fa-solid fa-angle-right"></i></i></button>
+		{{/ifMore}}
 	</div>
 
 	<h1 class="heading">Categories</h1>
@@ -108,3 +117,20 @@
 		{{!-- Course --}}
 	</div>
 </div>
+
+<script>
+	$('#scrollLeft').click(function () {
+		event.preventDefault();
+		$('#media_scroller').animate({
+			scrollLeft: "-=1200px"
+		}, "medium");
+	});
+
+	$('#scrollRight').click(function () {
+		event.preventDefault();
+		$('#media_scroller').animate({
+			scrollLeft: "+=1200px"
+		}, "medium");
+	});
+
+</script>
