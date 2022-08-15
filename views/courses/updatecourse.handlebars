@@ -29,6 +29,14 @@
       {{/ifCond}}
       {{/each}}
     </select>
+    <br>
+    <input type="file" class="custom-file-input" id="pictureUploadCourse" name="pictureUploadCourse"
+      accept="image/png,image/jpeg,image/jpg,image/gif" value="{{course.imgURL}}">
+    <img id="picture" width="300px" height="300px" src="{{course.imgURL}}" alt="Picture" class="border img-thumbnail img-fluid">
+    <input id="pictureURL" type="hidden" name="pictureURL">
+    <br>
     <input type="submit" value="Submit" class="btn btn-primary mt-3" />
   </form>
 </div>
+
+<script src="/js/course.js"></script>

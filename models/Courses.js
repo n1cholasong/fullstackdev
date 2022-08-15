@@ -56,12 +56,24 @@ async function init(){
                 console.log(err)
             }
         });
+
+        await  Video.findAndCountAll()
+        .then(async function (result){
+            if (result.count < 1) {
+                Video.create({
+                    videoname:"filler",
+                    videofile:"/uploads/filler/3-1%20Use%20Case%20Description%201.mp4",
+                    ChapterId:1
+                })
+            }
+        })
     }
 
 const Courses = db.define('Courses', {
     courseName: { type: Seqelize.STRING },
     description: { type: Seqelize.STRING },
-    content: { type: Seqelize.STRING }
+    content: { type: Seqelize.STRING },
+    imgURL: { type: Seqelize.STRING }
 });
 
 Courses.sync();
@@ -72,12 +84,12 @@ Quiz.sync();
 Video.sync();
 
 coursesList = [{
-    courseName: "Python 101", description: "Basic Python knowdlge", content: "Basic Python knowdlge", userId: 1
+    courseName: "Python 101", description: "Basic Python knowdlge", content: "Basic Python knowdlge", userId: 1,imgURL:"/uploads/filler/python-programming-language.png"
 }, {
-    courseName: "Programing 101", description: "Basic knowdlge on C# python etc", content: "learn how to print Hello world", userId: 2
+    courseName: "Programing 101", description: "Basic knowdlge on C# python etc", content: "learn how to print Hello world", userId: 2,imgURL:"/uploads/filler/Unofficial_JavaScript_logo_2.svg_.png"
 },
 {
-    courseName: "Programing C#", description: "Basic knowdlge on C# ", content: "learn how to print Hello world", userId: 1
+    courseName: "Programing C#", description: "Basic knowdlge on C# ", content: "learn how to print Hello world", userId: 1,imgURL:"/uploads/filler/download(1).png"
 }]
 
 
