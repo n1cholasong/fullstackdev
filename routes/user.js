@@ -5,6 +5,7 @@ const flashMessage = require('../helpers/messenger');
 
 const Role = require('../models/Role');
 const User = require('../models/User');
+const Subject = require('../models/Subject');
 
 // Passport Authentication
 const bcrypt = require('bcryptjs');
@@ -89,15 +90,21 @@ router.get('/verify/:id/:token', async function (req, res) {
     }
 });
 
-router.get('/signup', (req, res) => {
+router.get('/signup', async (req, res) => {
     let title = "Sign Up";
     let country = countryList.getData();
-    res.render('./user/signup', { title, country });
+    let category = await Subject.findAll(
+        {
+            where: { active: 1 },
+            raw: true
+        }
+    );
+    res.render('./user/signup', { title, country, category });
+
 })
 
 router.post('/signup', async function (req, res) {
     let { email, username, password, password2, fname, lname, gender, birthday, country } = req.body;
-
     // let interest = req.body.interest.toString();
     let isValid = true;
 
