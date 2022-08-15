@@ -20,15 +20,14 @@ async function videoSearch(cid) {
         raw: true
     })
 
-
-
     return video[0];
 
 }
 
 
 router.get('/create', async function (req, res) {
-    const subjects =  await Subject.findAll({raw:true});
+    const subjects =  await Subject.findAll({raw:true,where:{active: 1}});
+
     res.render('./courses/createcourses',{subjects})
 })
 
@@ -37,12 +36,13 @@ router.post('/create', ensureAuthenticated, authRole([1]),async function (req, r
     let description = req.body.desc
     let content = req.body.content
     let uid = req.body.uid
+    let picURL = req.body.pictureURL;
     let subjectId = req.body.Subjects;
 
     const subject = await Subject.findByPk(subjectId);
 
     await Course.create({
-        courseName: Coursename, description: description, content: content, userId: uid
+        courseName: Coursename, description: description, content: content, userId: uid,imgURL:picURL
     }).then(async (course) => {
         await course.addSubjects(subject,{through:"CourseSubjects"})
     })
@@ -50,14 +50,14 @@ router.post('/create', ensureAuthenticated, authRole([1]),async function (req, r
     res.redirect('/course/view')
 })
 
-router.post('/Enroll/:cid',ensureAuthenticated, async function (req, res) {
+router.post('/Enroll/:cid',ensureAuthenticated,authActive, async function (req, res) {
     const user = await User.findByPk(req.user.id)
     const course = await Course.findByPk(req.params.cid)
     await course.addUsers(user, { through: 'UserCourses' })
     res.redirect('/');
 })
 
-router.get('/user/chapter/view/:id', ensureAuthenticated, async function (req, res) {
+router.get('/user/chapter/view/:id', ensureAuthenticated,authActive, async function (req, res) {
     var videos = [];
     var videoDict = {};
     const courseId = req.params.id;
@@ -324,8 +324,9 @@ router.get('/quiz/view/:cid', ensureAuthenticated, (req, res) => {
         where: {
             ChapterId: cid
         }
-    }).then((Quizes) => {
-        res.render('./courses/viewQuiz', { Quizes })
+    }).then(async (Quizes) => {
+        const course = await Chapter.findByPk(cid,{raw:true});
+        res.render('./courses/viewQuiz', { Quizes ,courseID:course.CourseId})
     })
 })
 
@@ -395,7 +396,7 @@ router.get('/view', ensureAuthenticated, authRole([1]), (req, res) => {
 })
 
 router.get('/update/:id', ensureAuthenticated, authRole([1]), async function (req, res) {
-    const subjects = await Subject.findAll({raw:true})
+    const subjects = await Subject.findAll({raw:true,where:{active: 1}})
 
     Course.findByPk(req.params.id,{include:"subjects",raw:true}).then((course) => {
         const sid = course['subjects.id']
@@ -409,10 +410,11 @@ router.post('/update/:id', ensureAuthenticated, authRole([1]), (req, res) => {
     let content = req.body.content
     let price = req.body.Price
     let uid = req.body.uid
+    let imgURL = req.body.pictureURL;
     let subjectId = req.body.Subjects;
 
     Course.update({
-        courseName: Coursename, description: description, content: content, price: price, userId: uid
+        courseName: Coursename, description: description, content: content, price: price, userId: uid,imgURL:imgURL
     },
         { where: { id: req.params.id } }
     ).then(async (result) => {

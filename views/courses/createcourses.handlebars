@@ -6,29 +6,33 @@
 
   <form method="POST" action="">
     <div class="form-group">
-      <label for="name">Course Name</label>
-        <input type="text" name="Coursename" id="Coursename" class="form-control" required>
+      <label for="name">Course Name<span class="text-danger">*</span></label>
+      <input type="text" name="Coursename" id="Coursename" class="form-control" required>
     </div>
-      <div class="form-group">
-          <label for="desc">Description</label>
-          <input type="text" name="desc" id="desc" class="form-control">
-      </div>
-      <div class="form-group">
-          <label for="expiryDate">content</label>
-          <input type="text" name="content" id="content" class="form-control" required>
-      </div>
-      <input name="uid" type="hidden" value="{{user.id}}">
-      <label for="Subjects">Subjects</label>
-					<select id="Subjects" name="Subjects" class="form-select" required>
-						<option value=""></option>
-						{{#each subjects}}
-						<option value="{{id}}">{{title}}</option>
-						{{/each}}
-					</select>
-      <input type="submit" value="Submit" class="btn btn-primary mt-3"/>
+    <div class="form-group">
+      <label for="desc">Description<span class="text-danger">*</span></label>
+      <input type="text" name="desc" id="desc" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="expiryDate">Content<span class="text-danger">*</span></label>
+      <input type="text" name="content" id="content" class="form-control" required>
+    </div>
+    <input name="uid" type="hidden" value="{{user.id}}">
+    <label for="Subjects">Subjects<span class="text-danger">*</span></label>
+    <select id="Subjects" name="Subjects" class="form-select" required>
+      <option value=""></option>
+      {{#each subjects}}
+      <option value="{{id}}">{{title}}</option>
+      {{/each}}
+    </select>
+    <br>
+    <input type="file" class="custom-file-input" id="pictureUploadCourse" name="pictureUploadCourse"
+      accept="image/png,image/jpeg,image/jpg,image/gif" required>
+    <input id="pictureURL" type="hidden" name="pictureURL">
+    <img id="picture" src="/img/no-image.jpg" width="300px" height="300px" alt="Picture" class="border img-thumbnail img-fluid">
+    <br>
+    <input type="submit" value="Submit" class="btn btn-primary mt-3" />
 
   </form>
 </div>
-
-
-
+<script src="/js/course.js"></script>

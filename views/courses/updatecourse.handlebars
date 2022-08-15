@@ -6,19 +6,19 @@
 
   <form method="POST" action="">
     <div class="form-group">
-      <label for="name">Course Name</label>
+      <label for="name">Course Name<span class="text-danger">*</span></label>
       <input type="text" name="Coursename" id="Coursename" class="form-control" value="{{course.courseName}}" required>
     </div>
     <div class="form-group">
-      <label for="desc">Description</label>
+      <label for="desc">Description<span class="text-danger">*</span></label>
       <input type="text" name="desc" id="desc" class="form-control" value="{{course.description}}">
     </div>
     <div class="form-group">
-      <label for="expiryDate">content</label>
+      <label for="expiryDate">Content<span class="text-danger">*</span></label>
       <input type="text" name="content" id="content" class="form-control" value="{{course.content}}" required>
     </div>
     <input name="uid" type="hidden" value="{{course.userId}}">
-    <label for="Subjects">Subjects</label>
+    <label for="Subjects">Subjects<span class="text-danger">*</span></label>
     <select id="Subjects" name="Subjects" class="form-select" required>
       <option value=""></option>
       {{#each subjects}}
@@ -29,6 +29,14 @@
       {{/ifCond}}
       {{/each}}
     </select>
+    <br>
+    <input type="file" class="custom-file-input" id="pictureUploadCourse" name="pictureUploadCourse"
+      accept="image/png,image/jpeg,image/jpg,image/gif" value="{{course.imgURL}}">
+    <img id="picture" width="300px" height="300px" src="{{course.imgURL}}" alt="Picture" class="border img-thumbnail img-fluid">
+    <input id="pictureURL" type="hidden" name="pictureURL">
+    <br>
     <input type="submit" value="Submit" class="btn btn-primary mt-3" />
   </form>
 </div>
+
+<script src="/js/course.js"></script>

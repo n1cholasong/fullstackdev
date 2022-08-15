@@ -12,6 +12,28 @@
 			</tr>
 			{{#each chapters}}
 			{{#if @last}}
+			<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLongTitle">Delete?</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</button>
+						</div>
+						<div class="modal-body">
+							Confirm delete?
+						</div>
+						<div class="modal-footer">
+							<form method="post" action="/course/Chapter/delete/{{id}}">
+								<button type="submit" class="btn btn-primary">Yes</button>
+							</form>
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<tr>
 				<td>
 					<h2>Chapter {{ChapterNum}}</h2>
@@ -21,9 +43,10 @@
 				<td><a href="/course/quiz/view/{{id}}" class="btn btn-warning">View Quiz</a></td>
 				<td><a href="/course/quiz/edit/{{id}}" class="btn btn-warning">Edit Quiz</a></td>
 				<td>
-					<form method="post" action="/course/Chapter/delete/{{id}}">
-						<input type="submit" value="Delete Chapter" class="btn btn-warning">
-					</form>
+					<button type="button" class="btn btn-danger" data-bs-target="#deleteModal"
+						data-bs-toggle="modal">
+						Delete
+					</button>
 				</td>
 			</tr>
 			{{else}}
@@ -37,7 +60,7 @@
 				<td><a href="/course/quiz/edit/{{id}}" class="btn btn-warning">Edit Quiz</a></td>
 				{{!-- <td>
 					<form method="post" action="/course/Chapter/delete/{{id}}">
-						<input type="submit" value="Delete Chapter" class="btn btn-warning"> 
+						<input type="submit" value="Delete Chapter" class="btn btn-warning">
 					</form> --}}
 				</td>
 			</tr>

@@ -25,7 +25,7 @@
 					<td>{{courseName}}</td>
 					<td>{{description}}</td>
 					<td>{{content}}</td>
-					<td><a href="/course/update/{{id}}" class="btn btn-warning">Update</a></td>
+					<td><a href="/course/update/{{id}}" class="btn btn-warning">Update Courses</a></td>
 					<td><a href="/course/Chapter/view/{{id}}" class="btn btn-warning">Edit Chapters</a></td>
 					<td><a href="/course/user/chapter/view/{{id}}" class="btn btn-warning">View Chapters</a></td>
 					<td>
@@ -50,10 +50,10 @@
 								Confirm delete?
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
 								<form method="POST" action="/course/delete/{{id}}">
 									<button type="submit" class="btn btn-primary">Yes</button>
 								</form>
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
 							</div>
 						</div>
 					</div>
