@@ -1,22 +1,56 @@
+@import './constants.css';
+
 #featuredCourses .carousel-inner {
-    height: 400px;
-    border-radius: 10px;
-  }
+  height: 400px;
+  border-radius: 10px;
+}
 
 .categories button {
-    background-color: greenyellow;
-    border-radius: 5px;
-    width: 200px;
-    height: 40px;
-    margin: .5rem;
-    text-align: center;
-    line-height: 40px;
-  }
+  background-color: greenyellow;
+  border-radius: 5px;
+  width: 200px;
+  height: 40px;
+  margin: .5rem;
+  text-align: center;
+  line-height: 40px;
+}
 
- .card .star {
-    color: #FDCC0D;
-  }
+.card .star {
+  color: #FDCC0D;
+}
 
-  .home .card-body {
-    height: 120px;
-  }
+.home .card-body {
+  height: 120px;
+}
+
+.media-scroller {
+  display: grid;
+  gap: 1.5rem;
+  grid-auto-flow: column;
+  grid-auto-columns: inherit;
+  padding: .3rem 0;
+
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: none; /*Firefox*/
+}
+
+.media-scroller::-webkit-scrollbar {
+  /* display: none; */
+}
+
+.snaps-inline {
+  scroll-snap-type: inline mandatory;
+}
+
+.snaps-inline>* {
+  scroll-snap-align: start;
+}
+.home .btn-arrow{
+  font-size: 2rem;
+  font-weight: 500;
+}
+.home .btn-arrow:hover{
+  background-color: rgba(0,0,0,0.03);
+  color: var(--blueviolet);
+}
