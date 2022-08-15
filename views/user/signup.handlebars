@@ -89,8 +89,8 @@
 				<h3 class="card-subtitle mb-5">STEP 3 OF 3</h3>
 				<div class="entry-form interest mb-4">
 					{{#each category}}
-					<label for="{{title}}" class="checkbox-items">
-						<input type="checkbox" name="interest" id="{{title}}" value="{{title}}">
+					<label for="cat{{id}}" class="checkbox-items">
+						<input type="checkbox" name="interest" id="cat{{id}}" value="{{id}}">
 						<span class="checkbox-label">{{title}}</span>
 					</label>
 					{{/each}}
