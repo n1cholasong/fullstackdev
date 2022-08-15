@@ -108,6 +108,12 @@ const ifCond = function (params1, params2, options) {
     return options.inverse(this);
 }
 
+const ifMore = function (params1, params2, options) {
+    if (params1 > params2) {
+        return options.fn(this);
+    }
+    return options.inverse(this);
+}
 
 module.exports = {
     formatDate,
@@ -124,6 +130,7 @@ module.exports = {
     authStud,
     authAdmin,
     ifCond,
+    ifMore,
     inc,
     emptyCheck
 }

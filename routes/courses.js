@@ -4,6 +4,7 @@ const Course = require('../models/Courses');
 const Quiz = require('../models/Quizes');
 const Chapter = require('../models/chapter');
 const Video = require('../models/video');
+const Subject = require('../models/Subject');
 const fs = require('fs');
 const upload = require('../helpers/videoUpload');
 const { Console } = require('console');
@@ -26,8 +27,27 @@ async function videoSearch(cid) {
 }
 
 
-router.get('/create', (req, res) => {
-    res.render('./courses/createcourses')
+router.get('/create', async function (req, res) {
+    const subjects =  await Subject.findAll({raw:true});
+    res.render('./courses/createcourses',{subjects})
+})
+
+router.post('/create', ensureAuthenticated, authRole([1]),async function (req, res) {
+    let Coursename = req.body.Coursename;
+    let description = req.body.desc
+    let content = req.body.content
+    let uid = req.body.uid
+    let subjectId = req.body.Subjects;
+
+    const subject = await Subject.findByPk(subjectId);
+
+    await Course.create({
+        courseName: Coursename, description: description, content: content, userId: uid
+    }).then(async (course) => {
+        await course.addSubjects(subject,{through:"CourseSubjects"})
+    })
+
+    res.redirect('/course/view')
 })
 
 router.post('/Enroll/:cid',ensureAuthenticated, async function (req, res) {
@@ -363,17 +383,7 @@ router.post('/quiz/create/:cid', ensureAuthenticated, authRole([1]), async funct
     res.redirect('/course/quiz/edit/' + cid)
 })
 
-router.post('/create', ensureAuthenticated, authRole([1]), (req, res) => {
-    let Coursename = req.body.Coursename;
-    let description = req.body.desc
-    let content = req.body.content
-    let uid = req.body.uid
 
-    Course.create({
-        courseName: Coursename, description: description, content: content, userId: uid
-    })
-    res.redirect('/course/view')
-})
 
 router.get('/view', ensureAuthenticated, authRole([1]), (req, res) => {
     Course.findAll({
@@ -384,9 +394,12 @@ router.get('/view', ensureAuthenticated, authRole([1]), (req, res) => {
         .catch(err => console.log(err));
 })
 
-router.get('/update/:id', ensureAuthenticated, authRole([1]), (req, res) => {
-    Course.findByPk(req.params.id).then((course) => {
-        res.render('./courses/updatecourse', { course })
+router.get('/update/:id', ensureAuthenticated, authRole([1]), async function (req, res) {
+    const subjects = await Subject.findAll({raw:true})
+
+    Course.findByPk(req.params.id,{include:"subjects",raw:true}).then((course) => {
+        const sid = course['subjects.id']
+        res.render('./courses/updatecourse', { course,subjects,sid })
     })
 })
 
@@ -396,13 +409,19 @@ router.post('/update/:id', ensureAuthenticated, authRole([1]), (req, res) => {
     let content = req.body.content
     let price = req.body.Price
     let uid = req.body.uid
+    let subjectId = req.body.Subjects;
 
     Course.update({
         courseName: Coursename, description: description, content: content, price: price, userId: uid
     },
         { where: { id: req.params.id } }
-    ).then((result) => {
-        console.log(result[0] + ' course updated');
+    ).then(async (result) => {
+        const subject = await Subject.findByPk(subjectId);
+
+        await Course.findByPk(req.params.id).then((course)=>{
+            course.setSubjects(subject)
+        });
+        console.log(result + ' course updated');
         res.redirect('/course/view')
     }).catch(err => console.log(err));
 })

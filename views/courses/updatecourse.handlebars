@@ -7,20 +7,28 @@
   <form method="POST" action="">
     <div class="form-group">
       <label for="name">Course Name</label>
-        <input type="text" name="Coursename" id="Coursename" class="form-control" value="{{course.courseName}}" required>
+      <input type="text" name="Coursename" id="Coursename" class="form-control" value="{{course.courseName}}" required>
     </div>
-      <div class="form-group">
-          <label for="desc">Description</label>
-          <input type="text" name="desc" id="desc" class="form-control" value="{{course.description}}">
-      </div>
-      <div class="form-group">
-          <label for="expiryDate">content</label>
-          <input type="text" name="content" id="content" class="form-control" value="{{course.content}}" required>
-      </div>
-      <input name="uid" type="hidden" value="{{course.userId}}">
-      <input type="submit" value="Submit" class="btn btn-primary mt-3"/>
+    <div class="form-group">
+      <label for="desc">Description</label>
+      <input type="text" name="desc" id="desc" class="form-control" value="{{course.description}}">
+    </div>
+    <div class="form-group">
+      <label for="expiryDate">content</label>
+      <input type="text" name="content" id="content" class="form-control" value="{{course.content}}" required>
+    </div>
+    <input name="uid" type="hidden" value="{{course.userId}}">
+    <label for="Subjects">Subjects</label>
+    <select id="Subjects" name="Subjects" class="form-select" required>
+      <option value=""></option>
+      {{#each subjects}}
+      {{#ifCond id ../sid}}
+      <option value="{{id}}" selected>{{title}}</option>
+      {{else}}
+      <option value="{{id}}">{{title}}</option>
+      {{/ifCond}}
+      {{/each}}
+    </select>
+    <input type="submit" value="Submit" class="btn btn-primary mt-3" />
   </form>
 </div>
-
-
-

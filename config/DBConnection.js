@@ -12,6 +12,7 @@ const Comment = require('../models/Comments');
 //const ForumLike = require('../models/');
 const Courselike = require('../models/CourseLikes');
 const ForumLikeFavs = require('../models/ForumLikeFavs');
+const Subject = require('../models/Subject');
 
 // If drop is true, all existing tables are dropped and recreated 
 const setUpDB = (drop) => {
@@ -33,8 +34,9 @@ const setUpDB = (drop) => {
             Course.hasMany(Chapter);
             Course.hasMany(Review);
             Course.hasMany(Courselike);
+            //Course.hasMany(Subject);
             Chapter.hasOne(Video);
-            Chapter.hasMany(Quiz)
+            Chapter.hasMany(Quiz);
             //Forum bullshit
             Forum.belongsTo(User);
             Forum.hasMany(Comment);
@@ -55,6 +57,8 @@ const setUpDB = (drop) => {
             Video.belongsTo(Chapter);
             Voucher.belongsToMany(User, { through: 'UserVouchers' });
             Course.belongsToMany(User, { through: 'UserCourses' });
+            Course.belongsToMany(Subject,{through:'CourseSubjects'});
+            Subject.belongsToMany(Course,{through:'CourseSubjects'});
             // Course.belongsTo(User)
             mySQLDB.sync({
                 force: drop
