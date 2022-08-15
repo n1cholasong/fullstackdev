@@ -8,7 +8,7 @@ const fs = require('fs');
 const upload = require('../helpers/videoUpload');
 const { Console } = require('console');
 const User = require('../models/User');
-const { ensureAuthenticated, authUser,authRole } = require("../helpers/auth");
+const { ensureAuthenticated, authUser, authRole, authActive } = require("../helpers/auth");
 
 async function videoSearch(cid) {
 
@@ -25,14 +25,15 @@ async function videoSearch(cid) {
 
 }
 
+
 router.get('/create', (req, res) => {
     res.render('./courses/createcourses')
 })
 
-router.post('/Enroll/:cid', ensureAuthenticated,async function (req,res){
+router.post('/Enroll/:cid',ensureAuthenticated, async function (req, res) {
     const user = await User.findByPk(req.user.id)
     const course = await Course.findByPk(req.params.cid)
-    await course.addUsers(user,{ through: 'UserCourses' })
+    await course.addUsers(user, { through: 'UserCourses' })
     res.redirect('/');
 })
 
@@ -62,7 +63,7 @@ router.get('/user/chapter/view/:id', ensureAuthenticated, async function (req, r
     })
 })
 
-router.get('/Chapter/view/:cid', ensureAuthenticated, authRole([1]),(req, res) => {
+router.get('/Chapter/view/:cid', ensureAuthenticated, authRole([1]), (req, res) => {
     const cid = req.params.cid;
     Chapter.findAll({
         where: {
@@ -77,7 +78,7 @@ router.get('/Chapter/view/:cid', ensureAuthenticated, authRole([1]),(req, res) =
 
 })
 
-router.post('/Chapter/view/:cid', ensureAuthenticated, authRole([1]) , (req, res) => {
+router.post('/Chapter/view/:cid', ensureAuthenticated, authRole([1]), (req, res) => {
     const cid = req.body.cid;
     var chapterNum = req.body.chapterNum;
     //console.log(cid)
@@ -108,17 +109,17 @@ router.post('/Chapter/view/:cid', ensureAuthenticated, authRole([1]) , (req, res
 
 })
 
-router.get('/quiz/create/:cid', ensureAuthenticated, authRole([1]) , (req, res) => {
+router.get('/quiz/create/:cid', ensureAuthenticated, authRole([1]), (req, res) => {
     const cid = req.body.cid;
     res.render('./courses/createquiz', { cid })
 })
 
 
-router.post('/Chapter/delete/:cid', ensureAuthenticated, authRole([1]) , (req, res) => {
+router.post('/Chapter/delete/:cid', ensureAuthenticated, authRole([1]), (req, res) => {
     const chpaterId = req.params.cid;
     //console.log(chpaterId)
     Chapter.destroy({ where: { id: chpaterId } })
-    res.redirect('back')
+    res.redirect(req.get('referer') )
 })
 
 router.get('/user/video/view/:vid', async function (req, res) {
@@ -237,11 +238,11 @@ router.get('/quiz/edit/:cid', ensureAuthenticated, authRole([1]), (req, res) => 
             ChapterId: cid
         }
     }).then((Quizes) => {
-        res.render('./courses/editQuiz', { Quizes })
+        res.render('./courses/editQuiz', { Quizes,cid })
     })
 })
 
-router.post('/quiz/edit/:cid', ensureAuthenticated, authRole([1]), async function(req, res)  {
+router.post('/quiz/edit/:cid', ensureAuthenticated, authRole([1]), async function (req, res) {
     const cid = req.params.cid;
     const body = req.body;
     var cansList = [];
@@ -260,7 +261,7 @@ router.post('/quiz/edit/:cid', ensureAuthenticated, authRole([1]), async functio
             else if (value == "4") {
                 cansList.push(body.ans4[count])
             }
-            count ++;
+            count++;
         }
     }
 
@@ -268,34 +269,32 @@ router.post('/quiz/edit/:cid', ensureAuthenticated, authRole([1]), async functio
 
     for (var i = 0; i < body.qId.length; i++) {
 
-       await Quiz.update({
-        question:body.question[i],
-        description:body.description[i],
-         a1: body.ans1[i],
-         a2: body.ans2[i], 
-         a3: body.ans3[i], 
-         a4: body.ans4[i], 
-         correctans: cansList[i],
-         ChapterId:cid
+        await Quiz.update({
+            question: body.question[i],
+            description: body.description[i],
+            a1: body.ans1[i],
+            a2: body.ans2[i],
+            a3: body.ans3[i],
+            a4: body.ans4[i],
+            correctans: cansList[i],
+            ChapterId: cid
         },
-            { where: { 
-                id: parseInt(body.qId[i]) 
-            } }).then((quiz)=>{
-                console.log("CHanged:",quiz)
+            { where: { id: parseInt(body.qId[i]) } })
+            .then((quiz) => {
+                console.log("CHanged:", quiz)
             })
-
     }
+    const chapter = await Chapter.findByPk(cid)
 
-    res.redirect('/Course/Chapter/view/' + cid)
+    res.redirect('/Course/Chapter/view/' + chapter.CourseId)
 })
 
 router.post('/Quiz/Delete/:qid', ensureAuthenticated, authRole([1]), (req, res) => {
     const qid = req.params.qid;
-    Quiz.destroy({ where: { 
-        id: qid } 
-    }).then(() => {
-        res.redirect(req.get('referer'));
-    })
+    Quiz.destroy({ where: { id: qid } })
+        .then(() => {
+            res.redirect(req.get('referer'));
+        })
 })
 
 
@@ -333,7 +332,7 @@ router.post('/quiz/view/:cid', ensureAuthenticated, (req, res) => {
 })
 
 
-router.post('/quiz/create/:cid', ensureAuthenticated, authRole([1]), (req, res) => {
+router.post('/quiz/create/:cid', ensureAuthenticated, authRole([1]), async function (req, res) {
     let cid = req.params.cid;
     let question = req.body.question;
     let description = req.body.description;
@@ -356,11 +355,12 @@ router.post('/quiz/create/:cid', ensureAuthenticated, authRole([1]), (req, res) 
         correctans = ans4
     }
 
-    Quiz.create({
+    await Quiz.create({
         question: question, description: description, a1: ans1, a2: ans2, a3: ans3, a4: ans4, correctans: correctans, ChapterId: cid
     })
 
-    res.redirect('/course/Chapter/view/' + cid)
+
+    res.redirect('/course/quiz/edit/' + cid)
 })
 
 router.post('/create', ensureAuthenticated, authRole([1]), (req, res) => {

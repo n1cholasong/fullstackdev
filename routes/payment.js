@@ -5,9 +5,9 @@ var paypal = require('paypal-rest-sdk');
 const Voucher = require('../models/Voucher')
 const clientId = "AfJDDolo98rPYD9uMtSOurkdgDEJc5w1StGG4Jl93u2NIbjPOpT1hKWlgmPyIyppDcxZgpeNNMXqMD-e";
 const secret = "EGCtIt8hg_gwS3YXKUP77wcZB1Fj7EmBv4ifuPGHeQSFwFZ8zk870-mHiCO77c-xz2Q_UaIiYNuTcml7";
+const { ensureAuthenticated, authRole, authActive } = require("../helpers/auth");
 
-
-
+router.all('*', authActive)
 
 router.get('/', (req, res) => {
     // renders views/index.handlebars, passing title as an object

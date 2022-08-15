@@ -4,8 +4,9 @@ const Role = require('../models/Role')
 const User = require('../models/User');
 const Review = require("../models/Review");
 const Course = require('../models/Courses');
+const Subject = require('../models/Subject');
 const flashMessage = require('../helpers/messenger');
-const { ensureAuthenticated, authRole } = require("../helpers/auth");
+const { ensureAuthenticated, authRole, authActive } = require("../helpers/auth");
 const sgMail = require('@sendgrid/mail');
 
 
@@ -14,7 +15,7 @@ fullname = {}
 useremail = {}
 
 
-router.all('*', ensureAuthenticated, authRole([1]))
+router.all('*', ensureAuthenticated, authRole([1]), authActive)
 
 router.get('/manageAccounts', async (req, res) => {
     let title = "Manage Account";
@@ -23,6 +24,32 @@ router.get('/manageAccounts', async (req, res) => {
     })
         .then((account) => {
             res.render('./admin/accountManagement', { account, title });
+        })
+        .catch((err) =>
+            console.log(err)
+        );
+});
+
+router.get('/manageCategory', async (req, res) => {
+    let title = "Manage Category";
+    await Subject.findAll({
+        raw: true
+    })
+        .then((categories) => {
+            res.render('./admin/categoryManagement', { categories, title });
+        })
+        .catch((err) =>
+            console.log(err)
+        );
+});
+
+router.post('/manageCategory/create', async (req, res) => {
+    let title = req.body.title;
+    let description = req.body.description;
+    await Subject.create({ title: title, description: description })
+        .then(() => {
+            flashMessage(res, 'success', 'New category created', '', 'true');
+            // res.redirect('/user/profile/' + req.params.id);
         })
         .catch((err) =>
             console.log(err)
@@ -178,9 +205,9 @@ router.get('/resolve/:id', async (req, res) => {
         .then(async (result) => {
             // Case 1: Check if review is still there
             if (!result) {
-				flashMessage(res, 'error', 'Review not found');
-				return res.redirect('back');
-			}
+                flashMessage(res, 'error', 'Review not found');
+                return res.redirect('back');
+            }
             if (result.report != 1) {
                 flashMessage(res, 'error', 'Action has already been taken. Report Not Found');
                 return res.redirect('back');

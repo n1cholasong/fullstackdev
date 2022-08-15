@@ -1,41 +1,62 @@
 <div class="container">
 	<div class="entry-card row" data-step="1">
-				<input type="hidden" name="" id="">
-				<div class="entry-box col">
-					<h1>Plan your content</h1>
-				</div>
-				{{#if chapters}}
-				<table>
-					<tr>
-						<th>Chapter Num</th>
-						<th>Upload</th>
-					</tr>
-				{{#each chapters}}
-					<tr>
-					<td><h2>Chapter {{ChapterNum}}</h2></td>
-					<td colspan="3"><a href="/course/video/upload/{{id}}" class="btn btn-warning">Upload Video</a></td>
-					<td><a href="/course/quiz/create/{{id}}" class="btn btn-warning">Add Quiz</a></td>
-					<td><a href="/course/quiz/view/{{id}}" class="btn btn-warning">View Quiz</a></td>
-					<td><a href="/course/quiz/edit/{{id}}" class="btn btn-warning">Edit Quiz</a></td>
-					<td><form  method="post" action="/course/Chapter/delete/{{id}}">
-					<input type="submit" value="Delete Chapter" class="btn btn-warning">
-					</form></td>
-					</tr>
-				{{/each}}
-				</table>
-				<form method="post">
-					<input type="hidden" name="cid" value="{{cid}}">
-					<input type="hidden" name="chapterNum" value="{{chapters.length}}">
-					<input type="submit" class="btn btn-warning" value="Add Chapters">
-				</form>
-				{{else}}
-				<h2>No Chapter created!!!</h2>
-				<form method="post">
-					<input type="hidden" name="cid" value="{{cid}}">
-					<input type="hidden" name="chapterNum" value="None">
-					<input type="submit" class="btn btn-warning" value="Create Chapters">
-				</form>
+		<input type="hidden" name="" id="">
+		<div class="entry-box col">
+			<h1>Plan your content</h1>
+		</div>
+		{{#if chapters}}
+		<table>
+			<tr>
+				<th>Chapter Num</th>
+				<th>Upload</th>
+			</tr>
+			{{#each chapters}}
+			{{#if @last}}
+			<tr>
+				<td>
+					<h2>Chapter {{ChapterNum}}</h2>
+				</td>
+				<td colspan="3"><a href="/course/video/upload/{{id}}" class="btn btn-warning">Upload Video</a></td>
+				{{!-- <td><a href="/course/quiz/create/{{id}}" class="btn btn-warning">Add Quiz</a></td> --}}
+				<td><a href="/course/quiz/view/{{id}}" class="btn btn-warning">View Quiz</a></td>
+				<td><a href="/course/quiz/edit/{{id}}" class="btn btn-warning">Edit Quiz</a></td>
+				<td>
+					<form method="post" action="/course/Chapter/delete/{{id}}">
+						<input type="submit" value="Delete Chapter" class="btn btn-warning">
+					</form>
+				</td>
+			</tr>
+			{{else}}
+			<tr>
+				<td>
+					<h2>Chapter {{ChapterNum}}</h2>
+				</td>
+				<td colspan="3"><a href="/course/video/upload/{{id}}" class="btn btn-warning">Upload Video</a></td>
+				{{!-- <td><a href="/course/quiz/create/{{id}}" class="btn btn-warning">Add Quiz</a></td> --}}
+				<td><a href="/course/quiz/view/{{id}}" class="btn btn-warning">View Quiz</a></td>
+				<td><a href="/course/quiz/edit/{{id}}" class="btn btn-warning">Edit Quiz</a></td>
+				{{!-- <td>
+					<form method="post" action="/course/Chapter/delete/{{id}}">
+						<input type="submit" value="Delete Chapter" class="btn btn-warning"> 
+					</form> --}}
+				</td>
+			</tr>
+			{{/if}}
+			{{/each}}
+		</table>
+		<form method="post">
+			<input type="hidden" name="cid" value="{{cid}}">
+			<input type="hidden" name="chapterNum" value="{{chapters.length}}">
+			<input type="submit" class="btn btn-warning" value="Add Chapters">
+		</form>
+		{{else}}
+		<h2>No Chapter created!!!</h2>
+		<form method="post">
+			<input type="hidden" name="cid" value="{{cid}}">
+			<input type="hidden" name="chapterNum" value="None">
+			<input type="submit" class="btn btn-warning" value="Create Chapters">
+		</form>
 
-				{{/if}}
-			</div>
+		{{/if}}
+	</div>
 </div>

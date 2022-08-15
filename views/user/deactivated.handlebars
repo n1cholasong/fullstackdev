@@ -1,17 +1,25 @@
 <div class="container card-box">
     <div class="entry-card row">
-        <div class="img-box col">
+        <div class="img-box col py-5 my-5">
             <img src="/img/administration/deactivated_pana.svg" alt="">
         </div>
         <div class="entry-box col ms-5">
             <h1 class="card-title">Account Deactivated</h1>
             <h5 class="card-subtitle">You can always reactivate your account if you change your mind.</h5>
-
-            <div class="button-group mt-5">
-                <a href="/user/#" role="button" class="btn btn-main me-2">Request activation</a>
+            <div class="mt-2 mb-5">{{>_flashmsg}}</div>
+            <div class="button-group">
+                <a href="/user/reactivateAccount/{{user.id}}" role="button" class="btn btn-main me-2">Request
+                    activation</a>
                 <a href="/user/logout" role="button" class="btn btn-outline">Log out<i
                         class="fa-solid fa-arrow-right-from-bracket ms-2"></i></a>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $(window).ready(() => {
+        window.location.reload(true);
+        break;
+    })
+</script>

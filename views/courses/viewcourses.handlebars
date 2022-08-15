@@ -1,58 +1,73 @@
 <div class="container">
-<h2>Courses</h1>
+	<div class="d-flex justify-content-between pb-4">
+		<h2 class="m-0">Courses</h2>
+		<a href="/course/create" role="button" class="btn btn-main"><i class="fa-solid fa-plus me-2"></i>New
+			course</a>
+	</div>
+	<div>
+		<table id="courses" class="table table-striped">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Course Name</th>
+					<th>Description</th>
+					<th>Content</th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{{#each Courses}}
+				<tr>
+					<td>{{id}}</td>
+					<td>{{courseName}}</td>
+					<td>{{description}}</td>
+					<td>{{content}}</td>
+					<td><a href="/course/update/{{id}}" class="btn btn-warning">Update</a></td>
+					<td><a href="/course/Chapter/view/{{id}}" class="btn btn-warning">Edit Chapters</a></td>
+					<td><a href="/course/user/chapter/view/{{id}}" class="btn btn-warning">View Chapters</a></td>
+					<td>
+						<button type="button" class="btn btn-danger" data-bs-target="#exampleModalCenter{{id}}"
+							data-bs-toggle="modal">
+							Delete
+						</button>
+					</td>
+				</tr>
 
-<div>
-    <a href="/course/create"><button  class="btn btn-main" >Create new course</button></a>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Courses ID</th>
-            <th>Courses Name</th>
-            <th>Description</th>
-            <th>Content</th>
+				<div class="modal fade" id="exampleModalCenter{{id}}" tabindex="-1" role="dialog"
+					aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLongTitle">Delete?</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+								</button>
+							</div>
+							<div class="modal-body">
+								Confirm delete?
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+								<form method="POST" action="/course/delete/{{id}}">
+									<button type="submit" class="btn btn-primary">Yes</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
+</div>
 
-
-            <th></th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        {{#each Courses}}
-        <tr>
-            <td>{{id}}</td>
-            <td>{{courseName}}</td>
-            <td>{{description}}</td>
-            <td>{{content}}</td>
-            <td><a href="/course/update/{{id}}" class="btn btn-warning">Update</a></td>
-            <td><a href="/course/Chapter/view/{{id}}" class="btn btn-warning">Edit Chapters</a></td>
-            <td><a href="/course/user/chapter/view/{{id}}" class="btn btn-warning">View Chapters</a></td>
-            <td>
-                <button type="button" class="btn btn-primary" data-bs-target="#exampleModalCenter{{id}}" data-bs-toggle="modal" >
-                  Delete
-                </button>
-            </td>
-        </tr>
-
-        <div class="modal fade" id="exampleModalCenter{{id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Delete?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </button>
-              </div>
-              <div class="modal-body">
-                Confirm delete?
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                  <form method="POST" action="/course/delete/{{id}}">
-                    <button type="submit" class="btn btn-primary">Yes</button>
-                  </form>
-              </div>
-            </div>
-          </div>
-        </div>
-        {{/each}}
-        </tbody>
-    </table>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+<script>
+	$(document).ready(function () {
+		$('#courses').DataTable();
+	});
+</script>

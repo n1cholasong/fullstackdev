@@ -2,10 +2,22 @@ div .card-body{
     height: 400px;
 }
 
-video {
-    height: 299px;
+.quiz{
+    text-decoration: none;
+    color: black;
+    margin-left: 17px;
 }
 
-a#quiz1 {
-    margin-top: 34px;
+.expandMore{
+    text-decoration: none;
+    color: black;
+}
+
+.expandMore:hover{
+    text-decoration: none;
+    color: white;
+}
+
+video {
+    height: 299px;
 }
