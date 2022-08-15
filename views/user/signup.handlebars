@@ -34,11 +34,13 @@
 				<div id="input-row-1">
 					<div class="form-group">
 						<label for="fname">First Name<span class="text-danger">*</span></label>
-						<input type="text" name="fname" id="fname" class="form-control" maxlength="50" value="{{fname}}" required>
+						<input type="text" name="fname" id="fname" class="form-control" maxlength="50" value="{{fname}}"
+							required>
 					</div>
 					<div class="form-group">
 						<label for="lname">Last Name<span class="text-danger">*</span></label>
-						<input type="text" name="lname" id="lname" class="form-control" maxlength="50" value="{{lname}}" required>
+						<input type="text" name="lname" id="lname" class="form-control" maxlength="50" value="{{lname}}"
+							required>
 					</div>
 				</div>
 				<div id="input-row-2" class="form-group">
@@ -69,55 +71,29 @@
 					</select>
 				</div>
 				<button type="button" class="btn btn-main mt-2" data-back>Back</button>
+				{{#if category}}
 				<button type="button" class="btn btn-main mt-2" data-next>Next</button>
+				{{else}}
+				<button type="submit" class="btn btn-main mt-2">Sign up</button>
+				{{/if }}
 			</div>
 			<div class="img-box col">
 				<img src="" alt="">
 			</div>
 		</div>
 		{{!-- STEP 3 OF 3 --}}
+		{{#if category}}
 		<div class="entry-card row" data-step>
 			<div class="entry-box col">
 				<h2 class="card-title">What do you want to learn?</h2>
 				<h3 class="card-subtitle mb-5">STEP 3 OF 3</h3>
 				<div class="entry-form interest mb-4">
-					<label for="photography" class="checkbox-items">
-						<input type="checkbox" name="interest" id="photography" value="photography">
-						<span class="checkbox-label">Photography</span>
+					{{#each category}}
+					<label for="{{title}}" class="checkbox-items">
+						<input type="checkbox" name="interest" id="{{title}}" value="{{title}}">
+						<span class="checkbox-label">{{title}}</span>
 					</label>
-					<label for="science" class="checkbox-items">
-						<input type="checkbox" name="interest" id="science" value="science">
-						<span class="checkbox-label">Science</span>
-					</label>
-					<label for="programming" class="checkbox-items">
-						<input type="checkbox" name="interest" id="programming" value="programming">
-						<span class="checkbox-label">Programming</span>
-					</label>
-
-					<label for="diy" class="checkbox-items">
-						<input type="checkbox" name="interest" id="diy" value="diy">
-						<span class="checkbox-label">DIY</span>
-					</label>
-					<label for="productivity" class="checkbox-items">
-						<input type="checkbox" name="interest" id="productivity" value="productivity">
-						<span class="checkbox-label">Productivity</span>
-					</label>
-					<label for="artsncrafts" class="checkbox-items">
-						<input type="checkbox" name="interest" id="artsncrafts" value="artsncrafts">
-						<span class="checkbox-label">Arts n' Craft</span>
-					</label>
-					<label for="mathematics" class="checkbox-items">
-						<input type="checkbox" name="interest" id="mathematics" value="mathematics">
-						<span class="checkbox-label">Mathematics</span>
-					</label>
-					<label for="language" class="checkbox-items">
-						<input type="checkbox" name="interest" id="language" value="langauge">
-						<span class="checkbox-label">Language</span>
-					</label>
-					<label for="selfhelp" class="checkbox-items">
-						<input type="checkbox" name="interest" id="selfhelp" value="selfhelp">
-						<span class="checkbox-label">Self Help</span>
-					</label>
+					{{/each}}
 				</div>
 				<button type="button" class="btn btn-main mt-2" data-back>Back</button>
 				<button type="submit" class="btn btn-main mt-2">Sign up</button>
@@ -126,6 +102,7 @@
 				<img src="" alt="">
 			</div>
 		</div>
+		{{/if}}
 	</form>
 </div>
 <script src="/js/signup.js"></script>
