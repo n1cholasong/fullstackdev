@@ -67,13 +67,15 @@ async function init(){
                 })
             }
         })
+
     }
 
 const Courses = db.define('Courses', {
     courseName: { type: Seqelize.STRING },
     description: { type: Seqelize.STRING },
     content: { type: Seqelize.STRING },
-    imgURL: { type: Seqelize.STRING }
+    imgURL: { type: Seqelize.STRING },
+    content: { type: Seqelize.STRING }
 });
 
 Courses.sync();

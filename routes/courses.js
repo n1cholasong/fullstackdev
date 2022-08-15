@@ -19,6 +19,7 @@ async function videoSearch(cid) {
         },
         raw: true
     })
+
     return video[0];
 
 }
@@ -26,6 +27,7 @@ async function videoSearch(cid) {
 
 router.get('/create', async function (req, res) {
     const subjects =  await Subject.findAll({raw:true,where:{active: 1}});
+
     res.render('./courses/createcourses',{subjects})
 })
 
