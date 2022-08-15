@@ -1,10 +1,10 @@
 <div class="container manage">
     <div class="d-flex justify-content-between pb-4">
         <h2 class="m-0">Category Management</h2>
-        <button type="button" class="btn btn-main" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-plus me-2"></i>New category</button>
+        <button type="button" class="btn btn-main" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+                class="fa-solid fa-plus me-2"></i>New category</button>
     </div>
-
-    
+    {{>_flashmsg}}
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -13,20 +13,21 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="" method="post" class="entry-form">
+                    <form action="/admin/manageCategory/create" method="post" id="createCategory" class="entry-form">
                         <div class="mb-3">
                             <label for="title" class="form-label">Title<span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="title" required>
                         </div>
                         <div class="mb-3">
-                            <label for="message-text" class="col-form-label">Description<span class="text-danger">*</span></label>
-                            <textarea class="form-control" id="message-text" required></textarea>
+                            <label for="description" class="col-form-label">Description<span
+                                    class="text-danger">*</span></label>
+                            <textarea class="form-control" id="description" required></textarea>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Send message</button>
+                    <button type="button" class="btn btn-outline" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-main" form="createCategory">Create</button>
                 </div>
             </div>
         </div>
