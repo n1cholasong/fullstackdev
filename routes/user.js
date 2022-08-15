@@ -105,8 +105,21 @@ router.get('/signup', async (req, res) => {
 
 router.post('/signup', async function (req, res) {
     let { email, username, password, password2, fname, lname, gender, birthday, country } = req.body;
-    // let interest = req.body.interest.toString();
+    let category = await Subject.findAll(
+        {
+            where: { active: 1 },
+            raw: true
+        }
+    );
+
     let isValid = true;
+    let re = /\S+@\S+\.\S+/;
+    let validEmail = re.test(email);
+
+    if (!validEmail) {
+        flashMessage(res, 'error', 'Invalid Email Address', '', 'true');
+        isValid = false;
+    }
 
     if (password.length < 6) {
         flashMessage(res, 'error', 'Password must be at least 6 characters', '', 'true');
@@ -126,7 +139,8 @@ router.post('/signup', async function (req, res) {
             lname,
             gender,
             birthday,
-            country
+            country,
+            category
         });
         return;
     }
@@ -138,7 +152,7 @@ router.post('/signup', async function (req, res) {
             // If user is found, that means email has already been registered
             flashMessage(res, 'error', email + ' alreay registered', '', 'true');
             res.render('user/signup', {
-                email, username, fname, lname, gender, birthday, country,
+                email, username, fname, lname, gender, birthday, country, category
             });
         } else {
             // Create new user record
@@ -166,6 +180,7 @@ router.post('/signup', async function (req, res) {
             // Send email
             let token = jwt.sign(email, process.env.APP_SECRET);
             let url = `${process.env.BASE_URL}:${process.env.PORT}/user/verify/${user.id}/${token}`;
+            let topic = "Verify Curodemy Account";
             let message =
                 `
                 Hi ${user.fname}, 
@@ -174,7 +189,7 @@ router.post('/signup', async function (req, res) {
                 Thank you for registering with Curodemy!              
                 `
             let verb = "verify"
-            sendEmail(user.email, url, message, verb)
+            sendEmail(user.email, url, topic, message, verb)
                 .then(response => {
                     console.log(response);
                     flashMessage(res, 'success', user.email + ' registered successfully', '', 'true');
@@ -289,6 +304,7 @@ router.get('/updatePassword/:id', ensureAuthenticated, authUser, authActive, (re
 });
 
 router.post('/updatePassword/:id', ensureAuthenticated, authUser, authActive, async (req, res) => {
+    let title = "Update Password";
     let { currentPassword, newPassword, newPassword2 } = req.body;
     var salt = bcrypt.genSaltSync(10);
 
@@ -393,6 +409,7 @@ router.post('/resendVerification/:id', ensureAuthenticated, authUser, authActive
         let token = jwt.sign(email, process.env.APP_SECRET);
         // different link
         let url = `${process.env.BASE_URL}:${process.env.PORT}/user/verify/${user.id}/${token}`;
+        let topic = "Verify Curodemy Account";
         let message =
             `
             Hi ${user.fname}, 
@@ -401,7 +418,7 @@ router.post('/resendVerification/:id', ensureAuthenticated, authUser, authActive
             Thank you for registering with Curodemy!              
             `
         let verb = "verify"
-        sendEmail(user.email, url, message, verb)
+        sendEmail(user.email, url, topic, message, verb)
             .then(response => {
                 console.log(response);
                 flashMessage(res, 'success', 'A verification link has been sent to your email', '', 'true');
@@ -484,9 +501,9 @@ router.get('/reactivate/:id/:token', async function (req, res) {
 
 router.get('/reactivateAccount/:id', ensureAuthenticated, authUser, async (req, res) => {
     let user = await User.findByPk(req.user.id);
-
     let token = jwt.sign(user.email, process.env.APP_SECRET);
     let url = `${process.env.BASE_URL}:${process.env.PORT}/user/reactivate/${user.id}/${token}`;
+    let topic = "Re-activate Curodemy Account";
     let message =
         `
                 Hello ${user.fname}, 
@@ -495,7 +512,7 @@ router.get('/reactivateAccount/:id', ensureAuthenticated, authUser, async (req, 
                 We are delighted to welcome you back to the Curodemy family!            
                 `
     let verb = "reactivate"
-    sendEmail(user.email, url, message, verb)
+    sendEmail(user.email, url, topic, message, verb)
         .then(response => {
             console.log(response);
             flashMessage(res, 'success', 'A re-activation link has been sent to your email', '', 'true');
@@ -513,12 +530,12 @@ router.get('/reactivateAccount/:id', ensureAuthenticated, authUser, async (req, 
         });
 });
 
-function sendEmail(toEmail, url, intro, verb) {
+function sendEmail(toEmail, url, topic, intro, verb) {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const message = {
         to: toEmail,
         from: `Curodemy Institute <${process.env.SENDGRID_SENDER_EMAIL}>`,
-        subject: 'Verify Curodemy Account',
+        subject: topic,
         html:
             `
             ${intro}

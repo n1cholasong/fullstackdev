@@ -1,20 +1,25 @@
 const express = require('express');
-const Review = require("../models/Review");
 const router = express.Router();
 const { ensureAuthenticated, authRole, authUser, authActive } = require('../helpers/auth');
 const flashMessage = require('../helpers/messenger');
+
+// Models
+const Review = require("../models/Review");
 const Course = require('../models/Courses');
 const User = require('../models/User')
-const jwt = require('jsonwebtoken');
-const sgMail = require('@sendgrid/mail');
 const CourseLikes = require('../models/CourseLikes');
 const Subject = require('../models/Subject')
+
+// Send Grid
+const jwt = require('jsonwebtoken');
+const sgMail = require('@sendgrid/mail');
+
 
 userdict = {}
 fullname = {}
 
 router.get('/', async function (req, res,) {
-	title = "Home";
+	let title = "Home";
 	// renders views/index.handlebars, passing title as an object
 	//find all users and put them into a dict
 	await User.findAll({
@@ -25,16 +30,17 @@ router.get('/', async function (req, res,) {
 		});
 	})
 
-
 	Course.findAll({
-		include:"subjects",
-		nested:true
+		include: Subject,
+		nested: true
 	}).then(async (Courses) => {
-		subjectList = await Subject.findAll({raw:true});
-		res.render('index', { Courses, title, userdict,subjectList });
+		subjectList = await Subject.findAll({ raw: true });
+		res.render('index', { Courses, title, userdict, subjectList });
 
 	})
 		.catch(err => console.log(err));
+
+	
 
 });
 
