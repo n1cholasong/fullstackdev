@@ -1,14 +1,44 @@
 <div class="container manage">
     <div class="d-flex justify-content-between pb-4">
         <h2 class="m-0">Category Management</h2>
-        <a href="#" role="button" class="btn btn-main"><i class="fa-solid fa-plus me-2"></i>New category</a>
+        <button type="button" class="btn btn-main" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-plus me-2"></i>New category</button>
     </div>
+
+    
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create new category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post" class="entry-form">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Description<span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="message-text" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Send message</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div>
         <table id="categories" class="table table-striped">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Title</th>
+                    <th>Destription</th>
                     <th>Status</th>
                     <th></th>
                 </tr>
@@ -19,6 +49,7 @@
                 <tr>
                     <td>{{id}}</td>
                     <td>{{title}}</td>
+                    <td>{{description}}</td>
                     <td>
                         {{#if active}}
                         <span class="text-success">Active</span>
@@ -32,28 +63,15 @@
                                 <i class="fas fa-ellipsis-v"></i>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end text">
-                                {{#ifCond ../user.id this.id}}
-                                <li><a class="dropdown-item" href="/admin/viewAccount/{{id}}">View Profile</a></li>
-                                {{else}}
-                                <li><a class="dropdown-item" href="/admin/viewAccount/{{id}}">View Profile</a></li>
                                 {{#if active}}
-                                <li><a class="dropdown-item text-danger" href="/admin/deactivateAccount/{{id}}"
+                                <li><a class="dropdown-item text-danger" href="/admin/manageCategory/deactivate{{id}}"
                                         data-bs-toggle="modal"
-                                        data-bs-target="#deactivateAccountBackdrop_{{id}}">Deactivate Account</a></li>
+                                        data-bs-target="#deactivateAccountBackdrop_{{id}}">Deactivate Category</a></li>
+                                {{else}}
+                                <li><a class="dropdown-item text-success" href="/admin/manageCategory/activate/{{id}}"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deactivateAccountBackdrop_{{id}}">Activate Category</a></li>
                                 {{/if}}
-                                {{!-- <li><a class="dropdown-item text-danger" data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdrop_{{id}}">Delete Account</a></li> --}}
-                                {{/ifCond}}
-                                {{!-- {% if user.get_user_role_str() == 'STUDENT' %}
-                                <li><a class="dropdown-item" href="/makeAdmin/{{user.id}}">Promote to Admin</a></li>
-                                {% else %}
-                                <li><a class="dropdown-item" href="/makeStudent/{{user.id}}">Demote to Student</a></li>
-                                {% endif %}
-                                <li><a class="dropdown-item" href="/resetWarning/{{user.id}}">Reset Warnings</a></li>
-                                {% if session.id != user.id %}
-
-                                {% endif %} --}}
-
                             </ul>
                         </div>
                         <!-- De-activate Modal -->
