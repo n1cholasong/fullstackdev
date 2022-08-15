@@ -42,34 +42,66 @@ router.get('/manageCategory', async (req, res) => {
         );
 });
 
-router.post('/manageCategory/create', (req, res) => {
+router.post('/manageCategory/create', async (req, res) => {
     let title = req.body.title;
     let description = req.body.desc;
-    Subject.create({ title: title, description: description })
-        .then(() => {
-            flashMessage(res, 'success', 'New category created', '', 'true');
-            res.redirect('/admin/manageCategory');
-        })
-        .catch((err) =>
-            console.log(err)
-        );
+
+    let sameTitle = await Subject.findOne({ where: { title: title } })
+
+    if (!sameTitle) {
+        Subject.create({ title: title, description: description })
+            .then(() => {
+                flashMessage(res, 'success', 'New category created', '', 'true');
+                res.redirect('/admin/manageCategory');
+            })
+            .catch((err) =>
+                console.log(err)
+            );
+    } else {
+        flashMessage(res, 'error', `[ID: ${id}]'s title is not unique`, '', 'true');
+        res.redirect('/admin/manageCategory');
+    }
+
 });
 
-router.post('/manageCategory/edit/:id', (req, res) => {
+router.post('/manageCategory/edit/:id', async (req, res) => {
+    let id = req.params.id
     let title = req.body.title;
     let description = req.body.desc;
 
-    Subject.update(
-        { title: title, description: description },
-        { where: { id: req.params.id } }
-    )
-        .then(() => {
-            flashMessage(res, 'info', title + ' updated', '', 'true');
+    let category = await Subject.findByPk(id)
+    let sameTitle = await Subject.findOne({ where: { title: title } })
+
+    if (category.title == title) {
+        Subject.update(
+            { description: description },
+            { where: { id: id} }
+        )
+            .then(() => {
+                flashMessage(res, 'info', title + ' updated', '', 'true');
+                res.redirect('/admin/manageCategory');
+            })
+            .catch((err) =>
+                console.log(err)
+            );
+    } else {
+        if (!sameTitle) {
+            Subject.update(
+                { title: title, description: description },
+                { where: { id: id} }
+            )
+                .then(() => {
+                    flashMessage(res, 'info', title + ' updated', '', 'true');
+                    res.redirect('/admin/manageCategory');
+                })
+                .catch((err) =>
+                    console.log(err)
+                );
+        } else {
+            flashMessage(res, 'error', `[ID: ${id}]'s title is not unique`, '', 'true');
             res.redirect('/admin/manageCategory');
-        })
-        .catch((err) =>
-            console.log(err)
-        );
+        }
+    }
 });
 
 
