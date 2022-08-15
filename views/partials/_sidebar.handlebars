@@ -1,4 +1,4 @@
-<aside class="sidebar poppins" data-sidebar>
+<aside id="sidebar" class="sidebar poppins" data-sidebar>
     {{#if user}}
     <div class="sidebar-head">
         <div class="profile-menu">
@@ -24,12 +24,14 @@
                 </a>
             </li>
             {{#if user}}
+            {{#if user.active}}
             <li id="mycourse" class="nav-item">
                 <a class="nav-link" href="/mycourse">
                     <span class="nav-icon material-symbols-rounded">library_books</span>
                     <div class="sidebar-hidden">My Courses</div>
                 </a>
             </li>
+            {{/if}}
             {{/if}}
             <li id="forum" class="nav-item">
                 <a class="nav-link" href="/forum">
@@ -39,6 +41,7 @@
             </li>
 
             {{#if user}}
+            {{#if user.active}}
             {{!-- Instructor Page --}}
             {{!-- <div class="sidebar-hidden sidebar-subtext">Instructor</div> --}}
             {{!-- <li id="course/view" class="nav-item">
@@ -81,13 +84,14 @@
                     <div class="sidebar-hidden">My Coupons</div>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
+            <li id="/admin/manageCategory" class="nav-item">
+                <a class="nav-link" href="/admin/manageCategory">
                     <span class="nav-icon material-symbols-rounded">category</span>
                     <div class="sidebar-hidden">Manage Services</div>
                 </a>
             </li>
             {{/ifCond}}
+            {{/if}}
             {{/if}}
         </ul>
     </div>

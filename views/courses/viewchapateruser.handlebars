@@ -12,54 +12,60 @@
                 <button class="nav-link active me-0" id="update-account-tab" data-bs-toggle="pill"
                     data-bs-target="#update-account" type="button" role="tab" aria-controls="update-account"
                     aria-selected="true" onclick="hide({{id}},{{../chapters.length}})">Chapter 1
+                    <a data-bs-toggle="collapse" href="#collapseExample" role="button"
+                        aria-expanded="false" aria-controls="collapseExample" class="expandMore">
+                        <span class="nav-icon material-symbols-rounded">expand_more</span>
+                    </a>
                 </button>
+                <div class="collapse" id="collapseExample">
+                    <a id="quiz{{id}}" href="/course/quiz/view/{{id}}" class="quiz">Quiz</a>
+                </div>
                 {{else}}
                 <button class="nav-link me-0" id="update-account-tab" data-bs-toggle="pill"
                     data-bs-target="#update-account" type="button" role="tab" aria-controls="update-account"
-                    aria-selected="true" onclick="hide({{id}},{{../chapters.length}})">
-                    Chapter {{inc @index}}
+                    aria-selected="true" onclick="hide({{id}},{{../chapters.length}})">Chapter {{ChapterNum}}
+                    <a data-bs-toggle="collapse" href="#collapseExample" role="button"
+                        aria-expanded="false" aria-controls="collapseExample" class="expandMore">
+                        <span class="nav-icon material-symbols-rounded">expand_more</span>
+                    </a>
                 </button>
+                <div class="collapse" id="collapseExample">
+                    <a id="quiz{{id}}" href="/course/quiz/view/{{id}}" class="quiz">Quiz</a>
+                </div>
                 {{/if}}
                 {{/each}}
             </div>
         </div>
     </div>
     <div class="Chapter col-9 card">
-        <div class="card-body text-center row">
-        {{#if videos}}
-        {{#each videos}}
-        <div class="videoPlayer mx-auto col" style="display:none;" id="videoPlayer{{lookup ../videoDict id}}">
-            <input type="hidden" class="videoID" value="{{id}}">
-            <video id="videoPlayer{{@index}}" controls>
-                <source src="{{videofile}}" type="video/mp4">
-            </video>
+        <div id="content" class="card-body text-center row">
+            {{#if videos}}
+            {{#each videos}}
+            <div class="videoPlayer mx-auto col" style="display:none;" id="videoPlayer{{lookup ../videoDict id}}">
+                <input type="hidden" class="videoID" value="{{id}}">
+                <video id="videoPlayer{{@index}}" controls>
+                    <source src="{{videofile}}" type="video/mp4">
+                </video>
+            </div>
+            {{/each}}
+            {{else}}
+            <h1 style="display:block;" class="videoPlayer" id="videoPlayer{{chapters.1.id}}"> No Videos Here.. </h1>
+            {{/if}}
+
+
         </div>
-        {{/each}}
-        {{/if}}
-        {{#each chapters}}
-        <div class="">
-        {{#if @first}}
-         <a id="quiz{{id}}" href="/course/quiz/view/{{id}}" class="btn btn-warning quiz text-right">Quiz</a>  
         {{else}}
-         <a id="quiz{{id}}" href="/course/quiz/view/{{id}}" class="btn btn-warning quiz text-right" style="display: none">Quiz</a>   
-        {{/if}} 
-        </div>
-        {{/each}}
-
-
-    </div>
-    {{else}}
-    <h1>No chapters yet....</h1>
-    {{/if}}
+        <h1>No chapters yet....</h1>
+        {{/if}}
     </div>
 </div>
 
 <script>
-    window.onload = function loadVid(){
+    window.onload = function loadVid() {
         console.log("Hi")
         var firstVidChap = "{{lookup videoDict videos.0.id}}"
         var firstChapid = "{{chapters.0.id}}"
-        if(firstVidChap == firstChapid){
+        if (firstVidChap == firstChapid) {
             document.getElementById("videoPlayer" + firstVidChap).style = "display:block;";
         }
     }

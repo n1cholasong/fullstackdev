@@ -24,11 +24,10 @@ function hide(vNum,maxNum) {
     var x = document.getElementById("videoPlayer" + vNum);
     if (x.style.display === "none") {
       x.style.display = "block";
-    } else {
-      x.style.display = "none";
     }
    }
    catch{
-    console.log("I DON'tCARE")
+    var div = document.getElementById("content");
+    div.innerHTML += '<h1 style="display:block;" class="videoPlayer" id="videoPlayer' + vNum + '"> No Videos Here.. </h1>';
    }
   } 
