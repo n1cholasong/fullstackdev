@@ -67,14 +67,16 @@
                                         <div class="row">
                                             <div class="col-8">
                                                 <div class="form-group">
-                                                    <label for="topic">Topic</label>
+                                                    <label for="topic">Topic<span class="danger">*</span></label>
                                                     <input class="form-control" id="topic" name="topic" required>
                                                 </div>
 
                                                 <div class="form-group mb-4">
-                                                    <label for="thread-description">Description</label>
+                                                    <label for="thread-description">Description<span
+                                                            class="danger">*</span></label>
                                                     <textarea class="form-control" id="thread_description"
-                                                        name="thread_description" rows="4" maxlength="1000" required></textarea>
+                                                        name="thread_description" rows="4" maxlength="1000"
+                                                        required></textarea>
                                                 </div>
                                             </div>
                                             <div class="col">
@@ -135,23 +137,29 @@
                                                     </div>
                                                     <div class="favourites">
                                                         <form method="post" action="/forum/addFav/{{id}}">
-                                                            {{#each forumlikefavs}}
-                                                            {{#ifCond ../../user.id this.userId}}
+                                                            <button type="submit" class="fav-button active" id="fav-button{{id}}"><i
+                                                                    class="fa-solid fa-heart"></i></button>
+                                                            {{!-- To diplay active or not --}}
+                                                            {{!-- {{#each forumlikefavs}}
+                                                            {{#ifnotCond ../../user.id this.userId}}
+                                                            <button type="submit" class="fav-button" id="fav-button"><i
+                                                                    class="fa-solid fa-heart"></i></button>
+                                                            {{else}}
                                                             {{#ifCond this.favourite 1}}
                                                             <button type="submit" class="fav-button active"
                                                                 id="fav-button"><i
                                                                     class="fa-solid fa-heart"></i></button>
-                                                            {{/ifCond}}
-                                                            {{#ifCond this.favourite 0}}
+                                                            {{else}}
                                                             <button type="submit" class="fav-button" id="fav-button"><i
                                                                     class="fa-solid fa-heart"></i></button>
                                                             {{/ifCond}}
-                                                            {{/ifCond}}
-                                                            {{/each}}
-                                                            {{#unless this.forumlikefavs}}
+                                                            {{/ifnotCond}}
+                                                            {{/each}} --}}
+                                                            {{!-- If no --}}
+                                                            {{!-- {{#unless this.forumlikefavs}}
                                                             <button type="submit" class="fav-button" id="fav-button"><i
                                                                     class="fa-solid fa-heart"></i></button>
-                                                            {{/unless}}
+                                                            {{/unless}} --}}
                                                         </form>
                                                     </div>
                                                 </div>
@@ -278,3 +286,5 @@
         </div>
     </div>
 </div>
+
+<script src="/js/Forumlikes.js"></script>

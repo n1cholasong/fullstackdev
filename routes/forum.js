@@ -11,8 +11,6 @@ require('dotenv').config;
 const fs = require('fs');
 const upload = require('../helpers/forumUpload');
 const sequelize = require('sequelize');
-const { order } = require('paypal-rest-sdk');
-const { where } = require('sequelize');
 
 
 //Landing page
@@ -59,7 +57,7 @@ router.get("/myforum", ensureAuthenticated, authActive, (req, res) => {
 });
 
 //Filter by most likes
-router.get("/hot", ensureAuthenticated, (req, res) => {
+router.get("/hot", (req, res) => {
     Forum.findAll({
         where: { status: 1 },
         include: [User, ForumLikeFavs],
@@ -85,7 +83,7 @@ router.get("/hot", ensureAuthenticated, (req, res) => {
 });
 
 //Filter by most comments
-router.get("/top", ensureAuthenticated, (req, res) => {
+router.get("/top", (req, res) => {
     Forum.findAll({
         where: { status: 1 },
         include: [User, ForumLikeFavs, Comment],
@@ -130,7 +128,7 @@ router.post("/createThread", ensureAuthenticated, authActive, (req, res) => {
     res.redirect('/forum/')
 });
 
-router.post('/editThread/:id', ensureAuthenticated, async function (req, res) {
+router.post('/editThread/:id', ensureAuthenticated, authActive, async function (req, res) {
     let forum = await Forum.findByPk(req.params.id);
 
     let topic = req.body.topic;
@@ -161,7 +159,7 @@ router.post('/editThread/:id', ensureAuthenticated, async function (req, res) {
         .catch(err => console.log(err));
 });
 
-router.post('/deleteThread/:id', ensureAuthenticated, async function (req, res) {
+router.post('/deleteThread/:id', ensureAuthenticated, authActive, async function (req, res) {
     try {
         let forum = await Forum.findByPk(req.params.id);
         let status = 0;
@@ -188,7 +186,7 @@ router.post('/deleteThread/:id', ensureAuthenticated, async function (req, res) 
 });
 
 //Comments bullshit
-router.get('/:id', ensureAuthenticated, (req, res) => {
+router.get('/:id', ensureAuthenticated, authActive, (req, res) => {
     Forum.findOne({
         where: { id: req.params.id },
         include: [Comment, ForumLikeFavs, User],
@@ -198,22 +196,28 @@ router.get('/:id', ensureAuthenticated, (req, res) => {
     }).then(async (forum) => {
         let forum_id = req.params.id;
         let user_id = req.user.id;
+
+        const userList = await User.findAll({ raw: true });
+        userList.forEach((user) => {
+            userdict[user.id] = user.username;
+        });
+
         if (user_id) {
             const n_likes = await ForumLikeFavs.count({ where: { liked: 1, forumId: forum_id } });
             const likeStatus = await ForumLikeFavs.findOne({ where: { forumId: forum_id, userId: user_id } });
-            res.render('forum/comments', { forum, n_likes, likeStatus });
+            res.render('forum/comments', { forum, n_likes, likeStatus, userdict});
         }
         else {
             let likeStatus = 0;
             const n_likes = await ForumLikeFavs.count({ where: { liked: 1, forumId: forum_id } });
-            res.render('forum/comments', { forum, n_likes, likeStatus });
+            res.render('forum/comments', { forum, n_likes, likeStatus, userdict});
         }
     }).catch((err) => {
         console.log('err', err);
     });
 });
 
-router.post("/comment", ensureAuthenticated, async function (req, res) {
+router.post("/comment", ensureAuthenticated, authActive, async function (req, res) {
     let comment = req.body.comment;
     let forumId = req.body.forum_id;
     let userId = req.user.id;
@@ -228,7 +232,7 @@ router.post("/comment", ensureAuthenticated, async function (req, res) {
 });
 
 //Like bullshit
-router.post("/like/:id", ensureAuthenticated, async function (req, res) {
+router.post("/like/:id", ensureAuthenticated, authActive, async function (req, res) {
     let forumId = req.params.id;
     let userId = req.user.id;
 
@@ -261,7 +265,7 @@ router.post("/like/:id", ensureAuthenticated, async function (req, res) {
     res.redirect(`/forum/${forumId}`);
 });
 
-router.post("/addFav/:id", ensureAuthenticated, async function (req, res) {
+router.post("/addFav/:id", ensureAuthenticated, authActive, async function (req, res) {
     let forumId = req.params.id;
     let userId = req.user.id;
 

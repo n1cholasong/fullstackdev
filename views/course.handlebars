@@ -121,7 +121,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item text-danger card-link" data-bs-toggle="modal"
+                                        <a class="dropdown-item text-danger" data-bs-toggle="modal"
                                             data-bs-target="#deleteReview_{{id}}">
                                             Delete Review
                                         </a>
@@ -158,20 +158,20 @@
                                     {{#if (equalsTo ../user.id ../course.userId)}}
                                     {{#if reply}}
                                     <li>
-                                        <a class="dropdown-item card-link" data-bs-toggle="modal"
+                                        <a class="dropdown-item" data-bs-toggle="modal"
                                             data-bs-target="#editReply_{{id}}">
                                             Edit Reply
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item card-link" data-bs-toggle="modal"
+                                        <a class="dropdown-item text-danger" data-bs-toggle="modal"
                                             data-bs-target="#deleteReply_{{id}}">
                                             Delete Reply
                                         </a>
                                     </li>
                                     {{else}}
                                     <li>
-                                        <a class="dropdown-item card-link" data-bs-toggle="modal"
+                                        <a class="dropdown-item" data-bs-toggle="modal"
                                             data-bs-target="#createReply_{{id}}">
                                             Reply
                                         </a>
@@ -179,7 +179,7 @@
                                     {{/if}}
                                     {{/if}}
                                     <li>
-                                        <a class="dropdown-item card-link" data-bs-toggle="modal"
+                                        <a class="dropdown-item" data-bs-toggle="modal"
                                             data-bs-target="#report_{{id}}">
                                             Report
                                         </a>
@@ -229,9 +229,9 @@
                 </div>
                 {{/if}}
                 <!-- Edit Review Modal -->
-                <div class="modal" id="editReview_{{id}}">
-                    <form action="/editReview/{{id}}" method="post">
-                        <div class="modal-dialog modal-dialog-centered">
+                <div class="modal" id="editReview_{{id}}" data-bs-backdrop="static" data-bs-keyboard="false">
+                    <form action="/editReview/{{id}}" method="post" id="reviewform_edit_review">
+                        <div class="modal-dialog modal-dialog-centered" id="myModal">
                             <div class="modal-content">
 
                                 <!-- Modal Header -->
@@ -275,8 +275,9 @@
                                     <div class="form-group mb-4">
                                         <div class="form-group">
                                             <label class="font-italic" for="review">Review</label>
-                                            <textarea class="form-control" id="review" name="review" rows="7"
+                                            <textarea class="form-control" id="edit_review" name="review" rows="7"
                                                 maxlength="2000">{{review}}</textarea>
+                                            <small id="errorvalid_edit_review" style="display:none;">*Review cannot be empty</small>
                                         </div>
                                     </div>
                                 </div>
@@ -285,7 +286,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Cancel</button>
-                                    <button type="submit" value="Update" class="btn btn-primary">Update</button>
+                                    <button type="button" value="Update" class="btn btn-primary" onclick="check_edit_review()">Update</button>
                                 </div>
                             </div>
                         </div>
@@ -434,9 +435,9 @@
 </div>
 
 <!-- Create Review Modal -->
-<div class="modal" id="createThread">
-    <form action="/createReview" method="post">
-        <div class="modal-dialog modal-dialog-centered">
+<div class="modal" id="createThread" data-bs-backdrop="static" data-bs-keyboard="false">
+    <form action="/createReview" method="post" id="reviewform_create_review">
+        <div class="modal-dialog modal-dialog-centered" id="myModal">
             <div class="modal-content">
 
                 <!-- Modal Header -->
@@ -477,8 +478,9 @@
                     <div class="form-group mb-4">
                         <div class="form-group">
                             <label class="font-italic" for="review">Review</label>
-                            <textarea class="form-control" id="review" name="review" rows="7"
+                            <textarea class="form-control" id="create_review" name="review" rows="7"
                                 maxlength="2000"></textarea>
+                            <small id="errorvalid_create_review" style="display:none;">*Review cannot be empty</small>
                         </div>
                     </div>
                     <!-- To allow courseid to be stored insdie the body-->
@@ -487,7 +489,8 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="submit" value="Create" class="btn btn-primary">Create</button>
+                    <button type="button" value="Create" class="btn btn-primary"
+                        onclick="check_create_review()">Create</button>
                 </div>
             </div>
         </div>
@@ -495,7 +498,30 @@
 </div>
 
 <script>
+
     $('[data-toggle=confirmation]').confirmation({
         rootSelector: '[data-toggle=confirmation]',
     });
+    function check_create_review() {
+
+        document.getElementById("errorvalid_create_review").style.display = "none"
+        if (document.getElementById("create_review").value.length == 0) {
+            document.getElementById("errorvalid_create_review").style.display = "block"
+            console.log("made")
+        }
+        else {
+            document.getElementById("reviewform_create_review").submit();
+        }
+    }
+    function check_edit_review() {
+
+        document.getElementById("errorvalid_edit_review").style.display = "none"
+        if (document.getElementById("edit_review").value.length == 0) {
+            document.getElementById("errorvalid_edit_review").style.display = "block"
+            console.log("made")
+        }
+        else {
+            document.getElementById("reviewform_edit_review").submit();
+        }
+    }
 </script>
