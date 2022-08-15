@@ -32,13 +32,24 @@
 		</div>
 	</div>
 
-	<h1 class="heading">Trending</h1>
-	<div class="trending d-flex flex-row mb-5">
+	<h1 class="heading">Categories</h1>
+	<div class="cat d-flex flex-row mb-5">
+		<button id="scrollLeftCat" class="btn btn-arrow"><i class="fa-solid fa-angle-left"></i></button>
+		<div id="category" class="media-scroller snaps-inline">
+			{{#each subjectList}}
+			<a href="/category/{{id}}" role="button" class="btn btn-cat">{{title}}</i></a>
+			{{/each}}
+		</div>
+		<button id="scrollRightCat" class="btn btn-arrow"><i class="fa-solid fa-angle-right"></i></i></button>
+	</div>
+
+
+	<h1 class="heading">New Release</h1>
+	<div class="new d-flex flex-row mb-5">
 		{{#ifMore Courses.length 4 }}
-		<button id="scrollLeft" class="btn btn-arrow"><i
-				class="fa-solid fa-angle-left"></i></button>
+		<button id="scrollLeftNew" class="btn btn-arrow"><i class="fa-solid fa-angle-left"></i></button>
 		{{/ifMore}}
-		<div id="media_scroller" class="media-scroller snaps-inline">
+		<div id="newRelease" class="media-scroller snaps-inline">
 			{{#each Courses}}
 			<a class="card-link" href="/course/details/{{id}}">
 				<div class="card" style="width: 18rem;">
@@ -71,68 +82,82 @@
 			{{/each}}
 		</div>
 		{{#ifMore Courses.length 4 }}
-		<button id="scrollRight" class="btn btn-arrow"><i
-				class="fa-solid fa-angle-right"></i></i></button>
+		<button id="scrollRightNew" class="btn btn-arrow"><i class="fa-solid fa-angle-right"></i></i></button>
 		{{/ifMore}}
 	</div>
 
-	<h1 class="heading">Categories</h1>
-	<div class="categories d-grid">
-		{{#each subjectList}}
-		<h5>{{title}}</h5>
-		{{#each ../Courses}}
-		{{#ifCond subjects.[0].id ../id}}
-		<a class="card-link me-4" href="/course/details/{{id}}">
-			<div class="card" style="width: 18rem;">
-				<img src="/img/carousel/grassland.jpg" class="card-img-top" alt="...">
-				<div class="card-body">
-					<h5 class="card-title m-0">{{courseName}}</h5>
-					<p class="username">
-						@{{lookup ../../userdict userId}}
-					</p>
-					{{!-- <p class="ratings">
-						5.0
-						<span class="star">
-							<i class="fa-solid fa-star"></i>
-							<i class="fa-solid fa-star"></i>
-							<i class="fa-solid fa-star"></i>
-							<i class="fa-solid fa-star"></i>
-							<i class="fa-solid fa-star"></i>
-						</span>
-						<span class="user-count">
-							(100)
-						</span>
-					</p> --}}
-					{{!-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
+	{{#if user}}
+	<h1 class="heading">Recommended For You</h1>
+	<div class="recommendations d-flex flex-row mb-5">
+		{{#ifMore recommended.length 4 }}
+		<button id="scrollLeftRec" class="btn btn-arrow"><i class="fa-solid fa-angle-left"></i></button>
+		{{/ifMore}}
+		<div id="recommended" class="media-scroller snaps-inline">
+			{{#each recommended}}
+			<a class="card-link" href="/course/details/{{id}}">
+				<div class="card" style="width: 18rem;">
+					<img src="/img/carousel/grassland.jpg" class="card-img-top" alt="...">
+					<div class="card-body">
+						<h5 class="card-title m-0">{{courseName}}</h5>
+						<p class="username text-primary">
+							@{{lookup ../userdict userId}}
+						</p>
+						<p class="tag subtext">
+							tag: <span><b></b> {{subjects.[0].title}}</span>
+						</p>
+					</div>
 				</div>
-			</div>
-		</a>
-		{{else}}
-		{{/ifCond}}
-		{{/each}}
-		<br>
-		{{/each}}
+			</a>
+			{{/each}}
+		</div>
+		{{#ifMore recommended.length 4 }}
+		<button id="scrollRightRec" class="btn btn-arrow"><i class="fa-solid fa-angle-right"></i></i></button>
+		{{/ifMore}}
 	</div>
-
-	<h1 class="heading">Recommended for you</h1>
-	<div class="recommendations d-flex flex-row">
-		{{!-- Course --}}
-	</div>
+	{{/if}}
 </div>
 
 <script>
-	$('#scrollLeft').click(function () {
+	$('#scrollLeftCat').click(function () {
 		event.preventDefault();
-		$('#media_scroller').animate({
-			scrollLeft: "-=1200px"
+		$('#category').animate({
+			scrollLeft: "-=660px"
 		}, "medium");
 	});
 
-	$('#scrollRight').click(function () {
+	$('#scrollRightCat').click(function () {
 		event.preventDefault();
-		$('#media_scroller').animate({
-			scrollLeft: "+=1200px"
+		$('#category').animate({
+			scrollLeft: "+=660px"
 		}, "medium");
+	});
+
+	$('#scrollLeftNew').click(function () {
+		event.preventDefault();
+		$('#newRelease').animate({
+			scrollLeft: "-=660px"
+		}, "slow");
+	});
+
+	$('#scrollRightNew').click(function () {
+		event.preventDefault();
+		$('#newRelease').animate({
+			scrollLeft: "+=660px"
+		}, "slow");
+	});
+
+	$('#scrollLeftRec').click(function () {
+		event.preventDefault();
+		$('#recommended').animate({
+			scrollLeft: "-=660px"
+		}, "slow");
+	});
+
+	$('#scrollRightRec').click(function () {
+		event.preventDefault();
+		$('#recommended').animate({
+			scrollLeft: "+=660px"
+		}, "slow");
 	});
 
 </script>

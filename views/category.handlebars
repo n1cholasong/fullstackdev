@@ -1,5 +1,6 @@
-<div class="container course">
-	<h1 class="heading">My Courses</h1>
+<div class="container category">
+	<h1 class="heading">{{subject.title}}</h1>
+	<em>{{subject.description}}</em>
 	<div class="d-flex flex-row">
 		{{#each courses}}
 		<a class="card-link me-4" href="/course/details/{{id}}">

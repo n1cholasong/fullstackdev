@@ -5,16 +5,6 @@
   border-radius: 10px;
 }
 
-.categories button {
-  background-color: greenyellow;
-  border-radius: 5px;
-  width: 200px;
-  height: 40px;
-  margin: .5rem;
-  text-align: center;
-  line-height: 40px;
-}
-
 .card .star {
   color: #FDCC0D;
 }
@@ -53,4 +43,13 @@
 .home .btn-arrow:hover{
   background-color: rgba(0,0,0,0.03);
   color: var(--blueviolet);
+}
+
+#category{
+  gap: 1rem;
+  white-space: nowrap;
+}
+
+.home .cat a {
+  line-height: 2rem;
 }

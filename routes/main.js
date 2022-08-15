@@ -20,7 +20,36 @@ fullname = {}
 
 router.get('/', async function (req, res,) {
 	let title = "Home";
-	// renders views/index.handlebars, passing title as an object
+	let user = req.user;
+
+	let avaliableCourse = []
+	let recommended = []
+	let recommendation = await Course.findAll({ include: Subject })
+
+
+	if (user) {
+		let userPreference = user.interest;
+		if (userPreference) {
+			let preference = user.interest.split(',')
+			// console.log("User:", preference)
+
+			recommendation.forEach((course, index) => {
+				avaliableCourse[index] = course
+			})
+			// console.table(avaliableCourse)
+
+			let k = 0
+			for (let i = 0; i < preference.length; i++) {
+				for (let j = 0; j < avaliableCourse.length; j++) {
+					if (preference[i] == avaliableCourse[j].subjects[0].id) {
+						recommended[k++] = avaliableCourse[j];
+					}
+				}
+			}
+			// console.table(recommended)
+		}
+	}
+
 	//find all users and put them into a dict
 	await User.findAll({
 		raw: true
@@ -35,13 +64,23 @@ router.get('/', async function (req, res,) {
 		nested: true
 	}).then(async (Courses) => {
 		subjectList = await Subject.findAll({ raw: true });
-		res.render('index', { Courses, title, userdict, subjectList });
+		res.render('index', { Courses, title, userdict, subjectList, recommended });
 
 	})
 		.catch(err => console.log(err));
 
-	
 
+
+});
+
+router.get('/category/:subjectId', authActive, async function (req, res,) {
+	let subject = await Subject.findByPk(req.params.subjectId);
+	let category = subject.title;
+	let course = await Course.findAll({ include: Subject, nested: true })
+
+	console.table(course)
+	console.log(course.subjects)
+	res.render('category', { subject, course });
 });
 
 router.get('/mycourse', ensureAuthenticated, authActive, async function (req, res,) {
