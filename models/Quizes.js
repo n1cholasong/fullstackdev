@@ -39,16 +39,7 @@ Quizes.findAndCountAll()
     };
     }
     catch(err){
-        await Quizes.create({
-            question: "What is python",
-            description: "fist question",
-            a1: "A progmaming laungague",
-            a2: "A Type of Snake",
-            a3: "Anaconda?",
-            a4: "I don't know",
-            correctans: "A progmaming laungague",
-            ChapterId: 2
-        })
+       console.log(err)
     }
 });
 
