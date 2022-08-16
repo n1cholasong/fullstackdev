@@ -3,35 +3,8 @@
     <div class="banner text d-flex align-items-center mt-3">
         <div class="container d-flex justify-content-between">
             <div class="course-info">
-                <!-- Use an element to toggle between a like/dislike icon -->
-                <div class="like-button-wrapper col">
-                    <div class="likes-display">
-                        {{n_likes}}
-                    </div>
-                    <form action="/like/{{course.id}}" method="post">
-                        {{#if likeStatus}}
-                        {{else}}
-                        <button type="submit" class="like-button" id="like-button"><i
-                                class="fas fa-thumbs-up"></i></button>
-                        <input id="course_id" type="hidden" name="course_id" value="{{course.id}}">
-                        {{/if}}
-                        <input id="course_id" type="hidden" name="course_id" value="{{course.id}}">
-                        {{#ifCond likeStatus.liked 1}}
-                        <button type="submit" class="like-button active" id="like-button"><i
-                                class="fas fa-thumbs-up"></i></button>
-                        <input id="course_id" type="hidden" name="course_id" value="{{course.id}}">
-                        {{/ifCond}}
-                        {{#ifCond likeStatus.liked 0}}
-                        <button type="submit" class="like-button" id="like-button"><i
-                                class="fas fa-thumbs-up"></i></button>
-                        <input id="course_id" type="hidden" name="course_id" value="{{course.id}}">
-                        {{/ifCond}}
-                    </form>
-                </div>
                 <h1>{{course.courseName}}</h1>
-                <a href="#">
-                    <p>@{{lookup userdict course.userId}}</p>
-                </a>
+                <p>By {{lookup userdict course.userId}}</p>
                 {{#if reviews}}
                 <p class="ratings">
                     {{avg}}
@@ -47,6 +20,33 @@
                 {{else}}
                 <p>No Review</p>
                 {{/if}}
+                <div class="row">
+                    <!-- Use an element to toggle between a like/dislike icon -->
+                    <div class="like-button-wrapper">
+                        <form action="/like/{{course.id}}" method="post">
+                            {{#if likeStatus}}
+                            {{else}}
+                            <button type="submit" class="like-button" id="like-button"><i
+                                    class="fas fa-thumbs-up"></i></button>
+                            <input id="course_id" type="hidden" name="course_id" value="{{course.id}}">
+                            {{/if}}
+                            <input id="course_id" type="hidden" name="course_id" value="{{course.id}}">
+                            {{#ifCond likeStatus.liked 1}}
+                            <button type="submit" class="like-button active" id="like-button"><i
+                                    class="fas fa-thumbs-up"></i></button>
+                            <input id="course_id" type="hidden" name="course_id" value="{{course.id}}">
+                            {{/ifCond}}
+                            {{#ifCond likeStatus.liked 0}}
+                            <button type="submit" class="like-button" id="like-button"><i
+                                    class="fas fa-thumbs-up"></i></button>
+                            <input id="course_id" type="hidden" name="course_id" value="{{course.id}}">
+                            {{/ifCond}}
+                        </form>
+                        <div class="likes-display">
+                            {{n_likes}}
+                        </div>
+                    </div>
+                </div>
                 {{#if enrolled}}
                 <button class="btn btn-main"><a id="viewCourseBtn" href="/course/user/chapter/view/{{course.id}}">View
                         Course</a></button>
@@ -97,8 +97,7 @@
                                 </div>
                                 <div>
                                     <h5 class="mb-0">{{lookup ../fullname userId}}</h5>
-                                    <a href="/user/profile/{{../user.id}}" class="d-inline-block">
-                                        @{{lookup ../userdict userId}}
+                                    @{{lookup ../userdict userId}}
                                     </a>
                                 </div>
                             </div>
@@ -175,8 +174,7 @@
                                     {{/if}}
                                     {{/if}}
                                     <li>
-                                        <a class="dropdown-item" data-bs-toggle="modal"
-                                            data-bs-target="#report_{{id}}">
+                                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#report_{{id}}">
                                             Report
                                         </a>
                                     </li>
@@ -273,7 +271,8 @@
                                             <label class="font-italic" for="review">Review</label>
                                             <textarea class="form-control" id="edit_review" name="review" rows="7"
                                                 maxlength="2000">{{review}}</textarea>
-                                            <small id="errorvalid_edit_review" style="display:none;">*Review cannot be empty</small>
+                                            <small id="errorvalid_edit_review" style="display:none;">*Review cannot be
+                                                empty</small>
                                         </div>
                                     </div>
                                 </div>
@@ -282,7 +281,8 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Cancel</button>
-                                    <button type="button" value="Update" class="btn btn-primary" onclick="check_edit_review()">Update</button>
+                                    <button type="button" value="Update" class="btn btn-primary"
+                                        onclick="check_edit_review()">Update</button>
                                 </div>
                             </div>
                         </div>

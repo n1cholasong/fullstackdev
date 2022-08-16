@@ -74,7 +74,7 @@
 }
 
 .course .likes-display{
-    font-size: 25px;
+    font-size: 20px;
 }
 
 .course .like-button i {
@@ -83,4 +83,11 @@
 
 .course .like-button.active {
     color: #2196f3;
+}
+
+.course .like-button {
+    font-size: 20px;
+    color: #333;
+    border: none;
+    background-color: transparent;
 }
