@@ -14,8 +14,6 @@
 					<th>Content</th>
 					<th></th>
 					<th></th>
-					<th></th>
-					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -25,9 +23,11 @@
 					<td>{{courseName}}</td>
 					<td>{{description}}</td>
 					<td>{{content}}</td>
-					<td><a href="/course/update/{{id}}" class="btn btn-warning">Update Courses</a></td>
-					<td><a href="/course/Chapter/view/{{id}}" class="btn btn-warning">Edit Chapters</a></td>
-					<td><a href="/course/user/chapter/view/{{id}}" class="btn btn-warning">View Chapters</a></td>
+					<td>
+						<a href="/course/update/{{id}}" class="btn btn-warning">Update Course</a>
+						<a href="/course/Chapter/view/{{id}}" class="btn btn-warning">Edit Chapters</a>
+						<a href="/course/user/chapter/view/{{id}}" class="btn btn-warning">View Chapters</a>
+					</td>
 					<td>
 						<button type="button" class="btn btn-danger" data-bs-target="#exampleModalCenter{{id}}"
 							data-bs-toggle="modal">
