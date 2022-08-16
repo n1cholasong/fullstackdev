@@ -3,6 +3,10 @@ window.onload = (event)=>{
     document.getElementById("quizDeleteForm").action = "/Course/Quiz/Delete/" + x.getAttribute('value');
 }
 
+function checkEmpty(){
+    
+}
+
 function checkans(obj) {
     const id = obj.id.split("|")[2]
     $('.ansBtn' + id).each(function () {
