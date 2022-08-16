@@ -51,9 +51,10 @@
                                 <li><a class="dropdown-item text-danger" href="/admin/deactivateAccount/{{id}}"
                                         data-bs-toggle="modal"
                                         data-bs-target="#deactivateAccountBackdrop_{{id}}">Deactivate Account</a></li>
+                                {{else}}
+                                <li><a class="dropdown-item text-success" href="/admin/activateAccount/{{id}}">Activate Account</a></li>
                                 {{/if}}
-                                {{!-- <li><a class="dropdown-item text-danger" data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdrop_{{id}}">Delete Account</a></li> --}}
+                                
                                 {{/ifCond}}
                                 {{!-- {% if user.get_user_role_str() == 'STUDENT' %}
                                 <li><a class="dropdown-item" href="/makeAdmin/{{user.id}}">Promote to Admin</a></li>
