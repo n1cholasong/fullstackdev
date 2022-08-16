@@ -222,6 +222,13 @@ router.get('/profile/:id', ensureAuthenticated, authUser, authActive, async (req
     res.render('./user/profile', { title, country, user });
 });
 
+// router.get('/profileView/:id', authActive, async (req, res) => {
+//     let title = "My Profile"
+//     let country = countryList.getData();
+//     let user = await User.findByPk(req.params.id, { include: Role });
+//     res.render('./user/profile', { title, country, user });
+// });
+
 router.post('/updateAccount/:id', ensureAuthenticated, authUser, authActive, async (req, res) => {
     let email = req.body.email;
     let re = /\S+@\S+\.\S+/;
@@ -336,16 +343,109 @@ router.post('/updatePassword/:id', ensureAuthenticated, authUser, authActive, as
     res.render('./user/passwordUpdate', { title });
 });
 
-// Not Complete
-router.get('/forgotPassword', ensureAuthenticated, authActive, (req, res) => {
+router.get('/forgotPassword', (req, res) => {
     let title = "Forgot Password";
     res.render('./user/passwordForgot', { title });
 });
 
-// Not Complete
-router.get('/resetPassword', ensureAuthenticated, authActive, (req, res) => {
+router.post('/forgotPassword', async (req, res) => {
+    let email = req.body.email;
+    let user = await User.findOne({ where: { email: email } })
+
+    if (user) {
+        let token = jwt.sign(email, process.env.APP_SECRET);
+        // different link
+        let url = `${process.env.BASE_URL}:${process.env.PORT}/user/resetPassword/${user.id}/${token}`;
+        let topic = "Curodemy Password Reset";
+        let message =
+            `
+            Hi ${user.fname}, 
+            <br>
+            <br>
+            Someone has requested a password reset for you Curodemy account ${email}.             
+            `
+        let verb = "reset"
+        sendEmail(user.email, url, topic, message, verb)
+            .then(response => {
+                console.log(response);
+                flashMessage(res, 'success', 'A password reset link has been sent to your email', '', 'true');
+                res.redirect('/user/login/');
+            })
+            .catch(err => {
+                console.log(err);
+                flashMessage(res, 'error', 'Error when sending email to ' +
+                    user.email, '', 'true');
+                res.redirect('/user/login');
+            });
+    } else {
+        flashMessage(res, 'error', 'There is no account with that email ', '', 'true');
+        res.redirect('/user/forgotPassword');
+    }
+});
+
+router.get('/resetPassword/:id/:token', (req, res) => {
     let title = "Reset Password";
-    res.render('./user/passwordReset', { title });
+    let id = req.params.id;
+    let token = req.params.token;
+    res.render('./user/passwordReset', { title, id, token })
+})
+
+router.post('/resetPassword/:id/:token', async (req, res) => {
+    let id = req.params.id;
+    let token = req.params.token;
+    try {
+        // Check if user is found
+        let user = await User.findByPk(id);
+        if (!user) {
+            flashMessage(res, 'error', 'User not found');
+            res.redirect('/user/login');
+            return;
+        }
+        // Verify JWT token sent via URL
+        let authData = jwt.verify(token, process.env.APP_SECRET);
+        if (authData != user.email) {
+            flashMessage(res, 'error', 'Unauthorised Access');
+            res.redirect('/user/login');
+            return;
+        } else {
+            let newPassword = req.body.newPassword;
+            let newPassword2 = req.body.newPassword2;
+            var salt = bcrypt.genSaltSync(10);
+
+            try {
+                // If all is well, checks if user is already registered
+                let user = await User.findByPk(req.params.id);
+
+                oldMatch = bcrypt.compareSync(newPassword, user.password)
+                if (!oldMatch) {
+                    if (newPassword.length >= 6) {
+                        if (newPassword == newPassword2) {
+                            var hash = bcrypt.hashSync(newPassword, salt);
+                            user.update({ password: hash });
+                            console.log('Password Updated');
+                            flashMessage(res, 'success', 'Password Updated', '', 'true');
+                            res.redirect('/user/login');
+
+                        } else {
+                            flashMessage(res, 'error', 'Passwords do not match', '', 'true')
+                            res.redirect(`/user/resetPassword/${id}/${token}`);
+                        }
+                    } else {
+                        flashMessage(res, 'error', 'Password must be at least 6 or more characters', '', 'true')
+                        res.redirect(`/user/resetPassword/${id}/${token}`);
+                    }
+                } else {
+                    flashMessage(res, 'error', 'New password cannot be same as old password', '', 'true')
+                    res.redirect(`/user/resetPassword/${id}/${token}`);
+                }
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
+    } catch (err) {
+        console.log(err);
+    }
 });
 
 router.post('/uploadProfilePic', ensureAuthenticated, authActive, (req, res) => {
@@ -541,6 +641,9 @@ function sendEmail(toEmail, url, topic, intro, verb) {
             ${intro}
             <br>
             Click <a href=\"${url}"><strong>here</strong></a> to ${verb} your account.
+            <br>
+            <br>
+            If you did not make this request simply ignore this email. Only a person with access to you email can take action.
             <br>
             <br>
             Regards,

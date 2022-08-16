@@ -54,12 +54,12 @@
             {{!-- Admin Page --}}
             {{#ifCond user.roleId 1 }}
             <div class="sidebar-hidden sidebar-subtext">Admin</div>
-            <li class="nav-item">
+            {{!-- <li class="nav-item">
                 <a class="nav-link" href="#">
                     <span class="nav-icon material-symbols-rounded">grid_view</span>
                     <div class="sidebar-hidden">Dashboard</div>
                 </a>
-            </li>
+            </li> --}}
             <li id="admin/manageAccounts" class="nav-item">
                 <a class="nav-link" href="/admin/manageAccounts">
                     <span class="nav-icon material-symbols-rounded">manage_accounts</span>
@@ -68,7 +68,7 @@
             </li>
             <li id="admin/reviewManagement" class="nav-item">
                 <a class="nav-link" href="/admin/reviewManagement">
-                    <span class="nav-icon material-symbols-rounded">view_list</span>
+                    <span class="nav-icon material-symbols-rounded">report</span>
                     <div class="sidebar-hidden">Manage Reports</div>
                 </a>
             </li>
@@ -78,16 +78,16 @@
                     <div class="sidebar-hidden">Manage Courses</div>
                 </a>
             </li>
-            <li id="payment/Vouchers" class="nav-item">
-                <a class="nav-link" href="/payment/Vouchers">
-                    <span class="nav-icon material-symbols-rounded">local_offer</span>
-                    <div class="sidebar-hidden">My Coupons</div>
-                </a>
-            </li>
             <li id="/admin/manageCategory" class="nav-item">
                 <a class="nav-link" href="/admin/manageCategory">
                     <span class="nav-icon material-symbols-rounded">category</span>
                     <div class="sidebar-hidden">Manage Services</div>
+                </a>
+            </li>
+            <li id="payment/Vouchers" class="nav-item">
+                <a class="nav-link" href="/payment/Vouchers">
+                    <span class="nav-icon material-symbols-rounded">local_offer</span>
+                    <div class="sidebar-hidden">My Coupons</div>
                 </a>
             </li>
             {{/ifCond}}
