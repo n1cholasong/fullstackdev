@@ -139,27 +139,6 @@
                                                         <form method="post" action="/forum/addFav/{{id}}">
                                                             <button type="submit" class="fav-button active" id="fav-button{{id}}"><i
                                                                     class="fa-solid fa-heart"></i></button>
-                                                            {{!-- To diplay active or not --}}
-                                                            {{!-- {{#each forumlikefavs}}
-                                                            {{#ifnotCond ../../user.id this.userId}}
-                                                            <button type="submit" class="fav-button" id="fav-button"><i
-                                                                    class="fa-solid fa-heart"></i></button>
-                                                            {{else}}
-                                                            {{#ifCond this.favourite 1}}
-                                                            <button type="submit" class="fav-button active"
-                                                                id="fav-button"><i
-                                                                    class="fa-solid fa-heart"></i></button>
-                                                            {{else}}
-                                                            <button type="submit" class="fav-button" id="fav-button"><i
-                                                                    class="fa-solid fa-heart"></i></button>
-                                                            {{/ifCond}}
-                                                            {{/ifnotCond}}
-                                                            {{/each}} --}}
-                                                            {{!-- If no --}}
-                                                            {{!-- {{#unless this.forumlikefavs}}
-                                                            <button type="submit" class="fav-button" id="fav-button"><i
-                                                                    class="fa-solid fa-heart"></i></button>
-                                                            {{/unless}} --}}
                                                         </form>
                                                     </div>
                                                 </div>
