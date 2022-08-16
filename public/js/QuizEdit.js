@@ -1,11 +1,23 @@
+var lastAns = false;
+var requiredCheck = true;
+
 window.onload = (event)=>{
     var x = document.getElementById("quiz0");
     document.getElementById("quizDeleteForm").action = "/Course/Quiz/Delete/" + x.getAttribute('value');
 }
 
-function checkEmpty(){
-    
-}
+window.onchange = function () { 
+    requiredCheck = true
+    $('.required').each(function () {
+        if ($(this).val() == "") {
+            requiredCheck = false
+        }
+    })
+
+    if(lastAns && requiredCheck){
+        document.getElementById('save').removeAttribute('disabled');
+    }
+};
 
 function checkans(obj) {
     const id = obj.id.split("|")[2]
@@ -28,6 +40,11 @@ function lastcheck() {
     })
 
     if (remove) {
+        //document.getElementById('save').removeAttribute('disabled');
+        lastAns = true
+    }
+
+    if(lastAns && requiredCheck){
         document.getElementById('save').removeAttribute('disabled');
     }
 }

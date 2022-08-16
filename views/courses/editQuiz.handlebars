@@ -34,7 +34,7 @@
             <div id="quiz{{@index}}" value="{{id}}">
                 <div class="form-group mt-2 mb-4">
                     <label for="question">Quiz Question:</label>
-                    <input type="text" class="form-control" name="question" id="question" value="{{question}}" placeholder="Quiz Question" required>
+                    <input type="text" class="form-control required" name="question" id="question" value="{{question}}" placeholder="Quiz Question" required>
                 </div>
                 <div class="form-group mt-2 mb-4">
                     <label for="description">Quiz Description:</label>
@@ -45,28 +45,28 @@
                         <div class="input-group-text">
                             <input class="form-check-input mt-0" type="radio" value="{{a1}}" name="anwser{{@index}}" aria-label="Radio button for following text input" disabled>
                         </div>
-                        <input type="text" id="popt1"  name="ans1"  class="form-control" aria-label="Text input with radio button" value="{{a1}}" required>
+                        <input type="text" id="popt1"  name="ans1"  class="form-control required" aria-label="Text input with radio button" value="{{a1}}" required>
                         <input class="ansBtn{{id}}" id="ansBtn|1|{{id}}" type="button" onclick="checkans(this)"  value="Set Answer" >
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-text">
                             <input class="form-check-input mt-0" type="radio" value="{{a2}}" name="anwser{{@index}}" aria-label="Radio button for following text input" disabled>
                         </div>
-                        <input type="text" id="popt2"  name="ans2"  class="form-control" aria-label="Text input with radio button" value="{{a2}}" required>
+                        <input type="text" id="popt2"  name="ans2"  class="form-control required" aria-label="Text input with radio button" value="{{a2}}" required>
                         <input class="ansBtn{{id}}" id="ansBtn|2|{{id}}" type="button" onclick="checkans(this)"  value="Set Answer" >
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-text">
                             <input class="form-check-input mt-0" type="radio" value="{{a3}}" name="anwser{{@index}}" aria-label="Radio button for following text input" disabled>
                         </div>
-                        <input type="text" id="popt3"  name="ans3"  class="form-control" aria-label="Text input with radio button" value="{{a3}}" required >
+                        <input type="text" id="popt3"  name="ans3"  class="form-control required" aria-label="Text input with radio button" value="{{a3}}" required >
                         <input class="ansBtn{{id}}" id="ansBtn|3|{{id}}" type="button" onclick="checkans(this)"  value="Set Answer" >
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-text">
                             <input class="form-check-input mt-0" type="radio" value="{{a4}}" name="anwser{{@index}}" aria-label="Radio button for following text input" disabled>
                         </div>
-                        <input type="text" id="popt4"  name="ans4" class="form-control" aria-label="Text input with radio button" value="{{a4}}" required>
+                        <input type="text" id="popt4"  name="ans4" class="form-control required" aria-label="Text input with radio button" value="{{a4}}" required>
                         <input class="ansBtn{{id}}" id="ansBtn|4|{{id}}" type="button" onclick="checkans(this)"  value="Set Answer" >
                     </div>
                 </div>
@@ -77,7 +77,7 @@
             <div id="quiz{{@index}}" value="{{id}}" style="display: none;">
                 <div class="form-group mt-2 mb-4">
                     <label for="question">Quiz Question:</label>
-                    <input type="text" class="form-control" name="question" id="question" value="{{question}}" placeholder="Quiz Question" required>
+                    <input type="text" class="form-control required" name="question" id="question" value="{{question}}" placeholder="Quiz Question" required>
                 </div>
                 <div class="form-group mt-2 mb-4">
                     <label for="description">Quiz Description:</label>
@@ -88,28 +88,28 @@
                         <div class="input-group-text">
                             <input class="form-check-input mt-0" type="radio" value="{{a1}}" name="anwser{{@index}}" aria-label="Radio button for following text input" disabled>
                         </div>
-                        <input type="text" id="popt1" placeholder="Option 1" name="ans1"  class="form-control" aria-label="Text input with radio button" value="{{a1}}" required>
+                        <input type="text" id="popt1" placeholder="Option 1" name="ans1"  class="form-control required" aria-label="Text input with radio button" value="{{a1}}" required>
                         <input class="ansBtn{{id}}" id="ansBtn|1|{{id}}" type="button" onclick="checkans(this)"  value="Set Answer" >
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-text">
                             <input class="form-check-input mt-0" type="radio" value="{{a2}}" name="anwser{{@index}}" aria-label="Radio button for following text input" disabled>
                         </div>
-                        <input type="text" id="popt2" placeholder="Option 2" name="ans2"  class="form-control" aria-label="Text input with radio button" value="{{a2}}" required >
+                        <input type="text" id="popt2" placeholder="Option 2" name="ans2"  class="form-control required" aria-label="Text input with radio button" value="{{a2}}" required >
                         <input class="ansBtn{{id}}" id="ansBtn|2|{{id}}" type="button" onclick="checkans(this)"  value="Set Answer">
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-text">
                             <input class="form-check-input mt-0" type="radio" value="{{a3}}" name="anwser{{@index}}" aria-label="Radio button for following text input" disabled>
                         </div>
-                        <input type="text" id="popt3" placeholder="Option 3" name="ans3"  class="form-control" aria-label="Text input with radio button" value="{{a3}}" required >
+                        <input type="text" id="popt3" placeholder="Option 3" name="ans3"  class="form-control required" aria-label="Text input with radio button" value="{{a3}}" required >
                         <input class="ansBtn{{id}}" id="ansBtn|3|{{id}}" type="button" onclick="checkans(this)"  value="Set Answer">
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-text">
                             <input class="form-check-input mt-0" type="radio" value="{{a4}}" name="anwser{{@index}}" aria-label="Radio button for following text input" disabled>
                         </div>
-                        <input type="text" id="popt4"  placeholder="Option 4" name="ans4" class="form-control" aria-label="Text input with radio button" value="{{a4}}" required >
+                        <input type="text" id="popt4"  placeholder="Option 4" name="ans4" class="form-control required" aria-label="Text input with radio button" value="{{a4}}" required >
                         <input class="ansBtn{{id}}" id="ansBtn|4|{{id}}" type="button" onclick="checkans(this)"  value="Set Answer">
                     </div>
                 </div>

@@ -26,12 +26,12 @@ async function videoSearch(cid) {
 
 
 router.get('/create', async function (req, res) {
-    const subjects =  await Subject.findAll({raw:true,where:{active: 1}});
+    const subjects = await Subject.findAll({ raw: true, where: { active: 1 } });
 
-    res.render('./courses/createcourses',{subjects})
+    res.render('./courses/createcourses', { subjects })
 })
 
-router.post('/create', ensureAuthenticated, authRole([1]),async function (req, res) {
+router.post('/create', ensureAuthenticated, authRole([1]), async function (req, res) {
     let Coursename = req.body.Coursename;
     let description = req.body.desc
     let content = req.body.content
@@ -42,22 +42,22 @@ router.post('/create', ensureAuthenticated, authRole([1]),async function (req, r
     const subject = await Subject.findByPk(subjectId);
 
     await Course.create({
-        courseName: Coursename, description: description, content: content, userId: uid,imgURL:picURL
+        courseName: Coursename, description: description, content: content, userId: uid, imgURL: picURL
     }).then(async (course) => {
-        await course.addSubjects(subject,{through:"CourseSubjects"})
+        await course.addSubjects(subject, { through: "CourseSubjects" })
     })
 
     res.redirect('/course/view')
 })
 
-router.post('/Enroll/:cid',ensureAuthenticated,authActive, async function (req, res) {
+router.post('/Enroll/:cid', ensureAuthenticated, authActive, async function (req, res) {
     const user = await User.findByPk(req.user.id)
     const course = await Course.findByPk(req.params.cid)
     await course.addUsers(user, { through: 'UserCourses' })
     res.redirect('/');
 })
 
-router.get('/user/chapter/view/:id', ensureAuthenticated,authActive, async function (req, res) {
+router.get('/user/chapter/view/:id', ensureAuthenticated, authActive, async function (req, res) {
     var videos = [];
     var videoDict = {};
     const courseId = req.params.id;
@@ -139,7 +139,7 @@ router.post('/Chapter/delete/:cid', ensureAuthenticated, authRole([1]), (req, re
     const chpaterId = req.params.cid;
     //console.log(chpaterId)
     Chapter.destroy({ where: { id: chpaterId } })
-    res.redirect(req.get('referer') )
+    res.redirect(req.get('referer'))
 })
 
 router.get('/user/video/view/:vid', async function (req, res) {
@@ -258,7 +258,7 @@ router.get('/quiz/edit/:cid', ensureAuthenticated, authRole([1]), (req, res) => 
             ChapterId: cid
         }
     }).then((Quizes) => {
-        res.render('./courses/editQuiz', { Quizes,cid })
+        res.render('./courses/editQuiz', { Quizes, cid })
     })
 })
 
@@ -285,21 +285,38 @@ router.post('/quiz/edit/:cid', ensureAuthenticated, authRole([1]), async functio
         }
     }
 
+    if (body.qId.length > 1) {
 
+        for (var i = 0; i < body.qId.length; i++) {
 
-    for (var i = 0; i < body.qId.length; i++) {
+            await Quiz.update({
+                question: body.question[i],
+                description: body.description[i],
+                a1: body.ans1[i],
+                a2: body.ans2[i],
+                a3: body.ans3[i],
+                a4: body.ans4[i],
+                correctans: cansList[i],
+                ChapterId: cid
+            },
+                { where: { id: parseInt(body.qId[i]) } })
+                .then((quiz) => {
+                    console.log("CHanged:", quiz)
+                })
+        }
 
+    } else {
         await Quiz.update({
-            question: body.question[i],
-            description: body.description[i],
-            a1: body.ans1[i],
-            a2: body.ans2[i],
-            a3: body.ans3[i],
-            a4: body.ans4[i],
-            correctans: cansList[i],
+            question: body.question,
+            description: body.description,
+            a1: body.ans1,
+            a2: body.ans2,
+            a3: body.ans3,
+            a4: body.ans4,
+            correctans: cansList[0],
             ChapterId: cid
         },
-            { where: { id: parseInt(body.qId[i]) } })
+            { where: { id: parseInt(body.qId) } })
             .then((quiz) => {
                 console.log("CHanged:", quiz)
             })
@@ -325,8 +342,8 @@ router.get('/quiz/view/:cid', ensureAuthenticated, (req, res) => {
             ChapterId: cid
         }
     }).then(async (Quizes) => {
-        const course = await Chapter.findByPk(cid,{raw:true});
-        res.render('./courses/viewQuiz', { Quizes ,courseID:course.CourseId})
+        const course = await Chapter.findByPk(cid, { raw: true });
+        res.render('./courses/viewQuiz', { Quizes, courseID: course.CourseId })
     })
 })
 
@@ -396,11 +413,11 @@ router.get('/view', ensureAuthenticated, authRole([1]), (req, res) => {
 })
 
 router.get('/update/:id', ensureAuthenticated, authRole([1]), async function (req, res) {
-    const subjects = await Subject.findAll({raw:true,where:{active: 1}})
+    const subjects = await Subject.findAll({ raw: true, where: { active: 1 } })
 
-    Course.findByPk(req.params.id,{include:"subjects",raw:true}).then((course) => {
+    Course.findByPk(req.params.id, { include: "subjects", raw: true }).then((course) => {
         const sid = course['subjects.id']
-        res.render('./courses/updatecourse', { course,subjects,sid })
+        res.render('./courses/updatecourse', { course, subjects, sid })
     })
 })
 
@@ -414,13 +431,13 @@ router.post('/update/:id', ensureAuthenticated, authRole([1]), (req, res) => {
     let subjectId = req.body.Subjects;
 
     Course.update({
-        courseName: Coursename, description: description, content: content, price: price, userId: uid,imgURL:imgURL
+        courseName: Coursename, description: description, content: content, price: price, userId: uid, imgURL: imgURL
     },
         { where: { id: req.params.id } }
     ).then(async (result) => {
         const subject = await Subject.findByPk(subjectId);
 
-        await Course.findByPk(req.params.id).then((course)=>{
+        await Course.findByPk(req.params.id).then((course) => {
             course.setSubjects(subject)
         });
         console.log(result + ' course updated');
