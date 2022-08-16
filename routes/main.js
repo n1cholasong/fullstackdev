@@ -73,7 +73,7 @@ router.get('/', async function (req, res,) {
 
 });
 
-router.get('/category/:subjectId', authActive, async function (req, res,) {
+router.get('/category/:subjectId', async function (req, res,) {
 	let subject = await Subject.findByPk(req.params.subjectId);
 	let category = subject.title;
 	let course = await Course.findAll({ include: Subject, nested: true })

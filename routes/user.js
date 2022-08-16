@@ -81,7 +81,7 @@ router.get('/verify/:id/:token', async function (req, res) {
             { verified: 1 },
             { where: { id: user.id } });
         console.log(result[0] + ' user updated');
-        flashMessage(res, 'success', user.email + ' is verified. Please login');
+        flashMessage(res, 'success', user.email + ' is verified.');
         if (req.user) {
             res.redirect('/user/profile/' + id);
         } else {
@@ -356,7 +356,7 @@ router.post('/forgotPassword', async (req, res) => {
     let user = await User.findOne({ where: { email: email } })
 
     if (user) {
-        let token = jwt.sign({ email }, process.env.APP_SECRET, { expiresIn: '30s' });
+        let token = jwt.sign({ email }, process.env.APP_SECRET, { expiresIn: '90s' });
 
         let url = `${process.env.BASE_URL}:${process.env.PORT}/user/resetPassword/${user.id}/${token}`;
         let topic = "Curodemy Password Reset";
@@ -418,8 +418,9 @@ router.post('/resetPassword/:id/:token', async (req, res) => {
         }
         // Verify JWT token sent via URL
         let authData = jwt.verify(token, process.env.APP_SECRET);
-        if (authData != user.email) {
-            flashMessage(res, 'error', 'Unauthorised Access');
+        let validToken = await jwtVerifyAsync(token, process.env.APP_SECRET)
+        if (!validToken) {
+            flashMessage(res, 'error', 'Token Timeout');
             res.redirect('/user/login');
             return;
         } else {
