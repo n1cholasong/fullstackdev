@@ -74,7 +74,6 @@ router.get("/hot", (req, res) => {
         ]
     })
         .then(async (thread) => {
-            console.log(thread)
             res.render('forum/forumhome', { thread });
         })
         .catch(err => console.log(err));
