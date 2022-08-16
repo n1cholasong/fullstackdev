@@ -266,6 +266,7 @@ router.get('/deleteReview/:id', async function (req, res) {
             })
         let result = await Review.destroy({ where: { id: review.id } });
         console.log(result + ' Review deleted');
+        flashMessage(res, 'success', 'Review has been removed');
         res.redirect('back');
     }
     catch (err) {
@@ -303,6 +304,7 @@ router.get('/resolve/:id', async (req, res) => {
                 { report, reported },
                 { where: { id: req.params.id } }
             )
+            flashMessage(res, 'success', 'Report has successfully been resolved');
             // console.log(result[0] + 'Review Reported');
             res.redirect('back');
         })

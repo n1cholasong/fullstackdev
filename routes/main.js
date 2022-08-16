@@ -392,6 +392,7 @@ router.get('/report/:id', ensureAuthenticated, async (req, res) => {
 				{ report, reported },
 				{ where: { id: req.params.id } }
 			)
+			flashMessage(res, 'success', 'Report has successfully been reported. Please wait for the admin to take action');
 			// console.log(result[0] + 'Review Reported');
 			res.redirect('back');
 		})
