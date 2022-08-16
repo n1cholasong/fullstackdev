@@ -58,6 +58,7 @@ ForumLikeFavs.findAndCountAll()
     });
 
 commentsTestData = [
+    //comment, forumId, userId
     ["Hi", 3, 3],
     ["Hello", 3, 1],
     ["I need help in oop", 3, 3],
