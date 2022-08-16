@@ -205,12 +205,12 @@ router.get('/:id', ensureAuthenticated, authActive, (req, res) => {
         if (user_id) {
             const n_likes = await ForumLikeFavs.count({ where: { liked: 1, forumId: forum_id } });
             const likeStatus = await ForumLikeFavs.findOne({ where: { forumId: forum_id, userId: user_id } });
-            res.render('forum/comments', { forum, n_likes, likeStatus, userdict});
+            res.render('forum/comments', { forum, n_likes, likeStatus, userdict });
         }
         else {
             let likeStatus = 0;
             const n_likes = await ForumLikeFavs.count({ where: { liked: 1, forumId: forum_id } });
-            res.render('forum/comments', { forum, n_likes, likeStatus, userdict});
+            res.render('forum/comments', { forum, n_likes, likeStatus, userdict });
         }
     }).catch((err) => {
         console.log('err', err);
@@ -222,13 +222,19 @@ router.post("/comment", ensureAuthenticated, authActive, async function (req, re
     let forumId = req.body.forum_id;
     let userId = req.user.id;
 
-    Comment.create(
-        {
-            comment, forumId, userId
-        }
-    )
-
-    res.redirect(`/forum/${forumId}`);
+    const forum = await Forum.findByPk(forumId);
+    if (forum.status == 1) {
+        Comment.create(
+            {
+                comment, forumId, userId
+            }
+        )
+        res.redirect(`/forum/${forumId}`);
+    }
+    else {
+        flashMessage(res, 'error', 'Forum has been deleted');
+        res.redirect('/forum/')
+    }
 });
 
 //Like bullshit
@@ -238,31 +244,33 @@ router.post("/like/:id", ensureAuthenticated, authActive, async function (req, r
 
     let forum = await Forum.findByPk(forumId);
     let likeStatus = await ForumLikeFavs.findOne({ where: { forumId: forumId, userId: userId } });
-    if (forum.status == 0) {
+    if (forum.status == 1) {
+        if (likeStatus == null) {
+            ForumLikeFavs.create(
+                {
+                    forumId, userId, liked: 1
+                }
+            )
+        }
+        else if (likeStatus.liked == 1) {
+            let liked = 0;
+            likeStatus.update({
+                liked: liked
+            })
+        }
+        else if (likeStatus.liked == 0) {
+            let liked = 1;
+            likeStatus.update({
+                liked: liked
+            })
+        }
+
+        res.redirect(`/forum/${forumId}`);
+    }
+    else {
         flashMessage(res, 'error', 'Forum has been deleted');
         res.redirect('/forum/')
     }
-    if (likeStatus == null) {
-        ForumLikeFavs.create(
-            {
-                forumId, userId, liked: 1
-            }
-        )
-    }
-    else if (likeStatus.liked == 1) {
-        let liked = 0;
-        likeStatus.update({
-            liked: liked
-        })
-    }
-    else if (likeStatus.liked == 0) {
-        let liked = 1;
-        likeStatus.update({
-            liked: liked
-        })
-    }
-
-    res.redirect(`/forum/${forumId}`);
 });
 
 router.post("/addFav/:id", ensureAuthenticated, authActive, async function (req, res) {
@@ -275,40 +283,43 @@ router.post("/addFav/:id", ensureAuthenticated, authActive, async function (req,
     //Check if it is already added as favourites
     let favStatus = await ForumLikeFavs.findOne({ where: { forumId: forumId, userId: userId } });
 
+    let topic = await forum.topic
+
     //If forum is deleted
-    if (forum.status == 0) {
+    if (forum.status == 1) {
+        //If an instance does not exist
+        if (favStatus == null) {
+            ForumLikeFavs.create(
+                {
+                    topic: topic, forumId, userId, favourite: 1
+                }
+            )
+        }
+
+        //If already added to favourits
+        else if (favStatus.favourite == 1) {
+            let favourite = 0;
+            //Remove from favourites
+            favStatus.update({
+                favourite: favourite
+            })
+        }
+
+        //If removed from favourites
+        else if (favStatus.favourite == 0) {
+            let favourite = 1;
+            //Add back to favourites
+            favStatus.update({
+                favourite: favourite
+            })
+        }
+
+        res.redirect(`/forum/`);
+    }
+    else {
         flashMessage(res, 'error', 'Forum has been deleted');
         res.redirect('/forum/')
     }
-    let topic = forum.topic
-    //If an instance does not exist
-    if (favStatus == null) {
-        ForumLikeFavs.create(
-            {
-                topic, forumId, userId, favourite: 1
-            }
-        )
-    }
-
-    //If already added to favourits
-    else if (favStatus.favourite == 1) {
-        let favourite = 0;
-        //Remove from favourites
-        favStatus.update({
-            favourite: favourite
-        })
-    }
-
-    //If removed from favourites
-    else if (favStatus.favourite == 0) {
-        let favourite = 1;
-        //Add back to favourites
-        favStatus.update({
-            favourite: favourite
-        })
-    }
-
-    res.redirect(`/forum/`);
 });
 
 router.post('/upload', (req, res) => {
