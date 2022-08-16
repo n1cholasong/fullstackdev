@@ -58,13 +58,13 @@ ForumLikeFavs.findAndCountAll()
     });
 
 commentsTestData = [
-    ["Hi", 1, 3],
-    ["Hello", 1, 1],
-    ["I need help in oop", 1, 3],
-    ["Which part?", 1, 4],
-    ["What is a object?", 1, 2],
-    ["Objection!!!!", 1, 1],
-    ["Una cosa material que se puede ver y tocar.", 1, 4]
+    ["Hi", 3, 3],
+    ["Hello", 3, 1],
+    ["I need help in oop", 3, 3],
+    ["Which part?", 3, 4],
+    ["What is a object?", 3, 2],
+    ["Objection!!!!", 3, 1],
+    ["Una cosa material que se puede ver y tocar.", 3, 4]
 ]
 
 Comments.findAndCountAll()
