@@ -22,6 +22,9 @@ const upload = require('../helpers/imageUpload');
 // Required for email verification
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const util = require('util');
+const jwtVerifyAsync = util.promisify(jwt.verify);
+let tokenList = []
 const sgMail = require('@sendgrid/mail');
 
 
@@ -353,8 +356,8 @@ router.post('/forgotPassword', async (req, res) => {
     let user = await User.findOne({ where: { email: email } })
 
     if (user) {
-        let token = jwt.sign(email, process.env.APP_SECRET);
-        // different link
+        let token = jwt.sign({ email }, process.env.APP_SECRET, { expiresIn: '30s' });
+
         let url = `${process.env.BASE_URL}:${process.env.PORT}/user/resetPassword/${user.id}/${token}`;
         let topic = "Curodemy Password Reset";
         let message =
@@ -383,17 +386,29 @@ router.post('/forgotPassword', async (req, res) => {
     }
 });
 
-router.get('/resetPassword/:id/:token', (req, res) => {
+router.get('/resetPassword/:id/:token', async (req, res) => {
     let title = "Reset Password";
     let id = req.params.id;
     let token = req.params.token;
-    res.render('./user/passwordReset', { title, id, token })
+    tokenList.push(token)
+    console.log(tokenList)
+    try {
+        let validToken = await jwtVerifyAsync(token, process.env.APP_SECRET)
+        res.render('./user/passwordReset', { title, id, token })
+    } catch (err) {
+        if (err = jwt.TokenExpiredError) {
+            res.redirect('/user/tokenExpired')
+        }
+    }
+
 })
 
 router.post('/resetPassword/:id/:token', async (req, res) => {
     let id = req.params.id;
     let token = req.params.token;
+    console.table(token);
     try {
+
         // Check if user is found
         let user = await User.findByPk(id);
         if (!user) {
@@ -630,8 +645,14 @@ router.get('/reactivateAccount/:id', ensureAuthenticated, authUser, async (req, 
         });
 });
 
+router.get('/tokenExpired', (req, res) => {
+    let title = "Token Expired"
+    res.render('./tokenExpired', { title })
+});
+
 function sendEmail(toEmail, url, topic, intro, verb) {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
     const message = {
         to: toEmail,
         from: `Curodemy Institute <${process.env.SENDGRID_SENDER_EMAIL}>`,

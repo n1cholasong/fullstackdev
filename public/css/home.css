@@ -13,6 +13,11 @@
   height: 120px;
 }
 
+.home .card-img-top {
+  height: 200px;
+  object-fit: contain;
+}
+
 .media-scroller {
   display: grid;
   gap: 1.5rem;
