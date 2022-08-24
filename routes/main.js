@@ -78,8 +78,8 @@ router.get('/category/:subjectId', async function (req, res,) {
 	let category = subject.title;
 	let course = await Course.findAll({ include: Subject, nested: true })
 
-	console.table(course)
-	console.log(course.subjects)
+	// console.table(course)
+	// console.log(course.subjects)
 	res.render('category', { subject, course });
 });
 

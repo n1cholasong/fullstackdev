@@ -10,3 +10,9 @@ Login Page
 
 Profile Page
 <img src="/screenshot/profile-page.png">
+
+Course Page
+<img src="/screenshot/course-page.png">
+
+Forum Page
+<img src="/screenshot/forum-page.png">
